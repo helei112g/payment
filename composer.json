@@ -1,0 +1,24 @@
+{
+    "name": "riverslei/payment",
+    "type": "library",
+    "description": "集成支付宝、微信支付等流行的支付接口，后续会持续跟进中",
+    "keywords": ["alipay", "weixin", "支付宝支付", "微信支付", "集成支付接口SDK"],
+    "homepage": "http://blog.csdn.net/hel12he/",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "helei112g",
+            "email": "helei5200@126.com",
+            "homepage": "http://blog.csdn.net/hel12he/"
+        }
+    ],
+    "require": {
+        "php": ">=5.5"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.0"
+    },
+    "autoload": {
+        "psr-4": {"Payment\\": "src/"}
+    }
+}
