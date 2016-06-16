@@ -78,10 +78,10 @@ class AlipayDirect implements ChargeInterface
         // 订单总金额
         if (array_key_exists('amount', $data)) {
             // 此处向支付请求时，需要设置单位为元
-            /*$amount = bcdiv($data['amount'], 100, 2);
-            if (bccomp($amount, 0.01, 2) === -1) {
+            /*$amount = bcdiv($data['amount'], 100, 2);*/
+            if (bccomp($data['amount'], 0.01, 2) === -1) {
                 throw new PayException('支付金额不能低于0.01 元');
-            }*/
+            }
 
             $direct->setTotalFee($data['amount']);
         } else {

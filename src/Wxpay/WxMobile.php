@@ -159,7 +159,7 @@ class WxMobile implements ChargeInterface
 
         // 订单总金额
         if (array_key_exists('amount', $data)) {
-            // 此处向支付请求时，需要设置单位为元
+            // 此处向微信请求时，需要设置单位为分
             $amount = bcmul($data['amount'], 100, 0);
             if ($amount < 1) {
                 throw new PayException('支付金额不能低于0.01 元');
