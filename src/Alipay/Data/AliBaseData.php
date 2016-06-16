@@ -10,6 +10,7 @@ namespace Payment\Alipay\Data;
 
 
 use Payment\Alipay\AlipayConfig;
+use Payment\Contracts\BaseData;
 use Payment\Utils\ArrayUtil;
 
 abstract class AliBaseData extends BaseData

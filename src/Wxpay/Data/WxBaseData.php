@@ -8,10 +8,10 @@
 namespace Payment\Wxpay\Data;
 
 
-use vendor\payment\contracts\BaseData;
-use vendor\payment\contracts\PayException;
-use vendor\payment\util\ArrayUtil;
-use vendor\payment\wxpay\WxConfig;
+
+use Payment\Contracts\BaseData;
+use Payment\Utils\ArrayUtil;
+use Payment\Wxpay\WxConfig;
 
 class WxBaseData extends BaseData
 {

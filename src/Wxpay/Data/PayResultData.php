@@ -8,7 +8,8 @@
 namespace Payment\Wxpay\Data;
 
 
-use vendor\payment\util\ArrayUtil;
+
+use Payment\Utils\ArrayUtil;
 
 class PayResultData extends WxBaseData
 {
