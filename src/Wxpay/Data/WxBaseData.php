@@ -142,4 +142,26 @@ class WxBaseData extends BaseData
 
         return null;
     }
+
+    /**
+     * 设置签名方式，当前统一使用md5
+     * @param string $value
+     **/
+    public function setsignType($value)
+    {
+        $this->values['signType'] = $value;
+    }
+    
+    /**
+     * 获取使用的签名方式
+     * @return string 值
+     **/
+    public function getsignType()
+    {
+        if (array_key_exists('signType', $this->values)) {
+            return $this->values['signType'];
+        }
+
+        return null;
+    }
 }

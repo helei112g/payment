@@ -15,7 +15,9 @@ use Payment\Utils\ArrayUtil;
 use Payment\Utils\Curl;
 use Payment\Utils\DataParser;
 use Payment\Utils\StrUtil;
+use Payment\Wxpay\Data\JSPayResultData;
 use Payment\Wxpay\Data\PayResultData;
+use Payment\Wxpay\Helper\WxTradeType;
 use Payment\Wxpay\Helper\WxUnifiedOrder;
 
 class WxPubPay implements ChargeInterface
@@ -76,7 +78,7 @@ class WxPubPay implements ChargeInterface
     {
         if ($data['return_code'] == 'SUCCESS' && $data['result_code'] == 'SUCCESS') {
             // 下单成功
-            $payResult = new PayResultData();
+            $payResult = $this->getPayResultObject();
             // 验证返回的结果签名
             if (! $payResult->signVerify($data)) {
                 return [// 验证签名错误，说明是其他伪造
@@ -84,8 +86,14 @@ class WxPubPay implements ChargeInterface
                     'data'  => [],
                 ];
             }
-            // 对返回结果签名，生成后，返回客户端
-            $payResult->setPrepayId($data['prepay_id']);
+
+
+            if ($this->tradeType == WxTradeType::TYPE_IS_JSAPI) {
+                $payResult->setPackage($data['prepay_id']);
+            } else {
+                // 对返回结果签名，生成后，返回客户端
+                $payResult->setPrepayId($data['prepay_id']);
+            }
             $payResult->setNonceStr(StrUtil::getNonceStr());
             $payResult->setTimestamp((string)time());
             $payResult->setSign();
@@ -100,5 +108,18 @@ class WxPubPay implements ChargeInterface
             'type'  => 'err',
             'data'  => $data['return_msg'],
         ];
+    }
+
+    /**
+     * 根据交易类型返回交易对象
+     * @author helei
+     */
+    protected function getPayResultObject()
+    {
+        if ($this->tradeType == WxTradeType::TYPE_IS_JSAPI) {
+            return new JSPayResultData();
+        } else {
+            return new PayResultData();
+        }
     }
 }
