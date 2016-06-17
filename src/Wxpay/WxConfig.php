@@ -15,10 +15,10 @@ class WxConfig
     public function __construct()
     {
         $this->config = [
-            'appid'   => 'wxea45855be2709e6a',//公众账号ID
-            'openid'   => '8a623c01c4c178bc8f27b0c15f73c580',// 开发者id
-            'mchid'   => '1283888901',// 商户号
-            'md5_key'   => 'aiyuketongweiguoji13049876543210',// 秘钥key
+            'appid'   => 'wxexxxxxx',//公众账号ID
+            'openid'   => '8a623xxxxxxxxxx',// 开发者id
+            'mchid'   => '12xxxxxxxxxx',// 商户号
+            'md5_key'   => 'aixxxxxxxxxxx',// 秘钥key
             'geteway_url'   => 'https://api.mch.weixin.qq.com/',// 微信的网关
             'appsecret' => '',//app秘钥
             'oauth_redirect_uri'  => '',//网页授权回调域名
