@@ -10,6 +10,7 @@ namespace Payment\Alipay;
 
 
 use Payment\Alipay\Data\NotifyData;
+use Payment\Alipay\Data\TradeQueryData;
 use Payment\Contracts\PayNotifyInterface;
 use Payment\Contracts\TradeApiInterface;
 use Payment\Common\PayException;
@@ -17,7 +18,6 @@ use Payment\Common\TradeInfoData;
 use Payment\Common\TradeRefundData;
 use Payment\Utils\Curl;
 use Payment\Utils\DataParser;
-use Payment\Wxpay\Data\TradeQueryData;
 
 class AliTradeApi implements TradeApiInterface
 {
@@ -59,7 +59,6 @@ class AliTradeApi implements TradeApiInterface
             'CURLOPT_SSL_VERIFYPEER'    => true,
             'CURLOPT_SSL_VERIFYHOST'    => 2,
             'CURLOPT_CAINFO'    => $this->config->getCacertPath(),
-            'CURLOPT_HEADER'    => 0,// 为了便于解析，将头信息过滤掉
         ])->post($params)->submit($this->config->getGetewayUrl() . '_input_charset=' . $this->config->getInputCharset());
         if ($ret['error'] == 1) {
             // 请求发生错误
@@ -231,7 +230,6 @@ class AliTradeApi implements TradeApiInterface
             'CURLOPT_SSL_VERIFYPEER'    => true,
             'CURLOPT_SSL_VERIFYHOST'    => 2,
             'CURLOPT_CAINFO'    => $this->config->getCacertPath(),
-            'CURLOPT_HEADER'    => 0,// 为了便于解析，将头信息过滤掉
         ])->get($veryfy_url);
 
         if (preg_match("/true$/i",$responseTxt['body'])) {

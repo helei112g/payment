@@ -9,7 +9,7 @@ namespace Payment\Common;
 
 
 
-use Payment\Common\Contracts\DataStruct;
+use Payment\Contracts\DataStruct;
 
 class TradeInfoData extends DataStruct
 {

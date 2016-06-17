@@ -27,20 +27,20 @@ class Curl
             'CURLOPT_RETURNTRANSFER' => true,
             'CURLOPT_SSL_VERIFYPEER' => false,
             'CURLOPT_CONNECTTIMEOUT' => 10,
+            'CURLOPT_HEADER'    => 0
         );
     }
 
     /**
      * 静态实例化
-     * @param string $url
      * @return array
      */
     public static function init()
     {
-        if (self::$instance === null) {
-            self::$instance = new self;
+        if (static::$instance === null) {
+            static::$instance = new static;
         }
-        return self::$instance;
+        return static::$instance;
     }
 
     /**
@@ -65,8 +65,10 @@ class Curl
             foreach ($data as $key => $value) {
                 $this->post[$key] = $value;
             }
-        } else {
+        } elseif ($value) {
             $this->post[$data] = $value;
+        } else {
+            $this->post = $data;
         }
         return $this;
     }
@@ -162,6 +164,7 @@ class Curl
     /**
      * 出错自动重试
      * @param int $times
+     * @return $this
      */
     public function retry($times = 0)
     {

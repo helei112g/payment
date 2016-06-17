@@ -12,7 +12,8 @@ namespace Payment\Factory;
 use Payment\Alipay\AlipayDirect;
 use Payment\Alipay\AlipayMobile;
 use Payment\Common\ChargeChannel;
-use Payment\Wxpay\WxMobile;
+use Payment\Wxpay\Helper\WxTradeType;
+use Payment\Wxpay\WxPubPay;
 
 class ChargeFactory
 {
@@ -27,7 +28,13 @@ class ChargeFactory
                 $instance = new AlipayMobile();
                 break;
             case ChargeChannel::CHANNEL_IS_WX;
-                $instance = new WxMobile('APP');
+                $instance = new WxPubPay(WxTradeType::TYPE_IS_APP);
+                break;
+            case ChargeChannel::CHANNEL_IS_WX_PUB;// 微信公众号支付
+                $instance = new WxPubPay(WxTradeType::TYPE_IS_JSAPI);
+                break;
+            case ChargeChannel::CHANNEL_IS_WX_QR;// 微信二维码支付
+                $instance = new WxPubPay(WxTradeType::TYPE_IS_NATIVE);
                 break;
             default :
                 $instance = null;

@@ -53,9 +53,7 @@ class WxTradeApi implements TradeApiInterface
 
         // 进行curl请求
         $curl = new Curl();
-        $ret = $curl->set([
-            'CURLOPT_HEADER'    => 0
-        ])->post($xml)->submit($url);
+        $ret = $curl->post($xml)->submit($url);
 
         // 格式化为数据
         $retArr = DataParser::toArray($ret['body']);

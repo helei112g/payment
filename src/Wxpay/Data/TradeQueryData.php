@@ -20,7 +20,7 @@ class TradeQueryData extends WxBaseData
     }
 
     /**
-     * 设置微信的订单号，优先使用
+     * 设置支付宝的订单号，优先使用
      * @param string $value
      **/
     public function setTransactionId($value)
@@ -28,7 +28,7 @@ class TradeQueryData extends WxBaseData
         $this->values['transaction_id'] = $value;
     }
     /**
-     * 获取微信的订单号，优先使用的值
+     * 获取支付宝的订单号，优先使用的值
      * @return string 值
      **/
     public function getTransactionId()

@@ -21,11 +21,11 @@ class TradeFactory
         switch ($channel) {
             case ChargeChannel::CHANNEL_IS_ALIPAY:
             case ChargeChannel::CHANNEL_IS_ALIPAY_DIRECT:
-            $instance = new AliTradeApi();
+                $instance = new AliTradeApi();
                 break;
             case ChargeChannel::CHANNEL_IS_WX:
             case ChargeChannel::CHANNEL_IS_WX_QR:
-            $instance = new WxTradeApi();
+                $instance = new WxTradeApi();
                 break;
             default :
                 $instance = null;
