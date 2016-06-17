@@ -195,4 +195,8 @@ rsa秘钥的生成与上传。切记上传时一定检查是否有空格，有�
 * 博客：http://blog.csdn.net/hel12he
 * 微信：helei543345
 
+另外本项目，首发在github。主要原因是：github上提交composer包非常方便。但是每次更新后，会自动提交到oschina的。
+
+github地址： https://github.com/helei112g/payment
+
 当然如果你愿意打赏我，我也是愿意接受的。
