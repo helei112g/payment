@@ -121,6 +121,27 @@ class PayResultData extends WxBaseData
     }
 
     /**
+     * 设置随机字符串，不长于32位。推荐随机数生成算法
+     * @param string $url
+     **/
+    public function setCodeUrl($url)
+    {
+        $this->values['code_url'] = $url;
+    }
+    /**
+     * 获取随机字符串，不长于32位。推荐随机数生成算法的值
+     * @return string 值
+     **/
+    public function getCodeUrl()
+    {
+        if (array_key_exists('code_url', $this->values)) {
+            return $this->values['code_url'];
+        }
+
+        return null;
+    }
+
+    /**
      * 检查签名是否正确
      * @param array $data
      * @return boolean

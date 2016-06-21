@@ -25,9 +25,9 @@ class WxTradeApi implements TradeApiInterface
 
     // 配置信息类
     protected $config;
-    public function __construct()
+    public function __construct($tradeType = 'APP')
     {
-        $this->config = new WxConfig();
+        $this->config = new WxConfig($tradeType);
     }
 
     /**

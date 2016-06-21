@@ -165,7 +165,7 @@ class WxUnifiedOrder
     protected static function setSpecialParam(UnifiedOrderData $unified, array $data, $tradeType)
     {
         // NATIVE，必须设置商品ID 长度为32位
-        if ($tradeType == WxTradeType::TYPE_IS_JSAPI) {
+        if ($tradeType == WxTradeType::TYPE_IS_NATIVE) {
             if (key_exists('product_id', $data)) {
                 if (strlen($data['product_id']) > 32) {
                     throw new PayException('二维码中包含的商品ID，最多支持32位');

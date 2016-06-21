@@ -29,7 +29,7 @@ class WxPubPay implements ChargeInterface
     public function __construct($tradeType)
     {
         $this->tradeType = $tradeType;
-        $this->config = new WxConfig();
+        $this->config = new WxConfig($tradeType);
     }
 
     /**
@@ -42,13 +42,13 @@ class WxPubPay implements ChargeInterface
     {
         try {
             $unified = WxUnifiedOrder::createUnifiedData($data, $this->tradeType);
+            $unified->setAppid($this->config->getAppId());// 重新设置appid。由于存在两种appid的问题
         } catch (PayException $e) {
             throw $e;
         }
 
         // 设置签名
         $unified->setSign();
-
         // 微信统一下单接口
         $url = $this->config->getGetewayUrl() . 'pay/unifiedorder';
 
@@ -90,6 +90,8 @@ class WxPubPay implements ChargeInterface
 
             if ($this->tradeType == WxTradeType::TYPE_IS_JSAPI) {
                 $payResult->setPackage($data['prepay_id']);
+            } elseif ($this->tradeType == WxTradeType::TYPE_IS_NATIVE) {
+                $payResult->setCodeUrl($data['code_url']);
             } else {
                 // 对返回结果签名，生成后，返回客户端
                 $payResult->setPrepayId($data['prepay_id']);
