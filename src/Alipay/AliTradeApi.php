@@ -10,12 +10,14 @@ namespace Payment\Alipay;
 
 
 use Payment\Alipay\Data\NotifyData;
+use Payment\Alipay\Data\RefundFastPayData;
 use Payment\Alipay\Data\TradeQueryData;
 use Payment\Contracts\PayNotifyInterface;
 use Payment\Contracts\TradeApiInterface;
 use Payment\Common\PayException;
 use Payment\Common\TradeInfoData;
 use Payment\Common\TradeRefundData;
+use Payment\Utils\ArrayUtil;
 use Payment\Utils\Curl;
 use Payment\Utils\DataParser;
 
@@ -241,12 +243,93 @@ class AliTradeApi implements TradeApiInterface
 
     /**
      * 支付宝退款api
-     * @param TradeRefundData $data
+     * @param array $data
      * @return mixed
+     * @throws PayException
      * @author helei
      */
-    public function refund(TradeRefundData $data)
+    public function refund(array $data)
     {
-        return '开发中....';
+        try {
+            $refundData = $this->buildRefundData($data);
+        } catch (PayException $e) {
+            throw $e;
+        }
+
+        // 签名数据
+        $refundData->setSign();
+
+        $params = $refundData->getValues();
+
+        $queryStr = http_build_query($params);
+        $url = $this->config->getGetewayUrl() . $queryStr;
+
+        return $url;// 返回发起退款的接口
+    }
+
+    /**
+     * 构造退款的数据
+     * @param array $data
+     *  - $transaction_id 第三方的订单号
+     *  - $order_no 商户订单号
+     *  - $refund_no 商户退款单号
+     *  - $amount 该笔订单总金额
+     *  - $refund_fee 退款金额
+     *  - $description 额外数据(退款理由)
+     * @return RefundFastPayData
+     * @throws PayException
+     * @author helei
+     */
+    protected function buildRefundData(array $data)
+    {
+        $refund = new RefundFastPayData();
+
+        // 设置异步通知url
+        if (key_exists('success_url', $data)) {
+            $refund->setNotifyUrl($data['success_url']);
+        } else {
+            throw new PayException('异步通知url必须设置');
+        }
+
+        // 退款批次号
+        if (key_exists('refund_no', $data)) {
+            $refund->setBatchNo($data['refund_no']);
+        } else {
+            throw new PayException('退款批次号必须设置，并且不可重复！');
+        }
+
+        // 构建数据集
+        $signDetailData = '';
+        if (key_exists('transaction_id', $data)) {
+            $signDetailData .= $data['transaction_id'];
+        } else {
+            throw new PayException('本笔退款对应的支付宝交易号必须设置');
+        }
+        if (key_exists('amount', $data) && key_exists('refund_fee', $data)) {
+            // 比较金额的大小问题  单位是元
+            if (bccomp($data['amount'], $data['refund_fee'], 2) === -1) {
+                throw new PayException('退款金额 refund_fee 不能大于 订单的总金额 amount');
+            }
+
+            if (bccomp($data['refund_fee'], 0.01, 2) === -1) {
+                throw new PayException('退款金额不能低于 0.01 元');
+            }
+        }
+        $signDetailData .= '^' . $data['refund_fee'];
+
+        if (key_exists('description', $data)) {
+            $signDetailData .= '^' . $data['description'];
+        } else {
+            throw new PayException('必须添加退款理由');
+        }
+
+        if (empty($signDetailData)) {
+            throw new PayException('设置的退款数据集异常，请检查传入的参数');
+        }
+
+        $refund->setDetailData($signDetailData);
+        $refund->setBatchNum(1);
+
+        return $refund;
     }
 }

@@ -25,22 +25,18 @@ $payData = [
 
 
 // 获取支付宝手机支付实例
-$mobileCharge = ChargeFactory::getInstance(ChargeChannel::CHANNEL_IS_ALIPAY);
-try {
-    unset($payData['return_url']);// 移动支付不需要这个参数
-    $ret = $pcCharge->charges($payData);
-    var_dump($ret);
-} catch (PayException $e) {
-    echo $e->errorMessage();
-}
-
-var_dump($mobileCharge);
+//$pcCharge = ChargeFactory::getInstance(ChargeChannel::CHANNEL_IS_ALIPAY);
 
 // 获取支付宝网站支付实例
 $pcCharge = ChargeFactory::getInstance(ChargeChannel::CHANNEL_IS_ALIPAY_DIRECT);
 try {
-    $url = $pcCharge->charges($payData);
-    echo $url;
+    $ret = $pcCharge->charges($payData);
+
+    if (is_array($ret)) {
+        var_dump($ret);
+    } else {
+        header("Location:{$ret}");
+    }
 } catch (PayException $e) {
     echo $e->errorMessage();
 }

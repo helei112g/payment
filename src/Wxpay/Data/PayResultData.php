@@ -126,7 +126,7 @@ class PayResultData extends WxBaseData
      **/
     public function setCodeUrl($url)
     {
-        $this->values['code_url'] = $url;
+        $this->values['code_url'] = urlencode($url);
     }
     /**
      * 获取随机字符串，不长于32位。推荐随机数生成算法的值
@@ -135,7 +135,7 @@ class PayResultData extends WxBaseData
     public function getCodeUrl()
     {
         if (array_key_exists('code_url', $this->values)) {
-            return $this->values['code_url'];
+            return urldecode($this->values['code_url']);
         }
 
         return null;

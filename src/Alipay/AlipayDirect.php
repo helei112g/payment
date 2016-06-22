@@ -43,7 +43,7 @@ class AlipayDirect implements ChargeInterface
 
         // 生成查询字符串
         $queryStr = ArrayUtil::createLinkstring($data->getValues());
-        $queryStr = htmlspecialchars($queryStr);
+        //$queryStr = htmlspecialchars($queryStr);
 
         // 生成可进行get请求的url
         $url = $this->config->getGetewayUrl() .$queryStr;

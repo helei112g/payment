@@ -15,9 +15,9 @@ class AlipayConfig
     public function __construct()
     {
         $this->config = [
-            'partner'   => '2088xxxxx',// 合作伙伴身份（PID）
-            'md5_key'   => '',// MD5密钥
-            'seller_email'   => 'xxxxxx@126.com',// 收款支付宝账号
+            'partner'   => '2088xxxxxxx',// 合作伙伴身份（PID）
+            'md5_key'   => 'xxxxxxxxxxxx',// MD5密钥
+            'seller_email'   => 'xxxxxxxxxxxx',// 收款支付宝账号
             'input_charset'   => 'utf-8',// 编码方式
             'geteway_url'   => 'https://mapi.alipay.com/gateway.do?',// 支付宝的网关地址
             'rsa_private_key'   => __DIR__ . '/safekey/rsa_private_key.pem',// rsa私钥的路径

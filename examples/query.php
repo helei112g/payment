@@ -18,7 +18,7 @@ $payway = ChargeChannel::CHANNEL_IS_ALIPAY;
 // 微信的回调
 //$payway = ChargeChannel::CHANNEL_IS_WX;
 
-$value = '1007570439201601142692427764';// 第三方交易号
+$value = '2016061821001004170239716390';// 第三方交易号
 $key = 'trade_no';// 可取值：out_trade_no：商户网站唯一订单号   trade_no： 第三方交易号
 
 $api = TradeFactory::getInstance($payway);

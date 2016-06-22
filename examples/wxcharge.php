@@ -15,10 +15,10 @@ use Payment\Common\PayException;
 //$appCharge = ChargeFactory::getInstance(ChargeChannel::CHANNEL_IS_WX);
 
 // 微信公众号支付实例
-$appCharge = ChargeFactory::getInstance(ChargeChannel::CHANNEL_IS_WX_PUB);
+//$appCharge = ChargeFactory::getInstance(ChargeChannel::CHANNEL_IS_WX_PUB);
 
 // 微信扫码支付实例
-//$appCharge = ChargeFactory::getInstance(ChargeChannel::CHANNEL_IS_WX_QR);
+$appCharge = ChargeFactory::getInstance(ChargeChannel::CHANNEL_IS_WX_QR);
 
 $payData = [
     "order_no"	=> 'F2016062417161',// 必须， 商户订单号，适配每个渠道对此参数的要求，必须在商户系统内唯一
@@ -40,7 +40,7 @@ try {
     $reqArr = $appCharge->charges($payData);// 调用该函数，会抛出  PayException 异常
 
     if (isset($reqArr['data']['code_url'])) {
-        $url = urlencode($reqArr['data']['code_url']);
+        $url = $reqArr['data']['code_url'];
         echo "<img alt='模式二扫码支付' src='http://paysdk.weixin.qq.com/example/qrcode.php?data={$url}' style='width:150px;height:150px;'/>";exit;
     }
     var_dump($reqArr);

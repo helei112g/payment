@@ -10,8 +10,6 @@
 namespace Payment\Contracts;
 
 
-use Payment\Common\TradeRefundData;
-
 interface TradeApiInterface
 {
     /**
@@ -35,9 +33,9 @@ interface TradeApiInterface
 
     /**
      * 退款请求
-     * @param TradeRefundData $data
+     * @param array $data
      * @return mixed
      * @author helei
      */
-    public function refund(TradeRefundData $data);
+    public function refund(array $data);
 }

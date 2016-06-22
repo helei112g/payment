@@ -8,7 +8,8 @@
 namespace Payment\Common;
 
 
-use vendor\payment\contracts\DataStruct;
+
+use Payment\Contracts\DataStruct;
 
 class TradeRefundData extends DataStruct
 {

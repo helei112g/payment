@@ -218,11 +218,11 @@ class WxTradeApi implements TradeApiInterface
 
     /**
      * 微信退款api
-     * @param TradeRefundData $data
+     * @param array $data
      * @return mixed
      * @author helei
      */
-    public function refund(TradeRefundData $data)
+    public function refund(array $data)
     {
         return '开发中....';
     }
