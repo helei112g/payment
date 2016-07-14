@@ -3,7 +3,7 @@
     "type": "library",
     "description": "集成支付宝、微信支付等流行的支付接口，后续会持续跟进中",
     "keywords": ["alipay", "weixin", "支付宝支付", "微信支付", "集成支付接口SDK"],
-    "homepage": "http://blog.csdn.net/hel12he/",
+    "homepage": "https://helei112g.github.io/",
     "license": "MIT",
     "authors": [
         {
