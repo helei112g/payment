@@ -1,7 +1,7 @@
 <?php
 /**
  * @author: helei
- * @createTime: 2016-07-14 17:56
+ * @createTime: 2016-07-15 17:10
  * @description:
  */
 
@@ -9,12 +9,24 @@ namespace Payment\Charge\Ali;
 
 
 use Payment\Charge\ChargeStrategy;
+use Payment\Common\AliConfig;
 
-class AliCharge implements ChargeStrategy
+abstract class AliCharge implements ChargeStrategy
 {
+    /**
+     * 支付宝的配置文件
+     * @var AliConfig $config
+     */
+    protected $config;
 
-    public function charge()
+    /**
+     * 支付的数据
+     * @var array $payData
+     */
+    protected $payData;
+
+    public function __construct(array $config)
     {
-        // TODO: Implement charge() method.
+        $this->config = new AliConfig($config);
     }
 }

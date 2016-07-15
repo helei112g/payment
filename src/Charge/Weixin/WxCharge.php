@@ -1,7 +1,7 @@
 <?php
 /**
  * @author: helei
- * @createTime: 2016-07-14 17:56
+ * @createTime: 2016-07-15 17:12
  * @description:
  */
 
@@ -9,12 +9,18 @@ namespace Payment\Charge\Weixin;
 
 
 use Payment\Charge\ChargeStrategy;
+use Payment\Common\WxConfig;
 
-class WxCharge implements ChargeStrategy
+abstract class WxCharge implements ChargeStrategy
 {
+    /**
+    * 微信的配置文件
+    * @var WxConfig
+    */
+    protected $config;
 
-    public function charge()
+    public function __construct(array $config)
     {
-        // TODO: Implement charge() method.
+        $this->config = new WxConfig($config);
     }
 }
