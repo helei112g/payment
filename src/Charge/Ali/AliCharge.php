@@ -10,6 +10,7 @@ namespace Payment\Charge\Ali;
 
 use Payment\Charge\ChargeStrategy;
 use Payment\Common\AliConfig;
+use Payment\Common\PayException;
 
 abstract class AliCharge implements ChargeStrategy
 {
@@ -25,8 +26,17 @@ abstract class AliCharge implements ChargeStrategy
      */
     protected $payData;
 
+    /**
+     * AliCharge constructor.
+     * @param array $config
+     * @throws PayException
+     */
     public function __construct(array $config)
     {
-        $this->config = new AliConfig($config);
+        try {
+            $this->config = new AliConfig($config);
+        } catch (PayException $e) {
+            throw $e;
+        }
     }
 }

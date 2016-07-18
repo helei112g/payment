@@ -7,28 +7,47 @@
 
 require_once __DIR__ . '/../autoload.php';
 
-use Pyament\ChargeContext;
-use Pyament\Config;
+use Payment\ChargeContext;
+use Payment\Config;
+use Payment\Common\PayException;
 
+//  生成订单号 便于测试
+function createPayid()
+{
+    return date('Ymdhis', time()).substr(floor(microtime()*1000),0,1).rand(0,9);
+}
 
 // 订单信息
 $payData = [
-    "order_no"	=> 'F616699445072025',
-    "amount"	=> '0.01',
-    "client_ip"	=> '127.0.0.1',
-    "subject"	=> 'Older Driver',
-    "body"	=> '购买Older Driver',
-    "success_url"	=> 'http://mall.devtiyushe.com/order/default/ali-pay-notify.html',
-    "return_url"	=> 'http://mall.devtiyushe.com/order/default/pay-return-url.html',
-    "time_expire"	=> '14',
-    "description"	=> '',
+    "orderTradeNo"	=> createPayid(),
+    "totalFee"	=> '1',// 单位为元
+    "clientIp"	=> '127.0.0.1',
+    "subject"	=> '测试支付',
+    "body"	=> '支付接口测试',
+    "extraCommonParam"	=> '',
 ];
 
-$aliconfig = require_once __DIR__ . 'aliconfig.php';
+/**
+ * 包含客户的配置文件
+ * 本次 2.0 版本，主要的改变是将配置文件独立出来，便于客户多个账号的情况
+ * 已经使用不同方式读取配置文件，如：db  file   cache等
+ */
+$aliconfig = require_once __DIR__ . '/aliconfig.php';
 
-// 初始化相关数据
+/**
+ * 实例化支付环境类，进行支付创建
+ */
 $charge = new ChargeContext();
-$charge->initCharge(Config::ALI_CHANNEL_WEB, $aliconfig);
 
-// 调起支付
-$charge->charge($payData);
+try {
+    $charge->initCharge(Config::ALI_CHANNEL_WEB, $aliconfig);
+} catch (PayException $e) {
+    echo $e->errorMessage();exit;
+}
+
+// 此处返回的是数组，也可以根据自己情况，对数组数据处理，完成支付逻辑
+$data = $charge->charge($payData);
+
+// 生成url，发起支付
+$url = 'https://mapi.alipay.com/gateway.do?' . http_build_query($data);
+header("Location:{$url}");

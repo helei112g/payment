@@ -6,8 +6,10 @@
  */
 
 return [
-    'partner'   => '',
-    'md5_key'   => '',
-    'seller_id' => '',
-    'rsa_private_key'   => '',
+    'partner'   => '2088xxxxxxxxxxx',
+    'md5_key'   => 'xxxxxxxxxxxxxxxxxx',
+    'rsa_private_key'   => dirname(__FILE__) . DIRECTORY_SEPARATOR . 'rsa_private_key.pem',
+    "notify_url"	=> 'http://test.helei.com/pay-notify.html',
+    "return_url"	=> 'http://test.helei.com/return-url.html',
+    "time_expire"	=> '14',
 ];

@@ -5,7 +5,7 @@
  * @description: 暴露给客户端调用的接口
  */
 
-namespace Pyament;
+namespace Payment;
 
 
 use Payment\Charge\Ali\AliAppCharge;
@@ -36,33 +36,39 @@ class ChargeContext
      */
     public function initCharge($channel, array $config)
     {
-        switch ($channel) {
-            case Config::ALI_CHANNEL_WEB:
-                $this->payWay = new AliWebCharge($config);
-                break;
-            case Config::ALI_CHANNEL_WAP:
-                $this->payWay = new AliWapCharge($config);
-                break;
-            case Config::ALI_CHANNEL_APP:
-                $this->payWay = new AliAppCharge($config);
-                break;
-            case Config::WX_CHANNEL_WEB:
-                $this->payWay = new WxWebCharge($config);
-                break;
-            case Config::WX_CHANNEL_PUB:
-                $this->payWay = new WxPubCharge($config);
-                break;
-            case Config::WX_CHANNEL_APP:
-                $this->payWay = new WxAppCharge($config);
-                break;
-            default :
-                throw new PayException('当前仅支持：支付宝 与 微信');
+        // 初始化时，可能抛出异常，再次统一再抛出给客户端进行处理
+        try {
+            switch ($channel) {
+                case Config::ALI_CHANNEL_WEB:
+                    $this->payWay = new AliWebCharge($config);
+                    break;
+                case Config::ALI_CHANNEL_WAP:
+                    $this->payWay = new AliWapCharge($config);
+                    break;
+                case Config::ALI_CHANNEL_APP:
+                    $this->payWay = new AliAppCharge($config);
+                    break;
+                case Config::WX_CHANNEL_WEB:
+                    $this->payWay = new WxWebCharge($config);
+                    break;
+                case Config::WX_CHANNEL_PUB:
+                    $this->payWay = new WxPubCharge($config);
+                    break;
+                case Config::WX_CHANNEL_APP:
+                    $this->payWay = new WxAppCharge($config);
+                    break;
+                default :
+                    throw new PayException('当前仅支持：支付宝 与 微信');
+            }
+        } catch (PayException $e) {
+            throw $e;
         }
     }
 
     /**
      * 通过环境类调用支付
      * @param array $data
+     * @return array
      * @author helei
      */
     public function charge(array $data)
@@ -71,6 +77,6 @@ class ChargeContext
             return ;
         }
 
-        $this->payWay->charge($data);
+        return $this->payWay->charge($data);
     }
 }

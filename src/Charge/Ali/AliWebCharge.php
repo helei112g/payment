@@ -7,6 +7,8 @@
 
 namespace Payment\Charge\Ali;
 
+use Payment\Common\Ali\Data\Charge\WebChargeData;
+use Payment\Utils\ArrayUtil;
 
 class AliWebCharge extends AliCharge
 {
@@ -18,6 +20,10 @@ class AliWebCharge extends AliCharge
      */
     public function charge(array $data)
     {
-        // TODO: Implement charge() method.
+        $pay = new WebChargeData($this->config, $data);
+
+        $pay->setSign();
+
+        return $pay->getData();
     }
 }

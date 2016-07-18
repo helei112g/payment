@@ -5,7 +5,7 @@
  * @description: 支付相关的基础配置  无法被继承
  */
 
-namespace Pyament;
+namespace Payment;
 
 
 final class Config

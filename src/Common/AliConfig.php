@@ -24,8 +24,14 @@ final class AliConfig extends ConfigInterface
     // 用于加密的md5Key
     public $md5Key;
 
-    // 卖家支付宝账号 邮箱或手机号码格式
-    public $sellerId;
+    // 用于异步通知的地址
+    public $notifyUrl;
+
+    // 用于同步通知的地址
+    public $returnUrl;
+
+    // 订单在支付宝服务器过期的时间，过期后无法支付
+    public $timeExpire;
 
     // 用于rsa加密的私钥文件路径
     public $rsaPrivatePath;
@@ -35,11 +41,16 @@ final class AliConfig extends ConfigInterface
 
     // 安全证书的路径
     public $cacertPath;
+    
 
     public function __construct(array $config)
     {
         // 初始化配置信息
-        $this->initConfig($config);
+        try {
+            $this->initConfig($config);
+        } catch (PayException $e) {
+            throw $e;
+        }
 
         $basePath = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'Ali' . DIRECTORY_SEPARATOR;
         $this->rsaAliPubPath = "{$basePath}alipay_public_key.pem";
@@ -70,13 +81,6 @@ final class AliConfig extends ConfigInterface
             throw new PayException('MD5 Key 不能为空，再支付宝后台可查看');
         }
 
-        // 初始 卖家支付宝账号
-        if (key_exists('seller_id', $config) && !empty($config['seller_id'])) {
-            $this->sellerId = $config['seller_id'];
-        } else {
-            throw new PayException('卖家支付宝账号 邮箱或手机号码格式');
-        }
-
         // 初始 RSA私钥文件 需要检查该文件是否存在
         if (key_exists('rsa_private_key', $config) && file_exists($config['rsa_private_key'])) {
             $this->rsaPrivatePath = $config['rsa_private_key'];
@@ -84,9 +88,20 @@ final class AliConfig extends ConfigInterface
             throw new PayException('RSA私钥文件 不能为空，请确保在该路径下存在');
         }
 
-        // 初始 字符编码 默认使用utf-8
-        if (key_exists('input_charset', $config) && !empty($config['input_charset'])) {
-            $this->inputCharset = $config['input_charset'];
+        // 初始 支付宝异步通知地址，可为空
+        if (key_exists('notify_url', $config) && !empty($config['notify_url'])) {
+            $this->notifyUrl = $config['notify_url'];
+        }
+
+        // 初始 支付宝 同步通知地址，可为空
+        if (key_exists('return_url', $config) && !empty($config['return_url'])) {
+            $this->returnUrl = $config['return_url'];
+        }
+
+        // 初始 支付宝订单过期时间，可为空 取值范围：1m～15d
+        // m-分钟，h-小时，d-天，1c-当天（1c-当天的情况下，无论交易何时创建，都在0点关闭）
+        if (key_exists('time_expire', $config) && !empty($config['time_expire'])) {
+            $this->timeExpire = $config['time_expire'];
         }
 
         // 初始 支付宝网关地址
