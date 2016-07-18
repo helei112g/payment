@@ -15,12 +15,12 @@ use Payment\Utils\ArrayUtil;
  *
  * @inheritdoc
  *
- * @property $orderTradeNo
- * @property $totalFee
- * @property $clientIp
+ * @property $order_no
+ * @property $amount
+ * @property $client_ip
  * @property $subject
  * @property $body
- * @property $extraCommonParam
+ * @property $extra_param
  *
  * @package Payment\Charge\Ali\Data
  * anthor helei
@@ -62,15 +62,15 @@ class WebChargeData extends BaseData
             'return_url'    => $this->returnUrl,
 
             // 业务参数
-            'out_trade_no'  => $this->orderTradeNo,
+            'out_trade_no'  => $this->order_no,
             'subject'   => $this->subject,
             'payment_type'  => 1,
-            'total_fee' => $this->totalFee,
+            'total_fee' => $this->amount,
             'seller_id' => $this->partner,
             'body'  => $this->body,
             'paymethod' => 'directPay',// 默认采用余额支付
-            'exter_invoke_ip'   => $this->clientIp,
-            'extra_common_param'    => $this->extraCommonParam,
+            'exter_invoke_ip'   => $this->client_ip,
+            'extra_common_param'    => $this->extra_param,
             'it_b_pay'  => $this->timeExpire . 'm',
             'qr_pay_mode'   => 2,
             'goods_type'    => 1, //默认为实物类型

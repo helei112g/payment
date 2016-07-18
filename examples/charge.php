@@ -19,12 +19,12 @@ function createPayid()
 
 // 订单信息
 $payData = [
-    "orderTradeNo"	=> createPayid(),
-    "totalFee"	=> '1',// 单位为元
-    "clientIp"	=> '127.0.0.1',
+    "order_no"	=> createPayid(),
+    "amount"	=> '0.01',// 单位为元
+    "client_ip"	=> '127.0.0.1',
     "subject"	=> '测试支付',
     "body"	=> '支付接口测试',
-    "extraCommonParam"	=> '',
+    "extra_param"	=> '',
 ];
 
 /**
@@ -41,13 +41,10 @@ $charge = new ChargeContext();
 
 try {
     $charge->initCharge(Config::ALI_CHANNEL_WEB, $aliconfig);
+    $url = $charge->charge($payData);
 } catch (PayException $e) {
     echo $e->errorMessage();exit;
 }
 
-// 此处返回的是数组，也可以根据自己情况，对数组数据处理，完成支付逻辑
-$data = $charge->charge($payData);
-
-// 生成url，发起支付
-$url = 'https://mapi.alipay.com/gateway.do?' . http_build_query($data);
+// 跳转支付宝
 header("Location:{$url}");

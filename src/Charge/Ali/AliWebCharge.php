@@ -24,6 +24,8 @@ class AliWebCharge extends AliCharge
 
         $pay->setSign();
 
-        return $pay->getData();
+        $data = $pay->getData();
+        $url = $this->config->getewayUrl . http_build_query($data);
+        return $url;
     }
 }
