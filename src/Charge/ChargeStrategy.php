@@ -3,6 +3,8 @@
  * @author: helei
  * @createTime: 2016-07-14 17:51
  * @description: 支付的策略接口
+ * @link      https://github.com/helei112g/payment/tree/paymentv2
+ * @link      https://helei112g.github.io/
  */
 
 namespace Payment\Charge;

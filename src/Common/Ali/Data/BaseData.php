@@ -2,7 +2,9 @@
 /**
  * @author: helei
  * @createTime: 2016-07-15 17:28
- * @description:
+ * @description: 支付宝相关数据的基类
+ * @link      https://github.com/helei112g/payment/tree/paymentv2
+ * @link      https://helei112g.github.io/
  */
 
 namespace Payment\Common\Ali\Data;
@@ -42,9 +44,9 @@ abstract class BaseData
      */
     protected $retData;
 
-    public function __construct(AliConfig $config, array $payData)
+    public function __construct(AliConfig $config, array $reqData)
     {
-        $this->data = array_merge($payData, $config->toArray());
+        $this->data = array_merge($reqData, $config->toArray());
     }
 
     /**

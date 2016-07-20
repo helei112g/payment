@@ -3,6 +3,8 @@
  * @author: helei
  * @createTime: 2016-07-14 17:42
  * @description: 暴露给客户端调用的接口
+ * @link      https://github.com/helei112g/payment/tree/paymentv2
+ * @link      https://helei112g.github.io/
  */
 
 namespace Payment;
@@ -68,13 +70,26 @@ class ChargeContext
     /**
      * 通过环境类调用支付
      * @param array $data
+     *
+     * ```php
+     * $payData = [
+     *      "order_no"	=> createPayid(),
+     *      "amount"	=> '0.01',// 单位为元 ,最小为0.01
+     *      "client_ip"	=> '127.0.0.1',
+     *      "subject"	=> '测试支付',
+     *      "body"	=> '支付接口测试',
+     *      "extra_param"	=> '',
+     * ];
+     * ```
+     *
      * @return array
+     * @throws PayException
      * @author helei
      */
     public function charge(array $data)
     {
-        if (is_null($this->payWay)) {
-            return ;
+        if (! $this->payWay instanceof ChargeStrategy) {
+            throw new PayException('请检查初始化是否正确');
         }
 
         return $this->payWay->charge($data);

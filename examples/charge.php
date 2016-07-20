@@ -20,9 +20,9 @@ function createPayid()
 // 订单信息
 $payData = [
     "order_no"	=> createPayid(),
-    "amount"	=> '0.01',// 单位为元
+    "amount"	=> '0.01',// 单位为元 ,最小为0.01
     "client_ip"	=> '127.0.0.1',
-    "subject"	=> '测试支付',
+    "subject"	=> '      测试支付',
     "body"	=> '支付接口测试',
     "extra_param"	=> '',
 ];

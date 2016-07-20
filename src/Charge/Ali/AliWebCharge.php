@@ -3,6 +3,8 @@
  * @author: helei
  * @createTime: 2016-07-14 17:56
  * @description: 支付宝 即时到账 接口
+ * @link      https://github.com/helei112g/payment/tree/paymentv2
+ * @link      https://helei112g.github.io/
  */
 
 namespace Payment\Charge\Ali;

@@ -2,7 +2,9 @@
 /**
  * @author: helei
  * @createTime: 2016-06-07 21:01
- * @description:
+ * @description:  常用的数组处理工具
+ * @link      https://github.com/helei112g/payment/tree/paymentv2
+ * @link      https://helei112g.github.io/
  */
 
 namespace Payment\Utils;
