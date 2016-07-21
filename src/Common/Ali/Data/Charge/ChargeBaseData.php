@@ -18,12 +18,12 @@ use Payment\Config;
  *
  * @inheritdoc
  *
- * @property $order_no
- * @property $amount
- * @property $client_ip
- * @property $subject
- * @property $body
- * @property $extra_param
+ * @property string $order_no
+ * @property string $amount
+ * @property string $client_ip
+ * @property string $subject
+ * @property string $body
+ * @property string $extra_param
  *
  * @package Payment\Common\Ali\Data\Charge
  * anthor helei

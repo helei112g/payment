@@ -15,17 +15,17 @@ use Payment\Utils\ArrayUtil;
 /**
  * Class BaseData
  *
- * @property $getewayUrl
- * @property $inputCharset
- * @property $partner
- * @property $md5Key
- * @property $notifyUrl
- * @property $returnUrl
- * @property $timeExpire
- * @property $rsaPrivatePath
- * @property $rsaAliPubPath
- * @property $cacertPath
- * @property $signType
+ * @property string $getewayUrl
+ * @property string $inputCharset
+ * @property string $partner
+ * @property string $md5Key
+ * @property string $notifyUrl
+ * @property string $returnUrl
+ * @property integer $timeExpire
+ * @property string $rsaPrivatePath
+ * @property string $rsaAliPubPath
+ * @property string $cacertPath
+ * @property string $signType
  *
  * @package Payment\Charge\Ali\Data
  * anthor helei
