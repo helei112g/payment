@@ -103,7 +103,7 @@ abstract class BaseData
     }
 
     /**
-     * 实际执行的签名操作的算法
+     * 实际执行的签名操作的算法  为便于后期调整，签名算法全部延迟到子类
      * @param string $signStr
      * @return string
      * @author helei
@@ -111,7 +111,7 @@ abstract class BaseData
     abstract protected function makeSign($signStr);
 
     /**
-     * 设置支付相关参数，
+     * 设置支付相关参数，  该接口本可在此进行抽象，但为了便于后期维护，此处全部延迟到子类处理
      * @return mixed
      * @author helei
      */

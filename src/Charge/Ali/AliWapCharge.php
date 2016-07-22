@@ -10,12 +10,19 @@
 namespace Payment\Charge\Ali;
 
 
+use Payment\Common\Ali\Data\Charge\WapChargeData;
+
 class AliWapCharge extends AliCharge
 {
 
-
     public function charge(array $data)
     {
-        // TODO: Implement charge() method.
+        $pay = new WapChargeData($this->config, $data);
+
+        $pay->setSign();
+
+        $data = $pay->getData();
+        $url = $this->config->getewayUrl . http_build_query($data);
+        return $url;
     }
 }

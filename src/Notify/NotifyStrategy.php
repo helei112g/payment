@@ -26,7 +26,7 @@ abstract class NotifyStrategy
      * @return mixed
      * @author helei
      */
-    public function handle(PayNotifyInterface $notify)
+    final public function handle(PayNotifyInterface $notify)
     {
         // 获取异步通知的数据
         $notifyData = $this->getNotifyData();

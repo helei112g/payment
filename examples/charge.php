@@ -24,6 +24,7 @@ $payData = [
     "client_ip"	=> '127.0.0.1',
     "subject"	=> '      测试支付',
     "body"	=> '支付接口测试',
+    "show_url"  => 'http://mall.tiyushe.com/goods/23.html',// 支付宝手机网站支付接口 该参数必须上传 。其他接口忽略
     "extra_param"	=> '',
 ];
 
@@ -40,7 +41,11 @@ $aliconfig = require_once __DIR__ . '/aliconfig.php';
 $charge = new ChargeContext();
 
 try {
+    // 支付宝即时到帐接口
     $charge->initCharge(Config::ALI_CHANNEL_WEB, $aliconfig);
+
+    // 支付宝 手机网站支接口
+    //$charge->initCharge(Config::ALI_CHANNEL_WAP, $aliconfig);
     $url = $charge->charge($payData);
 } catch (PayException $e) {
     echo $e->errorMessage();exit;
