@@ -1,3 +1,11 @@
+# 重大更新
+
+payment v1.x系列目前仅修复重要bug问题,不再增加新的功能.现阶段主要开发与维护 v2.x.
+
+具体代码,请查看分支 paymentv2
+
+paymentv2的[相关文档](https://helei112g.github.io/2016/07/18/%E6%94%AF%E4%BB%98%E5%AE%9D%E3%80%81%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98%E6%8E%A5%E5%85%A5%E9%9B%86%E6%88%90/)以放在博客中维护,方便更新修改.
+
 # 更新说明
 * 201-6-22 增加支付退款接口 调用方法，请看： `examples/refund.php`
 * 201-6-21 增加微信网站扫码支付接口 调用方法，请看： `examples/wxcharge.php`
