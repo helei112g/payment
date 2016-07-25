@@ -1,4 +1,2 @@
 .idea
 /examples/rsa_private_key.pem
-/examples/notify.php
-/examples/testNotify.php
