@@ -15,14 +15,16 @@ use Payment\Common\Ali\Data\Charge\WapChargeData;
 class AliWapCharge extends AliCharge
 {
 
-    public function charge(array $data)
+    /**
+     * 获取支付对应的数据完成类
+     * @return string
+     * @author helei
+     */
+    protected function getChargeDataClass()
     {
-        $pay = new WapChargeData($this->config, $data);
+        // 以下两种方式任选一种
+        return WapChargeData::class;
 
-        $pay->setSign();
-
-        $data = $pay->getData();
-        $url = $this->config->getewayUrl . http_build_query($data);
-        return $url;
+        //return 'Payment\Common\Ali\Data\Charge\WapChargeData';
     }
 }

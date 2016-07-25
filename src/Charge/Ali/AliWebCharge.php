@@ -10,24 +10,18 @@
 namespace Payment\Charge\Ali;
 
 use Payment\Common\Ali\Data\Charge\WebChargeData;
-use Payment\Utils\ArrayUtil;
 
 class AliWebCharge extends AliCharge
 {
     /**
-     * 支付的业务逻辑
-     * @param array $data
-     * @return array
+     * 获取支付对应的数据完成类
+     * @return string
      * @author helei
      */
-    public function charge(array $data)
+    protected function getChargeDataClass()
     {
-        $pay = new WebChargeData($this->config, $data);
-
-        $pay->setSign();
-
-        $data = $pay->getData();
-        $url = $this->config->getewayUrl . http_build_query($data);
-        return $url;
+        // 以下两种方式均可以
+        return WebChargeData::class;
+        //return 'Payment\Common\Ali\Data\Charge\WebChargeData';
     }
 }

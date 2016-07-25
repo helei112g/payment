@@ -10,7 +10,6 @@ namespace Payment\Common\Ali\Data\Charge;
 
 use Payment\Common\AliConfig;
 use Payment\Utils\ArrayUtil;
-use Payment\Utils\RsaEncrypt;
 
 class WapChargeData extends ChargeBaseData
 {

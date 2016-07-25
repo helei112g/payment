@@ -10,12 +10,20 @@
 namespace Payment\Charge\Ali;
 
 
+use Payment\Common\Ali\Data\Charge\AppChargeData;
+
 class AliAppCharge extends AliCharge
 {
-
-
-    public function charge(array $data)
+    /**
+     * 获取支付对应的数据完成类
+     * @return string
+     * @author helei
+     */
+    protected function getChargeDataClass()
     {
-        // TODO: Implement charge() method.
+        // 以下两种方式任选一种
+        return AppChargeData::class;
+
+        //return 'Payment\Common\Ali\Data\Charge\AppChargeData';
     }
 }

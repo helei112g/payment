@@ -11,6 +11,7 @@ namespace Payment\Charge\Ali;
 
 
 use Payment\Charge\ChargeStrategy;
+use Payment\Common\Ali\Data\Charge\ChargeBaseData;
 use Payment\Common\AliConfig;
 use Payment\Common\PayException;
 
@@ -23,10 +24,10 @@ abstract class AliCharge implements ChargeStrategy
     protected $config;
 
     /**
-     * 支付的数据
-     * @var array $payData
+     * 支付数据
+     * @var ChargeBaseData $chargeData
      */
-    protected $payData;
+    protected $chargeData;
 
     /**
      * AliCharge constructor.
@@ -43,5 +44,30 @@ abstract class AliCharge implements ChargeStrategy
         } catch (PayException $e) {
             throw $e;
         }
+    }
+
+    /**
+     * 获取支付对应的数据完成类
+     * @return ChargeBaseData
+     * @author helei
+     */
+    abstract protected function getChargeDataClass();
+
+    /**
+     * 支付的业务逻辑
+     * @param array $data
+     * @return array|string
+     * @author helei
+     */
+    public function charge(array $data)
+    {
+        $chargeClass = $this->getChargeDataClass();
+        $this->chargeData = new $chargeClass($this->config, $data);
+
+        $this->chargeData->setSign();
+
+        $data = $this->chargeData->getData();
+        $retData = $this->config->getewayUrl . http_build_query($data);
+        return $retData;
     }
 }
