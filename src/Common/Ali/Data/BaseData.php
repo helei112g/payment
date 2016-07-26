@@ -11,6 +11,7 @@ namespace Payment\Common\Ali\Data;
 
 use Payment\Common\AliConfig;
 use Payment\Utils\ArrayUtil;
+use Payment\Utils\RsaEncrypt;
 
 /**
  * Class BaseData
@@ -44,9 +45,17 @@ abstract class BaseData
      */
     protected $retData;
 
+    /**
+     * 加密方式
+     * @var string $sign_type
+     */
+    protected $sign_type;
+
     public function __construct(AliConfig $config, array $reqData)
     {
         $this->data = array_merge($reqData, $config->toArray());
+
+        $this->sign_type = 'MD5';// 默认使用MD5 进行加密处理
     }
 
     /**
@@ -103,12 +112,31 @@ abstract class BaseData
     }
 
     /**
-     * 实际执行的签名操作的算法  为便于后期调整，签名算法全部延迟到子类
+     * 签名算法实现
      * @param string $signStr
      * @return string
      * @author helei
      */
-    abstract protected function makeSign($signStr);
+    protected function makeSign($signStr)
+    {
+        $sign = '';
+        switch ($this->sign_type) {
+            case 'MD5' :
+                $signStr .= $this->md5Key;
+                $sign = md5($signStr);
+                break;
+            case 'RSA' :
+                $rsa_private_key = @file_get_contents($this->rsaPrivatePath);
+                $rsa = new RsaEncrypt($rsa_private_key);
+
+                $sign = $rsa->encrypt($signStr);
+                break;
+            default :
+                $sign = '';
+        }
+
+        return $sign;
+    }
 
     /**
      * 设置支付相关参数，  该接口本可在此进行抽象，但为了便于后期维护，此处全部延迟到子类处理

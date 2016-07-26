@@ -12,7 +12,6 @@ use Payment\Common\Ali\Data\BaseData;
 use Payment\Common\AliConfig;
 use Payment\Common\PayException;
 use Payment\Config;
-use Payment\Utils\RsaEncrypt;
 
 /**
  * Class ChargeBaseData
@@ -32,42 +31,11 @@ use Payment\Utils\RsaEncrypt;
  */
 abstract class ChargeBaseData extends BaseData
 {
-    protected $sign_type;
-
     public function __construct(AliConfig $config, array $reqData)
     {
         parent::__construct($config, $reqData);
 
         $this->checkPayDataParam();
-
-        $this->sign_type = 'MD5';// 默认使用MD5 进行加密处理
-    }
-
-    /**
-     * 签名算法实现
-     * @param string $signStr
-     * @return string
-     * @author helei
-     */
-    protected function makeSign($signStr)
-    {
-        $sign = '';
-        switch ($this->sign_type) {
-            case 'MD5' :
-                $signStr .= $this->md5Key;
-                $sign = md5($signStr);
-                break;
-            case 'RSA' :
-                $rsa_private_key = @file_get_contents($this->rsaPrivatePath);
-                $rsa = new RsaEncrypt($rsa_private_key);
-
-                $sign = $rsa->encrypt($signStr);
-                break;
-            default :
-                $sign = '';
-        }
-
-        return $sign;
     }
 
     /**

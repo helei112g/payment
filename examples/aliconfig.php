@@ -6,7 +6,7 @@
  */
 
 return [
-    'partner'   => '2088xxxx',
+    'partner'   => '2088xxx',
     'md5_key'   => 'xxxxxxxxxx',
     'rsa_private_key'   => dirname(__FILE__) . DIRECTORY_SEPARATOR . 'rsa_private_key.pem',
     "notify_url"	=> 'http://test.helei.com/pay-notify.html',
