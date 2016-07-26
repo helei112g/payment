@@ -42,14 +42,27 @@ $charge = new ChargeContext();
 
 try {
     // 支付宝即时到帐接口
+    //$type = Config::ALI_CHANNEL_WEB;
     //$charge->initCharge(Config::ALI_CHANNEL_WEB, $aliconfig);
 
     // 支付宝 手机网站支接口
-    $charge->initCharge(Config::ALI_CHANNEL_WAP, $aliconfig);
-    $url = $charge->charge($payData);
+    //$type = Config::ALI_CHANNEL_WAP;
+    //$charge->initCharge(Config::ALI_CHANNEL_WAP, $aliconfig);
+
+    // 支付宝 移动支付接口
+    $type = Config::ALI_CHANNEL_APP;
+    $charge->initCharge($type, $aliconfig);
+    $ret = $charge->charge($payData);
 } catch (PayException $e) {
     echo $e->errorMessage();exit;
 }
 
-// 跳转支付宝
-header("Location:{$url}");
+if ($type === Config::ALI_CHANNEL_APP) {
+    var_dump($ret);
+} else {
+    // 跳转支付宝
+    header("Location:{$ret}");
+}
+
+
+

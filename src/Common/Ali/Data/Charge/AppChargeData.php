@@ -8,11 +8,48 @@
 namespace Payment\Common\Ali\Data\Charge;
 
 
+use Payment\Common\AliConfig;
+use Payment\Utils\ArrayUtil;
+
 class AppChargeData extends ChargeBaseData
 {
 
+    public function __construct(AliConfig $config, array $reqData)
+    {
+        parent::__construct($config, $reqData);
+
+        $this->sign_type = 'RSA';
+    }
+
+    /**
+     * 构建 APP支付 加密数据
+     * @author helei
+     */
     protected function buildData()
     {
-        // TODO: Implement buildData() method.
+        // 设置加密的方式
+        $this->signType = $this->sign_type;
+
+        $signData = [
+            // 基本参数
+            'service'   => '"' . 'mobile.securitypay.pay' . '"',
+            'partner'   => '"' . trim($this->partner) . '"',
+            '_input_charset'   => '"' . trim($this->inputCharset) . '"',
+            'sign_type'   => '"' . trim($this->signType) . '"',
+            'notify_url'    => '"' . trim($this->notifyUrl) . '"',
+
+            // 业务参数
+            'out_trade_no'  => '"' . trim($this->order_no) . '"',
+            'subject'   => '"' . trim($this->subject) . '"',
+            'payment_type'  => '"' . 1 . '"',
+            'seller_id' => '"' . trim($this->partner) . '"',
+            'total_fee' => '"' . trim($this->amount) . '"',
+            'body'  => '"' . trim($this->body) . '"',
+            'goods_type'    => '"' . 1 . '"', //默认为实物类型
+            'it_b_pay'  => '"' . trim($this->timeExpire) . 'm"',// 超时时间 统一使用分钟计算
+        ];
+
+        // 移除数组中的空值
+        $this->retData = ArrayUtil::paraFilter($signData);
     }
 }

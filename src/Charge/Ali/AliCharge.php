@@ -14,6 +14,7 @@ use Payment\Charge\ChargeStrategy;
 use Payment\Common\Ali\Data\Charge\ChargeBaseData;
 use Payment\Common\AliConfig;
 use Payment\Common\PayException;
+use Payment\Utils\ArrayUtil;
 
 abstract class AliCharge implements ChargeStrategy
 {
@@ -67,6 +68,12 @@ abstract class AliCharge implements ChargeStrategy
         $this->chargeData->setSign();
 
         $data = $this->chargeData->getData();
+        if ('Payment\Charge\Ali\AliAppCharge' == get_called_class()) {
+            // 如果是移动支付，直接返回数据信息。并且对sign做urlencode编码
+            $data['sign'] = urlencode($data['sign']);
+            return ArrayUtil::createLinkstring($data);
+        }
+
         $retData = $this->config->getewayUrl . http_build_query($data);
         return $retData;
     }
