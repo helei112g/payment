@@ -10,23 +10,26 @@
 namespace Payment\Common\Ali\Data;
 
 use Payment\Common\AliConfig;
+use Payment\Common\PayException;
 use Payment\Utils\ArrayUtil;
 use Payment\Utils\RsaEncrypt;
 
 /**
  * Class BaseData
  *
- * @property string $getewayUrl
- * @property string $inputCharset
- * @property string $partner
- * @property string $md5Key
- * @property string $notifyUrl
- * @property string $returnUrl
- * @property integer $timeExpire
- * @property string $rsaPrivatePath
- * @property string $rsaAliPubPath
- * @property string $cacertPath
- * @property string $signType
+ * @property string $getewayUrl  支付宝网关
+ * @property string $inputCharset   参数编码字符集
+ * @property string $partner  合作身份者ID，以2088开头
+ * @property string $md5Key  配置的md5秘钥
+ * @property string $notifyUrl  异步通知的url
+ * @property string $returnUrl  同步通知的url
+ * @property integer $timeExpire  订单过期时间
+ * @property string $rsaPrivatePath  rsa私钥路径
+ * @property string $rsaAliPubPath  rsa支付宝公钥路径
+ * @property string $cacertPath  请求证书路径
+ * @property string $signType  加密方式。默认md5
+ * @property string $account  卖家支付宝账号，手机号或者邮箱
+ * @property string $account_name  卖家支付宝昵称
  *
  * @package Payment\Charge\Ali\Data
  * anthor helei
@@ -45,17 +48,18 @@ abstract class BaseData
      */
     protected $retData;
 
-    /**
-     * 加密方式
-     * @var string $sign_type
-     */
-    protected $sign_type;
 
     public function __construct(AliConfig $config, array $reqData)
     {
         $this->data = array_merge($reqData, $config->toArray());
 
-        $this->sign_type = 'MD5';// 默认使用MD5 进行加密处理
+        try {
+            $this->checkDataParam();
+        } catch (PayException $e) {
+            throw $e;
+        }
+
+        $this->signType = 'RSA';// 默认使用RSA 进行加密处理
     }
 
     /**
@@ -120,7 +124,7 @@ abstract class BaseData
     protected function makeSign($signStr)
     {
         $sign = '';
-        switch ($this->sign_type) {
+        switch ($this->signType) {
             case 'MD5' :
                 $signStr .= $this->md5Key;
                 $sign = md5($signStr);
@@ -144,4 +148,12 @@ abstract class BaseData
      * @author helei
      */
     abstract protected function buildData();
+
+    /**
+     * 检查参数是否正确 错误以PayException返回
+     * @return mixed
+     * @throws PayException
+     * @author helei
+     */
+    abstract protected function checkDataParam();
 }

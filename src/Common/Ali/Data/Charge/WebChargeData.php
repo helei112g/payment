@@ -22,24 +22,12 @@ use Payment\Utils\ArrayUtil;
  */
 class WebChargeData extends ChargeBaseData
 {
-
-    public function __construct(AliConfig $config, array $reqData)
-    {
-        parent::__construct($config, $reqData);
-
-        // 初始化加密方式
-        $this->sign_type = 'RSA';
-    }
-
     /**
      * 构建 即时到帐 加密数据
      * @author helei
      */
     protected function buildData()
     {
-        // 设置加密的方式
-        $this->signType = $this->sign_type;
-
         $signData = [
             // 基本参数
             'service'   => 'create_direct_pay_by_user',

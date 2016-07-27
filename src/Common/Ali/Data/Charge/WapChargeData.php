@@ -13,23 +13,12 @@ use Payment\Utils\ArrayUtil;
 
 class WapChargeData extends ChargeBaseData
 {
-
-    public function __construct(AliConfig $config, array $reqData)
-    {
-        parent::__construct($config, $reqData);
-
-        $this->sign_type = 'RSA';
-    }
-
     /**
      * 构建 手机网站支付 加密数据
      * @author helei
      */
     protected function buildData()
     {
-        // 设置加密的方式
-        $this->signType = $this->sign_type;
-
         $signData = [
             // 基本参数
             'service'   => 'alipay.wap.create.direct.pay.by.user',

@@ -43,6 +43,12 @@ final class AliConfig extends ConfigInterface
 
     // 安全证书的路径
     public $cacertPath;
+
+    // 付款账号名
+    public $account_name;
+
+    // 付款账号 支付宝账号，邮箱或者手机
+    public $account;
     
 
     public function __construct(array $config)
@@ -109,6 +115,16 @@ final class AliConfig extends ConfigInterface
         // 初始 支付宝网关地址
         if (key_exists('geteway_url', $config) && !empty($config['geteway_url'])) {
             $this->getewayUrl = $config['geteway_url'];
+        }
+
+        // 初始化 付款账号名，如果是企业转账接口，必须提供该值
+        if (!empty($config['account_name'])) {
+            $this->account_name = $config['account_name'];
+        }
+
+        // 初始化 付款账号，付款方的支付宝账号，支持邮箱和手机号2种格式。
+        if (!empty($config['account'])) {
+            $this->account = $config['account'];
         }
     }
 }

@@ -31,13 +31,6 @@ use Payment\Config;
  */
 abstract class ChargeBaseData extends BaseData
 {
-    public function __construct(AliConfig $config, array $reqData)
-    {
-        parent::__construct($config, $reqData);
-
-        $this->checkPayDataParam();
-    }
-
     /**
      * 检查传入的支付参数是否正确
      *
@@ -45,7 +38,7 @@ abstract class ChargeBaseData extends BaseData
      *
      * @author helei
      */
-    protected function checkPayDataParam()
+    protected function checkDataParam()
     {
         $orderNo = $this->order_no;
         $amount = $this->amount;

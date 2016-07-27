@@ -35,25 +35,11 @@ class RefundData extends BaseData
     // 替换为安全的字符串
     protected $safe = ['', '', '', ''];
 
-    public function __construct(AliConfig $config, array $reqData)
-    {
-        parent::__construct($config, $reqData);
-
-        $this->sign_type = 'RSA';
-
-        try {
-            $this->checkRefundDataParam();
-        } catch (PayException $e) {
-            throw $e;
-        }
-
-    }
-
     /**
      * 检查退款数据是否正常
      * @author helei
      */
-    protected function checkRefundDataParam()
+    protected function checkDataParam()
     {
         $refundNo = $this->refund_no;
         $data = $this->refund_data;
@@ -94,8 +80,8 @@ class RefundData extends BaseData
         // 移除最后一个 # 号
         $refundData = trim($refundData, '#');
 
-        if (empty($count) || empty($refundData)) {
-            throw new PayException('经过检查，传入的合法交易数据集为空');
+        if (empty($count) || empty($refundData) || $count > 1000) {
+            throw new PayException('经过检查，传入的合法交易数据集为空，或者交易笔数大于1000');
         }
 
         $this->batch_num = $count;
@@ -109,8 +95,6 @@ class RefundData extends BaseData
     protected function buildData()
     {
         // 设置加密的方式
-        $this->signType = $this->sign_type;
-
         $signData = [
             // 基本参数
             'service'   => 'refund_fastpay_by_platform_pwd',
