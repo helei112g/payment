@@ -58,12 +58,18 @@ abstract class AliCharge implements ChargeStrategy
      * 支付的业务逻辑
      * @param array $data
      * @return array|string
+     * @throws PayException
      * @author helei
      */
     public function charge(array $data)
     {
         $chargeClass = $this->getChargeDataClass();
-        $this->chargeData = new $chargeClass($this->config, $data);
+
+        try {
+            $this->chargeData = new $chargeClass($this->config, $data);
+        } catch (PayException $e) {
+            throw $e;
+        }
 
         $this->chargeData->setSign();
 

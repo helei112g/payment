@@ -92,6 +92,10 @@ class ChargeContext
             throw new PayException('请检查初始化是否正确');
         }
 
-        return $this->payWay->charge($data);
+        try {
+            return $this->payWay->charge($data);
+        } catch (PayException $e) {
+            throw $e;
+        }
     }
 }

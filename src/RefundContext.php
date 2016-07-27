@@ -1,8 +1,8 @@
 <?php
 /**
  * @author: helei
- * @createTime: 2016-07-14 17:42
- * @description: 暴露给客户端调用的接口
+ * @createTime: 2016-07-27 17:42
+ * @description: 退款统一接口
  * @link      https://github.com/helei112g/payment/tree/paymentv2
  * @link      https://helei112g.github.io/
  */
@@ -10,40 +10,38 @@
 namespace Payment;
 
 
-
-use Payment\Notify\AliNotify;
-use Payment\Notify\NotifyStrategy;
-use Payment\Notify\PayNotifyInterface;
-use Payment\Notify\WxNotify;
 use Payment\Common\PayException;
+use Payment\Refund\AliRefund;
+use Payment\Refund\RefundStrategy;
+use Payment\Refund\WxRefund;
 
-class NotifyContext
+class RefundContext
 {
     /**
      * 支付的渠道
-     * @var NotifyStrategy
+     * @var RefundStrategy
      */
-    protected $notify;
+    protected $refund;
 
 
     /**
-     * 设置对应的通知渠道
-     * @param string $channel 通知渠道
+     * 设置对应的退款渠道
+     * @param string $channel 退款渠道
      *  - @see Config
      * 
      * @param array $config 配置文件
      * @throws PayException
      * @author helei
      */
-    public function initNotify($channel, array $config)
+    public function initRefund($channel, array $config)
     {
         try{
             switch ($channel) {
                 case Config::ALI:
-                    $this->notify = new AliNotify($config);
+                    $this->refund = new AliRefund($config);
                     break;
                 case Config::WEIXIN:
-                    $this->notify = new WxNotify($config);
+                    $this->refund = new WxRefund($config);
                     break;
                 default:
                     throw new PayException('当前仅支持：ALI WEIXIN两个常量');
@@ -57,17 +55,21 @@ class NotifyContext
     /**
      * 通过环境类调用支付异步通知
      *
-     * @param PayNotifyInterface $notify
+     * @param array $data
      * @return array
      * @throws PayException
      * @author helei
      */
-    public function notify(PayNotifyInterface $notify)
+    public function refund(array $data)
     {
-        if (! $this->notify instanceof NotifyStrategy) {
+        if (! $this->refund instanceof RefundStrategy) {
             throw new PayException('请检查初始化是否正确');
         }
 
-        return $this->notify->handle($notify);
+        try {
+            return $this->refund->handle($data);
+        } catch (PayException $e) {
+            throw $e;
+        }
     }
 }
