@@ -80,8 +80,36 @@ class AliNotify extends NotifyStrategy
     /**
      * 向客户端返回必要的数据
      * @param array $data 回调机构返回的回调通知数据
+     * @return array|false
+     * @author helei
+     */
+    protected function getRetData(array $data)
+    {
+        $notifyType = $data['notify_type'];// 通知的类型。['trade_status_sync', 'batch_refund_notify', 'batch_trans_notify']
+
+        $retData = '';
+        switch ($notifyType) {
+            case 'trade_status_sync':
+                $retData = $this->getTradeData($data);
+                break;
+            case 'batch_refund_notify':
+                $retData = $this->getRefundData($data);
+                break;
+            case 'batch_trans_notify':
+                $retData = $this->getTransferData($data);
+                break;
+            default :
+                $retData = false;
+        }
+
+        return $retData;
+    }
+
+    /**
+     * 处理 通知类型是 trade_status_sync 的数据，其结果作为返回值，返回给客户端
+     * @param array $data
      *
-     * 以下数据为支付宝返回的数据
+     *      * 以下数据为支付宝返回的数据 trade_status_sync 返回的数据
      * ```php
      * $data['discount']  折扣   支付宝系统会把discount的值加到交易金额上，如果需要折扣，本参数为负数。
      * $data['payment_type']  支付类型  只支持取值为1（商品购买）
@@ -112,7 +140,7 @@ class AliNotify extends NotifyStrategy
      * $data['extra_common_param']   公用回传参数
      * ```
      *
-     * @return array|false
+     * @return array|bool
      * @author helei
      */
     protected function getTradeData(array $data)
@@ -134,6 +162,7 @@ class AliNotify extends NotifyStrategy
             'transaction_id'   => $data['trade_no'],
             'time_end'   => $data['gmt_payment'],
             'notify_time'   => $data['notify_time'],
+            'notify_type'   => Config::TRADE_NOTIFY,// 通知类型为 支付行为
         ];
 
         // 检查是否存在用户自定义参数
@@ -143,6 +172,79 @@ class AliNotify extends NotifyStrategy
 
         return $retData;
     }
+
+    /**
+     * 处理退款的返回数据，返回给客户端
+     * @param array $data
+     *
+     * ```php
+     *  $data['notify_time']   通知的发送时间。格式为yyyy-MM-dd HH:mm:ss
+     *  $data['notify_type']   通知类型， batch_refund_notify
+     *  $data['notify_id']   通知校验ID
+     *  $data['sign_type']   DSA、RSA、MD5三个值可选，必须大写
+     *  $data['sign']   签名
+     *  $data['batch_no']   原请求退款批次号。
+     *  $data['success_num']   退款成功总数
+     *  $data['result_details']   退款结果明细  为了简洁不返回客户端
+     * ```
+     * @return array
+     * @author helei
+     */
+    protected function getRefundData(array $data)
+    {
+        $retData = [
+            'channel'   => Config::ALI,
+            'refund_no'   => $data['batch_no'],
+            'success_num'   => $data['success_num'],
+            'notify_time'   => $data['notify_time'],
+            'notify_type'   => Config::REFUND_NOTIFY,// 通知类型为 退款行为
+        ];
+
+        return $retData;
+    }
+
+    /**
+     * 处理批量付款的通知类型
+     * @param array $data
+     *
+     * ```php
+     *  $data['notify_time']   通知的发送时间。格式为yyyy-MM-dd HH:mm:ss
+     *  $data['notify_type']   通知类型， batch_refund_notify
+     *  $data['notify_id']   通知校验ID
+     *  $data['sign_type']   DSA、RSA、MD5三个值可选，必须大写
+     *  $data['sign']   签名
+     *  $data['batch_no']   转账批次号。
+     *  $data['pay_user_id']   付款账号ID   以2088开头的16位纯数字组成。
+     *  $data['pay_user_name']   付款账号姓名
+     *  $data['pay_account_no']   付款账号。
+     *  $data['success_details']   批量付款中成功付款的信息。
+     *  $data['fail_details']   批量付款中未成功付款的信息。
+     * ```
+     *
+     * @return array
+     * @author helei
+     */
+    protected function getTransferData(array $data)
+    {
+        // 转账成功的信息  单条数据格式：流水号^收款方账号^收款账号姓名^付款金额^成功标识(S)^成功原因(null)^支付宝内部流水号^完成时间。
+        $successData = explode('|', $data['success_details']);
+        // 转账失败的信息  单条记录数据格式：流水号^收款方账号^收款账号姓名^付款金额^失败标识(F)^失败原因^支付宝内部流水号^完成时间。
+        $failData = explode('|', $data['fail_details']);
+
+        $retData = [
+            'channel'   => Config::ALI,
+            'trans_no'   => $data['batch_no'],
+            'pay_name'   => $data['pay_user_name'],
+            'pay_account'   => $data['pay_account_no'],
+            'notify_time'   => $data['notify_time'],
+            'notify_type'   => Config::REFUND_NOTIFY,// 通知类型为 退款行为
+            'success'   => $successData,
+            'fail'  => $failData,
+        ];
+
+        return $retData;
+    }
+
 
     /**
      * 支付宝，成功返回 ‘success’   失败，返回 ‘fail’
@@ -165,7 +267,7 @@ class AliNotify extends NotifyStrategy
      * @return string
      * @author helei
      */
-    private function getTradeStatus($status)
+    protected function getTradeStatus($status)
     {
         if (in_array($status, ['TRADE_SUCCESS', 'TRADE_FINISHED'])) {
             return Config::TRADE_STATUS_SUCC;
@@ -184,7 +286,7 @@ class AliNotify extends NotifyStrategy
      * @return boolean
      * @author helei
      */
-    private function isFromAli($notify_id)
+    protected function isFromAli($notify_id)
     {
         if (empty($notify_id)) {
             return false;
@@ -216,7 +318,7 @@ class AliNotify extends NotifyStrategy
      * @return boolean
      * @author helei
      */
-    private function verifySign(array $data)
+    protected function verifySign(array $data)
     {
         $signType = strtoupper($data['sign_type']);
         $sign = $data['sign'];

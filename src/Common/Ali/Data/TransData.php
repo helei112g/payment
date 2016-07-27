@@ -90,18 +90,18 @@ class TransData extends BaseData
         foreach ($data as $key => $item) {
             // 检查备注
             $desc = str_replace($this->danger, $this->safe, $item['desc']);
-            if (empty($desc) || mb_strlen($desc) > 200) {
-                throw new PayException("trans_data 索引为{$key}的数据，备注说明不能为空，并且不能超过200字节");
+            if (empty($desc) || mb_strlen($desc) > 50) {
+                throw new PayException("trans_data 索引为{$key}的数据，备注说明不能为空，并且不能超过50个字符");
             }
 
             // 检查流水号
-            if (empty($item['serial_no']) || mb_strlen($item['serial_no']) > 64) {
-                throw new PayException("trans_data 索引为{$key}的数据，流水号不能为空，并且长度不能超过64字节");
+            if (empty($item['serial_no']) || mb_strlen($item['serial_no']) > 22) {
+                throw new PayException("trans_data 索引为{$key}的数据，流水号不能为空，并且长度不能超过22个字符");
             }
 
             // 检查收款方账号
-            if (empty($item['user_account']) || mb_strlen($item['user_account']) > 100) {
-                throw new PayException("trans_data 索引为{$key}的数据，收款方账号不能为空，并且长度不能超过100字节");
+            if (empty($item['user_account']) || mb_strlen($item['user_account']) > 50) {
+                throw new PayException("trans_data 索引为{$key}的数据，收款方账号不能为空，并且长度不能超过50个字符");
             }
 
             // 检查付款金额

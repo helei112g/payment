@@ -53,4 +53,14 @@ final class Config
 
     // 交易退款成功
     const TRADE_STATUS_REFUND_SUCC = 'refund_succ';
+
+    // 通知类型
+    // 支付的交易通知
+    const TRADE_NOTIFY = 'trade';
+
+    // 退款的通知
+    const REFUND_NOTIFY = 'refund';
+
+    // 转账的通知
+    const TRANSFER_NOTIFY = 'transfer';
 }

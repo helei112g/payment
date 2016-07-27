@@ -55,7 +55,7 @@ abstract class NotifyStrategy
      */
     protected function callback(PayNotifyInterface $notify, array $notifyData)
     {
-        $data = $this->getTradeData($notifyData);
+        $data = $this->getRetData($notifyData);
         if ($data === false) {
             return false;
         }
@@ -90,7 +90,7 @@ abstract class NotifyStrategy
      * @return array|false
      * @author helei
      */
-    abstract protected function getTradeData(array $data);
+    abstract protected function getRetData(array $data);
 
     /**
      * 根据返回结果，回答支付机构。是否回调通知成功
