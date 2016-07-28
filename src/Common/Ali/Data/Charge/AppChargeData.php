@@ -19,6 +19,8 @@ class AppChargeData extends ChargeBaseData
      */
     protected function buildData()
     {
+        $timeExpire = $this->timeExpire;
+
         $signData = [
             // 基本参数
             'service'   => '"' . 'mobile.securitypay.pay' . '"',
@@ -35,8 +37,11 @@ class AppChargeData extends ChargeBaseData
             'total_fee' => '"' . trim($this->amount) . '"',
             'body'  => '"' . trim($this->body) . '"',
             'goods_type'    => '"' . 1 . '"', //默认为实物类型
-            'it_b_pay'  => '"' . trim($this->timeExpire) . 'm"',// 超时时间 统一使用分钟计算
         ];
+
+        if (! empty($timeExpire)) {
+            $signData['it_b_pay'] = '"' . trim($this->timeExpire) . 'm"';// 超时时间 统一使用分钟计算
+        }
 
         // 移除数组中的空值
         $this->retData = ArrayUtil::paraFilter($signData);

@@ -32,6 +32,8 @@ class WapChargeData extends ChargeBaseData
      */
     protected function buildData()
     {
+        $timeExpire = $this->timeExpire;
+
         $signData = [
             // 基本参数
             'service'   => 'alipay.wap.create.direct.pay.by.user',
@@ -49,10 +51,13 @@ class WapChargeData extends ChargeBaseData
             'payment_type'  => 1,
             'show_url'  => trim($this->show_url),
             'body'  => trim($this->body),
-            'it_b_pay'  => trim($this->timeExpire) . 'm',// 超时时间 统一使用分钟计算
             'goods_type'    => 1, //默认为实物类型
             //'app_pay'   => 'Y', // 是否使用支付宝客户端支付  如果为Y，需要处理alipays协议
         ];
+
+        if (! empty($timeExpire)) {
+            $signData['it_b_pay'] = trim($this->timeExpire) . 'm';// 超时时间 统一使用分钟计算
+        }
 
         // 移除数组中的空值
         $this->retData = ArrayUtil::paraFilter($signData);

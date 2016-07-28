@@ -28,6 +28,8 @@ class WebChargeData extends ChargeBaseData
      */
     protected function buildData()
     {
+        $timeExpire = $this->timeExpire;
+
         $signData = [
             // 基本参数
             'service'   => 'create_direct_pay_by_user',
@@ -47,10 +49,13 @@ class WebChargeData extends ChargeBaseData
             'paymethod' => 'directPay',// 默认采用余额支付
             'exter_invoke_ip'   => trim($this->client_ip),
             'extra_common_param'    => trim($this->extra_param),
-            'it_b_pay'  => trim($this->timeExpire) . 'm',
             'qr_pay_mode'   => 2,
             'goods_type'    => 1, //默认为实物类型
         ];
+
+        if (! empty($timeExpire)) {
+            $signData['it_b_pay'] = trim($this->timeExpire) . 'm';// 超时时间 统一使用分钟计算
+        }
 
         // 移除数组中的空值
         $this->retData = ArrayUtil::paraFilter($signData);
