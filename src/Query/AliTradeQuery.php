@@ -35,6 +35,18 @@ class AliTradeQuery extends AliBaseStrategy
     {
         $url = parent::handle($data);
 
+        return $this->request($url);
+    }
+
+    /**
+     * 进行网络请求，获取订单查询结果
+     * @param string $url
+     * @return array
+     * @throws PayException
+     * @author helei
+     */
+    protected function request($url)
+    {
         // 发起网络请求
         $curl = new Curl();
         $responseTxt = $curl->set([
