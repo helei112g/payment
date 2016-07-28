@@ -7,16 +7,15 @@
  * @link      https://helei112g.github.io/
  */
 
-namespace Payment\Charge\Ali;
+namespace Payment\Common\Ali;
 
-
-use Payment\Charge\ChargeStrategy;
-use Payment\Common\Ali\Data\Charge\ChargeBaseData;
+use Payment\Common\Ali\Data\BaseData;
 use Payment\Common\AliConfig;
+use Payment\Common\BaseStrategy;
 use Payment\Common\PayException;
 use Payment\Utils\ArrayUtil;
 
-abstract class AliCharge implements ChargeStrategy
+abstract class AliBaseStrategy implements BaseStrategy
 {
     /**
      * 支付宝的配置文件
@@ -26,9 +25,9 @@ abstract class AliCharge implements ChargeStrategy
 
     /**
      * 支付数据
-     * @var ChargeBaseData $chargeData
+     * @var BaseData $reqData
      */
-    protected $chargeData;
+    protected $reqData;
 
     /**
      * AliCharge constructor.
@@ -49,31 +48,24 @@ abstract class AliCharge implements ChargeStrategy
 
     /**
      * 获取支付对应的数据完成类
-     * @return ChargeBaseData
+     * @return BaseData
      * @author helei
      */
-    abstract protected function getChargeDataClass();
+    abstract protected function getBuildDataClass();
 
-    /**
-     * 支付的业务逻辑
-     * @param array $data
-     * @return array|string
-     * @throws PayException
-     * @author helei
-     */
-    public function charge(array $data)
+    public function handle(array $data)
     {
-        $chargeClass = $this->getChargeDataClass();
+        $buildClass = $this->getBuildDataClass();
 
         try {
-            $this->chargeData = new $chargeClass($this->config, $data);
+            $this->reqData = new $buildClass($this->config, $data);
         } catch (PayException $e) {
             throw $e;
         }
 
-        $this->chargeData->setSign();
+        $this->reqData->setSign();
 
-        $data = $this->chargeData->getData();
+        $data = $this->reqData->getData();
         if ('Payment\Charge\Ali\AliAppCharge' == get_called_class()) {
             // 如果是移动支付，直接返回数据信息。并且对sign做urlencode编码
             $data['sign'] = urlencode($data['sign']);

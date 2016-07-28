@@ -10,9 +10,10 @@
 namespace Payment\Charge\Ali;
 
 
+use Payment\Common\Ali\AliBaseStrategy;
 use Payment\Common\Ali\Data\Charge\WapChargeData;
 
-class AliWapCharge extends AliCharge
+class AliWapCharge extends AliBaseStrategy
 {
 
     /**
@@ -20,7 +21,7 @@ class AliWapCharge extends AliCharge
      * @return string
      * @author helei
      */
-    protected function getChargeDataClass()
+    protected function getBuildDataClass()
     {
         // 以下两种方式任选一种
         return WapChargeData::class;

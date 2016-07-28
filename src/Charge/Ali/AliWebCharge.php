@@ -9,16 +9,17 @@
 
 namespace Payment\Charge\Ali;
 
+use Payment\Common\Ali\AliBaseStrategy;
 use Payment\Common\Ali\Data\Charge\WebChargeData;
 
-class AliWebCharge extends AliCharge
+class AliWebCharge extends AliBaseStrategy
 {
     /**
      * 获取支付对应的数据完成类
      * @return string
      * @author helei
      */
-    protected function getChargeDataClass()
+    protected function getBuildDataClass()
     {
         // 以下两种方式均可以
         return WebChargeData::class;

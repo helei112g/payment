@@ -1,7 +1,7 @@
 <?php
 /**
  * @author: helei
- * @createTime: 2016-07-27 15:40
+ * @createTime: 2016-07-28 17:24
  * @description:
  */
 
@@ -10,35 +10,36 @@ namespace Payment;
 
 use Payment\Common\BaseStrategy;
 use Payment\Common\PayException;
-use Payment\Trans\AliTransfer;
-use Payment\Trans\WxTransfer;
+use Payment\Query\AliTradeQuery;
+use Payment\Query\WxTradeQuery;
 
-class TransferContext
+class QueryContext
 {
     /**
-     * 转款渠道
+     * 查询的渠道
      * @var BaseStrategy
      */
-    protected $transfer;
+    protected $query;
+
 
     /**
-     * 设置对应的退款渠道
-     * @param string $channel 退款渠道
+     * 设置对应的查询渠道
+     * @param string $channel 查询渠道
      *  - @see Config
      *
      * @param array $config 配置文件
      * @throws PayException
      * @author helei
      */
-    public function initTransfer($channel, array $config)
+    public function initQuery($channel, array $config)
     {
         try{
             switch ($channel) {
                 case Config::ALI:
-                    $this->transfer = new AliTransfer($config);
+                    $this->query = new AliTradeQuery($config);
                     break;
                 case Config::WEIXIN:
-                    $this->transfer = new WxTransfer($config);
+                    $this->query = new WxTradeQuery($config);
                     break;
                 default:
                     throw new PayException('当前仅支持：ALI WEIXIN两个常量');
@@ -50,31 +51,27 @@ class TransferContext
     }
 
     /**
-     * 通过环境类调用支付转款操作
+     * 通过环境类调用支付异步通知
      *
      * @param array $data
-     *
-     * $data['trans_no']    = '';// 转款单号
-     * $data['trans_data'][] = [
-     *      'serial_no' => '流水号',
-     *      'user_account'   => '收款账号',
-     *      'user_name'     => '收款人姓名',
-     *      'trans_fee'       => '付款金额',
-     *      'desc'      => '付款备注说明',
-     *  ];
+     *      // 二者设置一个即可
+     *      $data => [
+     *          'transaction_id'    => '原付款支付宝交易号',
+     *          'order_no' => '商户订单号',
+     *      ];
      *
      * @return array
      * @throws PayException
      * @author helei
      */
-    public function transfer(array $data)
+    public function query(array $data)
     {
-        if (! $this->transfer instanceof BaseStrategy) {
+        if (! $this->query instanceof BaseStrategy) {
             throw new PayException('请检查初始化是否正确');
         }
 
         try {
-            return $this->transfer->handle($data);
+            return $this->query->handle($data);
         } catch (PayException $e) {
             throw $e;
         }

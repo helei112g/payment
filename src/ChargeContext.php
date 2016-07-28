@@ -13,17 +13,17 @@ namespace Payment;
 use Payment\Charge\Ali\AliAppCharge;
 use Payment\Charge\Ali\AliWapCharge;
 use Payment\Charge\Ali\AliWebCharge;
-use Payment\Charge\ChargeStrategy;
 use Payment\Charge\Weixin\WxAppCharge;
 use Payment\Charge\Weixin\WxPubCharge;
 use Payment\Charge\Weixin\WxWebCharge;
+use Payment\Common\BaseStrategy;
 use Payment\Common\PayException;
 
 class ChargeContext
 {
     /**
      * 支付的渠道
-     * @var ChargeStrategy
+     * @var BaseStrategy
      */
     protected $payWay;
 
@@ -88,12 +88,12 @@ class ChargeContext
      */
     public function charge(array $data)
     {
-        if (! $this->payWay instanceof ChargeStrategy) {
+        if (! $this->payWay instanceof BaseStrategy) {
             throw new PayException('请检查初始化是否正确');
         }
 
         try {
-            return $this->payWay->charge($data);
+            return $this->payWay->handle($data);
         } catch (PayException $e) {
             throw $e;
         }

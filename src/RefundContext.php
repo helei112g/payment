@@ -10,16 +10,16 @@
 namespace Payment;
 
 
+use Payment\Common\BaseStrategy;
 use Payment\Common\PayException;
 use Payment\Refund\AliRefund;
-use Payment\Refund\RefundStrategy;
 use Payment\Refund\WxRefund;
 
 class RefundContext
 {
     /**
-     * 支付的渠道
-     * @var RefundStrategy
+     * 退款的渠道
+     * @var BaseStrategy
      */
     protected $refund;
 
@@ -53,7 +53,7 @@ class RefundContext
     }
 
     /**
-     * 通过环境类调用支付异步通知
+     * 通过环境类调用支付退款操作
      *
      * @param array $data
      *
@@ -70,7 +70,7 @@ class RefundContext
      */
     public function refund(array $data)
     {
-        if (! $this->refund instanceof RefundStrategy) {
+        if (! $this->refund instanceof BaseStrategy) {
             throw new PayException('请检查初始化是否正确');
         }
 
