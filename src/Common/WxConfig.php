@@ -10,7 +10,110 @@
 namespace Payment\Common;
 
 
+use Payment\Utils\ArrayUtil;
+use Payment\Utils\StrUtil;
+
 final class WxConfig extends ConfigInterface
 {
+    // 微信支付的网关
+    public $getewayUrl = 'https://api.mch.weixin.qq.com/';
+
+    // 微信分配的公众账号ID
+    public $appId;
+
+    // 微信支付分配的商户号
+    public $mchId;
+
+    // 随机字符串，不长于32位
+    public $nonceStr;
+
+    // 符合ISO 4217标准的三位字母代码
+    public $feeType = 'CNY';
+
+    // 用于异步通知的地址
+    public $notifyUrl;
+
+    // 交易开始时间 格式为yyyyMMddHHmmss
+    public $timeStart;
+
+    // 订单在微信服务器过期的时间，过期后无法支付
+    public $timeExpire;
+
+    // 用于加密的md5Key
+    public $md5Key;
+
+    /**
+     * 初始化微信配置文件
+     * WxConfig constructor.
+     * @param array $config
+     * @throws PayException
+     */
+    public function __construct(array $config)
+    {
+        try {
+            $this->initConfig($config);
+        } catch (PayException $e) {
+            throw $e;
+        }
+
+        $basePath = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'Weixin' . DIRECTORY_SEPARATOR;
+    }
+
+    /**
+     * 初始化配置文件参数
+     * @param array $config
+     * @throws PayException
+     */
+    private function initConfig(array $config)
+    {
+        $config = ArrayUtil::paraFilter($config);
+
+        // 检查 微信分配的公众账号ID
+        if (key_exists('app_id', $config) && !empty($config['app_id'])) {
+            $this->appId = $config['app_id'];
+        } else {
+            throw new PayException('必须提供微信分配的公众账号ID');
+        }
+
+        // 检查 微信支付分配的商户号
+        if (key_exists('mch_id', $config) && !empty($config['mch_id'])) {
+            $this->mchId = $config['mch_id'];
+        } else {
+            throw new PayException('必须提供微信支付分配的商户号');
+        }
+
+        // 生成随机字符串
+        $this->nonceStr = StrUtil::getNonceStr();
+
+        // 检查 异步通知的url
+        if (key_exists('notify_url', $config) && !empty($config['notify_url'])) {
+            $this->notifyUrl = trim($config['notify_url']);
+        } else {
+            throw new PayException('异步通知的url必须提供.');
+        }
+
+        // 设置交易开始时间 格式为yyyyMMddHHmmss   .再次之前一定要设置时区
+        $this->timeStart = date('YmdHsi', time());
+
+        // 初始 微信订单过期时间，最短失效时间间隔必须大于5分钟
+        if (key_exists('time_expire', $config) && !empty($config['time_expire']) && $config['time_expire'] >= 5) {
+            $this->timeExpire = $this->timeStart + ($config['time_expire'] * 60);
+        } else {
+            throw new PayException('必须设置订单过期时间,且需要大于5分钟.如果不正确请检查是否正确设置时区');
+        }
+
+        // 初始 支付宝网关地址
+        if (key_exists('geteway_url', $config) && !empty($config['geteway_url'])) {
+            $this->getewayUrl = $config['geteway_url'];
+        }
+
+        // 初始 MD5 key
+        if (key_exists('md5_key', $config) && !empty($config['md5_key'])) {
+            $this->md5Key = $config['md5_key'];
+        } else {
+            throw new PayException('MD5 Key 不能为空，再微信商户后台可查看');
+        }
+    }
+
 
 }
