@@ -27,7 +27,7 @@ use Payment\Utils\ArrayUtil;
  * @package Payment\Common\Ali\Data
  * anthor helei
  */
-class RefundData extends BaseData
+class RefundData extends AliBaseData
 {
     // 退款理由中不能包含以下字符。直接进行过滤
     protected $danger = ['^', '|', '$', '#'];

@@ -2,28 +2,16 @@
 /**
  * @author: helei
  * @createTime: 2016-07-28 18:05
- * @description: 微信支付相关接口的数据基类
+ * @description: 支付相关接口的数据基类
  */
 
-namespace Payment\Common\Weixin\Data;
+namespace Payment\Common;
 
 use Payment\Common\PayException;
-use Payment\Common\WxConfig;
 use Payment\Utils\ArrayUtil;
 
 /**
  * Class BaseData
- *
- * @property string $getewayUrl  微信支付的网关
- * @property string $appId   微信分配的公众账号ID
- * @property string $mchId  微信支付分配的商户号
- * @property string $nonceStr  随机字符串，不长于32位
- * @property string $notifyUrl  异步通知的url
- * @property string $feeType  符合ISO 4217标准的三位字母代码 默认位人民币
- * @property integer $timeExpire  订单过期时间  格式为yyyyMMddHHmmss 与开始时间必须大于等于5分钟
- * @property string $timeStart  交易开始时间 格式为yyyyMMddHHmmss
- * @property string $md5Key  用于加密的md5Key
- * @property string $signType  加密方式。默认md5
  *
  * @package Payment\Common\Weixin\Dataa
  */
@@ -44,13 +32,13 @@ abstract class BaseData
 
     /**
      * BaseData constructor.
-     * @param WxConfig $wxConfig
+     * @param ConfigInterface $config
      * @param array $reqData
      * @throws PayException
      */
-    public function __construct(WxConfig $wxConfig, array $reqData)
+    public function __construct(ConfigInterface $config, array $reqData)
     {
-        $this->data = array_merge($reqData, $wxConfig->toArray());
+        $this->data = array_merge($reqData, $config->toArray());
 
         try {
             $this->checkDataParam();
@@ -119,20 +107,7 @@ abstract class BaseData
      * @param string $signStr
      * @return string
      */
-    protected function makeSign($signStr)
-    {
-        $sign = '';
-        switch ($this->signType) {
-            case 'MD5':
-                $signStr .= '&key=' . $this->md5Key;
-                $sign = md5($signStr);
-                break;
-            default :
-                $sign = '';
-        }
-
-        return strtoupper($sign);
-    }
+    abstract protected function makeSign($signStr);
 
     /**
      * 构建用于支付的签名相关数据

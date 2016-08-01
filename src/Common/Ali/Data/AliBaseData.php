@@ -10,6 +10,7 @@
 namespace Payment\Common\Ali\Data;
 
 use Payment\Common\AliConfig;
+use Payment\Common\BaseData;
 use Payment\Common\PayException;
 use Payment\Utils\ArrayUtil;
 use Payment\Utils\RsaEncrypt;
@@ -34,85 +35,20 @@ use Payment\Utils\RsaEncrypt;
  * @package Payment\Charge\Ali\Data
  * anthor helei
  */
-abstract class BaseData
+abstract class AliBaseData extends BaseData
 {
-    /**
-     * 支付的请求数据
-     * @var array $data
-     */
-    protected $data;
 
     /**
-     * 支付返回的数据
-     * @var array $retData
+     * AliBaseData constructor.
+     * @param AliConfig $config
+     * @param array $reqData
+     * @throws PayException
      */
-    protected $retData;
-
-
     public function __construct(AliConfig $config, array $reqData)
     {
-        $this->data = array_merge($reqData, $config->toArray());
-
-        try {
-            $this->checkDataParam();
-        } catch (PayException $e) {
-            throw $e;
-        }
+        parent::__construct($config, $reqData);
 
         $this->signType = 'RSA';// 默认使用RSA 进行加密处理
-    }
-
-    /**
-     * 获取变量，通过魔术方法
-     * @param string $name
-     * @return null|string
-     * @author helei
-     */
-    protected function __get($name)
-    {
-        if (isset($this->data[$name])) {
-            return $this->data[$name];
-        }
-
-        return null;
-    }
-
-    /**
-     * 设置变量
-     * @param $name
-     * @param $value
-     * @author helei
-     */
-    protected function __set($name, $value)
-    {
-        $this->data[$name] = $value;
-    }
-
-    /**
-     * 设置签名
-     * @author helei
-     */
-    public function setSign()
-    {
-        $this->buildData();
-
-        $values = ArrayUtil::removeKeys($this->retData, ['sign', 'sign_type']);
-
-        $values = ArrayUtil::arraySort($values);
-
-        $signStr = ArrayUtil::createLinkstring($values);
-
-        $this->retData['sign'] = $this->makeSign($signStr);
-    }
-
-    /**
-     * 返回处理之后的数据
-     * @return array
-     * @author helei
-     */
-    public function getData()
-    {
-        return $this->retData;
     }
 
     /**
@@ -141,19 +77,4 @@ abstract class BaseData
 
         return $sign;
     }
-
-    /**
-     * 设置支付相关参数，  该接口本可在此进行抽象，但为了便于后期维护，此处全部延迟到子类处理
-     * @return mixed
-     * @author helei
-     */
-    abstract protected function buildData();
-
-    /**
-     * 检查参数是否正确 错误以PayException返回
-     * @return mixed
-     * @throws PayException
-     * @author helei
-     */
-    abstract protected function checkDataParam();
 }

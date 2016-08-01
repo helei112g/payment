@@ -20,7 +20,7 @@ use Payment\Utils\ArrayUtil;
  * @package Payment\Common\Ali\Data
  * anthor helei
  */
-class TradeQueryData extends BaseData
+class TradeQueryData extends AliBaseData
 {
 
     protected function buildData()

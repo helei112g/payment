@@ -17,7 +17,7 @@ use Payment\Common\PayException;
  *
  * anthor helei
  */
-class ShortUrlData extends BaseData
+class ShortUrlData extends WxBaseData
 {
 
     protected function buildData()

@@ -7,6 +7,7 @@
  */
 
 namespace Payment\Common\Weixin\Data\Charge;
+
 use Payment\Common\PayException;
 use Payment\Utils\ArrayUtil;
 

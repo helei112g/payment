@@ -10,7 +10,7 @@
 
 namespace Payment\Common\Weixin\Data\Charge;
 use Payment\Common\PayException;
-use Payment\Common\Weixin\Data\BaseData;
+use Payment\Common\Weixin\Data\WxBaseData;
 use Payment\Config;
 
 /**
@@ -30,7 +30,7 @@ use Payment\Config;
  *
  * @package Payment\Common\Weixin\Data\Charge
  */
-abstract class ChargeBaseData extends BaseData
+abstract class ChargeBaseData extends WxBaseData
 {
 
     /**

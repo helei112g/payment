@@ -8,7 +8,7 @@
 namespace Payment\Common\Ali\Data\Charge;
 
 
-use Payment\Common\Ali\Data\BaseData;
+use Payment\Common\Ali\Data\AliBaseData;
 use Payment\Common\AliConfig;
 use Payment\Common\PayException;
 use Payment\Config;
@@ -29,7 +29,7 @@ use Payment\Config;
  * @package Payment\Common\Ali\Data\Charge
  * anthor helei
  */
-abstract class ChargeBaseData extends BaseData
+abstract class ChargeBaseData extends AliBaseData
 {
     /**
      * 检查传入的支付参数是否正确

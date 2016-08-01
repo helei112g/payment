@@ -30,7 +30,7 @@ use Payment\Utils\ArrayUtil;
  * @package Payment\Common\Ali\Data
  * anthor helei
  */
-class TransData extends BaseData
+class TransData extends AliBaseData
 {
     // 付款描述中不能包含以下字符。直接进行过滤
     protected $danger = ['^', '|', '$', '#'];
