@@ -30,7 +30,7 @@ final class Config
     const WEIXIN = 'wx';
 
     // 微信公众账号 扫码支付  主要用于pc站点
-    const WX_CHANNEL_WEB = 'wx_web';
+    const WX_CHANNEL_QR = 'wx_web';
 
     // 微信 公众账号 支付
     const WX_CHANNEL_PUB = 'wx_pub';

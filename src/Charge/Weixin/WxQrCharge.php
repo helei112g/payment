@@ -9,14 +9,14 @@
 
 namespace Payment\Charge\Weixin;
 
-use Payment\Common\Weixin\Data\Charge\WebChargeData;
+use Payment\Common\Weixin\Data\Charge\QrChargeData;
 use Payment\Common\Weixin\WxBaseStrategy;
 
-class WxWebCharge extends WxBaseStrategy
+class WxQrCharge extends WxBaseStrategy
 {
 
     protected function getBuildDataClass()
     {
-        return WebChargeData::class;
+        return QrChargeData::class;
     }
 }

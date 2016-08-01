@@ -42,6 +42,24 @@ final class WxConfig extends ConfigInterface
     // 用于加密的md5Key
     public $md5Key;
 
+    // 统一下单url
+    const UNIFIED_URL = 'https://api.mch.weixin.qq.com/pay/unifiedorder';
+
+    // 查询url
+    const ORDER_QUERY_URL = 'https://api.mch.weixin.qq.com/pay/orderquery';
+
+    // 关闭订单url
+    const CLOSE_URL = 'https://api.mch.weixin.qq.com/pay/closeorder';
+
+    // 申请退款url
+    const REFUND_URL = 'https://api.mch.weixin.qq.com/secapi/pay/refund';
+
+    // 查询退款url
+    const REFUDN_QUERY_URL = 'https://api.mch.weixin.qq.com/pay/refundquery';
+
+    // 短连接转化url
+    const SHORT_URL = 'https://api.mch.weixin.qq.com/tools/shorturl';
+
     /**
      * 初始化微信配置文件
      * WxConfig constructor.
@@ -93,7 +111,7 @@ final class WxConfig extends ConfigInterface
         }
 
         // 设置交易开始时间 格式为yyyyMMddHHmmss   .再次之前一定要设置时区
-        $this->timeStart = date('YmdHsi', time());
+        $this->timeStart = date('YmdHis', time());
 
         // 初始 微信订单过期时间，最短失效时间间隔必须大于5分钟
         if (key_exists('time_expire', $config) && !empty($config['time_expire']) && $config['time_expire'] >= 5) {

@@ -8,11 +8,15 @@
 namespace Payment\Common\Weixin;
 
 
+use Payment\Charge\Weixin\WxAppCharge;
+use Payment\Charge\Weixin\WxPubCharge;
+use Payment\Charge\Weixin\WxQrCharge;
 use Payment\Common\BaseStrategy;
 use Payment\Common\PayException;
 use Payment\Common\Weixin\Data\BaseData;
 use Payment\Common\WxConfig;
-use Payment\Utils\ArrayUtil;
+use Payment\Utils\Curl;
+use Payment\Utils\DataParser;
 
 abstract class WxBaseStrategy implements BaseStrategy
 {
@@ -53,6 +57,62 @@ abstract class WxBaseStrategy implements BaseStrategy
      */
     abstract protected function getBuildDataClass();
 
+    /**
+     * 发送完了请求
+     * @param string $xml
+     * @return mixed
+     * @throws PayException
+     * @author helei
+     */
+    protected function sendReq($xml)
+    {
+        $url = $this->getReqUrl();
+
+        $curl = new Curl();
+        $responseTxt = $curl->set([
+            'CURLOPT_HEADER'    => 0
+        ])->post($xml)->submit($url);
+
+        if ($responseTxt['error']) {
+            throw new PayException('网络发生错误，请稍后再试');
+        }
+        // 格式化为数组
+        $retData = DataParser::toArray($responseTxt['body']);
+        if ($retData['return_code']) {
+            throw new PayException($retData['return_msg']);
+        }
+
+        return $retData;
+    }
+
+    /**
+     * 获取需要的url
+     * @author helei
+     */
+    protected function getReqUrl()
+    {
+        $class = get_called_class();
+
+        $chargeClass = $this->getChargeClassName();
+        if (in_array($class, $chargeClass)) {
+            return WxConfig::UNIFIED_URL;
+        }
+    }
+
+    /**
+     * 返回可以进行支付的类
+     * @return array
+     * @author helei
+     */
+    protected function getChargeClassName()
+    {
+        return [
+            WxAppCharge::class,
+            WxPubCharge::class,
+            WxQrCharge::class,
+        ];
+    }
+
     public function handle(array $data)
     {
         $buildClass = $this->getBuildDataClass();
@@ -64,15 +124,11 @@ abstract class WxBaseStrategy implements BaseStrategy
         }
 
         $this->reqData->setSign();
-
         $data = $this->reqData->getData();
-        if ('Payment\Charge\Weixin\WxAppCharge' == get_called_class()) {
-            // 如果是移动支付，直接返回数据信息。并且对sign做urlencode编码
-            $data['sign'] = urlencode($data['sign']);
-            return ArrayUtil::createLinkstring($data);
-        }
 
-        $retData = $this->config->getewayUrl . http_build_query($data);
-        return $retData;
+        $xml = DataParser::toXml($data);
+        $ret = $this->sendReq($xml);
+
+        var_dump($ret);exit;
     }
 }

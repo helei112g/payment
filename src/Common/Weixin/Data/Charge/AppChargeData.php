@@ -11,6 +11,7 @@ use Payment\Utils\ArrayUtil;
 
 /**
  * Class AppChargeData
+ * 微信APP支付
  * @package Payment\Common\Weixin\Data\Charge
  */
 class AppChargeData extends ChargeBaseData

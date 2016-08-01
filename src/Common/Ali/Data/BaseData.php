@@ -126,7 +126,7 @@ abstract class BaseData
         $sign = '';
         switch ($this->signType) {
             case 'MD5' :
-                $signStr .= $this->md5Key;
+                $signStr .= $this->md5Key;// 此处不需要通过 & 符号链接
                 $sign = md5($signStr);
                 break;
             case 'RSA' :

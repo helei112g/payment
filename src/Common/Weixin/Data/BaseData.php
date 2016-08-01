@@ -124,7 +124,7 @@ abstract class BaseData
         $sign = '';
         switch ($this->signType) {
             case 'MD5':
-                $signStr .= $this->md5Key;
+                $signStr .= '&key=' . $this->md5Key;
                 $sign = md5($signStr);
                 break;
             default :

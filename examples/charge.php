@@ -24,7 +24,7 @@ $payData = [
     "order_no"	=> createPayid(),
     "amount"	=> '0.01',// 单位为元 ,最小为0.01
     "client_ip"	=> '127.0.0.1',
-    "subject"	=> '      测试支付',
+    "subject"	=> '测试支付',
     "body"	=> '支付接口测试',
     "show_url"  => 'http://mall.tiyushe.com/goods/23.html',// 支付宝手机网站支付接口 该参数必须上传 。其他接口忽略
     "extra_param"	=> '',
@@ -60,7 +60,7 @@ try {
     $charge->initCharge($type, $aliconfig);*/
 
     // 微信 扫码支付
-    $type = Config::WX_CHANNEL_WEB;
+    $type = Config::WX_CHANNEL_QR;
     $charge->initCharge($type, $wxconfig);
 
     $ret = $charge->charge($payData);
@@ -70,8 +70,9 @@ try {
 
 if ($type === Config::ALI_CHANNEL_APP) {
     var_dump($ret);
-} elseif ($type === Config::WX_CHANNEL_WEB) {
-    echo "<img alt='扫码支付' src='http://paysdk.weixin.qq.com/example/qrcode.php?data=<?php echo urlencode({$ret});?>' style='width:150px;height:150px;'/>";
+} elseif ($type === Config::WX_CHANNEL_QR) {
+    $url = urlencode($ret);
+    echo "<img alt='扫码支付' src='http://paysdk.weixin.qq.com/example/qrcode.php?data={$url}' style='width:150px;height:150px;'/>";
 } elseif (stripos($type, 'wx') !== false) {
 
 } elseif (stripos($type, 'ali') !== false) {

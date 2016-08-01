@@ -6,9 +6,10 @@
  */
 
 return [
-    'app_id'    => 'wxxxxx',  // 公众账号ID
+    'app_id'    => 'xxx',  // 公众账号ID
     'mch_id'    => 'xxx',// 商户id
-    'md5_key'   => 'xxxxxx',// md5 秘钥
+    'md5_key'   => 'xxxx',
+
     'notify_url'    => 'http://test.helei.com/pay-notify.html',
     'time_expire'	=> '14',
 ];

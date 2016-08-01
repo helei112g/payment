@@ -15,10 +15,18 @@ use Payment\Charge\Ali\AliWapCharge;
 use Payment\Charge\Ali\AliWebCharge;
 use Payment\Charge\Weixin\WxAppCharge;
 use Payment\Charge\Weixin\WxPubCharge;
-use Payment\Charge\Weixin\WxWebCharge;
+use Payment\Charge\Weixin\WxQrCharge;
 use Payment\Common\BaseStrategy;
 use Payment\Common\PayException;
 
+/**
+ * Class ChargeContext
+ *
+ * 支付的上下文类
+ *
+ * @package Payment
+ * anthor helei
+ */
 class ChargeContext
 {
     /**
@@ -50,8 +58,8 @@ class ChargeContext
                 case Config::ALI_CHANNEL_APP:
                     $this->payWay = new AliAppCharge($config);
                     break;
-                case Config::WX_CHANNEL_WEB:
-                    $this->payWay = new WxWebCharge($config);
+                case Config::WX_CHANNEL_QR:
+                    $this->payWay = new WxQrCharge($config);
                     break;
                 case Config::WX_CHANNEL_PUB:
                     $this->payWay = new WxPubCharge($config);

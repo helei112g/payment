@@ -9,13 +9,13 @@
 
 namespace Payment\Charge\Weixin;
 
-use Payment\Common\Weixin\Data\Charge\WapChargeData;
+use Payment\Common\Weixin\Data\Charge\PubChargeData;
 use Payment\Common\Weixin\WxBaseStrategy;
 
 class WxPubCharge extends WxBaseStrategy
 {
     protected function getBuildDataClass()
     {
-        return WapChargeData::class;
+        return PubChargeData::class;
     }
 }
