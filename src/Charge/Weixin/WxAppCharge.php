@@ -9,14 +9,14 @@
 
 namespace Payment\Charge\Weixin;
 
+use Payment\Common\Weixin\Data\Charge\AppChargeData;
+use Payment\Common\Weixin\WxBaseStrategy;
 
-use Payment\Charge\ChargeStrategy;
-
-class WxAppCharge implements ChargeStrategy
+class WxAppCharge extends WxBaseStrategy
 {
 
-    public function charge()
+    protected function getBuildDataClass()
     {
-        // TODO: Implement charge() method.
+        return AppChargeData::class;
     }
 }
