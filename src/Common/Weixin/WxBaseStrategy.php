@@ -14,7 +14,9 @@ use Payment\Charge\Weixin\WxQrCharge;
 use Payment\Common\BaseStrategy;
 use Payment\Common\PayException;
 use Payment\Common\Weixin\Data\BaseData;
+use Payment\Common\Weixin\Data\ShortUrlData;
 use Payment\Common\WxConfig;
+use Payment\Utils\ArrayUtil;
 use Payment\Utils\Curl;
 use Payment\Utils\DataParser;
 
@@ -78,8 +80,14 @@ abstract class WxBaseStrategy implements BaseStrategy
         }
         // 格式化为数组
         $retData = DataParser::toArray($responseTxt['body']);
-        if ($retData['return_code']) {
+        if ($retData['return_code'] != 'SUCCESS' && $retData['result_code'] != 'SUCCESS') {
             throw new PayException($retData['return_msg']);
+        }
+
+        // 检查返回的数据是否被篡改
+        $flag = $this->signVerify($retData);
+        if (!$flag) {
+            throw new PayException('微信返回数据被篡改。请检查网络是否安全！');
         }
 
         return $retData;
@@ -96,6 +104,8 @@ abstract class WxBaseStrategy implements BaseStrategy
         $chargeClass = $this->getChargeClassName();
         if (in_array($class, $chargeClass)) {
             return WxConfig::UNIFIED_URL;
+        } elseif ($class === ShortUrlData::class) {
+            return WxConfig::SHORT_URL;
         }
     }
 
@@ -113,6 +123,12 @@ abstract class WxBaseStrategy implements BaseStrategy
         ];
     }
 
+    /**
+     * @param array $data
+     * @author helei
+     * @throws PayException
+     * @return array|string
+     */
     public function handle(array $data)
     {
         $buildClass = $this->getBuildDataClass();
@@ -129,6 +145,33 @@ abstract class WxBaseStrategy implements BaseStrategy
         $xml = DataParser::toXml($data);
         $ret = $this->sendReq($xml);
 
-        var_dump($ret);exit;
+        if (WxQrCharge::class === get_called_class()) {
+            // 扫码支付，返回链接
+            return $ret['code_url'];
+        }
+    }
+
+    /**
+     * 检查微信返回的数据是否被篡改过
+     * @param array $retData
+     * @return boolean
+     * @author helei
+     */
+    protected function signVerify(array $retData)
+    {
+        $retSign = $retData['sign'];
+        $values = ArrayUtil::removeKeys($retData, ['sign', 'sign_type']);
+
+        $values = ArrayUtil::paraFilter($values);
+
+        $values = ArrayUtil::arraySort($values);
+
+        $signStr = ArrayUtil::createLinkstring($values);
+
+        $signStr .= "&key=" . $this->config->md5Key;
+
+        $string = md5($signStr);
+
+        return strtoupper($string) === $retSign;
     }
 }
