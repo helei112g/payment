@@ -33,6 +33,9 @@ $payData = [
 // 微信扫码支付，需要设置的参数
 $payData['product_id']  = '123456';
 
+// 微信公众号支付，需要的参数
+$payData['openid'] = 'otijfvr2oMz3tXnaQdKKbQeeBmhM';// 需要通过微信提供的api获取该openid
+
 /**
  * 包含客户的配置文件
  * 本次 2.0 版本，主要的改变是将配置文件独立出来，便于客户多个账号的情况
@@ -62,8 +65,10 @@ try {
     //$type = Config::WX_CHANNEL_QR;
 
     // 微信 APP支付
-    $type = Config::WX_CHANNEL_APP;
+    //$type = Config::WX_CHANNEL_APP;
 
+    // 微信 扫码支付
+    $type = Config::WX_CHANNEL_PUB;
     $charge->initCharge($type, $wxconfig);
     $ret = $charge->charge($payData);
 } catch (PayException $e) {
@@ -75,6 +80,9 @@ if ($type === Config::ALI_CHANNEL_APP) {
 } elseif ($type === Config::WX_CHANNEL_QR) {
     $url = urlencode($ret);
     echo "<img alt='扫码支付' src='http://paysdk.weixin.qq.com/example/qrcode.php?data={$url}' style='width:150px;height:150px;'/>";
+} elseif ($type === Config::WX_CHANNEL_PUB) {
+    $json = $ret;
+    var_dump($json);exit;
 } elseif (stripos($type, 'wx') !== false) {
     var_dump($ret);
 } elseif (stripos($type, 'ali') !== false) {
@@ -82,5 +90,52 @@ if ($type === Config::ALI_CHANNEL_APP) {
     header("Location:{$ret}");
 }
 
+?>
 
+<!--微信公众号支付-->
+<?php if ($type === Config::WX_CHANNEL_PUB) { ?>
+
+    <html>
+    <head>
+        <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <title>微信支付样例-支付</title>
+        <script type="text/javascript">
+            //调用微信JS api 支付
+            function jsApiCall()
+            {
+                WeixinJSBridge.invoke(
+                    'getBrandWCPayRequest',
+                    <?php echo $json; ?>,
+                    function(res){
+                        WeixinJSBridge.log(res.err_msg);
+                        alert(res.err_code+res.err_desc+res.err_msg);
+                    }
+                );
+            }
+
+            function callpay()
+            {
+                if (typeof WeixinJSBridge == "undefined"){
+                    if( document.addEventListener ){
+                        document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);
+                    }else if (document.attachEvent){
+                        document.attachEvent('WeixinJSBridgeReady', jsApiCall);
+                        document.attachEvent('onWeixinJSBridgeReady', jsApiCall);
+                    }
+                }else{
+                    jsApiCall();
+                }
+            }
+        </script>
+    </head>
+    <body>
+    <br/>
+    <font color="#9ACD32"><b>该笔订单支付金额为<span style="color:#f00;font-size:50px">1分</span>钱</b></font><br/><br/>
+    <div align="center">
+        <button style="width:210px; height:50px; border-radius: 15px;background-color:#FE6714; border:0px #FE6714 solid; cursor: pointer;  color:white;  font-size:16px;" type="button" onclick="callpay()" >立即支付</button>
+    </div>
+    </body>
+    </html>
+<?php } ?>
 

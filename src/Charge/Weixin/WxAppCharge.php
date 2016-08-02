@@ -9,7 +9,7 @@
 
 namespace Payment\Charge\Weixin;
 
-use Payment\Common\Weixin\Data\BackChargeData;
+use Payment\Common\Weixin\Data\BackAppChargeData;
 use Payment\Common\Weixin\Data\Charge\AppChargeData;
 use Payment\Common\Weixin\WxBaseStrategy;
 
@@ -42,7 +42,7 @@ class WxAppCharge extends WxBaseStrategy
      */
     protected function retData(array $ret)
     {
-        $back = new BackChargeData($this->config, $ret);
+        $back = new BackAppChargeData($this->config, $ret);
 
         $back->setSign();
         $backData = $back->getData();

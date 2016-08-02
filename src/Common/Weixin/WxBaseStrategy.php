@@ -165,7 +165,10 @@ abstract class WxBaseStrategy implements BaseStrategy
      * @return mixed
      * @author helei
      */
-    abstract protected function retData(array $ret);
+    protected function retData(array $ret)
+    {
+        return $ret;
+    }
 
     /**
      * 检查微信返回的数据是否被篡改过

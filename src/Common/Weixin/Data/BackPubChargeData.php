@@ -1,7 +1,7 @@
 <?php
 /**
  * @author: helei
- * @createTime: 2016-08-02 09:41
+ * @createTime: 2016-08-02 10:27
  * @description:
  */
 
@@ -10,7 +10,7 @@ use Payment\Common\PayException;
 
 
 /**
- * Class BackChargeData
+ * Class BackPubChargeData
  *
  * @property string $device_info   设备号
  * @property string $trade_type  交易类型
@@ -19,23 +19,22 @@ use Payment\Common\PayException;
  * @package Payment\Common\Weixin\Data
  * anthor helei
  */
-class BackChargeData extends WxBaseData
+class BackPubChargeData extends WxBaseData
 {
 
     protected function buildData()
     {
         $this->retData = [
-            'appid' => $this->appId,
-            'partnerid' => $this->mchId,
-            'prepayid'  => $this->prepay_id,
-            'package'   => 'Sign=WXPay',
-            'noncestr'  => $this->nonceStr,
-            'timestamp' => time(),
+            'appId' => $this->appId,
+            'package'   => 'prepay_id=' . $this->prepay_id,
+            'nonceStr'  => $this->nonceStr,
+            'timeStamp' => time() . '',
+            'signType'  => 'MD5',
         ];
     }
 
     protected function checkDataParam()
     {
-        // 对于返回数据不做检查检查
+        // 不进行检查
     }
 }
