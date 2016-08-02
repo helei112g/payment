@@ -62,13 +62,13 @@ try {
     //$charge->initCharge($type, $aliconfig);
 
     // 微信 扫码支付
-    //$type = Config::WX_CHANNEL_QR;
+    $type = Config::WX_CHANNEL_QR;
 
     // 微信 APP支付
     //$type = Config::WX_CHANNEL_APP;
 
-    // 微信 扫码支付
-    $type = Config::WX_CHANNEL_PUB;
+    // 微信 公众号支付
+    //$type = Config::WX_CHANNEL_PUB;
     $charge->initCharge($type, $wxconfig);
     $ret = $charge->charge($payData);
 } catch (PayException $e) {

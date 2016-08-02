@@ -12,6 +12,7 @@ namespace Payment\Charge\Ali;
 
 use Payment\Common\Ali\AliBaseStrategy;
 use Payment\Common\Ali\Data\Charge\AppChargeData;
+use Payment\Utils\ArrayUtil;
 
 class AliAppCharge extends AliBaseStrategy
 {
@@ -26,5 +27,12 @@ class AliAppCharge extends AliBaseStrategy
         return AppChargeData::class;
 
         //return 'Payment\Common\Ali\Data\Charge\AppChargeData';
+    }
+
+    protected function retData(array $data)
+    {
+        // 如果是移动支付，直接返回数据信息。并且对sign做urlencode编码
+        $data['sign'] = urlencode($data['sign']);
+        return ArrayUtil::createLinkstring($data);
     }
 }

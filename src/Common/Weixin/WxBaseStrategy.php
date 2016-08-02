@@ -7,10 +7,6 @@
 
 namespace Payment\Common\Weixin;
 
-
-use Payment\Charge\Weixin\WxAppCharge;
-use Payment\Charge\Weixin\WxPubCharge;
-use Payment\Charge\Weixin\WxQrCharge;
 use Payment\Common\BaseData;
 use Payment\Common\BaseStrategy;
 use Payment\Common\PayException;
@@ -104,34 +100,13 @@ abstract class WxBaseStrategy implements BaseStrategy
     }
 
     /**
-     * 获取需要的url
+     * 获取需要的url  默认返回下单的url
      * @author helei
      * @return string|null
      */
     protected function getReqUrl()
     {
-        $class = get_called_class();
-
-        $chargeClass = $this->getChargeClassName();
-        if (in_array($class, $chargeClass)) {
-            return WxConfig::UNIFIED_URL;
-        }
-
-        return null;
-    }
-
-    /**
-     * 返回可以进行支付的类
-     * @return array
-     * @author helei
-     */
-    protected function getChargeClassName()
-    {
-        return [
-            WxAppCharge::class,
-            WxPubCharge::class,
-            WxQrCharge::class,
-        ];
+        return WxConfig::UNIFIED_URL;
     }
 
     /**

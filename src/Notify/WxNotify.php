@@ -134,6 +134,9 @@ class WxNotify extends NotifyStrategy
      */
     protected function getRetData(array $data)
     {
+        // 将金额处理为元
+        $data['total_fee'] = bcdiv($data['total_fee'], 100, 2);
+
         return [
             'subject'   => $data['body'],
             'body'   => $data['body'],

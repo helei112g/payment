@@ -9,8 +9,8 @@
 
 namespace Payment\Common\Ali;
 
-use Payment\Common\Ali\Data\BaseData;
 use Payment\Common\AliConfig;
+use Payment\Common\BaseData;
 use Payment\Common\BaseStrategy;
 use Payment\Common\PayException;
 use Payment\Utils\ArrayUtil;
@@ -66,13 +66,19 @@ abstract class AliBaseStrategy implements BaseStrategy
         $this->reqData->setSign();
 
         $data = $this->reqData->getData();
-        if ('Payment\Charge\Ali\AliAppCharge' == get_called_class()) {
-            // 如果是移动支付，直接返回数据信息。并且对sign做urlencode编码
-            $data['sign'] = urlencode($data['sign']);
-            return ArrayUtil::createLinkstring($data);
-        }
 
-        $retData = $this->config->getewayUrl . http_build_query($data);
-        return $retData;
+        return $this->retData($data);
+    }
+
+    /**
+     * 处理支付宝的返回值并返回给客户端
+     * @param array $data
+     * @return string|array
+     * @author helei
+     */
+    protected function retData(array $data)
+    {
+        $url = $this->config->getewayUrl . http_build_query($data);
+        return $url;
     }
 }
