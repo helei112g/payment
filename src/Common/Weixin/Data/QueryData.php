@@ -11,15 +11,17 @@ use Payment\Utils\ArrayUtil;
 
 
 /**
- * Class TradeQueryData
+ * Class QueryData
  *
  * @property string $transaction_id 支付宝交易号
  * @property string $order_no 商户网站唯一订单号
+ * @property string $refund_no  商户退款单号
+ * @property string $refund_id  微信退款单号
  *
  * @package Payment\Common\Weixin\Data
  * anthor helei
  */
-class TradeQueryData extends WxBaseData
+class QueryData extends WxBaseData
 {
 
     protected function buildData()
@@ -30,6 +32,8 @@ class TradeQueryData extends WxBaseData
             'nonce_str' => $this->nonceStr,
             'transaction_id'    => $this->transaction_id,
             'out_trade_no'  => $this->order_no,
+            'out_refund_no' => $this->refund_no,
+            'refund_id' => $this->refund_id,
         ];
 
         $this->retData = ArrayUtil::paraFilter($this->retData);

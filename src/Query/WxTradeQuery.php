@@ -7,7 +7,7 @@
 
 namespace Payment\Query;
 
-use Payment\Common\Weixin\Data\TradeQueryData;
+use Payment\Common\Weixin\Data\QueryData;
 use Payment\Common\Weixin\WxBaseStrategy;
 use Payment\Common\WxConfig;
 use Payment\Config;
@@ -21,7 +21,7 @@ class WxTradeQuery extends WxBaseStrategy
      */
     protected function getBuildDataClass()
     {
-        return TradeQueryData::class;
+        return QueryData::class;
     }
 
     /**
@@ -64,7 +64,18 @@ class WxTradeQuery extends WxBaseStrategy
         $data['total_fee'] = bcdiv($data['total_fee'], 100, 2);
 
         // 正确
-        return [
+        return $this->createBackData($data);
+    }
+
+    /**
+     * 返回数据给客户端
+     * @param array $data
+     * @return array
+     * @author helei
+     */
+    protected function createBackData(array $data)
+    {
+        $retData = [
             'is_success'    => 'T',
             'response'  => [
                 //'subject'   => '',// 微信不返回 subject   body字段
