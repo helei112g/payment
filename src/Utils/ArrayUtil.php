@@ -25,6 +25,10 @@ class ArrayUtil
             if ($val == "") {
                 continue;
             } else {
+                if (! is_array($para[$key])) {
+                    $para[$key] = trim($para[$key]);
+                }
+
                 $para_filter[$key] = $para[$key];
             }
         }

@@ -9,6 +9,7 @@
 
 namespace Payment\Notify;
 
+
 abstract class NotifyStrategy
 {
 
@@ -17,6 +18,16 @@ abstract class NotifyStrategy
      * @var array $config
      */
     protected $config;
+
+    /**
+     * NotifyStrategy constructor.
+     * @param array $config
+     */
+    public function __construct(array $config)
+    {
+        /* 设置内部字符编码为 UTF-8 */
+        mb_internal_encoding("UTF-8");
+    }
 
     /**
      * 主要任务，验证返回的数据是否正确
@@ -29,20 +40,24 @@ abstract class NotifyStrategy
         // 获取异步通知的数据
         $notifyData = $this->getNotifyData();
         if ($notifyData === false) {// 失败，就返回错误
-            return $this->replyNotify(false);
+            return $this->replyNotify(false, '获取通知数据失败');
         }
 
         // 检查异步通知返回的数据是否有误
         $checkRet = $this->checkNotifyData($notifyData);
         if ($checkRet === false) {// 失败，就返回错误
-            return $this->replyNotify(false);
+            return $this->replyNotify(false, '返回数据验签失败，可能数据被篡改');
         }
 
         // 回调商户的业务逻辑
         $flag = $this->callback($notify, $notifyData);
-
+        if ($flag) {
+            $msg = 'OK';
+        } else {
+            $msg = '商户逻辑调用出错';
+        }
         // 返回响应值
-        return $this->replyNotify($flag);
+        return $this->replyNotify($flag, $msg);
     }
 
     /**
@@ -95,8 +110,9 @@ abstract class NotifyStrategy
     /**
      * 根据返回结果，回答支付机构。是否回调通知成功
      * @param boolean $flag 每次返回的bool值
+     * @param string $msg 通知信息，错误原因
      * @return mixed
      * @author helei
      */
-    abstract protected function replyNotify($flag);
+    abstract protected function replyNotify($flag, $msg = 'OK');
 }

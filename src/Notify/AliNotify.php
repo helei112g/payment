@@ -27,8 +27,7 @@ class AliNotify extends NotifyStrategy
      */
     public function __construct(array $config)
     {
-        /* 设置内部字符编码为 UTF-8 */
-        mb_internal_encoding("UTF-8");
+        parent::__construct($config);
 
         try {
             $this->config = new AliConfig($config);
@@ -249,10 +248,11 @@ class AliNotify extends NotifyStrategy
     /**
      * 支付宝，成功返回 ‘success’   失败，返回 ‘fail’
      * @param boolean $flag 每次返回的bool值
+     * @param string $msg 错误原因  后期考虑记录日志
      * @return string
      * @author helei
      */
-    protected function replyNotify($flag)
+    protected function replyNotify($flag, $msg = '')
     {
         if ($flag) {
             return 'success';
