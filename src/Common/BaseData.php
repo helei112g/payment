@@ -12,7 +12,7 @@ use Payment\Utils\ArrayUtil;
 
 /**
  * Class BaseData
- *
+ * 支付相关接口的数据基类
  * @package Payment\Common\Weixin\Dataa
  */
 abstract class BaseData

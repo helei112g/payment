@@ -6,10 +6,10 @@
  */
 
 return [
-    // app qr
+    // pub
     'app_id'    => 'xxxx',  // 公众账号ID
-    'mch_id'    => 'xxxxxxx',// 商户id
-    'md5_key'   => 'xxxxxxxx',// md5 秘钥
+    'mch_id'    => 'xxx',// 商户id
+    'md5_key'   => 'xxxxxxxxx',// md5 秘钥
 
     'notify_url'    => 'http://test.helei.com/pay-notify.html',
     'time_expire'	=> '14',

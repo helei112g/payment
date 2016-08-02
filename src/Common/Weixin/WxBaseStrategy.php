@@ -11,15 +11,22 @@ namespace Payment\Common\Weixin;
 use Payment\Charge\Weixin\WxAppCharge;
 use Payment\Charge\Weixin\WxPubCharge;
 use Payment\Charge\Weixin\WxQrCharge;
+use Payment\Common\BaseData;
 use Payment\Common\BaseStrategy;
 use Payment\Common\PayException;
-use Payment\Common\Weixin\Data\BaseData;
-use Payment\Common\Weixin\Data\ShortUrlData;
+use Payment\Common\Weixin\Data\Charge\AppChargeData;
 use Payment\Common\WxConfig;
 use Payment\Utils\ArrayUtil;
 use Payment\Utils\Curl;
 use Payment\Utils\DataParser;
 
+/**
+ * Class WxBaseStrategy
+ * 微信策略基类
+ *
+ * @package Payment\Common\Weixin
+ * anthor helei
+ */
 abstract class WxBaseStrategy implements BaseStrategy
 {
 
@@ -69,6 +76,9 @@ abstract class WxBaseStrategy implements BaseStrategy
     protected function sendReq($xml)
     {
         $url = $this->getReqUrl();
+        if (is_null($url)) {
+            throw new PayException('目前不支持该接口。请联系开发者添加');
+        }
 
         $curl = new Curl();
         $responseTxt = $curl->set([
@@ -81,7 +91,7 @@ abstract class WxBaseStrategy implements BaseStrategy
         // 格式化为数组
         $retData = DataParser::toArray($responseTxt['body']);
         if ($retData['return_code'] != 'SUCCESS' && $retData['result_code'] != 'SUCCESS') {
-            throw new PayException($retData['return_msg']);
+            throw new PayException('微信返回错误提示:' . $retData['return_msg']);
         }
 
         // 检查返回的数据是否被篡改
@@ -96,6 +106,7 @@ abstract class WxBaseStrategy implements BaseStrategy
     /**
      * 获取需要的url
      * @author helei
+     * @return string|null
      */
     protected function getReqUrl()
     {
@@ -104,9 +115,9 @@ abstract class WxBaseStrategy implements BaseStrategy
         $chargeClass = $this->getChargeClassName();
         if (in_array($class, $chargeClass)) {
             return WxConfig::UNIFIED_URL;
-        } elseif ($class === ShortUrlData::class) {
-            return WxConfig::SHORT_URL;
         }
+
+        return null;
     }
 
     /**
@@ -143,13 +154,18 @@ abstract class WxBaseStrategy implements BaseStrategy
         $data = $this->reqData->getData();
 
         $xml = DataParser::toXml($data);
-        $ret = $this->sendReq($xml);
+        $ret = $this->sendReq($xml);// 其中完成了返回值是否被纂改
 
-        if (WxQrCharge::class === get_called_class()) {
-            // 扫码支付，返回链接
-            return $ret['code_url'];
-        }
+        return $this->retData($ret);
     }
+
+    /**
+     * 处理微信的返回值并返回给客户端
+     * @param array $ret
+     * @return mixed
+     * @author helei
+     */
+    abstract protected function retData(array $ret);
 
     /**
      * 检查微信返回的数据是否被篡改过

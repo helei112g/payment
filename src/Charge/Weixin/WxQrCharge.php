@@ -19,4 +19,16 @@ class WxQrCharge extends WxBaseStrategy
     {
         return QrChargeData::class;
     }
+
+    /**
+     * 处理扫码支付的返回值
+     * @param array $ret
+     * @return string  可生产二维码的uri
+     * @author helei
+     */
+    protected function retData(array $ret)
+    {
+        // 扫码支付，返回链接
+        return $ret['code_url'];
+    }
 }

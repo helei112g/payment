@@ -48,21 +48,23 @@ $charge = new ChargeContext();
 
 try {
     // 支付宝即时到帐接口
-    /*$type = Config::ALI_CHANNEL_WEB;
-    $charge->initCharge(Config::ALI_CHANNEL_WEB, $aliconfig);*/
+    //$type = Config::ALI_CHANNEL_WEB;
 
     // 支付宝 手机网站支接口
-    /*$type = Config::ALI_CHANNEL_WAP;
-    $charge->initCharge(Config::ALI_CHANNEL_WAP, $aliconfig);*/
+    //$type = Config::ALI_CHANNEL_WAP;
 
     // 支付宝 移动支付接口
-    /*$type = Config::ALI_CHANNEL_APP;
-    $charge->initCharge($type, $aliconfig);*/
+    //$type = Config::ALI_CHANNEL_APP;
+
+    //$charge->initCharge($type, $aliconfig);
 
     // 微信 扫码支付
-    $type = Config::WX_CHANNEL_QR;
-    $charge->initCharge($type, $wxconfig);
+    //$type = Config::WX_CHANNEL_QR;
 
+    // 微信 APP支付
+    $type = Config::WX_CHANNEL_APP;
+
+    $charge->initCharge($type, $wxconfig);
     $ret = $charge->charge($payData);
 } catch (PayException $e) {
     echo $e->errorMessage();exit;
@@ -74,7 +76,7 @@ if ($type === Config::ALI_CHANNEL_APP) {
     $url = urlencode($ret);
     echo "<img alt='扫码支付' src='http://paysdk.weixin.qq.com/example/qrcode.php?data={$url}' style='width:150px;height:150px;'/>";
 } elseif (stripos($type, 'wx') !== false) {
-
+    var_dump($ret);
 } elseif (stripos($type, 'ali') !== false) {
     // 跳转支付宝
     header("Location:{$ret}");

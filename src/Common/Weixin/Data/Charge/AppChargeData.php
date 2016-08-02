@@ -23,6 +23,7 @@ class AppChargeData extends ChargeBaseData
             // 基本数据
             'appid' => trim($this->appId),
             'mch_id'    => trim($this->mchId),
+            'device_info'   => 'WEB',
             'nonce_str' => $this->nonceStr,
             'fee_type'  => $this->feeType,
             'notify_url'    => $this->notifyUrl,
@@ -36,7 +37,6 @@ class AppChargeData extends ChargeBaseData
             'out_trade_no'  => trim($this->order_no),
             'total_fee' => $this->amount,
             'spbill_create_ip'  => trim($this->client_ip),
-            'device_info'   => 'WEB',
             'trade_type'    => 'APP', //设置APP支付
         ];
 
