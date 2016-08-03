@@ -42,6 +42,15 @@ final class WxConfig extends ConfigInterface
     // 用于加密的md5Key
     public $md5Key;
 
+    // 安全证书的路径
+    public $cacertPath;
+
+    // cert证书路径
+    public $certPath;
+
+    // key文件路径
+    public $keyPath;
+
     // 统一下单url
     const UNIFIED_URL = 'https://api.mch.weixin.qq.com/pay/unifiedorder';
 
@@ -75,6 +84,7 @@ final class WxConfig extends ConfigInterface
         }
 
         $basePath = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'Weixin' . DIRECTORY_SEPARATOR;
+        $this->cacertPath = "{$basePath}/rootca.pem";
     }
 
     /**
@@ -130,6 +140,15 @@ final class WxConfig extends ConfigInterface
             $this->md5Key = $config['md5_key'];
         } else {
             throw new PayException('MD5 Key 不能为空，再微信商户后台可查看');
+        }
+
+        // 以下两个文件，如果是调用资金流向接口，必须提供
+        if (! empty($config['cert_path'])) {
+            $this->certPath = $config['cert_path'];
+        }
+
+        if (! empty($config['key_path'])) {
+            $this->keyPath = $config['key_path'];
         }
     }
 

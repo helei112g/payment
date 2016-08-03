@@ -17,24 +17,39 @@ function createPayid()
     return date('Ymdhis', time()).substr(floor(microtime()*1000),0,1).rand(0,9);
 }
 
+// 支付宝配置文件
 $aliconfig = require_once __DIR__ . '/aliconfig.php';
+
+// 微信配置文件
+$wxconfig = require_once __DIR__ . '/wxconfig.php';
 
 // 退款数据
 $reundData = [
     'refund_no' => createPayid(),
     'refund_data'   => [
-        ['transaction_id' => '2016011421001004330041239366', 'refund_fee' => '0.01', 'reason' => '测试退款1'],
-        ['transaction_id' => '2016031521001004330271745693', 'refund_fee' => '0.01', 'reason' => '测试退款2'],
+        ['transaction_id' => '4007572001201607098672633287', 'amount'   => '5', 'refund_fee' => '5', 'reason' => '微信测试金额退款'],
+        //['transaction_id' => '2016031521001004330271745693', 'amount'   => '0.01', 'refund_fee' => '0.01', 'reason' => '测试退款2'],
     ],
 ];
 
 $refund = new RefundContext();
 try {
-    $refund->initRefund(Config::ALI, $aliconfig);
+    // 支付宝退款
+    //$type = Config::ALI;
+    //$refund->initRefund($type, $aliconfig);
+
+    // 微信退款
+    $type = Config::WEIXIN;
+    $refund->initRefund(Config::WEIXIN, $wxconfig);
+
     $ret = $refund->refund($reundData);
 } catch (PayException $e) {
     echo $e->errorMessage();exit;
 }
 
-// 跳转支付宝
-header("Location:{$ret}");
+if ($type == Config::WEIXIN) {
+    var_dump($ret);exit;
+} else {
+    // 跳转支付宝
+    header("Location:{$ret}");
+}

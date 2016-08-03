@@ -76,10 +76,7 @@ abstract class WxBaseStrategy implements BaseStrategy
             throw new PayException('目前不支持该接口。请联系开发者添加');
         }
 
-        $curl = new Curl();
-        $responseTxt = $curl->set([
-            'CURLOPT_HEADER'    => 0
-        ])->post($xml)->submit($url);
+        $responseTxt = $this->curlPost($xml, $url);
 
         if ($responseTxt['error']) {
             throw new PayException('网络发生错误，请稍后再试');
@@ -97,6 +94,21 @@ abstract class WxBaseStrategy implements BaseStrategy
         }
 
         return $retData;
+    }
+
+    /**
+     * 父类仅提供基础的post请求，子类可根据需要进行重写
+     * @param string $xml
+     * @param string $url
+     * @return array
+     * @author helei
+     */
+    protected function curlPost($xml, $url)
+    {
+        $curl = new Curl();
+        return $curl->set([
+            'CURLOPT_HEADER'    => 0
+        ])->post($xml)->submit($url);
     }
 
     /**

@@ -11,7 +11,7 @@ use Payment\TransferContext;
 use Payment\Common\PayException;
 use Payment\Config;
 
-//  生成退款单号 便于测试
+//  生成转款单号 便于测试
 function createPayid()
 {
     return date('Ymdhis', time()).substr(floor(microtime()*1000),0,1).rand(0,9);
@@ -19,7 +19,7 @@ function createPayid()
 
 $aliconfig = require_once __DIR__ . '/aliconfig.php';
 
-// 退款数据
+// 转款数据
 $transData = [
     'trans_no' => createPayid(),
     'trans_data'   => [

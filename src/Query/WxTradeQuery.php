@@ -89,5 +89,7 @@ class WxTradeQuery extends WxBaseStrategy
                 'time_end'   => date('Y-m-d H:i:s', strtotime($data['time_end'])),
             ],
         ];
+
+        return $retData;
     }
 }
