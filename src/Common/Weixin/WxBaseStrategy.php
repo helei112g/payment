@@ -83,8 +83,12 @@ abstract class WxBaseStrategy implements BaseStrategy
         }
         // 格式化为数组
         $retData = DataParser::toArray($responseTxt['body']);
-        if ($retData['return_code'] != 'SUCCESS' && $retData['result_code'] != 'SUCCESS') {
+        if ($retData['return_code'] != 'SUCCESS') {
             throw new PayException('微信返回错误提示:' . $retData['return_msg']);
+        }
+
+        if ($retData['result_code'] != 'SUCCESS') {
+            throw new PayException('微信返回错误提示:' . $retData['err_code_des']);
         }
 
         return $retData;
@@ -133,7 +137,7 @@ abstract class WxBaseStrategy implements BaseStrategy
 
         $this->reqData->setSign();
         $data = $this->reqData->getData();
-
+        
         $xml = DataParser::toXml($data);
         $ret = $this->sendReq($xml);
 

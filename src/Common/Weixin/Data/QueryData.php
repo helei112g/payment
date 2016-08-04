@@ -17,6 +17,7 @@ use Payment\Utils\ArrayUtil;
  * @property string $order_no 商户网站唯一订单号
  * @property string $refund_no  商户退款单号
  * @property string $refund_id  微信退款单号
+ * @property string $trans_no  批量转款的订单号
  *
  * @package Payment\Common\Weixin\Data
  * anthor helei
@@ -34,6 +35,7 @@ class QueryData extends WxBaseData
             'out_trade_no'  => $this->order_no,
             'out_refund_no' => $this->refund_no,
             'refund_id' => $this->refund_id,
+            'partner_trade_no'  => $this->trans_no,// 用户批量转款时的查询
         ];
 
         $this->retData = ArrayUtil::paraFilter($this->retData);
@@ -41,8 +43,13 @@ class QueryData extends WxBaseData
 
     protected function checkDataParam()
     {
-        $transaction_id = $this->transaction_id;// 支付宝交易号，查询效率高
+        $transaction_id = $this->transaction_id;// 微信交易号，查询效率高
         $order_no = $this->order_no;// 商户订单号，查询效率低，不建议使用
+        
+        $trans_no = $this->trans_no;// 企业付款账号
+        if (!empty($trans_no)) {// 如果设置了该字段，表示查询付款订单信息。此时不进行后续检查
+            return ;
+        }
 
         // 二者不能同时为空
         if (empty($transaction_id) && empty($order_no)) {

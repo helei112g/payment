@@ -19,15 +19,19 @@ function createPayid()
 
 $aliconfig = require_once __DIR__ . '/aliconfig.php';
 
+// 微信的配置文件
+$wxconfig = require_once __DIR__ . '/wxconfig.php';
+
 // 转款数据
 $transData = [
     'trans_no' => createPayid(),
     'trans_data'   => [
         [
             'serial_no' => createPayid(),
-            'user_account' => 'dayugog@gmail.com',
+            //'user_account' => 'dayugog@gmail.com',// 支付宝转款时，为支付宝账号
+            'user_account' => 'otijfvr2oMz3tXnaQdKKbQeeBmhM',// 微信转款时，为用户所关注公众号的openid
             'user_name' => '愚不可及',
-            'trans_fee' => '0.01',
+            'trans_fee' => '1',
             'desc'  => '测试批量转款',
         ]
     ],
@@ -35,11 +39,22 @@ $transData = [
 
 $refund = new TransferContext();
 try {
-    $refund->initTransfer(Config::ALI, $aliconfig);
+    // 支付宝的企业付款,支持批量
+    // $type = Config::ALI;
+    //$refund->initTransfer($type, $aliconfig);
+
+    // 微信的企业付款， 仅支持单笔
+    $type = Config::WEIXIN;
+    $refund->initTransfer(Config::WEIXIN, $wxconfig);
+
     $ret = $refund->transfer($transData);
 } catch (PayException $e) {
     echo $e->errorMessage();exit;
 }
 
-// 跳转支付宝
-header("Location:{$ret}");
+if ($type == Config::WEIXIN) {
+    var_dump($ret);
+} else {
+    // 跳转支付宝
+    header("Location:{$ret}");
+}

@@ -7,7 +7,7 @@
 
 return [
     'partner'   => '2088xxxxx',// 请填写自己的支付宝账号信息
-    'md5_key'   => 'xxxxxxxxxxx',// 此密码无效，请填写自己对应设置的值
+    'md5_key'   => 'xxxxxxx',// 此密码无效，请填写自己对应设置的值
     'rsa_private_key'   => dirname(__FILE__) . DIRECTORY_SEPARATOR . 'rsa_private_key.pem',
     "notify_url"	=> 'http://test.helei.com/pay-notify.html',
     "return_url"	=> 'http://test.helei.com/return-url.html',
@@ -15,5 +15,5 @@ return [
 
     // 转款接口，必须配置以下两项
     'account'   => 'xxxxxxx@126.com',
-    'account_name' => 'xxxxxxxxxxx',
+    'account_name' => 'xxxxxxxxxxxx',
 ];

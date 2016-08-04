@@ -1,42 +1,34 @@
 <?php
 /**
  * @author: helei
- * @createTime: 2016-07-27 15:43
+ * @createTime: 2016-08-04 10:30
  * @description:
  */
 
-namespace Payment\Trans;
+namespace Payment\Query;
 
 
-use Payment\Common\Weixin\Data\TransferData;
+use Payment\Common\Weixin\Data\QueryData;
 use Payment\Common\Weixin\WxBaseStrategy;
 use Payment\Common\WxConfig;
 use Payment\Utils\Curl;
 
+
 /**
- * 微信企业付款接口
- * Class WxTransfer
- * @package Payment\Trans
+ * Class WxTransferQuery
+ * @package Payment\Query
  * anthor helei
  */
-class WxTransfer extends WxBaseStrategy
+class WxTransferQuery extends WxBaseStrategy
 {
 
     protected function getBuildDataClass()
     {
-        return TransferData::class;
-    }
-
-    /*
-     * 返回转款的url
-     */
-    protected function getReqUrl()
-    {
-        return WxConfig::TRANSFERS_URL;
+        return QueryData::class;
     }
 
     /**
-     * 微信退款接口，需要用到相关加密文件及证书，需要重新进行curl的设置
+     * 使用证书方式进行查询
      * @param string $xml
      * @param string $url
      * @return array
@@ -55,5 +47,15 @@ class WxTransfer extends WxBaseStrategy
         ])->post($xml)->submit($url);
 
         return $responseTxt;
+    }
+
+    /**
+     * 返回付款查询url
+     * @return string
+     * @author helei
+     */
+    protected function getReqUrl()
+    {
+        return WxConfig::TRANS_QUERY_URL;
     }
 }

@@ -57,16 +57,22 @@ final class WxConfig extends ConfigInterface
     // 查询url
     const ORDER_QUERY_URL = 'https://api.mch.weixin.qq.com/pay/orderquery';
 
-    // 关闭订单url
-    const CLOSE_URL = 'https://api.mch.weixin.qq.com/pay/closeorder';
-
     // 申请退款url
     const REFUND_URL = 'https://api.mch.weixin.qq.com/secapi/pay/refund';
 
     // 查询退款url
     const REFUDN_QUERY_URL = 'https://api.mch.weixin.qq.com/pay/refundquery';
 
-    // 短连接转化url
+    // 企业付款
+    const TRANSFERS_URL = 'https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers';
+
+    // 企业付款的查询
+    const TRANS_QUERY_URL = 'https://api.mch.weixin.qq.com/mmpaymkttransfers/gettransferinfo';
+
+    // 关闭订单url  尚未接入
+    const CLOSE_URL = 'https://api.mch.weixin.qq.com/pay/closeorder';
+
+    // 短连接转化url  尚未接入
     const SHORT_URL = 'https://api.mch.weixin.qq.com/tools/shorturl';
 
     /**
