@@ -58,4 +58,33 @@ class WxTransferQuery extends WxBaseStrategy
     {
         return WxConfig::TRANS_QUERY_URL;
     }
+
+    /**
+     * 返回数据给客户端
+     * @param array $data
+     * @return array
+     * @author helei
+     */
+    protected function createBackData(array $data)
+    {
+        // 将金额处理为元
+        $data['payment_amount'] = bcdiv($data['payment_amount'], 100, 2);
+
+        $retData = [
+            'is_success'    => 'T',
+            'response'  => [
+                'amount'   => $data['payment_amount'],
+                'order_no'   => $data['partner_trade_no'],// 商户单号
+                'trans_id'  => $data['detail_id'],// 付款单号
+                'trans_status'  => $data['status'],// 转账状态
+                'reason'    => $data['reason'],// 失败原因
+                'buyer_id'   => $data['openid'],
+                'trans_name'   => $data['transfer_name'],// 收款用户姓名
+                'trans_time'   => $data['transfer_time'],
+                'desc'   => $data['desc'],// 付款描述
+            ],
+        ];
+
+        return $retData;
+    }
 }

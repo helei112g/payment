@@ -58,9 +58,6 @@ class WxTradeQuery extends WxBaseStrategy
             ];
         }
 
-        // 将金额处理为元
-        $data['total_fee'] = bcdiv($data['total_fee'], 100, 2);
-
         // 正确
         return $this->createBackData($data);
     }
@@ -73,6 +70,9 @@ class WxTradeQuery extends WxBaseStrategy
      */
     protected function createBackData(array $data)
     {
+        // 将金额处理为元
+        $data['total_fee'] = bcdiv($data['total_fee'], 100, 2);
+
         $retData = [
             'is_success'    => 'T',
             'response'  => [
