@@ -29,6 +29,9 @@ final class Config
     // 微信相关接口
     const WEIXIN = 'wx';
 
+    // 微信退款单查询
+    const WEIXIN_REFUND = 'refund';
+
     // 微信公众账号 扫码支付  主要用于pc站点
     const WX_CHANNEL_QR = 'wx_web';
 

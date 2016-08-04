@@ -11,6 +11,7 @@ namespace Payment;
 use Payment\Common\BaseStrategy;
 use Payment\Common\PayException;
 use Payment\Query\AliTradeQuery;
+use Payment\Query\WxRefundQuery;
 use Payment\Query\WxTradeQuery;
 
 class QueryContext
@@ -41,8 +42,11 @@ class QueryContext
                 case Config::WEIXIN:
                     $this->query = new WxTradeQuery($config);
                     break;
+                case Config::WEIXIN_REFUND:
+                    $this->query = new WxRefundQuery($config);
+                    break;
                 default:
-                    throw new PayException('当前仅支持：ALI WEIXIN两个常量');
+                    throw new PayException('当前仅支持：ALI WEIXIN WEIXIN_REFUND');
             }
         } catch (PayException $e) {
             throw $e;

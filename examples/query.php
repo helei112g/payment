@@ -20,7 +20,7 @@ $query = new QueryContext();
 // 通过支付宝交易号查询，  推荐
 $data = [
     //'transaction_id'    => '2016011421001004330041239366',// 支付宝
-    'transaction_id'    => '1007570439201601142692427764',// 微信
+    'transaction_id'    => '1007570439201601142692427764',// 微信订单查询
 ];
 
 // 通过订单号查询
@@ -30,11 +30,14 @@ $data = [
 ];*/
 
 try {
-    // 支付宝查询
+    // 支付宝订单查询
     //$query->initQuery(Config::ALI, $aliconfig);
 
-    // 微信查询
-    $query->initQuery(Config::WEIXIN, $wxconfig);
+    // 微信订单查询
+    //$query->initQuery(Config::WEIXIN, $wxconfig);
+
+    // 微信退款订单状态查询
+    $query->initQuery(Config::WEIXIN_REFUND, $wxconfig);
 
     $ret = $query->query($data);
 

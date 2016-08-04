@@ -75,22 +75,16 @@ abstract class WxBaseStrategy implements BaseStrategy
         if (is_null($url)) {
             throw new PayException('目前不支持该接口。请联系开发者添加');
         }
-
+        
         $responseTxt = $this->curlPost($xml, $url);
 
         if ($responseTxt['error']) {
-            throw new PayException('网络发生错误，请稍后再试');
+            throw new PayException('网络发生错误，请稍后再试curl返回码：' . $responseTxt['message']);
         }
         // 格式化为数组
         $retData = DataParser::toArray($responseTxt['body']);
         if ($retData['return_code'] != 'SUCCESS' && $retData['result_code'] != 'SUCCESS') {
             throw new PayException('微信返回错误提示:' . $retData['return_msg']);
-        }
-
-        // 检查返回的数据是否被篡改
-        $flag = $this->signVerify($retData);
-        if (!$flag) {
-            throw new PayException('微信返回数据被篡改。请检查网络是否安全！');
         }
 
         return $retData;
@@ -141,7 +135,13 @@ abstract class WxBaseStrategy implements BaseStrategy
         $data = $this->reqData->getData();
 
         $xml = DataParser::toXml($data);
-        $ret = $this->sendReq($xml);// 其中完成了返回值是否被纂改
+        $ret = $this->sendReq($xml);
+
+        // 检查返回的数据是否被篡改
+        $flag = $this->signVerify($ret);
+        if (!$flag) {
+            throw new PayException('微信返回数据被篡改。请检查网络是否安全！');
+        }
 
         return $this->retData($ret);
     }

@@ -18,11 +18,11 @@ use Payment\Common\WxConfig;
  * @package Payment\Query
  * anthor helei
  */
-class WxRefudnQuery extends WxTradeQuery
+class WxRefundQuery extends WxTradeQuery
 {
     protected function getReqUrl()
     {
-        return WxConfig::REFUND_URL;// 退款url
+        return WxConfig::REFUDN_QUERY_URL;// 查询退款url
     }
 
     protected function createBackData(array $data)

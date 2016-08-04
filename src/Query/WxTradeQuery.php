@@ -46,7 +46,6 @@ class WxTradeQuery extends WxBaseStrategy
         if ($data['return_code'] != 'SUCCESS') {
             return $retData = [
                 'is_success'    => 'F',
-                'response'  => [],
                 'error' => $data['return_msg']
             ];
         }
@@ -55,7 +54,6 @@ class WxTradeQuery extends WxBaseStrategy
         if ($data['result_code'] != 'SUCCESS') {
             return $retData = [
                 'is_success'    => 'F',
-                'response'  => [],
                 'error' => $data['err_code_des']
             ];
         }

@@ -93,7 +93,6 @@ class AliTradeQuery extends AliBaseStrategy
         if ($data['is_success'] === 'F') {
             return $retData = [
                 'is_success'    => 'F',
-                'response'  => [],
                 'error' => $data['error']
             ];
         }
