@@ -2,18 +2,17 @@
 
 此版本在1.0的基础上进行了重构，两个版本互不兼容。
 
-
-# 更新日志
+# 功能介绍
 
 支付宝SDK接口文档
 
-* 1. **[支付宝即时到帐接口](https://helei112g.github.io/2016/07/18/%E6%94%AF%E4%BB%98%E5%AE%9D%EF%BC%9A%E5%8D%B3%E6%97%B6%E5%88%B0%E8%B4%A6%E6%8E%A5%E5%8F%A3%E6%8E%A5%E5%85%A5/)**     (2016-7-18)
-* 2. **[支付宝异步通知回调接口](https://helei112g.github.io/2016/07/29/%E6%94%AF%E4%BB%98%E7%9A%84%E5%9B%9E%E8%B0%83%E7%BB%9F%E4%B8%80%E5%A4%84%E7%90%86/)**  (2016-7-20)
-* 3. **[支付宝手机网站接口](https://helei112g.github.io/2016/07/29/PHP%E6%8E%A5%E5%85%A5%E6%94%AF%E4%BB%98%E5%AE%9D%E6%89%8B%E6%9C%BA%E7%BD%91%E7%AB%99%E6%94%AF%E4%BB%98%E3%80%81%E7%A7%BB%E5%8A%A8%E6%94%AF%E4%BB%98%E6%8E%A5%E5%8F%A3/)**      (2016-7-22)
-* 4. **[支付宝移动支付接口](https://helei112g.github.io/2016/07/29/PHP%E6%8E%A5%E5%85%A5%E6%94%AF%E4%BB%98%E5%AE%9D%E6%89%8B%E6%9C%BA%E7%BD%91%E7%AB%99%E6%94%AF%E4%BB%98%E3%80%81%E7%A7%BB%E5%8A%A8%E6%94%AF%E4%BB%98%E6%8E%A5%E5%8F%A3/)**      (2016-7-24)
-* 5. **[支付宝有密退款接口](https://helei112g.github.io/2016/08/03/PHP%E6%8E%A5%E5%85%A5%E6%94%AF%E4%BB%98%E5%AE%9D%E6%9C%89%E5%AF%86%E9%80%80%E6%AC%BE%E6%8E%A5%E5%8F%A3/)**      (2016-7-25)
-* 6. **[支付宝有密批量付款接口](https://helei112g.github.io/2016/08/03/PHP%E6%8E%A5%E5%85%A5%E6%94%AF%E4%BB%98%E5%AE%9D%E6%9C%89%E5%AF%86%E6%89%B9%E9%87%8F%E8%BD%AC%E6%AC%BE%E6%8E%A5%E5%8F%A3/)**   (2016-7-27)
-* 7. **[支付宝订单查询接口](https://helei112g.github.io/2016/08/03/PHP%E6%8E%A5%E5%85%A5%E6%94%AF%E4%BB%98%E5%AE%9D%E5%8D%95%E7%AC%94%E8%AE%A2%E5%8D%95%E6%9F%A5%E8%AF%A2%E6%8E%A5%E5%8F%A3/)**    (2016-8-1)
+* 1. **[支付宝即时到帐](https://helei112g.github.io/2016/07/18/%E6%94%AF%E4%BB%98%E5%AE%9D%EF%BC%9A%E5%8D%B3%E6%97%B6%E5%88%B0%E8%B4%A6%E6%8E%A5%E5%8F%A3%E6%8E%A5%E5%85%A5/)** 
+* 2. **[支付宝异步通知回调](https://helei112g.github.io/2016/07/29/%E6%94%AF%E4%BB%98%E7%9A%84%E5%9B%9E%E8%B0%83%E7%BB%9F%E4%B8%80%E5%A4%84%E7%90%86/)**
+* 3. **[支付宝手机网站](https://helei112g.github.io/2016/07/29/PHP%E6%8E%A5%E5%85%A5%E6%94%AF%E4%BB%98%E5%AE%9D%E6%89%8B%E6%9C%BA%E7%BD%91%E7%AB%99%E6%94%AF%E4%BB%98%E3%80%81%E7%A7%BB%E5%8A%A8%E6%94%AF%E4%BB%98%E6%8E%A5%E5%8F%A3/)**
+* 4. **[支付宝移动支付](https://helei112g.github.io/2016/07/29/PHP%E6%8E%A5%E5%85%A5%E6%94%AF%E4%BB%98%E5%AE%9D%E6%89%8B%E6%9C%BA%E7%BD%91%E7%AB%99%E6%94%AF%E4%BB%98%E3%80%81%E7%A7%BB%E5%8A%A8%E6%94%AF%E4%BB%98%E6%8E%A5%E5%8F%A3/)**
+* 5. **[支付宝有密退款](https://helei112g.github.io/2016/08/03/PHP%E6%8E%A5%E5%85%A5%E6%94%AF%E4%BB%98%E5%AE%9D%E6%9C%89%E5%AF%86%E9%80%80%E6%AC%BE%E6%8E%A5%E5%8F%A3/)**
+* 6. **[支付宝有密批量付款](https://helei112g.github.io/2016/08/03/PHP%E6%8E%A5%E5%85%A5%E6%94%AF%E4%BB%98%E5%AE%9D%E6%9C%89%E5%AF%86%E6%89%B9%E9%87%8F%E8%BD%AC%E6%AC%BE%E6%8E%A5%E5%8F%A3/)**
+* 7. **[支付宝订单查询](https://helei112g.github.io/2016/08/03/PHP%E6%8E%A5%E5%85%A5%E6%94%AF%E4%BB%98%E5%AE%9D%E5%8D%95%E7%AC%94%E8%AE%A2%E5%8D%95%E6%9F%A5%E8%AF%A2%E6%8E%A5%E5%8F%A3/)**
 
 微信支付SDK接口文档
 
@@ -56,7 +55,7 @@
 
 Payment SDK | PHP版本
 ---|---
-2.x | cURL extension, 5.5 ~ 7.0
+2.x | cURL extension, mbstring, 5.5 ~ 7.0
 1.x | cURL extension, 5.3 ~ 5.6
 
 具体使用规则可参考 `examples/*` 中的示例.本SDK可直接运行.进行测试
