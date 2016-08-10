@@ -46,7 +46,7 @@ class WxRefundQuery extends WxTradeQuery
             $refund_id = 'refund_id_' . $i;// 微信退款单号
             $refund_channel = 'refund_channel_' . $i;// 退款渠道
             $refund_fee = 'refund_fee_' . $i;// 申请退款金额
-            $settlement_refund_fee = 'settlement_refund_fee_' . $i;// 实际退款金额
+            //$settlement_refund_fee = 'settlement_refund_fee_' . $i;// 实际退款金额
             $refund_status = 'refund_status_' . $i;// 退款状态
             $recv_accout = 'refund_recv_accout_' . $i;// 退款入账账户
 
@@ -58,7 +58,7 @@ class WxRefundQuery extends WxTradeQuery
                 'refund_id' => $data[$refund_id],
                 'refund_channel'    => $data[$refund_channel],
                 'refund_fee'    => $fee,
-                'settlement_refund_fee' => $data[$settlement_refund_fee],
+                //'settlement_refund_fee' => $data[$settlement_refund_fee],
                 'refund_status' => $data[$refund_status],
                 'recv_accout'   => $data[$recv_accout],
             ];

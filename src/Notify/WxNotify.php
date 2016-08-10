@@ -137,9 +137,7 @@ class WxNotify extends NotifyStrategy
         // 将金额处理为元
         $data['total_fee'] = bcdiv($data['total_fee'], 100, 2);
 
-        return [
-            'subject'   => $data['body'],
-            'body'   => $data['body'],
+        $retData = [
             'amount'   => $data['total_fee'],
             'channel'   => Config::WEIXIN,
             'order_no'   => $data['out_trade_no'],
@@ -150,6 +148,13 @@ class WxNotify extends NotifyStrategy
             'notify_time'   => date('Y-m-d H:i:s', time()),
             'notify_type'   => Config::TRADE_NOTIFY,// 通知类型为 支付行为
         ];
+
+        // 检查是否存在用户自定义参数
+        if (isset($data['attach']) && ! empty($data['attach'])) {
+            $retData['extra_param'] = $data['attach'];
+        }
+
+        return $retData;
     }
 
     /**
