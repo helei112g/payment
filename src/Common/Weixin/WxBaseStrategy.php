@@ -77,7 +77,6 @@ abstract class WxBaseStrategy implements BaseStrategy
         }
         
         $responseTxt = $this->curlPost($xml, $url);
-
         if ($responseTxt['error']) {
             throw new PayException('网络发生错误，请稍后再试curl返回码：' . $responseTxt['message']);
         }
@@ -136,9 +135,7 @@ abstract class WxBaseStrategy implements BaseStrategy
         }
 
         $this->reqData->setSign();
-        $data = $this->reqData->getData();
-        
-        $xml = DataParser::toXml($data);
+        $xml = DataParser::toXml($this->reqData->getData());
         $ret = $this->sendReq($xml);
 
         // 检查返回的数据是否被篡改

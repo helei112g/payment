@@ -44,7 +44,7 @@ abstract class WxBaseData extends BaseData
         switch ($this->signType) {
             case 'MD5':
                 $signStr .= '&key=' . $this->md5Key;
-                $sign = md5($signStr);
+                $sign = strtoupper(md5($signStr));
                 break;
             default :
                 $sign = '';

@@ -13,6 +13,7 @@ use Payment\Common\PayException;
 
 date_default_timezone_set('Asia/Shanghai');
 
+
 //  生成订单号 便于测试
 function createPayid()
 {
@@ -62,13 +63,13 @@ try {
     //$charge->initCharge($type, $aliconfig);
 
     // 微信 扫码支付
-    $type = Config::WX_CHANNEL_QR;
+    //$type = Config::WX_CHANNEL_QR;
 
     // 微信 APP支付
     //$type = Config::WX_CHANNEL_APP;
 
     // 微信 公众号支付
-    //$type = Config::WX_CHANNEL_PUB;
+    $type = Config::WX_CHANNEL_PUB;
     $charge->initCharge($type, $wxconfig);
     $ret = $charge->charge($payData);
 } catch (PayException $e) {
@@ -82,7 +83,7 @@ if ($type === Config::ALI_CHANNEL_APP) {
     echo "<img alt='扫码支付' src='http://paysdk.weixin.qq.com/example/qrcode.php?data={$url}' style='width:150px;height:150px;'/>";
 } elseif ($type === Config::WX_CHANNEL_PUB) {
     $json = $ret;
-    var_dump($json);exit;
+    var_dump($json);
 } elseif (stripos($type, 'wx') !== false) {
     var_dump($ret);
 } elseif (stripos($type, 'ali') !== false) {
