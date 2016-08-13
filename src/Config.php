@@ -12,7 +12,7 @@ namespace Payment;
 
 final class Config
 {
-    const VERSION = '2.0-dev';
+    const VERSION = '2.2';
 
     // ali相关接口
     const ALI = 'ali';
