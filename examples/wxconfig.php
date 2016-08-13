@@ -6,9 +6,9 @@
  */
 
 return [
-    'app_id'    => 'wx816a1bc3b853698c',  // 公众账号ID
-    'mch_id'    => '1348311301',// 商户id
-    'md5_key'   => 'kefho0457dnjhjhsfHalieKKHUaq12eT',// md5 秘钥
+    'app_id'    => 'wxxxxxx',  // 公众账号ID
+    'mch_id'    => 'xxxxxxxxxx',// 商户id
+    'md5_key'   => 'xxxxxxxxxxxx',// md5 秘钥
 
     'notify_url'    => 'http://test.helei.com/pay-notify.html',
     'time_expire'	=> '14',
