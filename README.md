@@ -18,9 +18,9 @@
 
 * 1. **[微信公众号支付\微信扫码支付\APP支付 接口](https://helei112g.github.io/2016/08/10/%E5%BE%AE%E4%BF%A1%E7%9A%84%E4%B8%89%E7%A7%8D%E6%94%AF%E4%BB%98%E6%96%B9%E5%BC%8F%E6%8E%A5%E5%85%A5%EF%BC%9AAPP%E6%94%AF%E4%BB%98%E3%80%81%E5%85%AC%E4%BC%97%E5%8F%B7%E6%94%AF%E4%BB%98%E3%80%81%E6%89%AB%E7%A0%81%E6%94%AF%E4%BB%98/)**
 * 2. **[订单查询接口/退款订单查询接口/企业付款查询接口](https://helei112g.github.io/2016/08/10/%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98%E8%AE%A2%E5%8D%95%E3%80%81%E9%80%80%E6%AC%BE%E8%AE%A2%E5%8D%95%E3%80%81%E8%BD%AC%E6%AC%BE%E8%AE%A2%E5%8D%95%E7%9A%84%E6%9F%A5%E8%AF%A2/)**
-* 3. **微信退款接口**
-* 4. **微信异步通知回调接口**
-* 5. **企业付款接口**
+* 3. **[微信退款接口](https://helei112g.github.io/2016/07/29/%E6%94%AF%E4%BB%98%E7%9A%84%E5%9B%9E%E8%B0%83%E7%BB%9F%E4%B8%80%E5%A4%84%E7%90%86/)**
+* 4. **[微信异步通知回调接口](https://helei112g.github.io/2016/08/16/PHP%E6%8E%A5%E5%85%A5%E5%BE%AE%E4%BF%A1%E9%80%80%E6%AC%BE%E6%8E%A5%E5%8F%A3/)**
+* 5. **[企业付款接口](https://helei112g.github.io/2016/08/16/PHP%E6%8E%A5%E5%85%A5%E5%BE%AE%E4%BF%A1%E4%BC%81%E4%B8%9A%E4%BB%98%E6%AC%BE%E5%8A%9F%E8%83%BD/)**
 
 # 使用说明
 

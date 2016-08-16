@@ -56,4 +56,49 @@ class WxTransfer extends WxBaseStrategy
 
         return $responseTxt;
     }
+
+    /**
+     * 转款的返回数据
+     * @param array $ret
+     * @return mixed
+     */
+    protected function retData(array $ret)
+    {
+        // 请求失败，可能是网络
+        if ($ret['return_code'] != 'SUCCESS') {
+            return $retData = [
+                'is_success'    => 'F',
+                'error' => $ret['return_msg']
+            ];
+        }
+
+        // 业务失败
+        if ($ret['result_code'] != 'SUCCESS') {
+            return $retData = [
+                'is_success'    => 'F',
+                'error' => $ret['err_code_des']
+            ];
+        }
+
+        return $this->createBackData($ret);
+    }
+
+    /**
+     * 返回数据
+     * @param array $data
+     * @return array
+     */
+    protected function createBackData(array $data)
+    {
+        $retData = [
+            'is_success'    => 'T',
+            'response'  => [
+                'trans_no'   => $data['partner_trade_no'],
+                'trans_id'  => $data['payment_no'],
+                'payment_time' => $data['payment_time'],// 企业付款成功时间  2015-05-19 15:26:59
+            ],
+        ];
+
+        return $retData;
+    }
 }

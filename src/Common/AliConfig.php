@@ -49,6 +49,9 @@ final class AliConfig extends ConfigInterface
 
     // 付款账号 支付宝账号，邮箱或者手机
     public $account;
+
+    // 加密方式 默认使用RSA
+    public $signType;
     
 
     public function __construct(array $config)
@@ -92,8 +95,8 @@ final class AliConfig extends ConfigInterface
         // 初始 RSA私钥文件 需要检查该文件是否存在
         if (key_exists('rsa_private_key', $config) && file_exists($config['rsa_private_key'])) {
             $this->rsaPrivatePath = $config['rsa_private_key'];
-        } else {
-            throw new PayException('RSA私钥文件 不能为空，请确保在该路径下存在');
+        } elseif ($config['sign_type'] === 'RSA') {
+            throw new PayException('RSA加密时,必须提供RSA私钥文件，请确保在该路径下存在');
         }
 
         // 初始 支付宝异步通知地址，可为空
@@ -125,6 +128,12 @@ final class AliConfig extends ConfigInterface
         // 初始化 付款账号，付款方的支付宝账号，支持邮箱和手机号2种格式。
         if (!empty($config['account'])) {
             $this->account = $config['account'];
+        }
+
+        $this->signType = 'RSA';
+        // 初始化 加密方式,默认采用RSA
+        if (!empty($config['sign_type'])) {
+            $this->signType = strtoupper($config['sign_type']);
         }
     }
 }

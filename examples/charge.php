@@ -35,7 +35,7 @@ $payData = [
 $payData['product_id']  = '123456';
 
 // 微信公众号支付，需要的参数
-$payData['openid'] = 'otijfvr2oMz3tXnaQdKKbQeeBmhM';// 需要通过微信提供的api获取该openid
+$payData['openid'] = 'oinNst2_hWU_5oBigLd8n3-59PCc';// 需要通过微信提供的api获取该openid
 
 /**
  * 包含客户的配置文件
@@ -55,12 +55,12 @@ try {
     //$type = Config::ALI_CHANNEL_WEB;
 
     // 支付宝 手机网站支接口
-    //$type = Config::ALI_CHANNEL_WAP;
+    $type = Config::ALI_CHANNEL_WAP;
 
     // 支付宝 移动支付接口
     //$type = Config::ALI_CHANNEL_APP;
 
-    //$charge->initCharge($type, $aliconfig);
+    $charge->initCharge($type, $aliconfig);
 
     // 微信 扫码支付
     //$type = Config::WX_CHANNEL_QR;
@@ -69,8 +69,8 @@ try {
     //$type = Config::WX_CHANNEL_APP;
 
     // 微信 公众号支付
-    $type = Config::WX_CHANNEL_PUB;
-    $charge->initCharge($type, $wxconfig);
+    /*$type = Config::WX_CHANNEL_PUB;
+    $charge->initCharge($type, $wxconfig);*/
     $ret = $charge->charge($payData);
 } catch (PayException $e) {
     echo $e->errorMessage();exit;

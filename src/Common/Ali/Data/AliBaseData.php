@@ -48,7 +48,7 @@ abstract class AliBaseData extends BaseData
     {
         parent::__construct($config, $reqData);
 
-        $this->signType = 'RSA';// 默认使用RSA 进行加密处理
+        $this->signType = $config->signType;// 默认使用RSA 进行加密处理
     }
 
     /**
