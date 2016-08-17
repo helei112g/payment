@@ -295,15 +295,13 @@ class AliNotify extends NotifyStrategy
         $url = $this->config->getewayUrl . 'service=notify_verify&partner='
             . $this->config->partner . '&notify_id=' . $notify_id . '&_input_charset=' . $this->config->inputCharset;
 
-        $veryfy_url = htmlspecialchars($url);
-
         $curl = new Curl();
         $responseTxt = $curl->set([
             'CURLOPT_SSL_VERIFYPEER'    => true,
             'CURLOPT_SSL_VERIFYHOST'    => 2,
             'CURLOPT_CAINFO'    => $this->config->cacertPath,
             'CURLOPT_HEADER'    => 0,// 为了便于解析，将头信息过滤掉
-        ])->get($veryfy_url);
+        ])->get($url);
         
         if (preg_match("/true$/i",$responseTxt['body'])) {
             return true;
