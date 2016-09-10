@@ -89,7 +89,6 @@ class AliTradeQuery extends AliBaseStrategy
      */
     protected function createBackData(array $data)
     {
-        $retData = [];
         if ($data['is_success'] === 'F') {
             return $retData = [
                 'is_success'    => 'F',
@@ -102,7 +101,7 @@ class AliTradeQuery extends AliBaseStrategy
             'is_success'    => 'T',
             'response'  => [
                 'subject'   => $data['response']['subject'],
-                'body'   => $data['response']['body'],
+                'body'   => isset($data['response']['body']) ? $data['response']['body'] : '',
                 'amount'   => $data['response']['total_fee'],
                 'channel'   => Config::ALI,
                 'order_no'   => $data['response']['out_trade_no'],
