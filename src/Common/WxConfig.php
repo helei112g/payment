@@ -127,11 +127,12 @@ final class WxConfig extends ConfigInterface
         }
 
         // 设置交易开始时间 格式为yyyyMMddHHmmss   .再次之前一定要设置时区
-        $this->timeStart = date('YmdHis', time());
+        $startTime = time();
+        $this->timeStart = date('YmdHis', $startTime);
 
         // 初始 微信订单过期时间，最短失效时间间隔必须大于5分钟
         if (key_exists('time_expire', $config) && !empty($config['time_expire']) && $config['time_expire'] >= 5) {
-            $this->timeExpire = $this->timeStart + ($config['time_expire'] * 60);
+            $this->timeExpire = date('YmdHis', $startTime + ($config['time_expire'] * 60));
         } else {
             throw new PayException('必须设置订单过期时间,且需要大于5分钟.如果不正确请检查是否正确设置时区');
         }
