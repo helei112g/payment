@@ -32,7 +32,7 @@ class AliAppCharge extends AliBaseStrategy
     protected function retData(array $data)
     {
         // 如果是移动支付，直接返回数据信息。并且对sign做urlencode编码
-        $data['sign'] = urlencode($data['sign']);
+        $data['sign'] = '"' . urlencode($data['sign']) . '"';
         return ArrayUtil::createLinkstring($data);
     }
 }
