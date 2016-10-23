@@ -31,8 +31,10 @@ class AliAppCharge extends AliBaseStrategy
 
     protected function retData(array $data)
     {
+        $data = ArrayUtil::arraySort($data);// 因为签名时进行了排序，此处返回时也要进行排序，否则支付验证签名无法通过
         // 如果是移动支付，直接返回数据信息。并且对sign做urlencode编码
         $data['sign'] = '"' . urlencode($data['sign']) . '"';
+
         return ArrayUtil::createLinkstring($data);
     }
 }

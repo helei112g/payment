@@ -18,7 +18,7 @@ final class AliConfig extends ConfigInterface
     public $getewayUrl = 'https://mapi.alipay.com/gateway.do?';
 
     // 采用的编码
-    public $inputCharset = 'utf-8';
+    public $inputCharset = 'UTF-8';
 
     // 合作者身份ID
     public $partner;

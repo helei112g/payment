@@ -55,10 +55,10 @@ try {
     //$type = Config::ALI_CHANNEL_WEB;
 
     // 支付宝 手机网站支接口
-    $type = Config::ALI_CHANNEL_WAP;
+    //$type = Config::ALI_CHANNEL_WAP;
 
     // 支付宝 移动支付接口
-    //$type = Config::ALI_CHANNEL_APP;
+    $type = Config::ALI_CHANNEL_APP;
 
     $charge->initCharge($type, $aliconfig);
 
@@ -77,15 +77,15 @@ try {
 }
 
 if ($type === Config::ALI_CHANNEL_APP) {
-    var_dump($ret);
+    echo $ret;exit;
 } elseif ($type === Config::WX_CHANNEL_QR) {
     $url = urlencode($ret);
-    echo "<img alt='扫码支付' src='http://paysdk.weixin.qq.com/example/qrcode.php?data={$url}' style='width:150px;height:150px;'/>";
+    echo "<img alt='扫码支付' src='http://paysdk.weixin.qq.com/example/qrcode.php?data={$url}' style='width:150px;height:150px;'/>";exit;
 } elseif ($type === Config::WX_CHANNEL_PUB) {
     $json = $ret;
     var_dump($json);
 } elseif (stripos($type, 'wx') !== false) {
-    var_dump($ret);
+    var_dump($ret);exit;
 } elseif (stripos($type, 'ali') !== false) {
     // 跳转支付宝
     header("Location:{$ret}");
