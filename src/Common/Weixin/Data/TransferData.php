@@ -51,8 +51,8 @@ class TransferData extends WxBaseData
             'amount'    => $this->trans_fee,// 此处需要处理单位为分
             'desc'  => $this->desc,
 
-            // $_SERVER["REMOTE_ADDR"]  获取客户端接口。此处获取php所在机器的ip
-            'spbill_create_ip'  => gethostbyname($_ENV['COMPUTERNAME']),
+            // $_SERVER["REMOTE_ADDR"]  获取客户端接口。此处获取php所在机器的ip  如果无法获取，则使用该ip
+            'spbill_create_ip'  => isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '127.0.0.1',
         ];
 
         $this->retData = ArrayUtil::paraFilter($this->retData);
