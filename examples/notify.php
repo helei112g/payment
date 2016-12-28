@@ -24,10 +24,10 @@ $callback = new TestNotify();
 
 try {
     // 支付宝回调
-    //$notify->initNotify(Config::ALI, $aliconfig);
+    $notify->initNotify(Config::ALI, $aliconfig);
 
     // 微信回调
-    $notify->initNotify(Config::WEIXIN, $wxconfig);
+    //$notify->initNotify(Config::WEIXIN, $wxconfig);
 
     $ret = $notify->notify($callback);
 } catch (PayException $e) {

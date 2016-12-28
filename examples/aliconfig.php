@@ -22,7 +22,8 @@ return [
 
     // 新版与老版支付  共同参数，
     'rsa_private_key'   => dirname(__FILE__) . DIRECTORY_SEPARATOR . 'rsa_private_key.pem',
-    "notify_url"	=> 'http://test.helei.com/notify-url.html',
-    "return_url"	=> 'http://test.helei.com/return-url.html',
-    "time_expire"	=> '15',// 取值为分钟
+    'ali_public_key'    => dirname(__FILE__) . DIRECTORY_SEPARATOR . 'alipay_public_key.pem',// 支付宝新版本，每个应用对应的公钥都不一样了
+    "notify_url"	    => 'https://api-demo.yimishiji.com/v1/notify/ali',
+    "return_url"	    => 'https://www.yimishiji.com',
+    "time_expire"	    => '15',// 取值为分钟
 ];

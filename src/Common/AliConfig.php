@@ -77,7 +77,11 @@ final class AliConfig extends ConfigInterface
         }
 
         $basePath = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'Ali' . DIRECTORY_SEPARATOR;
-        $this->rsaAliPubPath = "{$basePath}alipay_public_key.pem";
+
+        if (!isset($config['ali_version'])) {// 兼容老版本
+            $this->rsaAliPubPath = "{$basePath}alipay_public_key.pem";
+        }
+
         $this->cacertPath = "{$basePath}cacert.pem";
     }
 
@@ -180,6 +184,13 @@ final class AliConfig extends ConfigInterface
             $this->appId = $config['app_id'];
         } else {
             throw new PayException('支付宝分配给开发者的应用ID 新版支付，必须提供');
+        }
+
+        // 新版本，需要提供独立的公钥信息。每一个应用，公钥都不相同
+        if (key_exists('ali_public_key', $config) && file_exists($config['ali_public_key'])) {
+            $this->rsaAliPubPath = $config['ali_public_key'];
+        } else {
+            throw new PayException('使用新版支付宝支付，必须提供开发者平台中的支付宝公钥，每一个应用都不相同');
         }
 
         // 初始 支付宝网关地址

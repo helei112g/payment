@@ -67,13 +67,12 @@ class AliNotify extends NotifyStrategy
     {
         // 检查签名
         $flag = $this->verifySign($data);
-        if ($flag === false) {// 签名失败，直接返回
-            return $flag;
-        }
 
-        // 检查请求是否来自支付宝
-        $isFrom = $this->isFromAli($data['notify_id']);
-        return $isFrom;
+        return $flag;
+
+        // 检查请求是否来自支付宝  之后都不在进行该检查，支付宝这个功能很鸡肋
+        /*$isFrom = $this->isFromAli($data['notify_id']);
+        return $isFrom;*/
     }
 
     /**
@@ -153,10 +152,8 @@ class AliNotify extends NotifyStrategy
         $retData = [
             'subject'   => $data['subject'],
             'body'   => $data['body'],
-            'amount'   => $data['total_fee'],
             'channel'   => Config::ALI,
             'order_no'   => $data['out_trade_no'],
-            'buyer_id'   => $data['buyer_email'],
             'trade_state'   => $status,
             'transaction_id'   => $data['trade_no'],
             'time_end'   => $data['gmt_payment'],
@@ -164,9 +161,33 @@ class AliNotify extends NotifyStrategy
             'notify_type'   => Config::TRADE_NOTIFY,// 通知类型为 支付行为
         ];
 
-        // 检查是否存在用户自定义参数
-        if (isset($data['extra_common_param']) && ! empty($data['extra_common_param'])) {
-            $retData['extra_param'] = $data['extra_common_param'];
+
+        if ($this->config->version) {
+            // 新版本
+            $retData = array_merge($retData, [
+                'buyer_id'   => $data['buyer_logon_id'],
+                'amount'   => $data['total_amount'],
+                'receipt_amount' => $data['receipt_amount'],// 商家在交易中实际收到的款项，单位为元
+                'pay_amount' => $data['buyer_pay_amount'],// 用户在交易中支付的金额
+                'point_amount' => $data['point_amount'],// 使用集分宝支付的金额
+                'fund_bill_list' => $data['fund_bill_list'],// 支付成功的各个渠道金额信息
+            ]);
+
+            // 检查是否存在用户自定义参数
+            if (isset($data['passback_params']) && ! empty($data['passback_params'])) {
+                $retData['extra_param'] = $data['passback_params'];
+            }
+        } else {
+            // 老版本
+            $retData = array_merge($retData, [
+                'buyer_id'   => $data['buyer_email'],
+                'amount'   => $data['total_fee'],
+            ]);
+
+            // 检查是否存在用户自定义参数
+            if (isset($data['extra_common_param']) && ! empty($data['extra_common_param'])) {
+                $retData['extra_param'] = $data['extra_common_param'];
+            }
         }
 
         return $retData;

@@ -22,12 +22,11 @@ function createPayid()
 
 // 订单信息
 $payData = [
-    //"order_no"	=> createPayid(),
-    "order_no"	=> '1482834018',
+    "order_no"	=> createPayid(),
     "amount"	=> '1.00',// 单位为元 ,最小为0.01
     "client_ip"	=> '127.0.0.1',
-    "subject"	=> '测试',
-    "body"	=> 'test app pay',
+    "subject"	=> 'test',
+    "body"	=> 'test wap pay',
     "show_url"  => 'http://mall.tiyushe.com/goods/23.html',// 支付宝手机网站支付接口 该参数必须上传 。其他接口忽略
     "extra_param"	=> '',
 ];
