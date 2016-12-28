@@ -1,61 +1,55 @@
 <?php
 /**
  * @author: helei
- * @createTime: 2016-06-22 10:00
- * @description: 退款接口示例
+ * @createTime: 2016-07-27 11:00
+ * @description: 退款调试接口
  */
 
 require_once __DIR__ . '/../autoload.php';
 
-use Payment\Factory\TradeFactory;
-use Payment\Common\ChargeChannel;
+use Payment\RefundContext;
 use Payment\Common\PayException;
-use Payment\Utils\Curl;
+use Payment\Config;
 
-// 需要的数据
-/**
- * 第三方的订单号
- * $transaction_id;
- *
- * 商户订单号
- * $order_no;
- *
- * 商户退款单号   不可重复。
- * 成规则：退款日期（8位）+流水号（3～24位）。不可重复，且退款日期必须是当天日期。
- * 流水号可以接受数字或英文字符，建议使用数字，但不可接受“000”。
- * eg: 201101120001
- * $refund_no;
- *
- * 该笔订单总金额
- * $amount;
- *
- * 退款金额
- * $refund_fee;
- *
- * 额外数据(退款理由)
- * $description;
- *
- * 退款成功后回调地址
- * $success_url
- */
+//  生成退款单号 便于测试
+function createPayid()
+{
+    return date('Ymdhis', time()).substr(floor(microtime()*1000),0,1).rand(0,9);
+}
 
-$data = [
-    'transaction_id'    => '2016061821001004170239716390',
-    'order_no'  => 'F618376986170189',
-    'refund_no' => date('Ymd', time()) . mt_rand(1000, 9999),
-    'amount'    => 0.01,
-    'refund_fee'    => 0.01,
-    'description'   => '测试使用的金额',
-    'success_url'   => 'http://www.tys.tiyushe.net/rt/TestRefund/notify.html'
+// 支付宝配置文件
+$aliconfig = require_once __DIR__ . '/aliconfig.php';
+
+// 微信配置文件
+$wxconfig = require_once __DIR__ . '/wxconfig.php';
+
+// 退款数据
+$reundData = [
+    'refund_no' => createPayid(),
+    'refund_data'   => [
+        ['transaction_id' => '4007572001201607098672633287', 'amount'   => '5', 'refund_fee' => '5', 'reason' => '微信测试金额退款'],
+        //['transaction_id' => '2016031521001004330271745693', 'amount'   => '0.01', 'refund_fee' => '0.01', 'reason' => '测试退款2'],
+    ],
 ];
 
-// 支付宝的退款
-$api = TradeFactory::getInstance(ChargeChannel::CHANNEL_IS_ALIPAY);
-
+$refund = new RefundContext();
 try {
-    $url = $api->refund($data);
-    
-    header("Location:{$url}");
+    // 支付宝退款
+    //$type = Config::ALI;
+    //$refund->initRefund($type, $aliconfig);
+
+    // 微信退款
+    $type = Config::WEIXIN;
+    $refund->initRefund(Config::WEIXIN, $wxconfig);
+
+    $ret = $refund->refund($reundData);
 } catch (PayException $e) {
-    echo $e->errorMessage();
+    echo $e->errorMessage();exit;
+}
+
+if ($type == Config::WEIXIN) {
+    var_dump($ret);exit;
+} else {
+    // 跳转支付宝
+    header("Location:{$ret}");
 }

@@ -3,7 +3,7 @@
 function classLoader($class)
 {
     $path = str_replace('\\', DIRECTORY_SEPARATOR, $class);
-    $path = str_replace('Payment\\', '', $path);
+    $path = str_replace('Payment' . DIRECTORY_SEPARATOR, '', $path);
 
     $file = __DIR__ . '/src/' . $path . '.php';
 

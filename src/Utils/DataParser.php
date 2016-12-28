@@ -3,6 +3,8 @@
  * @author: helei
  * @createTime: 2016-06-08 13:02
  * @description: 数据解析的工具类，主要处理，xml到数组  数组到xml的转化
+ * @link      https://github.com/helei112g/payment/tree/paymentv2
+ * @link      https://helei112g.github.io/
  */
 
 namespace Payment\Utils;
@@ -36,7 +38,7 @@ class DataParser
     /**
      * 将xml转为array
      * @param string $xml
-     * @return array
+     * @return array|false
      */
     public static function toArray($xml)
     {

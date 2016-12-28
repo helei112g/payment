@@ -2,7 +2,9 @@
 /**
  * @author: helei
  * @createTime: 2016-06-08 16:29
- * @description:
+ * @description: rsa加密算法
+ * @link      https://github.com/helei112g/payment/tree/paymentv2
+ * @link      https://helei112g.github.io/
  */
 
 namespace Payment\Utils;
