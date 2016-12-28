@@ -99,4 +99,26 @@ abstract class AliBaseStrategy implements BaseStrategy
         $url = $this->config->getewayUrl . http_build_query($data);
         return $url;
     }
+
+    /**
+     * 返回统一的交易状态  做一些转化，方便处理
+     * @param $status
+     * @return string
+     * @author helei
+     */
+    protected function getTradeStatus($status)
+    {
+        switch ($status) {
+            case 'TRADE_SUCCESS':
+            case 'TRADE_FINISHED':
+                return Config::TRADE_STATUS_SUCC;
+
+            case 'WAIT_BUYER_PAY':
+            case 'TRADE_CLOSED':
+            default :
+                return Config::TRADE_STATUS_FAILD;
+
+
+        }
+    }
 }

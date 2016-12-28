@@ -71,12 +71,17 @@ class AliTradeQuery extends AliBaseStrategy
             throw new PayException('网络发生错误，请稍后再试');
         }
 
-        // 格式化为数组
-        $retData = DataParser::toArray($responseTxt['body']);
+        $body = $responseTxt['body'];
 
-        // 移除不必要参数
-        $retData = ArrayUtil::removeKeys($retData, ['sign', 'sign_type', 'request']);
-        $retData['response'] = $retData['response']['trade'];
+        // 格式化为数组
+        if ($this->config->version && $this->config->format === 'JSON') {
+            $retData = json_decode($body, true)['alipay_trade_query_response'];
+        } else {
+            $retData = DataParser::toArray($body);
+            // 移除不必要参数
+            $retData = ArrayUtil::removeKeys($retData, ['sign', 'sign_type', 'request']);
+            $retData['response'] = $retData['response']['trade'];
+        }
 
         return $retData;
     }
@@ -89,6 +94,40 @@ class AliTradeQuery extends AliBaseStrategy
      */
     protected function createBackData(array $data)
     {
+
+        if ($this->config->version) {
+            // 新版本
+            if ($data['code'] !== '10000') {
+                return $retData = [
+                    'is_success'    => 'F',
+                    'error' => $data['sub_msg']
+                ];
+            }
+
+            // 正确情况
+            $retData = [
+                'is_success'    => 'T',
+                'response'  => [
+                    'subject'   => '',
+                    'body'   => '',
+                    'amount'   => $data['total_amount'],
+                    'receipt_amount' => $data['receipt_amount'],// 实收金额，单位为元，两位小数。
+                    'pay_amount'    => $data['buyer_pay_amount'],// 改值可能不准
+                    'point_amount' => $data['point_amount'],// 使用集分宝支付的金额
+                    'fund_bill_list' => empty($data['fund_bill_list']) ? '' : $data['fund_bill_list'],// 支付成功的各个渠道金额信息
+                    'channel'   => Config::ALI,
+                    'order_no'   => $data['out_trade_no'],
+                    'buyer_id'   => $data['buyer_logon_id'],
+                    'trade_state'   => $this->getTradeStatus($data['trade_status']),
+                    'transaction_id'   => $data['trade_no'],
+                    'time_end'   => $data['send_pay_date'],
+                ],
+            ];
+
+            return $retData;
+        }
+
+
         if ($data['is_success'] === 'F') {
             return $retData = [
                 'is_success'    => 'F',
@@ -106,7 +145,7 @@ class AliTradeQuery extends AliBaseStrategy
                 'channel'   => Config::ALI,
                 'order_no'   => $data['response']['out_trade_no'],
                 'buyer_id'   => $data['response']['buyer_email'],
-                'trade_state'   => strtolower($data['response']['trade_status']),
+                'trade_state'   => $this->getTradeStatus($data['response']['trade_status']),
                 'transaction_id'   => $data['response']['trade_no'],
                 'time_end'   => $data['response']['gmt_payment'],
             ],
