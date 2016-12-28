@@ -28,6 +28,9 @@ final class Config
     /// 支付宝 手机app 支付
     const ALI_CHANNEL_APP = 'ali_app';
 
+    // 支付宝 扫码支付  主要用于pc站点
+    const ALI_CHANNEL_QR = 'ali_web';
+
     //========================= 微信相关接口 ======================//
     const WEIXIN = 'wx';
 
@@ -76,10 +79,14 @@ final class Config
     const ALI_API_VERSION = '1.0';// 支付宝新版本号
 
     // 支付宝的新版接口名称常量定义
+    // app 支付
     const ALI_TRADE_APP = 'alipay.trade.app.pay';
 
     // wap 支付
     const ALI_TRADE_WAP = 'alipay.trade.wap.pay';
+
+    // 扫码支付
+    const ALI_TRADE_QR = 'alipay.trade.precreate';
 
     // 统一收单线下交易查询
     const ALI_TRADE_QUERY = 'alipay.trade.query';

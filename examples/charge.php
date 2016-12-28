@@ -55,10 +55,13 @@ try {
     //$type = Config::ALI_CHANNEL_WEB;
 
     // 支付宝 手机网站支接口
-    $type = Config::ALI_CHANNEL_WAP;
+    //$type = Config::ALI_CHANNEL_WAP;
 
     // 支付宝 移动支付接口
     //$type = Config::ALI_CHANNEL_APP;
+
+    // 支付宝  扫码支付
+    $type = Config::ALI_CHANNEL_QR;
 
     $charge->initCharge($type, $aliconfig);
 
@@ -78,9 +81,11 @@ try {
 
 if ($type === Config::ALI_CHANNEL_APP) {
     echo $ret;exit;
+} elseif ($type === Config::ALI_CHANNEL_QR) {
+    echo "<img alt='支付宝扫码支付' src='{$ret}' style='width:150px;height:150px;'/>";exit;
 } elseif ($type === Config::WX_CHANNEL_QR) {
-    $url = urlencode($ret);
-    echo "<img alt='扫码支付' src='http://paysdk.weixin.qq.com/example/qrcode.php?data={$url}' style='width:150px;height:150px;'/>";exit;
+    $url = \Payment\Utils\DataParser::toQRimg($ret);
+    echo "<img alt='微信扫码支付' src='{$url}' style='width:150px;height:150px;'/>";exit;
 } elseif ($type === Config::WX_CHANNEL_PUB) {
     $json = $ret;
     var_dump($json);
