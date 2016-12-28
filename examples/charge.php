@@ -82,7 +82,8 @@ try {
 if ($type === Config::ALI_CHANNEL_APP) {
     echo $ret;exit;
 } elseif ($type === Config::ALI_CHANNEL_QR) {
-    echo "<img alt='支付宝扫码支付' src='{$ret}' style='width:150px;height:150px;'/>";exit;
+    $url = \Payment\Utils\DataParser::toQRimg($ret);// 内部会用到google 生成二维码的api  可能有些同学反应很慢
+    echo "<img alt='支付宝扫码支付' src='{$url}' style='width:150px;height:150px;'/>";exit;
 } elseif ($type === Config::WX_CHANNEL_QR) {
     $url = \Payment\Utils\DataParser::toQRimg($ret);
     echo "<img alt='微信扫码支付' src='{$url}' style='width:150px;height:150px;'/>";exit;

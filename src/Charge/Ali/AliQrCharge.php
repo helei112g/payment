@@ -57,6 +57,6 @@ class AliQrCharge extends AliBaseStrategy
             throw new PayException($data['sub_msg']);
         }
 
-        return DataParser::toQRimg($data['alipay_trade_precreate_response']['qr_code']);
+        return $data['qr_code'];
     }
 }
