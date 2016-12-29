@@ -10,7 +10,7 @@ return [
     'mch_id'    => 'xxxxx',// 商户id
     'md5_key'   => 'xxxxxx',// md5 秘钥
 
-    'notify_url'    => 'http://test.helei.com/pay-notify.html',
+    'notify_url'    => 'https://helei112g.github.io/',
     'time_expire'	=> '14',
 
     // 涉及资金流动时 退款  转款，需要提供该文件

@@ -27,7 +27,7 @@ $payData = [
     "client_ip"	=> '127.0.0.1',
     "subject"	=> 'test',
     "body"	=> 'test wap pay',
-    "show_url"  => 'http://mall.tiyushe.com/goods/23.html',// 支付宝手机网站支付接口 该参数必须上传 。其他接口忽略
+    "show_url"  => 'https://helei112g.github.io/',// 支付宝手机网站支付接口 该参数必须上传 。其他接口忽略
     "extra_param"	=> '',
 ];
 
