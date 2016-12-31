@@ -10,7 +10,6 @@ namespace Payment\Common\Ali\Data\Charge;
 
 
 use Payment\Common\PayException;
-use Payment\Config;
 
 /**
  * 支付宝 扫码支付
@@ -36,7 +35,7 @@ class QrChargeData extends ChargeBaseData
         $signData = [
             // 公共参数
             'app_id'        => $this->appId,
-            'method'        => Config::ALI_TRADE_QR,
+            'method'        => $this->method,
             'format'        => $this->format,
             'charset'       => $this->inputCharset,
             'sign_type'     => $this->signType,

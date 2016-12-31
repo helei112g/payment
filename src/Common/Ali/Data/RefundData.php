@@ -7,8 +7,6 @@
 
 namespace Payment\Common\Ali\Data;
 
-
-use Payment\Common\AliConfig;
 use Payment\Common\PayException;
 use Payment\Config;
 use Payment\Utils\ArrayUtil;
@@ -154,7 +152,7 @@ class RefundData extends AliBaseData
         $signData = [
             // 公共参数
             'app_id'        => $this->appId,
-            'method'        => Config::ALI_TRADE_REFUDN,
+            'method'        => $this->method,
             'format'        => $this->format,
             'charset'       => $this->inputCharset,
             'sign_type'     => $this->signType,

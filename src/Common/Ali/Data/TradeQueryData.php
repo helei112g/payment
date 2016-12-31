@@ -7,9 +7,7 @@
 
 namespace Payment\Common\Ali\Data;
 
-
 use Payment\Common\PayException;
-use Payment\Config;
 use Payment\Utils\ArrayUtil;
 
 /**
@@ -79,7 +77,7 @@ class TradeQueryData extends AliBaseData
         $data = [
             // 公共参数
             'app_id'        => $this->appId,
-            'method'        => Config::ALI_TRADE_QUERY,
+            'method'        => $this->method,
             'format'        => $this->format,
             'charset'       => $this->inputCharset,
             'sign_type'     => $this->signType,

@@ -37,6 +37,7 @@ use Payment\Utils\RsaEncrypt;
  * @property string $format   仅支持JSON
  * @property string $version   调用的接口版本，固定为：1.0
  * @property string $timestamp  发送请求的时间，格式"yyyy-MM-dd HH:mm:ss"
+ * @property string $method   	接口名称
  *
  * @package Payment\Charge\Ali\Data
  * anthor helei

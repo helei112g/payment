@@ -7,8 +7,6 @@
 
 namespace Payment\Common\Ali\Data\Charge;
 
-
-use Payment\Common\AliConfig;
 use Payment\Config;
 
 class AppChargeData extends ChargeBaseData
@@ -58,7 +56,7 @@ class AppChargeData extends ChargeBaseData
         $signData = [
             // 公共参数
             'app_id'        => $this->appId,
-            'method'        => Config::ALI_TRADE_APP,
+            'method'        => $this->method,
             'format'        => $this->format,
             'charset'       => $this->inputCharset,
             'sign_type'     => $this->signType,

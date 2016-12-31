@@ -8,9 +8,7 @@
 namespace Payment\Common\Ali\Data\Charge;
 
 
-use Payment\Common\AliConfig;
 use Payment\Common\PayException;
-use Payment\Config;
 use Payment\Utils\ArrayUtil;
 
 class WapChargeData extends ChargeBaseData
@@ -63,7 +61,7 @@ class WapChargeData extends ChargeBaseData
         $signData = [
             // 公共参数
             'app_id'        => $this->appId,
-            'method'        => Config::ALI_TRADE_WAP,
+            'method'        => $this->method,
             'format'        => $this->format,
             'return_url'    => $this->returnUrl,
             'charset'       => $this->inputCharset,

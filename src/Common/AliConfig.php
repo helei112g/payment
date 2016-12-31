@@ -67,6 +67,28 @@ final class AliConfig extends ConfigInterface
     // 发送请求的时间，格式"yyyy-MM-dd HH:mm:ss"
     public $timestamp;
 
+    // 	接口名称
+    public $method;// 参考 定义的常量
+
+    // 支付宝的新版接口名称常量定义
+    // app 支付
+    const ALI_TRADE_APP = 'alipay.trade.app.pay';
+
+    // wap 支付
+    const ALI_TRADE_WAP = 'alipay.trade.wap.pay';
+
+    // 扫码支付
+    const ALI_TRADE_QR = 'alipay.trade.precreate';
+
+    // 统一收单线下交易查询
+    const ALI_TRADE_QUERY = 'alipay.trade.query';
+
+    // 统一收单交易退款接口
+    const ALI_TRADE_REFUDN = 'alipay.trade.refund';
+
+    // 统一收单交易退款查询  未完成
+    const ALI_REFUND_QUERY = 'alipay.trade.fastpay.refund.query';
+
     public function __construct(array $config)
     {
         // 初始化配置信息

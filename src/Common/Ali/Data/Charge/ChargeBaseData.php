@@ -9,7 +9,6 @@ namespace Payment\Common\Ali\Data\Charge;
 
 
 use Payment\Common\Ali\Data\AliBaseData;
-use Payment\Common\AliConfig;
 use Payment\Common\PayException;
 use Payment\Config;
 use Payment\Utils\ArrayUtil;
