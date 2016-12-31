@@ -43,6 +43,7 @@ class AliRefundQuery extends AliTradeQuery
             ];
         }
 
+        // 这里有个诡异情况。查询数据全部为空。仅返回一个成功的标记
         $retData = [
             'is_success'    => 'T',
             'response'  => [
