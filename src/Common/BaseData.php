@@ -45,8 +45,6 @@ abstract class BaseData
         } catch (PayException $e) {
             throw $e;
         }
-
-        $this->signType = 'RSA';// 默认使用RSA 进行加密处理
     }
 
     /**

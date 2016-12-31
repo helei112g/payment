@@ -85,6 +85,7 @@ class WxTradeQuery extends WxBaseStrategy
                 'trade_state'   => strtolower($data['trade_state']),
                 'transaction_id'   => $data['transaction_id'],
                 'time_end'   => date('Y-m-d H:i:s', strtotime($data['time_end'])),
+                'attach'    => $data['attach'],
             ],
         ];
 

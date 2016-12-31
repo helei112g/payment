@@ -51,6 +51,9 @@ final class WxConfig extends ConfigInterface
     // key文件路径
     public $keyPath;
 
+    // 加密方式 默认使用MD5  微信当前仅支持该方式
+    public $signType = 'MD5';
+
     // 统一下单url
     const UNIFIED_URL = 'https://api.mch.weixin.qq.com/pay/unifiedorder';
 

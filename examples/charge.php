@@ -55,13 +55,13 @@ try {
     //$type = Config::ALI_CHANNEL_WEB;
 
     // 支付宝 手机网站支接口
-    //$type = Config::ALI_CHANNEL_WAP;
+    $type = Config::ALI_CHANNEL_WAP;
 
     // 支付宝 移动支付接口
     //$type = Config::ALI_CHANNEL_APP;
 
     // 支付宝  扫码支付
-    $type = Config::ALI_CHANNEL_QR;
+    //$type = Config::ALI_CHANNEL_QR;
 
     $charge->initCharge($type, $aliconfig);
 
@@ -72,8 +72,9 @@ try {
     //$type = Config::WX_CHANNEL_APP;
 
     // 微信 公众号支付
-    /*$type = Config::WX_CHANNEL_PUB;
-    $charge->initCharge($type, $wxconfig);*/
+    //$type = Config::WX_CHANNEL_PUB;
+
+    //$charge->initCharge($type, $wxconfig);
     $ret = $charge->charge($payData);
 } catch (PayException $e) {
     echo $e->errorMessage();exit;
