@@ -22,8 +22,8 @@ function createPayid()
 
 // 订单信息
 $payData = [
-    "order_no"	=> createPayid(),
-    "amount"	=> '1.00',// 单位为元 ,最小为0.01
+    "order_no"	=> '201612311430',
+    "amount"	=> '10.00',// 单位为元 ,最小为0.01
     "client_ip"	=> '127.0.0.1',
     "subject"	=> 'test',
     "body"	=> 'test wap pay',

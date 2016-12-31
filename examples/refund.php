@@ -27,27 +27,27 @@ $wxconfig = require_once __DIR__ . '/wxconfig.php';
 $reundData = [
     'refund_no' => createPayid(),
     'refund_data'   => [
-        ['transaction_id' => '4007572001201607098672633287', 'amount'   => '5', 'refund_fee' => '5', 'reason' => '微信测试金额退款'],
+        ['transaction_id' => '2016123121001004350200119946', 'amount'   => '10', 'refund_fee' => '1', 'reason' => '新版支付宝测试金额退款'],
         //['transaction_id' => '2016031521001004330271745693', 'amount'   => '0.01', 'refund_fee' => '0.01', 'reason' => '测试退款2'],
     ],
 ];
 
 $refund = new RefundContext();
 try {
-    // 支付宝退款
-    //$type = Config::ALI;
-    //$refund->initRefund($type, $aliconfig);
+    // 支付宝退款  备注：新版本支付宝退款，不支持批量，就算传入多个值，也只退一笔
+    $type = Config::ALI;
+    $refund->initRefund($type, $aliconfig);
 
     // 微信退款
-    $type = Config::WEIXIN;
-    $refund->initRefund(Config::WEIXIN, $wxconfig);
+    //$type = Config::WEIXIN;
+    //$refund->initRefund(Config::WEIXIN, $wxconfig);
 
     $ret = $refund->refund($reundData);
 } catch (PayException $e) {
     echo $e->errorMessage();exit;
 }
 
-if ($type == Config::WEIXIN) {
+if ($type == Config::WEIXIN || $aliconfig['ali_version']) {
     var_dump($ret);exit;
 } else {
     // 跳转支付宝

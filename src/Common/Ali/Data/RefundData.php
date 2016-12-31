@@ -10,6 +10,7 @@ namespace Payment\Common\Ali\Data;
 
 use Payment\Common\AliConfig;
 use Payment\Common\PayException;
+use Payment\Config;
 use Payment\Utils\ArrayUtil;
 
 /**
@@ -23,6 +24,10 @@ use Payment\Utils\ArrayUtil;
  *      'refund_fee' => '退款总金额', // 单位元
  *      'reason'     => '退款理由', // “退款理由”中不能有“^”、“|”、“$”、“#”
  *  ];
+ *
+ * @property string $transaction_id  支付宝生成的订单号，在支付通知中有返回  (支付宝新版本会用到)
+ * @property int $refund_fee 退款总金额，订单总金额，只能为整数  (支付宝新版本会用到)
+ * @property string $reason 	退款的原因说明  (支付宝新版本会用到)
  *
  * @package Payment\Common\Ali\Data
  * anthor helei
@@ -43,6 +48,11 @@ class RefundData extends AliBaseData
     {
         $refundNo = $this->refund_no;
         $data = $this->refund_data;
+
+        $version = $this->version;
+        if ($version === Config::ALI_API_VERSION && sizeof($data) != 1) {
+            throw new PayException('支付宝新版本退款。目前仅支持1笔1次');
+        }
 
         // 检查退款单号是否设置
         if (empty($refundNo) || mb_strlen($refundNo) < 3 || mb_strlen($refundNo) > 24) {
@@ -73,19 +83,30 @@ class RefundData extends AliBaseData
                 throw new PayException("refund_data 索引为{$key}的数据，原支付宝交易账号不合法");
             }
 
+            if ($version === Config::ALI_API_VERSION) {
+                // 新版本
+                $this->transaction_id = $item['transaction_id'];// 支付宝交易号
+                $this->refund_fee = $item['refund_fee'];// 需要退款的金额，该金额不能大于订单金额,单位为元，支持两位小数
+                $this->reason = $reason;// 	退款的原因说明
+                break;
+            }
+
             $refundData .= "{$item['transaction_id']}^{$item['refund_fee']}^{$reason}#";
             $count++;
         }
 
-        // 移除最后一个 # 号
-        $refundData = trim($refundData, '#');
+        // 老版本
+        if ($version !== Config::ALI_API_VERSION) {
+            // 移除最后一个 # 号
+            $refundData = trim($refundData, '#');
 
-        if (empty($count) || empty($refundData) || $count > 1000) {
-            throw new PayException('经过检查，传入的合法交易数据集为空，或者交易笔数大于1000');
+            if (empty($count) || empty($refundData) || $count > 1000) {
+                throw new PayException('经过检查，传入的合法交易数据集为空，或者交易笔数大于1000');
+            }
+
+            $this->batch_num = $count;
+            $this->refund_data = $refundData;
         }
-
-        $this->batch_num = $count;
-        $this->refund_data = $refundData;
     }
 
     /**
@@ -93,6 +114,19 @@ class RefundData extends AliBaseData
      * @author helei
      */
     protected function buildData()
+    {
+        $version = $this->version;
+        if ($version) {
+            $signData = $this->alipay2_0Data();
+        } else {
+            $signData = $this->alipay1_0Data();
+        }
+
+        // 移除数组中的空值
+        $this->retData = ArrayUtil::paraFilter($signData);
+    }
+
+    protected function alipay1_0Data()
     {
         // 设置加密的方式
         $signData = [
@@ -111,7 +145,43 @@ class RefundData extends AliBaseData
             'detail_data'   => $this->refund_data,
         ];
 
-        // 移除数组中的空值
-        $this->retData = ArrayUtil::paraFilter($signData);
+        return $signData;
+    }
+
+    protected function alipay2_0Data()
+    {
+        // 设置加密的方式
+        $signData = [
+            // 公共参数
+            'app_id'        => $this->appId,
+            'method'        => Config::ALI_TRADE_REFUDN,
+            'format'        => $this->format,
+            'charset'       => $this->inputCharset,
+            'sign_type'     => $this->signType,
+            'timestamp'     => $this->timestamp,
+            'version'       => $this->version,
+
+            // 业务参数  新版支付宝，将所有业务参数设置到改字段中了，  这样不错
+            'biz_content'   => $this->getBizContent(),
+        ];
+
+        return $signData;
+    }
+
+    /**
+     * 业务请求参数的集合，最大长度不限，除公共参数外所有请求参数都必须放在这个参数中传递
+     *
+     * @return string
+     */
+    private function getBizContent()
+    {
+        $content = [
+            'trade_no'      => strval($this->transaction_id),
+            'refund_amount' => strval($this->refund_fee),
+            'refund_reason' => strval($this->reason),
+            'out_request_no'  => $this->refund_no,
+        ];
+
+        return json_encode($content, JSON_UNESCAPED_UNICODE);
     }
 }

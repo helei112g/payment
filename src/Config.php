@@ -91,8 +91,8 @@ final class Config
     // 统一收单线下交易查询
     const ALI_TRADE_QUERY = 'alipay.trade.query';
 
-    // 统一收单交易撤销接口  未完成
-    const ALI_TRADE_CANCEL = 'alipay.trade.cancel';
+    // 统一收单交易退款接口
+    const ALI_TRADE_REFUDN = 'alipay.trade.refund';
 
     // 统一收单交易退款查询  未完成
     const ALI_REFUND_QUERY = 'alipay.trade.fastpay.refund.query';

@@ -117,7 +117,8 @@ class AliTradeQuery extends AliBaseStrategy
                     'fund_bill_list' => empty($data['fund_bill_list']) ? '' : $data['fund_bill_list'],// 支付成功的各个渠道金额信息
                     'channel'   => Config::ALI,
                     'order_no'   => $data['out_trade_no'],
-                    'buyer_id'   => $data['buyer_logon_id'],
+                    'buyer_id'   => $data['buyer_user_id'],
+                    'logon_id'   => $data['buyer_logon_id'],
                     'trade_state'   => $this->getTradeStatus($data['trade_status']),
                     'transaction_id'   => $data['trade_no'],
                     'time_end'   => $data['send_pay_date'],
