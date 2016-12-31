@@ -7,7 +7,9 @@
 
 namespace Payment\Common\Ali\Data;
 
+use Payment\Common\AliConfig;
 use Payment\Common\PayException;
+use Payment\Config;
 use Payment\Utils\ArrayUtil;
 
 /**
@@ -15,6 +17,7 @@ use Payment\Utils\ArrayUtil;
  *
  * @property string $transaction_id 支付宝交易号
  * @property string $order_no 商户网站唯一订单号
+ * @property string $refund_no  退款单号
  *
  * @package Payment\Common\Ali\Data
  * anthor helei
@@ -38,7 +41,7 @@ class TradeQueryData extends AliBaseData
             $queryData['out_trade_no'] = $order_no;
         }
 
-        if ($version) {
+        if ($version === Config::ALI_API_VERSION) {
             $signData = $this->alipay2_0Data($queryData);
         } else {
             $signData = $this->alipay1_0Data($queryData);
@@ -74,6 +77,10 @@ class TradeQueryData extends AliBaseData
      */
     protected function alipay2_0Data($signData)
     {
+        if ($this->method === AliConfig::ALI_REFUND_QUERY) {
+            $signData['out_request_no'] = $this->refund_no;
+        }
+
         $data = [
             // 公共参数
             'app_id'        => $this->appId,
@@ -99,6 +106,13 @@ class TradeQueryData extends AliBaseData
     {
         $transaction_id = $this->transaction_id;// 支付宝交易号，查询效率高
         $order_no = $this->order_no;// 商户订单号，查询效率低，不建议使用
+
+        if ($this->method === AliConfig::ALI_REFUND_QUERY) {
+            $refund_no = $this->refund_no;
+            if (empty($refund_no)) {
+                throw new PayException('支付宝查询退款，必须传入退款时商家自己生成的退款单号');
+            }
+        }
 
         // 二者不能同时为空
         if (empty($transaction_id) && empty($order_no)) {

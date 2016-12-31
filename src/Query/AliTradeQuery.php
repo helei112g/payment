@@ -78,8 +78,12 @@ class AliTradeQuery extends AliBaseStrategy
         // 格式化为数组
         if ($this->config->version && $this->config->format === 'JSON') {
             $retData = json_decode($body, true);
-var_dump($retData);exit;
-            $retData['alipay_trade_query_response'];
+
+            if ($this->config->method === AliConfig::ALI_REFUND_QUERY) {
+                $retData = $retData['alipay_trade_fastpay_refund_query_response'];
+            } else {
+                $retData = $retData['alipay_trade_query_response'];
+            }
         } else {
             $retData = DataParser::toArray($body);
             // 移除不必要参数

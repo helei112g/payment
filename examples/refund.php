@@ -31,7 +31,7 @@ $reundData = [
         //['transaction_id' => '2016031521001004330271745693', 'amount'   => '0.01', 'refund_fee' => '0.01', 'reason' => '测试退款2'],
     ],
 ];
-
+echo $reundData['refund_no'];
 $refund = new RefundContext();
 try {
     // 支付宝退款  备注：新版本支付宝退款，不支持批量，就算传入多个值，也只退一笔
