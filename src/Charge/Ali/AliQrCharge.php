@@ -4,6 +4,7 @@ namespace Payment\Charge\Ali;
 
 use Payment\Common\Ali\AliBaseStrategy;
 use Payment\Common\Ali\Data\Charge\QrChargeData;
+use Payment\Common\AliConfig;
 use Payment\Common\PayException;
 use Payment\Utils\Curl;
 use Payment\Utils\DataParser;
@@ -22,6 +23,7 @@ class AliQrCharge extends AliBaseStrategy
 
     protected function getBuildDataClass()
     {
+        $this->config->method = AliConfig::ALI_TRADE_QR;
         return QrChargeData::class;
     }
 

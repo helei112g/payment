@@ -12,6 +12,7 @@ namespace Payment\Charge\Ali;
 
 use Payment\Common\Ali\AliBaseStrategy;
 use Payment\Common\Ali\Data\Charge\AppChargeData;
+use Payment\Common\AliConfig;
 use Payment\Config;
 use Payment\Utils\ArrayUtil;
 use Payment\Utils\StrUtil;
@@ -25,6 +26,7 @@ class AliAppCharge extends AliBaseStrategy
      */
     protected function getBuildDataClass()
     {
+        $this->config->method = AliConfig::ALI_TRADE_APP;
         // 以下两种方式任选一种
         return AppChargeData::class;
 

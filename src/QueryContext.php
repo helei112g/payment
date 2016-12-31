@@ -10,6 +10,7 @@ namespace Payment;
 
 use Payment\Common\BaseStrategy;
 use Payment\Common\PayException;
+use Payment\Query\AliRefundQuery;
 use Payment\Query\AliTradeQuery;
 use Payment\Query\ChinapayQuery;
 use Payment\Query\WxRefundQuery;
@@ -40,6 +41,9 @@ class QueryContext
             switch ($channel) {
                 case Config::ALI:
                     $this->query = new AliTradeQuery($config);
+                    break;
+                case Config::ALI_REFUND:// 支付宝退款订单查询
+                    $this->query = new AliRefundQuery($config);
                     break;
                 case Config::WEIXIN:// 微信支付订单查询
                     $this->query = new WxTradeQuery($config);

@@ -31,14 +31,17 @@ final class Config
     // 支付宝 扫码支付  主要用于pc站点
     const ALI_CHANNEL_QR = 'ali_web';
 
+    // 支付宝 退款查询
+    const ALI_REFUND = 'ali_refund';
+
     //========================= 微信相关接口 ======================//
     const WEIXIN = 'wx';
 
     // 微信退款单查询
-    const WEIXIN_REFUND = 'refund';
+    const WEIXIN_REFUND = 'wx_refund';
 
     // 微信企业付款查询
-    const WEIXIN_TRANS = 'transfer';
+    const WEIXIN_TRANS = 'wx_transfer';
 
     // 微信公众账号 扫码支付  主要用于pc站点
     const WX_CHANNEL_QR = 'wx_web';
@@ -48,6 +51,8 @@ final class Config
 
     // 微信 APP 支付
     const WX_CHANNEL_APP = 'wx_app';
+
+
 
     // 支付的最小金额
     const PAY_MIN_FEE = '0.01';
@@ -75,25 +80,7 @@ final class Config
     // 转账的通知
     const TRANSFER_NOTIFY = 'transfer';
 
+
     // =================== 2016.12.26 支付宝新版本信息 =====================//
     const ALI_API_VERSION = '1.0';// 支付宝新版本号
-
-    // 支付宝的新版接口名称常量定义
-    // app 支付
-    const ALI_TRADE_APP = 'alipay.trade.app.pay';
-
-    // wap 支付
-    const ALI_TRADE_WAP = 'alipay.trade.wap.pay';
-
-    // 扫码支付
-    const ALI_TRADE_QR = 'alipay.trade.precreate';
-
-    // 统一收单线下交易查询
-    const ALI_TRADE_QUERY = 'alipay.trade.query';
-
-    // 统一收单交易退款接口
-    const ALI_TRADE_REFUDN = 'alipay.trade.refund';
-
-    // 统一收单交易退款查询  未完成
-    const ALI_REFUND_QUERY = 'alipay.trade.fastpay.refund.query';
 }

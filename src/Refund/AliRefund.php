@@ -10,6 +10,7 @@ namespace Payment\Refund;
 
 use Payment\Common\Ali\AliBaseStrategy;
 use Payment\Common\Ali\Data\RefundData;
+use Payment\Common\AliConfig;
 use Payment\Common\PayException;
 use Payment\Config;
 use Payment\Utils\Curl;
@@ -19,6 +20,7 @@ class AliRefund extends AliBaseStrategy
 
     protected function getBuildDataClass()
     {
+        $this->config->method = AliConfig::ALI_TRADE_REFUDN;
         return RefundData::class;
     }
 

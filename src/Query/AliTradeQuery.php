@@ -11,6 +11,7 @@ namespace Payment\Query;
 use Payment\Common\Ali\AliBaseStrategy;
 use Payment\Common\Ali\Data\BaseData;
 use Payment\Common\Ali\Data\TradeQueryData;
+use Payment\Common\AliConfig;
 use Payment\Common\PayException;
 use Payment\Config;
 use Payment\Utils\ArrayUtil;
@@ -22,6 +23,7 @@ class AliTradeQuery extends AliBaseStrategy
 
     protected function getBuildDataClass()
     {
+        $this->config->method = AliConfig::ALI_TRADE_QUERY;
         return TradeQueryData::class;
     }
     
@@ -75,7 +77,9 @@ class AliTradeQuery extends AliBaseStrategy
 
         // 格式化为数组
         if ($this->config->version && $this->config->format === 'JSON') {
-            $retData = json_decode($body, true)['alipay_trade_query_response'];
+            $retData = json_decode($body, true);
+var_dump($retData);exit;
+            $retData['alipay_trade_query_response'];
         } else {
             $retData = DataParser::toArray($body);
             // 移除不必要参数
@@ -94,7 +98,6 @@ class AliTradeQuery extends AliBaseStrategy
      */
     protected function createBackData(array $data)
     {
-
         if ($this->config->version) {
             // 新版本
             if ($data['code'] !== '10000') {
