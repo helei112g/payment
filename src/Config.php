@@ -19,68 +19,53 @@ final class Config
     //========================= ali相关接口 =======================//
     const ALI = 'ali';
 
-    // 支付宝 PC 网页支付
-    const ALI_CHANNEL_WEB = 'ali_pc_direct';
+    const ALI_CHANNEL_WEB = 'ali_pc_direct';// 支付宝 PC 网页支付
 
-    // 支付宝 手机网页 支付
-    const ALI_CHANNEL_WAP = 'ali_wap';
+    const ALI_CHANNEL_WAP = 'ali_wap';// 支付宝 手机网页 支付
 
-    /// 支付宝 手机app 支付
-    const ALI_CHANNEL_APP = 'ali_app';
+    const ALI_CHANNEL_APP = 'ali_app';// 支付宝 手机app 支付
 
-    // 支付宝 扫码支付  主要用于pc站点
-    const ALI_CHANNEL_QR = 'ali_web';
+    const ALI_CHANNEL_QR = 'ali_web';// 支付宝 扫码支付  主要用于pc站点
 
-    // 支付宝 退款查询
-    const ALI_REFUND = 'ali_refund';
+    const ALI_REFUND = 'ali_refund';// 支付宝 退款查询
 
-    //========================= 微信相关接口 ======================//
+
+    //========================= 微信相关接口 =======================//
     const WEIXIN = 'wx';
 
-    // 微信退款单查询
-    const WEIXIN_REFUND = 'wx_refund';
+    const WEIXIN_REFUND = 'wx_refund';// 微信退款单查询
 
-    // 微信企业付款查询
-    const WEIXIN_TRANS = 'wx_transfer';
+    const WEIXIN_TRANS = 'wx_transfer';// 微信企业付款查询
 
-    // 微信公众账号 扫码支付  主要用于pc站点
-    const WX_CHANNEL_QR = 'wx_web';
+    const WX_CHANNEL_QR = 'wx_web';// 微信公众账号 扫码支付  主要用于pc站点
 
-    // 微信 公众账号 支付
-    const WX_CHANNEL_PUB = 'wx_pub';
+    const WX_CHANNEL_PUB = 'wx_pub';// 微信 公众账号 支付
 
-    // 微信 APP 支付
-    const WX_CHANNEL_APP = 'wx_app';
+    const WX_CHANNEL_APP = 'wx_app';// 微信 APP 支付
 
 
+    //========================= 金额问题设置 =======================//
+    const PAY_MIN_FEE = '0.01';// 支付的最小金额
 
-    // 支付的最小金额
-    const PAY_MIN_FEE = '0.01';
-
-    // 支付的最大金额
-    const PAY_MAX_FEE = '100000.00';
-
-    // 交易状态常量定义
-    // 交易成功
-    const TRADE_STATUS_SUCC = 'success';
-
-    // 交易未完成
-    const TRADE_STATUS_FAILD  = 'not_pay';
-
-    // 交易退款成功
-    const TRADE_STATUS_REFUND_SUCC = 'refund_succ';
-
-    // 通知类型
-    // 支付的交易通知
-    const TRADE_NOTIFY = 'trade';
-
-    // 退款的通知
-    const REFUND_NOTIFY = 'refund';
-
-    // 转账的通知
-    const TRANSFER_NOTIFY = 'transfer';
+    const PAY_MAX_FEE = '100000.00';// 支付的最大金额
 
 
-    // =================== 2016.12.26 支付宝新版本信息 =====================//
+    //======================= 交易状态常量定义 ======================//
+    const TRADE_STATUS_SUCC = 'success';// 交易成功
+
+    const TRADE_STATUS_FAILD  = 'not_pay';// 交易未完成
+
+    const TRADE_STATUS_REFUND_SUCC = 'refund_succ';// 交易退款成功
+
+
+    //======================= 回调通知类型 =========================//
+    const TRADE_NOTIFY = 'trade';// 支付的交易通知
+
+    const REFUND_NOTIFY = 'refund';// 退款的通知
+
+    const TRANSFER_NOTIFY = 'transfer';// 转账的通知
+
+
+    // ================ 2016.12.26 支付宝新版本信息 ================//
     const ALI_API_VERSION = '1.0';// 支付宝新版本号
 }
