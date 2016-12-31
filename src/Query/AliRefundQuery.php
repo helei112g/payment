@@ -44,6 +44,13 @@ class AliRefundQuery extends AliTradeQuery
         }
 
         // 这里有个诡异情况。查询数据全部为空。仅返回一个成功的标记
+        if (empty($data['out_trade_no'])) {
+            return [
+                'is_success'    => 'T',
+                'msg'   => strtolower($data['msg']),
+            ];
+        }
+
         $retData = [
             'is_success'    => 'T',
             'response'  => [
