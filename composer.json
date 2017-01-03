@@ -15,7 +15,7 @@
     "require": {
         "php": ">=5.6",
         "ext-bcmath": "*",
-        "mbstring": "*"
+        "ext-mbstring": "*"
     },
     "autoload": {
         "psr-4": {"Payment\\": "src/"}
