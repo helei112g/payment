@@ -41,7 +41,7 @@ abstract class ChargeBaseData extends AliBaseData
         $timeExpire = $this->timeExpire;
         $version = $this->version;
 
-        if ($version) {
+        if ($version === Config::ALI_API_VERSION) {
             $signData = $this->alipay2_0Data($timeExpire);
         } else {
             $signData = $this->alipay1_0Data($timeExpire);

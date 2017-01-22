@@ -76,7 +76,7 @@ class AliTradeQuery extends AliBaseStrategy
         $body = $responseTxt['body'];
 
         // 格式化为数组
-        if ($this->config->version && $this->config->format === 'JSON') {
+        if ($this->config->version === Config::ALI_API_VERSION && $this->config->format === 'JSON') {
             $retData = json_decode($body, true);
 
             if ($this->config->method === AliConfig::ALI_REFUND_QUERY) {
@@ -102,7 +102,7 @@ class AliTradeQuery extends AliBaseStrategy
      */
     protected function createBackData(array $data)
     {
-        if ($this->config->version) {
+        if ($this->config->version === Config::ALI_API_VERSION) {
             // 新版本
             if ($data['code'] !== '10000') {
                 return $retData = [

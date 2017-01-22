@@ -162,7 +162,7 @@ class AliNotify extends NotifyStrategy
         ];
 
 
-        if ($this->config->version) {
+        if ($this->config->version === Config::ALI_API_VERSION) {
             // 新版本
             $retData = array_merge($retData, [
                 'buyer_id'   => $data['buyer_logon_id'],
