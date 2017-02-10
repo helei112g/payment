@@ -1,27 +1,50 @@
-# 版本介绍
+[![Software license][ico-license]](LICENSE)
+[![Latest development][ico-version-dev]][link-packagist]
+[![Monthly installs][ico-downloads-monthly]][link-downloads]
 
-支付宝当前提供了沙箱模式，很赞，这里我将自己的沙箱信息提供出来。供大家测试。要使用沙箱，需要[下载android版本](https://openhome.alipay.com/platform/appDaily.htm?tab=tool) 
+-----
 
-* 沙箱账号信息
-```
-买家账号aaqlmq0729@sandbox.com
-账号名称沙箱买家测试账号
-登录密码111111
-支付密码111111
-```
-* 2016-12-27 开发完成支付宝新版wap支付。文档后续更新
-* 2016-12-27 开发完成支付宝新版app支付。文档后续更新
-* 2016-12-29 开发完成支付宝新版当面付的扫码支付。文档后续更新
-* 2016-12-31 开发完成支付宝新版退款接口。 文档后续更新
+# Payment 能够做什么 #
 
-# 使用说明
+Paymeng 主要帮助 php 开发者在服务端快速接入主流的支付平台(支付宝支付、微信支付等)。节省时间少走弯路。
 
-> [使用文档地址](https://helei112g.github.io/2016/07/18/%E6%94%AF%E4%BB%98%E5%AE%9D%E3%80%81%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98%E6%8E%A5%E5%85%A5%E9%9B%86%E6%88%90/)
+Payment 针对不同支付平台，提供了统一的调用方式，开发者无需再一个平台一个平台的去阅读文档、调试。所有的支付平台后台服务统一用一套代码，在支付对接模块的代码维护量大大减少，可以把更多的时间和精力花在自身产品的核心业务上
 
-为了便于大家开发，本次2.x以博客的形式，完成完整的文档。文档中还包含了部分代码构建的介绍。
+### 为什么要用Payment SDK ###
 
-## 安装
+所有的支付官方都提供了demo，方便开发者学习使用。但是其中每一个支付 demo 都不尽相同，并且不少 官方 demo 还有不少错误，让开发者使用的时候莫名其妙。
 
+针对不同的支付，官方demo写法各异，很多还使用了老旧的 php 语法。
+
+而 **Payment SDK** 针对不同服务商的支付功能，都提供统一的调用方式，大大降低学习与使用成本。
+
+### 与其他聚合支付服务的对比 ###
+这里最主要的对比对象是ping++。当然我这个个人开发者肯定没法与之相比。首先ping++服务更多，接入的支付种类更多。开放出来的接口也更多。
+
+但是本sdk的优势也非常明显。
+- 使用项目自己部署，只需向第三方支付服务提供者付费（阿里、腾讯）。
+- 项目开源，遵循 **MIT** 许可证，大家可自由更改。
+- 根据自己需求，可以自己动手定义个性化。
+- 通过composer安装管理，方便升级。
+- 就算我以后不维护升级了，也保证你代码可用，如果用第三方聚合的支付，与第三方就有了强关联。
+
+### 其他 ###
+
+开发者只需要专注自己的业务，对于主流支付方式本sdk会持续集成
+
+*招商一网通支付 正在开发中... ...*
+
+更多详细情况请[点击这里](https://helei112g.github.io/categories/payment/)
+
+由于 `payment v1` 版本在设计开发时的缺陷，不在进行维护升级。并且 `v2` 版本也不与之兼容。建议大家都升级v2版本
+
+## 重要变更 ##
+- 支持支付宝新版本支付接口（from v2.7.0）
+- 配置文件控制权限由使用者控制（from v2.0.0）
+
+## 安装与使用Payment ##
+
+推荐大家通过composer来进行安装。
 * 方式一
 
 通过composer，这是推荐的方式，可以使用composer.json 声明依赖，或者运行下面的命令。SDK 包已经放到这里 riverslei/payment
@@ -39,37 +62,39 @@
 ```
 
 * 方式二
-直接下载安装，SDK 没有依赖其他第三方库，但需要参照 composer的autoloader，增加一个自己的autoloader程序。代码中以提供一个默认autolaod.php  可直接使用.
+直接下载安装，SDK 没有依赖其他第三方库，但需要参照 composer的autoloader，增加一个自己的autoloader程序。
 
-## 运行环境
+代码中以提供一个默认autolaod.php  可直接使用.
 
-Payment SDK | PHP版本
----|---
-2.x | cURL extension, mbstring, 5.5 ~ 7.0
-1.x | cURL extension, 5.3 ~ 5.6
 
-具体使用规则可参考 `examples/*` 中的示例.本SDK可直接运行.进行测试
+**Payment v2.x**需要 PHP >= 5.6，并且需要安装以下扩展：
+- cURL extension
+- mbstring
 
-# 说明
+**Payment v1.x**需要 PHP >= 5.3 , 并且需要安装以下扩展：
+- cURL extension
 
-在开发1.0版本的时候，主要是考虑到自己项目的使用。因此很多朋友说他们有多个账户，配置文件该怎么写？
+Payment SDK使用文档[请看这里](https://helei112g.github.io/categories/payment/)
 
-有的配置文件以前在redis中，或者db中，又该如何完成？
+## 联系&打赏 ##
 
-本次2.0版本解决了以上问题，并且提供了更加简单的调用接口。
+如果真心觉得项目帮助到你，为你节省了成本，欢迎鼓励一下。
 
-1.0发出后，虽然配备了示例代码，还是有很多朋友无法灵活运用于代码中。
+如果有什么问题，可通过以下方式联系我。提供有偿技术服务。
 
-本次开发过程中将配置完善的文档，会介绍使用，以及此SDK开发思路，便于大家自己根据情况修改或者增加新功能。
+也希望更多朋友可用提供代码支持。欢迎交流与大赏。
 
-若需要技术支持，可添加微信： helei543345  (此服务不免费哦！)
+**邮箱**：dayugog@gmail.com
 
-# 赞助说明
+**不错，我要鼓励一下**
 
-非常感谢以下企业、朋友的赞赏，感谢你们的认可与支持。
+![image](http://ol59nqr1i.bkt.clouddn.com/ali-wx-pay.jpg?imageView2/2/w/500)
+
+**打赏名单**
 
 名字 | 金额 | 说明 | 时间
 ---|---|---|---
+李仕建同学 | 18.88 | 新春快乐 | 2017-02-09
 凡额 | 50.00 | 帮助调试，谢谢了 | 2017-01-18
 Thans秦 | 66.66 | 商业使用 | 2017-01-08
 John | 10.00 | 设计很棒 | 2017-01-06
@@ -84,10 +109,17 @@ Robin Core Animation | 50.00 | 解决微信支付问题 | 2016-11-04
 哈罗Joe | 1.00 | 加油~~ | 2016-8-23
 小兵~招UI前端 | 50.00 | 继续努力,喝杯水吧:-) | 2016-8-14
 尊称韦爵爷 | 1.00 | 赶紧出个yii的扩展 | 2016-7-22
-[一米市集](http://yimishiji.com/) | 1000.00 | 希望提供技术长期合作 | 2016-7-20
+一米市集 | 1000.00 | 希望提供技术长期合作 | 2016-7-20
 张松 | 15.00 | 不错，已用到项目中 | 2016-6-17
 
+### License ###
+
+The code for Payment is distributed under the terms of the MIT license (see [LICENSE](LICENSE)).
 
 
+[ico-license]: https://img.shields.io/github/license/helei112g/payment.svg
+[ico-version-dev]: https://img.shields.io/packagist/vpre/riverslei/payment.svg
+[ico-downloads-monthly]: https://img.shields.io/packagist/dm/riverslei/payment.svg?style=flat-square
 
-
+[link-packagist]: https://packagist.org/packages/riverslei/payment
+[link-downloads]: https://packagist.org/packages/riverslei/payment/stats
