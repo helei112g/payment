@@ -7,7 +7,6 @@
 
 namespace Payment\Query;
 
-
 use Payment\Common\Ali\AliBaseStrategy;
 use Payment\Common\Ali\Data\BaseData;
 use Payment\Common\Ali\Data\TradeQueryData;
@@ -20,7 +19,6 @@ use Payment\Utils\DataParser;
 
 class AliTradeQuery extends AliBaseStrategy
 {
-
     protected function getBuildDataClass()
     {
         $this->config->method = AliConfig::ALI_TRADE_QUERY;

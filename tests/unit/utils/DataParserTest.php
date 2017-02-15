@@ -3,7 +3,6 @@
 
 class DataParserTest extends \Codeception\Test\Unit
 {
-
     use \Codeception\Specify;
     /**
      * @var \UnitTester

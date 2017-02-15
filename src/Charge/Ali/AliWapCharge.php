@@ -9,7 +9,6 @@
 
 namespace Payment\Charge\Ali;
 
-
 use Payment\Common\Ali\AliBaseStrategy;
 use Payment\Common\Ali\Data\Charge\WapChargeData;
 use Payment\Common\AliConfig;

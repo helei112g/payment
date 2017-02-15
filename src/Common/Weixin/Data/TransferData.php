@@ -6,9 +6,9 @@
  */
 
 namespace Payment\Common\Weixin\Data;
+
 use Payment\Common\PayException;
 use Payment\Utils\ArrayUtil;
-
 
 /**
  * Class TransferData
@@ -33,7 +33,6 @@ use Payment\Utils\ArrayUtil;
  */
 class TransferData extends WxBaseData
 {
-
     protected function buildData()
     {
         $this->retData = [
@@ -78,7 +77,6 @@ class TransferData extends WxBaseData
         }
 
         foreach ($data as $key => $item) {
-
             if (empty($item['user_account'])) {
                 throw new PayException('该值必须设置，为关注者的openid');
             }

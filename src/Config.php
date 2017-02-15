@@ -11,7 +11,6 @@
 
 namespace Payment;
 
-
 final class Config
 {
     const VERSION = 'dev-2.7.1';

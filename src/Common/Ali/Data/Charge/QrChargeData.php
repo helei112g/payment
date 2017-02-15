@@ -8,7 +8,6 @@
 
 namespace Payment\Common\Ali\Data\Charge;
 
-
 use Payment\Common\PayException;
 
 /**
@@ -18,7 +17,6 @@ use Payment\Common\PayException;
  */
 class QrChargeData extends ChargeBaseData
 {
-
     protected function alipay1_0Data($timeExpire = '')
     {
         throw new PayException('支付宝老版本，不支持扫码支付！');

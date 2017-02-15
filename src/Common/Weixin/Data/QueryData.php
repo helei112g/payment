@@ -6,9 +6,9 @@
  */
 
 namespace Payment\Common\Weixin\Data;
+
 use Payment\Common\PayException;
 use Payment\Utils\ArrayUtil;
-
 
 /**
  * Class QueryData
@@ -24,7 +24,6 @@ use Payment\Utils\ArrayUtil;
  */
 class QueryData extends WxBaseData
 {
-
     protected function buildData()
     {
         $this->retData = [

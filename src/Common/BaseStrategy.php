@@ -7,7 +7,6 @@
 
 namespace Payment\Common;
 
-
 interface BaseStrategy
 {
     /**

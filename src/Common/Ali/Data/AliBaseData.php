@@ -37,7 +37,7 @@ use Payment\Utils\RsaEncrypt;
  * @property string $format   仅支持JSON
  * @property string $version   调用的接口版本，固定为：1.0
  * @property string $timestamp  发送请求的时间，格式"yyyy-MM-dd HH:mm:ss"
- * @property string $method   	接口名称
+ * @property string $method    接口名称
  *
  * @package Payment\Charge\Ali\Data
  * anthor helei
@@ -81,17 +81,17 @@ abstract class AliBaseData extends BaseData
     {
         $sign = '';
         switch ($this->signType) {
-            case 'MD5' :
+            case 'MD5':
                 $signStr .= $this->md5Key;// 此处不需要通过 & 符号链接
                 $sign = md5($signStr);
                 break;
-            case 'RSA' :
+            case 'RSA':
                 $rsa_private_key = @file_get_contents($this->rsaPrivatePath);
                 $rsa = new RsaEncrypt($rsa_private_key);
 
                 $sign = $rsa->encrypt($signStr);
                 break;
-            default :
+            default:
                 $sign = '';
         }
 

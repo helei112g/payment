@@ -1,7 +1,6 @@
 <?php
 namespace charge;
 
-
 use Codeception\Specify;
 use Payment\Charge\Ali\AliAppCharge;
 use Payment\Charge\Ali\AliWapCharge;
@@ -37,13 +36,13 @@ class AliChargeTest extends \Codeception\Test\Unit
     public function testWapCharge()
     {
         $payData = [
-            "order_no"	=> StrUtil::getNonceStr(32),
-            "amount"	=> '1',// 单位为元 ,最小为0.01
-            "client_ip"	=> '127.0.0.1',
-            "subject"	=> '测试支付宝wap支付',
-            "body"	=> '测试支付宝wap支付',
+            "order_no"    => StrUtil::getNonceStr(32),
+            "amount"    => '1',// 单位为元 ,最小为0.01
+            "client_ip"    => '127.0.0.1',
+            "subject"    => '测试支付宝wap支付',
+            "body"    => '测试支付宝wap支付',
             "show_url"  => 'http://mall.xxxx.com/goods/23.html',// 支付宝手机网站支付接口 该参数必须上传 。其他接口忽略
-            "extra_param"	=> '',
+            "extra_param"    => '',
         ];
         $wapCharge = new AliWapCharge($this->aliConfig);
         $this->specify('输入正确数据，返回一个调用支付宝的url', function () use ($payData, $wapCharge) {
@@ -67,13 +66,13 @@ class AliChargeTest extends \Codeception\Test\Unit
     public function testAppCharge()
     {
         $payData = [
-            "order_no"	=> StrUtil::getNonceStr(32),
-            "amount"	=> '0.01',// 单位为元 ,最小为0.01
-            "client_ip"	=> '127.0.0.1',
-            "subject"	=> '测试支付宝app支付',
-            "body"	=> '测试支付宝app支付',
+            "order_no"    => StrUtil::getNonceStr(32),
+            "amount"    => '0.01',// 单位为元 ,最小为0.01
+            "client_ip"    => '127.0.0.1',
+            "subject"    => '测试支付宝app支付',
+            "body"    => '测试支付宝app支付',
             "show_url"  => 'http://mall.xxxx.com/goods/23.html',// 支付宝手机网站支付接口 该参数必须上传 。其他接口忽略
-            "extra_param"	=> '',
+            "extra_param"    => '',
         ];
 
         $appCharge = new AliAppCharge($this->aliConfig);
@@ -96,13 +95,13 @@ class AliChargeTest extends \Codeception\Test\Unit
     public function testWebCharge()
     {
         $payData = [
-            "order_no"	=> StrUtil::getNonceStr(32),
-            "amount"	=> '0.01',// 单位为元 ,最小为0.01
-            "client_ip"	=> '127.0.0.1',
-            "subject"	=> '测试支付宝app支付',
-            "body"	=> '测试支付宝app支付',
+            "order_no"    => StrUtil::getNonceStr(32),
+            "amount"    => '0.01',// 单位为元 ,最小为0.01
+            "client_ip"    => '127.0.0.1',
+            "subject"    => '测试支付宝app支付',
+            "body"    => '测试支付宝app支付',
             "show_url"  => 'http://mall.xxxxx.com/goods/23.html',// 支付宝手机网站支付接口 该参数必须上传 。其他接口忽略
-            "extra_param"	=> '',
+            "extra_param"    => '',
         ];
 
         $webCharge = new AliWebCharge($this->aliConfig);

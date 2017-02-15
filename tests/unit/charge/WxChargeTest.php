@@ -1,7 +1,6 @@
 <?php
 namespace charge;
 
-
 use Codeception\Specify;
 use Codeception\Util\Stub;
 use Payment\Charge\Weixin\WxAppCharge;
@@ -43,12 +42,12 @@ class WxChargeTest extends \Codeception\Test\Unit
         $appCharge = new WxAppCharge($this->wxConfig);
 
         $payData = [
-            "order_no"	=> StrUtil::getNonceStr(32),
-            "amount"	=> '0.01',// 单位为元 ,最小为0.01
-            "client_ip"	=> '127.0.0.1',
-            "subject"	=> '测试支付',
-            "body"	=> '支付接口测试',
-            "extra_param"	=> '',
+            "order_no"    => StrUtil::getNonceStr(32),
+            "amount"    => '0.01',// 单位为元 ,最小为0.01
+            "client_ip"    => '127.0.0.1',
+            "subject"    => '测试支付',
+            "body"    => '支付接口测试',
+            "extra_param"    => '',
         ];
 
         $this->specify('正确数据发起 微信APP 支付请求', function () use ($appCharge, $payData) {
@@ -76,13 +75,13 @@ class WxChargeTest extends \Codeception\Test\Unit
         $appCharge = new WxQrCharge($this->wxConfig);
 
         $payData = [
-            "order_no"	=> StrUtil::getNonceStr(32),
+            "order_no"    => StrUtil::getNonceStr(32),
             'product_id'    => StrUtil::getNonceStr(6),// 扫码支付，必须设置
-            "amount"	=> '0.01',// 单位为元 ,最小为0.01
-            "client_ip"	=> '127.0.0.1',
-            "subject"	=> '测试支付',
-            "body"	=> '支付接口测试',
-            "extra_param"	=> '',
+            "amount"    => '0.01',// 单位为元 ,最小为0.01
+            "client_ip"    => '127.0.0.1',
+            "subject"    => '测试支付',
+            "body"    => '支付接口测试',
+            "extra_param"    => '',
         ];
 
         $this->specify('正确数据发起 微信扫码支付 支付请求', function () use ($appCharge, $payData) {
@@ -107,7 +106,6 @@ class WxChargeTest extends \Codeception\Test\Unit
         $pubCharge = Stub::make(WxPubCharge::class, ['handle'  => $json]);
 
         $this->specify('使用 stub  的方式测试公众号接口', function () use ($pubCharge, $json) {
-
             $this->assertEquals($json, $pubCharge->handle([]));
         });
     }

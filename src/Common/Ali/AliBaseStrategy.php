@@ -110,15 +110,14 @@ abstract class AliBaseStrategy implements BaseStrategy
     {
         switch ($status) {
             case 'TRADE_SUCCESS':
+                //no break
             case 'TRADE_FINISHED':
                 return Config::TRADE_STATUS_SUCC;
 
             case 'WAIT_BUYER_PAY':
             case 'TRADE_CLOSED':
-            default :
+            default:
                 return Config::TRADE_STATUS_FAILD;
-
-
         }
     }
 }

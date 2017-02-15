@@ -7,7 +7,6 @@
 
 namespace Payment\Notify;
 
-
 use Payment\Common\PayException;
 use Payment\Common\WxConfig;
 use Payment\Config;

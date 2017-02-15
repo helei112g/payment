@@ -7,7 +7,6 @@
 
 namespace Payment;
 
-
 use Payment\Common\BaseStrategy;
 use Payment\Common\PayException;
 use Payment\Trans\AliTransfer;
@@ -32,7 +31,7 @@ class TransferContext
      */
     public function initTransfer($channel, array $config)
     {
-        try{
+        try {
             switch ($channel) {
                 case Config::ALI:
                     $this->transfer = new AliTransfer($config);
@@ -46,7 +45,6 @@ class TransferContext
         } catch (PayException $e) {
             throw $e;
         }
-
     }
 
     /**

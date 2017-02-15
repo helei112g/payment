@@ -9,7 +9,6 @@
 
 namespace Payment;
 
-
 use Payment\Common\BaseStrategy;
 use Payment\Common\PayException;
 use Payment\Refund\AliRefund;
@@ -28,14 +27,14 @@ class RefundContext
      * 设置对应的退款渠道
      * @param string $channel 退款渠道
      *  - @see Config
-     * 
+     *
      * @param array $config 配置文件
      * @throws PayException
      * @author helei
      */
     public function initRefund($channel, array $config)
     {
-        try{
+        try {
             switch ($channel) {
                 case Config::ALI:
                     $this->refund = new AliRefund($config);
@@ -49,7 +48,6 @@ class RefundContext
         } catch (PayException $e) {
             throw $e;
         }
-
     }
 
     /**

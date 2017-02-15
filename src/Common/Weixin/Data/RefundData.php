@@ -6,9 +6,9 @@
  */
 
 namespace Payment\Common\Weixin\Data;
+
 use Payment\Common\PayException;
 use Payment\Utils\ArrayUtil;
-
 
 /**
  * Class RefundData
@@ -30,7 +30,6 @@ use Payment\Utils\ArrayUtil;
  */
 class RefundData extends WxBaseData
 {
-
     protected function buildData()
     {
         $this->retData = [
@@ -62,7 +61,6 @@ class RefundData extends WxBaseData
         }
 
         foreach ($data as $key => $item) {
-
             if (empty($item['transaction_id'])) {
                 throw new PayException('微信交易号必须设置');
             }
@@ -76,7 +74,7 @@ class RefundData extends WxBaseData
             if (empty($item['refund_fee']) || bccomp($item['refund_fee'], $item['amount'], 2) === 1) {
                 throw new PayException('必须设置退款金额，且退款金额不能大于订单总金额');
             }
-            $this->refund_fee = bcmul($item['refund_fee'], 100 ,0);
+            $this->refund_fee = bcmul($item['refund_fee'], 100, 0);
         }
 
         // 该接口，微信配置文件，必须提供cert  key  两个pem文件

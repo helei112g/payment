@@ -46,7 +46,7 @@ abstract class WxBaseData extends BaseData
                 $signStr .= '&key=' . $this->md5Key;
                 $sign = strtoupper(md5($signStr));
                 break;
-            default :
+            default:
                 $sign = '';
         }
 

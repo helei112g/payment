@@ -7,10 +7,8 @@
 
 namespace Payment\Query;
 
-
 use Payment\Common\Ali\Data\TradeQueryData;
 use Payment\Common\AliConfig;
-
 
 /**
  *

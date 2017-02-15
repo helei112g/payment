@@ -9,7 +9,6 @@
 
 namespace Payment\Common;
 
-
 abstract class ConfigInterface
 {
     public function toArray()

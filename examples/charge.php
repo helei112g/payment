@@ -17,18 +17,18 @@ date_default_timezone_set('Asia/Shanghai');
 //  生成订单号 便于测试
 function createPayid()
 {
-    return date('Ymdhis', time()).substr(floor(microtime()*1000),0,1).rand(0,9);
+    return date('Ymdhis', time()).substr(floor(microtime()*1000), 0, 1).rand(0, 9);
 }
 
 // 订单信息
 $payData = [
-    "order_no"	=> '201612311430',
-    "amount"	=> '10.00',// 单位为元 ,最小为0.01
-    "client_ip"	=> '127.0.0.1',
-    "subject"	=> 'test',
-    "body"	=> 'test wap pay',
+    "order_no"    => '201612311430',
+    "amount"    => '10.00',// 单位为元 ,最小为0.01
+    "client_ip"    => '127.0.0.1',
+    "subject"    => 'test',
+    "body"    => 'test wap pay',
     "show_url"  => 'https://helei112g.github.io/',// 支付宝手机网站支付接口 该参数必须上传 。其他接口忽略
-    "extra_param"	=> '',
+    "extra_param"    => '',
 ];
 
 // 微信扫码支付，需要设置的参数
@@ -77,22 +77,27 @@ try {
     //$charge->initCharge($type, $wxconfig);
     $ret = $charge->charge($payData);
 } catch (PayException $e) {
-    echo $e->errorMessage();exit;
+    echo $e->errorMessage();
+    exit;
 }
 
 if ($type === Config::ALI_CHANNEL_APP) {
-    echo $ret;exit;
+    echo $ret;
+    exit;
 } elseif ($type === Config::ALI_CHANNEL_QR) {
     $url = \Payment\Utils\DataParser::toQRimg($ret);// 内部会用到google 生成二维码的api  可能有些同学反应很慢
-    echo "<img alt='支付宝扫码支付' src='{$url}' style='width:150px;height:150px;'/>";exit;
+    echo "<img alt='支付宝扫码支付' src='{$url}' style='width:150px;height:150px;'/>";
+    exit;
 } elseif ($type === Config::WX_CHANNEL_QR) {
     $url = \Payment\Utils\DataParser::toQRimg($ret);
-    echo "<img alt='微信扫码支付' src='{$url}' style='width:150px;height:150px;'/>";exit;
+    echo "<img alt='微信扫码支付' src='{$url}' style='width:150px;height:150px;'/>";
+    exit;
 } elseif ($type === Config::WX_CHANNEL_PUB) {
     $json = $ret;
     var_dump($json);
 } elseif (stripos($type, 'wx') !== false) {
-    var_dump($ret);exit;
+    var_dump($ret);
+    exit;
 } elseif (stripos($type, 'ali') !== false) {
     // 跳转支付宝
     header("Location:{$ret}");
@@ -101,7 +106,7 @@ if ($type === Config::ALI_CHANNEL_APP) {
 ?>
 
 <!--微信公众号支付-->
-<?php if ($type === Config::WX_CHANNEL_PUB) { ?>
+<?php if ($type === Config::WX_CHANNEL_PUB) : ?>
 
     <html>
     <head>
@@ -145,5 +150,4 @@ if ($type === Config::ALI_CHANNEL_APP) {
     </div>
     </body>
     </html>
-<?php } ?>
-
+<?php endif;?>

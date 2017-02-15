@@ -14,7 +14,6 @@ use Payment\Common\Weixin\WxBaseStrategy;
 
 class WxQrCharge extends WxBaseStrategy
 {
-
     protected function getBuildDataClass()
     {
         return QrChargeData::class;

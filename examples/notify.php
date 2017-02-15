@@ -31,7 +31,9 @@ try {
 
     $ret = $notify->notify($callback);
 } catch (PayException $e) {
-    echo $e->errorMessage();exit;
+    echo $e->errorMessage();
+    exit;
 }
 
-var_dump($ret);exit;
+var_dump($ret);
+exit;

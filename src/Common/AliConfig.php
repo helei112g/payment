@@ -9,7 +9,6 @@
 
 namespace Payment\Common;
 
-
 use Payment\Utils\ArrayUtil;
 
 final class AliConfig extends ConfigInterface
@@ -146,7 +145,6 @@ final class AliConfig extends ConfigInterface
         if (key_exists('time_expire', $config) && !empty($config['time_expire'])) {
             $this->timeExpire = $config['time_expire'];
         }
-
     }
 
     /**

@@ -15,7 +15,6 @@ use Payment\Common\Weixin\WxBaseStrategy;
 
 class WxAppCharge extends WxBaseStrategy
 {
-
     protected function getBuildDataClass()
     {
         return AppChargeData::class;
