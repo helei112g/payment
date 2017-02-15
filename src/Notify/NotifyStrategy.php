@@ -9,7 +9,6 @@
 
 namespace Payment\Notify;
 
-
 abstract class NotifyStrategy
 {
 

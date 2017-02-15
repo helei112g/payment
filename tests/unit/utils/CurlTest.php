@@ -33,13 +33,13 @@ class CurlTest extends \Codeception\Test\Unit
     {
         $url = 'https://helei112g.github.io/';
 
-        $this->specify("测试 get 请求 成功", function() use ($url) {
+        $this->specify("测试 get 请求 成功", function () use ($url) {
             $ret = $this->curl->get($url);
 
             $this->assertEquals('0', $ret['error']);
         });
 
-        $this->specify("测试 get 请求 失败", function() use ($url) {
+        $this->specify("测试 get 请求 失败", function () use ($url) {
             $ret = $this->curl->get($url . 'xxxxxxxx');
 
             $this->assertEquals('1', $ret['error']);
@@ -57,13 +57,13 @@ class CurlTest extends \Codeception\Test\Unit
             'age'   => '26',
         ];
 
-        $this->specify("测试 post 请求 成功", function() use ($data, $url) {
+        $this->specify("测试 post 请求 成功", function () use ($data, $url) {
             $ret = $this->curl->post($data)->submit($url);
 
             $this->assertEquals('0', $ret['error']);
         });
 
-        $this->specify("测试 post 请求 失败", function() use ($data, $url) {
+        $this->specify("测试 post 请求 失败", function () use ($data, $url) {
             $ret = $this->curl->post($data)->submit($url . 'xxxxxxxx');
 
             $this->assertEquals('1', $ret['error']);

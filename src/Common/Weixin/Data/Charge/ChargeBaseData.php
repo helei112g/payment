@@ -9,6 +9,7 @@
  */
 
 namespace Payment\Common\Weixin\Data\Charge;
+
 use Payment\Common\PayException;
 use Payment\Common\Weixin\Data\WxBaseData;
 use Payment\Config;

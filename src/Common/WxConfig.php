@@ -9,7 +9,6 @@
 
 namespace Payment\Common;
 
-
 use Payment\Utils\ArrayUtil;
 use Payment\Utils\StrUtil;
 
@@ -161,6 +160,4 @@ final class WxConfig extends ConfigInterface
             $this->keyPath = $config['key_path'];
         }
     }
-
-
 }

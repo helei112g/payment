@@ -7,10 +7,8 @@
 
 namespace Payment\Query;
 
-
 use Payment\Common\WxConfig;
 use Payment\Config;
-
 
 /**
  *

@@ -7,12 +7,10 @@
 
 namespace Payment\Query;
 
-
 use Payment\Common\Weixin\Data\QueryData;
 use Payment\Common\Weixin\WxBaseStrategy;
 use Payment\Common\WxConfig;
 use Payment\Utils\Curl;
-
 
 /**
  * Class WxTransferQuery
@@ -21,7 +19,6 @@ use Payment\Utils\Curl;
  */
 class WxTransferQuery extends WxBaseStrategy
 {
-
     protected function getBuildDataClass()
     {
         return QueryData::class;

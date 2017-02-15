@@ -7,7 +7,6 @@
 
 namespace Payment\Refund;
 
-
 use Payment\Common\PayException;
 use Payment\Common\Weixin\Data\RefundData;
 use Payment\Common\Weixin\WxBaseStrategy;
@@ -23,7 +22,6 @@ use Payment\Utils\DataParser;
  */
 class WxRefund extends WxBaseStrategy
 {
-
     protected function getBuildDataClass()
     {
         return RefundData::class;

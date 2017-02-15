@@ -7,7 +7,6 @@
 
 namespace Payment\Trans;
 
-
 use Payment\Common\Weixin\Data\TransferData;
 use Payment\Common\Weixin\WxBaseStrategy;
 use Payment\Common\WxConfig;
@@ -21,7 +20,6 @@ use Payment\Utils\Curl;
  */
 class WxTransfer extends WxBaseStrategy
 {
-
     protected function getBuildDataClass()
     {
         return TransferData::class;

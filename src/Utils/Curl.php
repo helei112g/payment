@@ -9,7 +9,6 @@
 
 namespace Payment\Utils;
 
-
 class Curl
 {
     private $post;
@@ -154,7 +153,7 @@ class Curl
     public function set($item, $value = '')
     {
         if (is_array($item)) {
-            foreach($item as $key => &$value){
+            foreach ($item as $key => &$value) {
                 $this->option[$key] = $value;
             }
         } else {
@@ -186,7 +185,7 @@ class Curl
 
         // 配置选项
         $options = array_merge($this->default, $this->option);
-        foreach($options as $key => $val) {
+        foreach ($options as $key => $val) {
             if (is_string($key)) {
                 $key = constant(strtoupper($key));
             }
@@ -196,7 +195,7 @@ class Curl
         // POST选项
         if ($this->post) {
             curl_setopt($ch, CURLOPT_POST, true);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $this->post_fields_build($this->post));
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $this->postFieldsBuild($this->post));
         }
 
         // 运行句柄
@@ -238,13 +237,14 @@ class Curl
      * @param string $pre
      * @return array
      */
-    private function post_fields_build($input, $pre = null){
+    private function postFieldsBuild($input, $pre = null)
+    {
         if (is_array($input)) {
             $output = array();
             foreach ($input as $key => $value) {
                 $index = is_null($pre) ? $key : "{$pre}[{$key}]";
                 if (is_array($value)) {
-                    $output = array_merge($output, $this->post_fields_build($value, $index));
+                    $output = array_merge($output, $this->postFieldsBuild($value, $index));
                 } else {
                     $output[$index] = $value;
                 }

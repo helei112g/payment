@@ -9,7 +9,6 @@
 
 namespace Payment;
 
-
 use Payment\Charge\Ali\AliAppCharge;
 use Payment\Charge\Ali\AliWapCharge;
 use Payment\Charge\Ali\AliWebCharge;
@@ -71,7 +70,7 @@ class ChargeContext
                 case Config::WX_CHANNEL_APP:
                     $this->payWay = new WxAppCharge($config);
                     break;
-                default :
+                default:
                     throw new PayException('当前仅支持：支付宝 与 微信');
             }
         } catch (PayException $e) {
@@ -85,12 +84,12 @@ class ChargeContext
      *
      * ```php
      * $payData = [
-     *      "order_no"	=> createPayid(),
-     *      "amount"	=> '0.01',// 单位为元 ,最小为0.01
-     *      "client_ip"	=> '127.0.0.1',
-     *      "subject"	=> '测试支付',
-     *      "body"	=> '支付接口测试',
-     *      "extra_param"	=> '',
+     *      "order_no" => createPayid(),
+     *      "amount" => '0.01',// 单位为元 ,最小为0.01
+     *      "client_ip" => '127.0.0.1',
+     *      "subject" => '测试支付',
+     *      "body" => '支付接口测试',
+     *      "extra_param"   => '',
      * ];
      * ```
      *

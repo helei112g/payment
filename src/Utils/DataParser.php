@@ -9,7 +9,6 @@
 
 namespace Payment\Utils;
 
-
 class DataParser
 {
     /**
@@ -24,7 +23,7 @@ class DataParser
         }
 
         $xml = "<xml>";
-        foreach ($values as $key=>$val) {
+        foreach ($values as $key => $val) {
             if (is_numeric($val)) {
                 $xml.="<".$key.">".$val."</".$key.">";
             } else {
@@ -76,11 +75,10 @@ class DataParser
      *
      * @return string
      */
-    public static function toQRimg($text, $widthHeight ='150', $ecLevel='L', $margin='0')
+    public static function toQRimg($text, $widthHeight = '150', $ecLevel = 'L', $margin = '0')
     {
         $chl = urlencode($text);
 
         return "http://chart.apis.google.com/chart?chs={$widthHeight}x{$widthHeight}&cht=qr&chld={$ecLevel}|{$margin}&chl={$chl}";
     }
-
 }

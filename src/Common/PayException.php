@@ -9,7 +9,6 @@
 
 namespace Payment\Common;
 
-
 class PayException extends \Exception
 {
     /**

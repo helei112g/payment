@@ -24,7 +24,6 @@ use Payment\Utils\ArrayUtil;
  */
 class TradeQueryData extends AliBaseData
 {
-
     protected function buildData()
     {
         $version = $this->version;

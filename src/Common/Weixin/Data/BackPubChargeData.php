@@ -6,8 +6,8 @@
  */
 
 namespace Payment\Common\Weixin\Data;
-use Payment\Common\PayException;
 
+use Payment\Common\PayException;
 
 /**
  * Class BackPubChargeData
@@ -21,7 +21,6 @@ use Payment\Common\PayException;
  */
 class BackPubChargeData extends WxBaseData
 {
-
     protected function buildData()
     {
         $this->retData = [

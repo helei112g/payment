@@ -10,7 +10,6 @@
 
 namespace Payment\Notify;
 
-
 use Payment\Common\AliConfig;
 use Payment\Common\PayException;
 use Payment\Config;
@@ -96,7 +95,7 @@ class AliNotify extends NotifyStrategy
             case 'batch_trans_notify':
                 $retData = $this->getTransferData($data);
                 break;
-            default :
+            default:
                 $retData = false;
         }
 
@@ -324,7 +323,7 @@ class AliNotify extends NotifyStrategy
             'CURLOPT_HEADER'    => 0,// 为了便于解析，将头信息过滤掉
         ])->get($url);
         
-        if (preg_match("/true$/i",$responseTxt['body'])) {
+        if (preg_match("/true$/i", $responseTxt['body'])) {
             return true;
         } else {
             return false;

@@ -44,9 +44,9 @@ try {
     //$query->initQuery(Config::WEIXIN_TRANS, $wxconfig);
 
     $ret = $query->query($data);
-
 } catch (PayException $e) {
-    echo $e->errorMessage();exit;
+    echo $e->errorMessage();
+    exit;
 }
 
 var_dump($ret);

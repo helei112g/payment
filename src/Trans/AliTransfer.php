@@ -7,13 +7,11 @@
 
 namespace Payment\Trans;
 
-
 use Payment\Common\Ali\AliBaseStrategy;
 use Payment\Common\Ali\Data\TransData;
 
 class AliTransfer extends AliBaseStrategy
 {
-
     protected function getBuildDataClass()
     {
         return TransData::class;

@@ -14,7 +14,7 @@ use Payment\Config;
 //  生成退款单号 便于测试
 function createPayid()
 {
-    return date('Ymdhis', time()).substr(floor(microtime()*1000),0,1).rand(0,9);
+    return date('Ymdhis', time()).substr(floor(microtime()*1000), 0, 1).rand(0, 9);
 }
 
 // 支付宝配置文件
@@ -44,11 +44,13 @@ try {
 
     $ret = $refund->refund($reundData);
 } catch (PayException $e) {
-    echo $e->errorMessage();exit;
+    echo $e->errorMessage();
+    exit;
 }
 
 if ($type == Config::WEIXIN || $aliconfig['ali_version']) {
-    var_dump($ret);exit;
+    var_dump($ret);
+    exit;
 } else {
     // 跳转支付宝
     header("Location:{$ret}");

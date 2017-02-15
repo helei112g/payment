@@ -9,8 +9,6 @@
 
 namespace Payment;
 
-
-
 use Payment\Notify\AliNotify;
 use Payment\Notify\NotifyStrategy;
 use Payment\Notify\PayNotifyInterface;
@@ -30,14 +28,14 @@ class NotifyContext
      * 设置对应的通知渠道
      * @param string $channel 通知渠道
      *  - @see Config
-     * 
+     *
      * @param array $config 配置文件
      * @throws PayException
      * @author helei
      */
     public function initNotify($channel, array $config)
     {
-        try{
+        try {
             switch ($channel) {
                 case Config::ALI:
                     $this->notify = new AliNotify($config);
@@ -51,7 +49,6 @@ class NotifyContext
         } catch (PayException $e) {
             throw $e;
         }
-
     }
 
     /**

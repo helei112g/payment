@@ -7,7 +7,6 @@
 
 namespace Payment;
 
-
 use Payment\Common\BaseStrategy;
 use Payment\Common\PayException;
 use Payment\Query\AliRefundQuery;
@@ -37,7 +36,7 @@ class QueryContext
      */
     public function initQuery($channel, array $config)
     {
-        try{
+        try {
             switch ($channel) {
                 case Config::ALI:
                     $this->query = new AliTradeQuery($config);
@@ -60,7 +59,6 @@ class QueryContext
         } catch (PayException $e) {
             throw $e;
         }
-
     }
 
     /**

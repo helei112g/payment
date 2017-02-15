@@ -7,8 +7,6 @@
 
 namespace Payment\Common\Ali\Data\Charge;
 
-use Payment\Config;
-
 class AppChargeData extends ChargeBaseData
 {
     /**

@@ -14,7 +14,7 @@ use Payment\Config;
 //  生成转款单号 便于测试
 function createPayid()
 {
-    return date('Ymdhis', time()).substr(floor(microtime()*1000),0,1).rand(0,9);
+    return date('Ymdhis', time()).substr(floor(microtime()*1000), 0, 1).rand(0, 9);
 }
 
 $aliconfig = require_once __DIR__ . '/aliconfig.php';
@@ -49,7 +49,8 @@ try {
 
     $ret = $refund->transfer($transData);
 } catch (PayException $e) {
-    echo $e->errorMessage();exit;
+    echo $e->errorMessage();
+    exit;
 }
 
 if ($type == Config::WEIXIN) {

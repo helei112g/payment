@@ -1,4 +1,8 @@
 <?php
+namespace Example;
+
+use \Payment\Notify\PayNotifyInterface;
+
 /**
  * @author: helei
  * @createTime: 2016-07-20 18:31
@@ -10,9 +14,8 @@
  * Class TestNotify
  * anthor helei
  */
-class TestNotify implements \Payment\Notify\PayNotifyInterface
+class TestNotify implements PayNotifyInterface
 {
-
     public function notifyProcess(array $data)
     {
         // 执行业务逻辑，成功后返回true

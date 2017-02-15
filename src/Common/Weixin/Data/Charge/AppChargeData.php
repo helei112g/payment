@@ -16,7 +16,6 @@ use Payment\Utils\ArrayUtil;
  */
 class AppChargeData extends ChargeBaseData
 {
-
     protected function buildData()
     {
         $signData = [
