@@ -100,7 +100,7 @@ class ArrayUtil
                 continue;
             }
 
-            $arg.=$key."=".$val."&";
+            $arg.=$key."=".urldecode($val)."&";
         }
         //去掉最后一个&字符
         $arg = substr($arg, 0, count($arg) - 2);
