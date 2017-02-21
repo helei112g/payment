@@ -85,7 +85,7 @@ abstract class NotifyStrategy
      * @return array|false
      * @author helei
      */
-    abstract protected function getNotifyData();
+    abstract public function getNotifyData();
 
     /**
      * 检查异步通知的数据是否合法
@@ -96,7 +96,7 @@ abstract class NotifyStrategy
      * @return boolean
      * @author helei
      */
-    abstract protected function checkNotifyData(array $data);
+    abstract public function checkNotifyData(array $data);
 
     /**
      * 向客户端返回必要的数据

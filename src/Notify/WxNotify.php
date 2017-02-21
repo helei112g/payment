@@ -43,7 +43,7 @@ class WxNotify extends NotifyStrategy
      * @return array|bool
      * @author helei
      */
-    protected function getNotifyData()
+    public function getNotifyData()
     {
         // php://input 带来的内存压力更小
         $data = @file_get_contents('php://input');// 等同于微信提供的：$GLOBALS['HTTP_RAW_POST_DATA']
@@ -66,7 +66,7 @@ class WxNotify extends NotifyStrategy
      * @author helei
      * @return boolean
      */
-    protected function checkNotifyData(array $data)
+    public function checkNotifyData(array $data)
     {
         if ($data['return_code'] != 'SUCCESS' || $data['result_code'] != 'SUCCESS') {
             // $arrData['return_msg']  返回信息，如非空，为错误原因

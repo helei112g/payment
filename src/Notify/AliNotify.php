@@ -43,7 +43,7 @@ class AliNotify extends NotifyStrategy
      * @return array|boolean
      * @author helei
      */
-    protected function getNotifyData()
+    public function getNotifyData()
     {
         $data = empty($_POST) ? $_GET : $_POST;
         if (empty($data) || ! is_array($data)) {
@@ -62,7 +62,7 @@ class AliNotify extends NotifyStrategy
      * @return boolean
      * @author helei
      */
-    protected function checkNotifyData(array $data)
+    public function checkNotifyData(array $data)
     {
         // 检查签名
         $flag = $this->verifySign($data);
