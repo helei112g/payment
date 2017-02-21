@@ -99,7 +99,7 @@ final class AliConfig extends ConfigInterface
 
         $basePath = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'Ali' . DIRECTORY_SEPARATOR;
 
-        if (!isset($config['ali_version'])) {// 兼容老版本
+        if (!isset($config['ali_version']) || $config['ali_version'] != $this->version) {// 兼容老版本
             $this->rsaAliPubPath = "{$basePath}alipay_public_key.pem";
         }
 
