@@ -13,7 +13,7 @@ namespace Payment;
 
 final class Config
 {
-    const VERSION = 'dev-2.7.1';
+    const VERSION = 'dev-payment3';
 
     //========================= ali相关接口 =======================//
     const ALI = 'ali';
@@ -63,8 +63,4 @@ final class Config
     const REFUND_NOTIFY = 'refund';// 退款的通知
 
     const TRANSFER_NOTIFY = 'transfer';// 转账的通知
-
-
-    // ================ 2016.12.26 支付宝新版本信息 ================//
-    const ALI_API_VERSION = '1.0';// 支付宝新版本号
 }
