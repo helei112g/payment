@@ -66,6 +66,9 @@ final class AliConfig extends ConfigInterface
     // 用于rsa解密的支付宝公钥文件路径
     public $rsaAliPubPath;
 
+    // 是否返回原始数据
+    public $returnRaw = false;
+
     // 安全证书的路径
     public $cacertPath;
 
@@ -171,6 +174,10 @@ final class AliConfig extends ConfigInterface
         // 设置禁止使用的支付方式
         if (key_exists('disable_pay_channels', $config) && is_array($config['disable_pay_channels'])) {
             $this->disablePayChannels = implode(',', $config['disable_pay_channels']);
+        }
+
+        if (key_exists('return_raw', $config)) {
+            $this->returnRaw = filter_input($config['return_raw'], FILTER_VALIDATE_BOOLEAN);
         }
     }
 }

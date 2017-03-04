@@ -18,13 +18,13 @@ final class Config
     //========================= ali相关接口 =======================//
     const ALI = 'ali';
 
-    const ALI_CHANNEL_WEB = 'ali_pc_direct';// 支付宝 PC 网页支付
+    const ALI_CHANNEL_APP = 'alipay_app';// 支付宝 手机app 支付
 
-    const ALI_CHANNEL_WAP = 'ali_wap';// 支付宝 手机网页 支付
+    const ALI_CHANNEL_WAP = 'alipay_wap';// 支付宝 手机网页 支付
 
-    const ALI_CHANNEL_APP = 'ali_app';// 支付宝 手机app 支付
+    const ALI_CHANNEL_WEB = 'alipay_pc_direct';// 支付宝 PC 网页支付
 
-    const ALI_CHANNEL_QR = 'ali_web';// 支付宝 扫码支付  主要用于pc站点
+    const ALI_CHANNEL_QR = 'alipay_qr';// 支付宝 扫码支付
 
     const ALI_REFUND = 'ali_refund';// 支付宝 退款查询
 
@@ -32,15 +32,19 @@ final class Config
     //========================= 微信相关接口 =======================//
     const WEIXIN = 'wx';
 
-    const WEIXIN_REFUND = 'wx_refund';// 微信退款单查询
-
-    const WEIXIN_TRANS = 'wx_transfer';// 微信企业付款查询
-
-    const WX_CHANNEL_QR = 'wx_web';// 微信公众账号 扫码支付  主要用于pc站点
+    const WX_CHANNEL_APP = 'wx_app';// 微信 APP 支付
 
     const WX_CHANNEL_PUB = 'wx_pub';// 微信 公众账号 支付
 
-    const WX_CHANNEL_APP = 'wx_app';// 微信 APP 支付
+    const WX_CHANNEL_QR = 'wx_pub_qr';// 微信公众账号 扫码支付  主要用于pc站点
+
+    const WX_CHANNEL_WAP = 'wx_wap';// 微信wap支付，针对特定用户
+
+    const WX_CHANNEL_LITE = 'wx_lite';// 微信小程序支付
+
+    const WEIXIN_REFUND = 'wx_refund';// 微信退款单查询
+
+    const WEIXIN_TRANS = 'wx_transfer';// 微信企业付款查询
 
 
     //========================= 金额问题设置 =======================//

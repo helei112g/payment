@@ -61,6 +61,7 @@ class ChargeContext
                 case Config::ALI_CHANNEL_QR:
                     $this->payWay = new AliQrCharge($config);
                     break;
+
                 case Config::WX_CHANNEL_QR:
                     $this->payWay = new WxQrCharge($config);
                     break;
