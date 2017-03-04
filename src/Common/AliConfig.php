@@ -13,26 +13,52 @@ use Payment\Utils\ArrayUtil;
 
 final class AliConfig extends ConfigInterface
 {
+    // 订单在支付宝服务器过期的时间，过期后无法支付
+    public $timeExpire;
+
+    // 付款账号名
+    public $account_name;
+
+    // 付款账号 支付宝账号，邮箱或者手机
+    public $account;
+
+    // ================= 支付宝 2.0 新接口 支持参数 ================= //
+
     // 支付宝的网关
     public $getewayUrl;
 
-    // 采用的编码
-    public $inputCharset = 'UTF-8';
+    // 	支付宝分配给开发者的应用ID
+    public $appId;
 
-    // 合作者身份ID
-    public $partner;
+    // 	接口名称
+    public $method;// 参考 定义的常量
 
-    // 用于加密的md5Key
-    public $md5Key;
-
-    // 用于异步通知的地址
-    public $notifyUrl;
+    // 仅支持JSON
+    public $format = 'JSON';
 
     // 用于同步通知的地址
     public $returnUrl;
 
-    // 订单在支付宝服务器过期的时间，过期后无法支付
-    public $timeExpire;
+    // 采用的编码
+    public $charset = 'UTF-8';
+
+    // 加密方式 默认使用RSA   目前支持RSA2和RSA
+    public $signType = 'RSA';
+
+    // 发送请求的时间，格式"yyyy-MM-dd HH:mm:ss"
+    public $timestamp;
+
+    // 调用的接口版本，固定为：1.0
+    public $version = '1.0';
+
+    // 用于异步通知的地址
+    public $notifyUrl;
+
+    // 禁止使用的支付渠道
+    public $disablePayChannels;
+
+    // 合作者身份ID
+    public $partner;
 
     // 用于rsa加密的私钥文件路径
     public $rsaPrivatePath;
@@ -43,38 +69,16 @@ final class AliConfig extends ConfigInterface
     // 安全证书的路径
     public $cacertPath;
 
-    // 付款账号名
-    public $account_name;
+    // 支付宝各类method名称
+    // wap 支付
+    const WAP_PAY_METHOD = 'alipay.trade.wap.pay';
 
-    // 付款账号 支付宝账号，邮箱或者手机
-    public $account;
 
-    // 加密方式 默认使用RSA
-    public $signType = 'RSA';
 
-    // ================= 支付宝 2.0 新接口 支持参数 ================= //
 
-    // 	支付宝分配给开发者的应用ID
-    public $appId;
 
-    // 仅支持JSON
-    public $format = 'JSON';
-
-    // 调用的接口版本，固定为：1.0
-    public $version = '1.0';
-
-    // 发送请求的时间，格式"yyyy-MM-dd HH:mm:ss"
-    public $timestamp;
-
-    // 	接口名称
-    public $method;// 参考 定义的常量
-
-    // 支付宝的新版接口名称常量定义
     // app 支付
     const ALI_TRADE_APP = 'alipay.trade.app.pay';
-
-    // wap 支付
-    const ALI_TRADE_WAP = 'alipay.trade.wap.pay';
 
     // 扫码支付
     const ALI_TRADE_QR = 'alipay.trade.precreate';
@@ -99,10 +103,6 @@ final class AliConfig extends ConfigInterface
 
         $basePath = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'Ali' . DIRECTORY_SEPARATOR;
 
-        if (!isset($config['ali_version']) || $config['ali_version'] != $this->version) {// 兼容老版本
-            $this->rsaAliPubPath = "{$basePath}alipay_public_key.pem";
-        }
-
         $this->cacertPath = "{$basePath}cacert.pem";
     }
 
@@ -114,103 +114,44 @@ final class AliConfig extends ConfigInterface
      */
     private function initConfig(array $config)
     {
-        $config = ArrayUtil::paraFilter($config);
+        $config = ArrayUtil::paraFilter($config);// 过滤掉空值，下面不用在检查是否为空
 
-        if (isset($config['ali_version']) && $this->version === $config['ali_version']) {
-            // 新版本 支付宝 支付
-            $this->initConfigAli2_0($config);
-        } else {
-            $this->initConfigAli1_0($config);
-        }
-
-        // 初始 RSA私钥文件 需要检查该文件是否存在
-        if (key_exists('rsa_private_key', $config) && file_exists($config['rsa_private_key'])) {
-            $this->rsaPrivatePath = $config['rsa_private_key'];
-        } elseif ($this->signType === 'RSA') {
-            throw new PayException('RSA加密时,必须提供RSA私钥文件，请确保在该路径下存在');
-        }
-
-        // 初始 支付宝异步通知地址，可为空
-        if (key_exists('notify_url', $config) && !empty($config['notify_url'])) {
-            $this->notifyUrl = $config['notify_url'];
-        }
-
-        // 初始 支付宝 同步通知地址，可为空
-        if (key_exists('return_url', $config) && !empty($config['return_url'])) {
-            $this->returnUrl = $config['return_url'];
-        }
-
-        // 初始 支付宝订单过期时间，可为空 取值范围：1m～15d
-        // m-分钟，h-小时，d-天，1c-当天（1c-当天的情况下，无论交易何时创建，都在0点关闭）
-        if (key_exists('time_expire', $config) && !empty($config['time_expire'])) {
-            $this->timeExpire = $config['time_expire'];
-        }
-    }
-
-    /**
-     * 支付宝老版接口。 支付宝可能慢慢放弃支持
-     * @param array $config
-     *
-     * @throws PayException
-     */
-    private function initConfigAli1_0(array $config)
-    {
-        // 初始 合作者身份ID
-        if (key_exists('partner', $config) && strlen($config['partner']) == '16') {
-            $this->partner = $config['partner'];
-        } else {
-            throw new PayException('合作者身份ID 以2088开头的16位纯数字组成');
-        }
-
-        // 初始 MD5 key
-        if (key_exists('md5_key', $config) && !empty($config['md5_key'])) {
-            $this->md5Key = $config['md5_key'];
-        } else {
-            throw new PayException('MD5 Key 不能为空，再支付宝后台可查看');
-        }
-
-        // 初始化 付款账号名，如果是企业转账接口，必须提供该值
-        if (!empty($config['account_name'])) {
-            $this->account_name = $config['account_name'];
-        }
-
-        // 初始化 付款账号，付款方的支付宝账号，支持邮箱和手机号2种格式。
-        if (!empty($config['account'])) {
-            $this->account = $config['account'];
-        }
-
-        // 初始化 加密方式,默认采用RSA
-        if (!empty($config['sign_type'])) {
-            $this->signType = strtoupper($config['sign_type']);
-        }
-
-        // 初始 支付宝网关地址
-        $this->getewayUrl = 'https://mapi.alipay.com/gateway.do?';
-
-        // 如果是老版本支付，这里需要将 version 字段设置为0
-        $this->version = '0';
-    }
-
-    /**
-     * 支付宝 2.0 接口 初始化配置文件
-     * @param array $config
-     *
-     * @throws PayException
-     */
-    private function initConfigAli2_0(array $config)
-    {
         // 支付宝分配给开发者的应用ID
         if (key_exists('app_id', $config) && is_numeric($config['app_id'])) {
             $this->appId = $config['app_id'];
         } else {
-            throw new PayException('支付宝分配给开发者的应用ID 新版支付，必须提供');
+            throw new PayException('缺少支付宝分配给开发者的应用ID，请在开发者中心查看');
+        }
+
+        // 初始 支付宝异步通知地址，可为空
+        if (key_exists('notify_url', $config)) {
+            $this->notifyUrl = $config['notify_url'];
+        }
+
+        // 初始 支付宝 同步通知地址，可为空
+        if (key_exists('return_url', $config)) {
+            $this->returnUrl = $config['return_url'];
+        }
+
+        // 初始 支付宝 同步通知地址，可为空
+        if (key_exists('sign_type', $config) && in_array($config['sign_type'], ['RSA', 'RSA2'])) {
+            $this->signType = $config['sign_type'];
+        } else {
+            throw new PayException('目前支付宝仅支持RSA2和RSA，推荐使用RSA2');
         }
 
         // 新版本，需要提供独立的公钥信息。每一个应用，公钥都不相同
         if (key_exists('ali_public_key', $config) && file_exists($config['ali_public_key'])) {
             $this->rsaAliPubPath = $config['ali_public_key'];
         } else {
-            throw new PayException('使用新版支付宝支付，必须提供开发者平台中的支付宝公钥，每一个应用都不相同');
+            throw new PayException('请提供支付宝对应的rsa公钥');
+        }
+
+        // 初始 RSA私钥文件 需要检查该文件是否存在
+        if (key_exists('rsa_private_key', $config) && file_exists($config['rsa_private_key'])) {
+            $this->rsaPrivatePath = $config['rsa_private_key'];
+        } elseif ($this->signType === 'RSA') {
+            throw new PayException('请提供商户的rsa私钥文件');
         }
 
         // 初始 支付宝网关地址
@@ -219,15 +160,17 @@ final class AliConfig extends ConfigInterface
             $this->getewayUrl = 'https://openapi.alipaydev.com/gateway.do?';
         }
 
-        // 	新版只支持此种签名方式   商户生成签名字符串所使用的签名算法类型，目前支持RSA
-        $this->signType = 'RSA';
-
         // 	发送请求的时间，格式"yyyy-MM-dd HH:mm:ss"  需要正确设置时区
         $this->timestamp = date('Y-m-d H:i:s', time());
 
-        // 初始 合作者身份ID
-        if (key_exists('partner', $config)/* && strlen($config['partner']) == '16'*/) {
+        // 初始 合作者身份ID    如果该值为空，则默认为商户签约账号对应的支付宝用户ID
+        if (key_exists('partner', $config)) {
             $this->partner = $config['partner'];
+        }
+
+        // 设置禁止使用的支付方式
+        if (key_exists('disable_pay_channels', $config) && is_array($config['disable_pay_channels'])) {
+            $this->disablePayChannels = implode(',', $config['disable_pay_channels']);
         }
     }
 }

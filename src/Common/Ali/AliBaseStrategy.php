@@ -80,24 +80,18 @@ abstract class AliBaseStrategy implements BaseStrategy
      */
     protected function retData(array $data)
     {
-        $version = $this->config->version;// 新版本
-        if ($version === Config::ALI_API_VERSION) {
-            $sign = $data['sign'];
-            $data = ArrayUtil::removeKeys($data, ['sign']);
+        $sign = $data['sign'];
+        $data = ArrayUtil::removeKeys($data, ['sign']);
 
-            $data = ArrayUtil::arraySort($data);
+        $data = ArrayUtil::arraySort($data);
 
-            // 支付宝新版本  需要转码
-            foreach ($data as &$value) {
-                $value = StrUtil::characet($value, $this->config->inputCharset);
-            }
-
-            $data['sign'] = $sign;// sign  需要放在末尾
-            return $this->config->getewayUrl . http_build_query($data);
+        // 支付宝新版本  需要转码
+        foreach ($data as &$value) {
+            $value = StrUtil::characet($value, $this->config->charset);
         }
 
-        $url = $this->config->getewayUrl . http_build_query($data);
-        return $url;
+        $data['sign'] = $sign;// sign  需要放在末尾
+        return $this->config->getewayUrl . http_build_query($data);
     }
 
     /**

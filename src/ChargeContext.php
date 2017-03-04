@@ -49,11 +49,11 @@ class ChargeContext
         // 初始化时，可能抛出异常，再次统一再抛出给客户端进行处理
         try {
             switch ($channel) {
-                case Config::ALI_CHANNEL_WEB:// 老版本不支持
-                    $this->payWay = new AliWebCharge($config);
-                    break;
                 case Config::ALI_CHANNEL_WAP:
                     $this->payWay = new AliWapCharge($config);
+                    break;
+                case Config::ALI_CHANNEL_WEB:
+                    $this->payWay = new AliWebCharge($config);
                     break;
                 case Config::ALI_CHANNEL_APP:
                     $this->payWay = new AliAppCharge($config);

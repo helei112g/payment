@@ -81,14 +81,7 @@ abstract class BaseData
     {
         $this->buildData();
 
-        $version = $this->version;// 支付宝新版本的签名，不需要移出  sign_type
-
-        if (empty($version)) {
-            $values = ArrayUtil::removeKeys($this->retData, ['sign', 'sign_type']);
-        } else {
-            $values = ArrayUtil::removeKeys($this->retData, ['sign']);
-        }
-
+        $values = ArrayUtil::removeKeys($this->retData, ['sign']);
 
         $values = ArrayUtil::arraySort($values);
 

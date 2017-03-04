@@ -17,13 +17,15 @@ use Payment\Utils\ArrayUtil;
  *
  * @inheritdoc
  *
- * @property string $order_no
- * @property string $amount
- * @property string $client_ip
- * @property string $subject
  * @property string $body
- * @property string $extra_param
- * @property string $show_url
+ * @property string $subject
+ * @property string $order_no
+ * @property integer $timeoutExpress
+ * @property string $amount
+ * @property string $goods_type
+ * @property string $return_param
+ * @property string $disablePayChannels   用户不可用指定渠道支付
+ * @property string $store_id  	商户门店编号
  *
  * @package Payment\Common\Ali\Data\Charge
  * anthor helei
@@ -37,35 +39,35 @@ abstract class ChargeBaseData extends AliBaseData
      */
     protected function buildData()
     {
-        $timeExpire = $this->timeExpire;
-        $version = $this->version;
+        $signData = [
+            // 公共参数
+            'app_id'        => $this->appId,
+            'method'        => $this->method,
+            'format'        => $this->format,
+            'return_url'    => $this->returnUrl,
+            'charset'       => $this->charset,
+            'sign_type'     => $this->signType,
+            'timestamp'     => $this->timestamp,
+            'version'       => $this->version,
+            'notify_url'    => $this->notifyUrl,
 
-        if ($version === Config::ALI_API_VERSION) {
-            $signData = $this->alipay2_0Data($timeExpire);
-        } else {
-            $signData = $this->alipay1_0Data($timeExpire);
-        }
+            // 业务参数
+            'biz_content'   => $this->getBizContent(),
+        ];
 
         // 移除数组中的空值
         $this->retData = ArrayUtil::paraFilter($signData);
     }
 
     /**
-     * 支付宝老版本构建数据
-     * @param string $timeExpire
+     * 支付宝构建请求支付的数据
      * @return mixed
      */
-    abstract protected function alipay1_0Data($timeExpire = '');
+    abstract protected function getBizContent();
+
 
     /**
-     * 支付宝新版本构建数据
-     * @param string $timeExpire
-     * @return mixed
-     */
-    abstract protected function alipay2_0Data($timeExpire = '');
-
-    /**
-     * 检查传入的支付参数是否正确
+     * 检查传入的支付业务参数是否正确
      *
      * 如果输入参数不符合规范，直接抛出异常
      *
@@ -73,18 +75,16 @@ abstract class ChargeBaseData extends AliBaseData
      */
     protected function checkDataParam()
     {
+        $subject = $this->subject;
         $orderNo = $this->order_no;
         $amount = $this->amount;
-        $clientIp = $this->client_ip;
-        $subject = $this->subject;
-        $body = $this->body;
 
         // 检查订单号是否合法
         if (empty($orderNo) || mb_strlen($orderNo) > 64) {
             throw new PayException('订单号不能为空，并且长度不能超过64位');
         }
 
-        // 检查金额不能低于0.01，不能大于 100000.00
+        // 检查金额不能低于0.01，不能大于 100000000.00
         if (bccomp($amount, Config::PAY_MIN_FEE, 2) === -1) {
             throw new PayException('支付金额不能低于 ' . Config::PAY_MIN_FEE . ' 元');
         }
@@ -92,18 +92,9 @@ abstract class ChargeBaseData extends AliBaseData
             throw new PayException('支付金额不能大于 ' . Config::PAY_MAX_FEE . ' 元');
         }
 
-        $version = $this->version;
-        // 检查ip地址  老版本才需要检查
-        if (
-            empty($version) &&
-            (empty($clientIp) || ! preg_match('/^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$/', $clientIp))
-        ) {
-            throw new PayException('IP 地址必须上传，并且以IPV4的格式');
-        }
-
         // 检查 商品名称 与 商品描述
-        if (empty($subject) || empty($body)) {
-            throw new PayException('必须提供商品名称与商品描述');
+        if (empty($subject)) {
+            throw new PayException('必须提供 商品的标题/交易标题/订单标题/订单关键字 等');
         }
     }
 }

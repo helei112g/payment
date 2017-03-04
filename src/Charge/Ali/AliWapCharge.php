@@ -23,7 +23,7 @@ class AliWapCharge extends AliBaseStrategy
      */
     protected function getBuildDataClass()
     {
-        $this->config->method = AliConfig::ALI_TRADE_WAP;
+        $this->config->method = AliConfig::WAP_PAY_METHOD;
         // 以下两种方式任选一种
         return WapChargeData::class;
 
