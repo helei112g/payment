@@ -30,7 +30,7 @@ final class Config
 
 
     //========================= 微信相关接口 =======================//
-    const WEIXIN = 'wx';
+    const WX = 'wx';
 
     const WX_CHANNEL_APP = 'wx_app';// 微信 APP 支付
 
@@ -42,9 +42,9 @@ final class Config
 
     const WX_CHANNEL_LITE = 'wx_lite';// 微信小程序支付
 
-    const WEIXIN_REFUND = 'wx_refund';// 微信退款单查询
+    const WX_REFUND = 'wx_refund';// 微信退款单查询
 
-    const WEIXIN_TRANS = 'wx_transfer';// 微信企业付款查询
+    const WX_TRANS = 'wx_transfer';// 微信企业付款查询
 
 
     //========================= 金额问题设置 =======================//

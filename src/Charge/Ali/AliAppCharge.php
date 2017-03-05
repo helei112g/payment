@@ -12,7 +12,6 @@ namespace Payment\Charge\Ali;
 use Payment\Common\Ali\AliBaseStrategy;
 use Payment\Common\Ali\Data\Charge\AppChargeData;
 use Payment\Common\AliConfig;
-use Payment\Config;
 use Payment\Utils\ArrayUtil;
 use Payment\Utils\StrUtil;
 
@@ -39,23 +38,16 @@ class AliAppCharge extends AliBaseStrategy
      */
     protected function retData(array $data)
     {
-        $data = ArrayUtil::arraySort($data);// 因为签名时进行了排序，此处返回时也要进行排序，否则支付验证签名无法通过
-
         $sign = $data['sign'];
         unset($data['sign']);
-        if ($this->config->version === Config::ALI_API_VERSION) {
-            // 支付宝新版本
-            foreach ($data as &$value) {
-                $value = StrUtil::characet($value, $this->config->inputCharset);
-            }
 
-            $data['sign'] = $sign;// sign  需要放在末尾
-            return http_build_query($data);
+        $data = ArrayUtil::arraySort($data);// 因为签名时进行了排序，此处返回时也要进行排序，否则支付验证签名无法通过
+
+        foreach ($data as &$value) {
+            $value = StrUtil::characet($value, $this->config->charset);
         }
 
-        // 如果是移动支付，直接返回数据信息。并且对sign做urlencode编码
-        $data['sign'] = '"' . urlencode($sign) . '"';
-
-        return ArrayUtil::createLinkstring($data);
+        $data['sign'] = $sign;// sign  需要放在末尾
+        return http_build_query($data);
     }
 }

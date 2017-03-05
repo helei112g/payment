@@ -52,11 +52,11 @@ class ChargeContext
                 case Config::ALI_CHANNEL_WAP:
                     $this->payWay = new AliWapCharge($config);
                     break;
-                case Config::ALI_CHANNEL_WEB:
-                    $this->payWay = new AliWebCharge($config);
-                    break;
                 case Config::ALI_CHANNEL_APP:
                     $this->payWay = new AliAppCharge($config);
+                    break;
+                case Config::ALI_CHANNEL_WEB:
+                    $this->payWay = new AliWebCharge($config);
                     break;
                 case Config::ALI_CHANNEL_QR:
                     $this->payWay = new AliQrCharge($config);

@@ -15,7 +15,6 @@ class WapChargeData extends ChargeBaseData
     /**
      * 业务请求参数的集合，最大长度不限，除公共参数外所有请求参数都必须放在这个参数中传递
      *
-     *
      * @return string
      */
     protected function getBizContent()
@@ -27,7 +26,7 @@ class WapChargeData extends ChargeBaseData
             'total_amount'  => strval($this->amount),
             'seller_id' => $this->partner,
 
-            // 销售产品码，商家和支付宝签约的产品码，为固定值QUICK_MSECURITY_PAY
+            // 销售产品码，商家和支付宝签约的产品码，为固定值QUICK_WAP_PAY
             'product_code'  => 'QUICK_WAP_PAY',
             'goods_type'    => strval(1),
             'passback_params' => urlencode($this->return_param),

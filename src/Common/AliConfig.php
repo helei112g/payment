@@ -76,12 +76,12 @@ final class AliConfig extends ConfigInterface
     // wap 支付
     const WAP_PAY_METHOD = 'alipay.trade.wap.pay';
 
-
-
-
-
     // app 支付
     const ALI_TRADE_APP = 'alipay.trade.app.pay';
+
+
+
+
 
     // 扫码支付
     const ALI_TRADE_QR = 'alipay.trade.precreate';
