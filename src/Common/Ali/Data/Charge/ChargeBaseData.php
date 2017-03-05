@@ -78,6 +78,8 @@ abstract class ChargeBaseData extends AliBaseData
         $subject = $this->subject;
         $orderNo = $this->order_no;
         $amount = $this->amount;
+        $goodsType = $this->goods_type;
+        $passBack = $this->return_param;
 
         // 检查订单号是否合法
         if (empty($orderNo) || mb_strlen($orderNo) > 64) {
@@ -96,5 +98,18 @@ abstract class ChargeBaseData extends AliBaseData
         if (empty($subject)) {
             throw new PayException('必须提供 商品的标题/交易标题/订单标题/订单关键字 等');
         }
+
+        // 检查商品类型
+        if (empty($goodsType)) {// 默认为实物类商品
+            $this->goods_type = 1;
+        } elseif (! in_array($goodsType, [0 ,1])) {
+            throw new PayException('商品类型可取值为：0-虚拟类商品  1-实物类商品');
+        }
+
+        // 返回参数进行urlencode编码
+        if (! empty($passBack) && ! is_string($passBack)) {
+            throw new PayException('回传参数必须是字符串');
+        }
+        $this->return_param = urlencode($passBack);
     }
 }

@@ -16,7 +16,7 @@ use Payment\Utils\ArrayUtil;
  * Class WebChargeData
  *
  * @inheritdoc
- * @property integer $qr_mode
+ * @property integer $qr_mod
  * @property string $paymethod
  *
  * @package Payment\Charge\Ali\Data
@@ -98,12 +98,13 @@ class WebChargeData extends ChargeBaseData
         $payMethod = $this->paymethod;
         $qrMod = $this->qr_mod;
 
-        if (! in_array($payMethod, ['creditPay', 'directPay'])) {
+        if (! empty($payMethod) && ! in_array($payMethod, ['creditPay', 'directPay'])) {
             throw new PayException('paymethod 仅支持： creditPay  directPay两种方式');
         }
 
-        if (! in_array($qrMod, [0, 1, 2, 3, 4])) {
-            throw new PayException('qr_mod 仅支持： 0、1、2、3、4 几种方式');
+        // 4的方式使用太复杂，暂时不处理
+        if (! empty($qrMod) && ! in_array($qrMod, [0, 1, 2, 3])) {
+            throw new PayException('qr_mod 仅支持： 0、1、2、3 几种方式');
         }
     }
 }
