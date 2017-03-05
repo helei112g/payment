@@ -15,14 +15,14 @@ use Payment\Utils\DataParser;
  * Class AliQrCharge
  * @package Payment\Charge\Weixin
  *
- * @link      https://github.com/helei112g/payment/tree/paymentv2
+ * @link      https://github.com/helei112g/payment
  * @link      https://helei112g.github.io/
  */
 class AliQrCharge extends AliBaseStrategy
 {
     protected function getBuildDataClass()
     {
-        $this->config->method = AliConfig::ALI_TRADE_QR;
+        $this->config->method = AliConfig::QR_PAY_METHOD;
         return QrChargeData::class;
     }
 
@@ -43,7 +43,6 @@ class AliQrCharge extends AliBaseStrategy
         $responseTxt = $curl->set([
             'CURLOPT_SSL_VERIFYPEER'    => true,
             'CURLOPT_SSL_VERIFYHOST'    => 2,
-            'CURLOPT_CAINFO'    => $this->config->cacertPath,
             'CURLOPT_HEADER'    => 0,// 为了便于解析，将头信息过滤掉
         ])->get($url);
 

@@ -26,6 +26,8 @@ final class Config
 
     const ALI_CHANNEL_QR = 'ali_qr';// 支付宝 扫码支付
 
+    const ALI_CHANNEL_BAR = 'ali_bar';// 支付宝 条码支付
+
     const ALI_REFUND = 'ali_refund';// 支付宝 退款查询
 
 

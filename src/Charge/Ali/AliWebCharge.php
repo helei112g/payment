@@ -11,6 +11,7 @@ namespace Payment\Charge\Ali;
 
 use Payment\Common\Ali\AliBaseStrategy;
 use Payment\Common\Ali\Data\Charge\WebChargeData;
+use Payment\Common\AliConfig;
 
 class AliWebCharge extends AliBaseStrategy
 {
@@ -21,7 +22,7 @@ class AliWebCharge extends AliBaseStrategy
      */
     protected function getBuildDataClass()
     {
-        $this->config->method = 'create_direct_pay_by_user';
+        $this->config->method = AliConfig::PC_PAY_METHOD;
         // 以下两种方式均可以
         return WebChargeData::class;
         //return 'Payment\Common\Ali\Data\Charge\WebChargeData';

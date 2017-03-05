@@ -24,7 +24,7 @@ class AliAppCharge extends AliBaseStrategy
      */
     protected function getBuildDataClass()
     {
-        $this->config->method = AliConfig::ALI_TRADE_APP;
+        $this->config->method = AliConfig::APP_PAY_METHOD;
         // 以下两种方式任选一种
         return AppChargeData::class;
 

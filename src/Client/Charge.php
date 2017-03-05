@@ -19,7 +19,8 @@ class Charge
         Config::ALI_CHANNEL_APP,// 支付宝 APP 支付
         Config::ALI_CHANNEL_WAP, // 支付宝手机网页支付
         Config::ALI_CHANNEL_WEB, // 支付宝电脑网站支付
-        Config::ALI_CHANNEL_QR, // 支付宝当面付，即支付宝扫码支付
+        Config::ALI_CHANNEL_QR, // 支付宝当面付-扫码支付
+        Config::ALI_CHANNEL_BAR,// 支付宝当面付-条码支付
 
         Config::WX_CHANNEL_APP,// 微信 APP 支付
         Config::WX_CHANNEL_PUB,// 微信公众号支付
