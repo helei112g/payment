@@ -66,9 +66,6 @@ final class AliConfig extends ConfigInterface
     // 是否返回原始数据
     public $returnRaw = false;
 
-    // 安全证书的路径
-    public $cacertPath;
-
     // 支付宝各类method名称
     // wap 支付
     const WAP_PAY_METHOD = 'alipay.trade.wap.pay';
@@ -81,8 +78,6 @@ final class AliConfig extends ConfigInterface
 
     // 扫码支付   用户扫商户的二维码
     const QR_PAY_METHOD = 'alipay.trade.precreate';
-
-
 
     // 条码支付   商户扫用户的二维码
     const BAR_PAY_METHOD = 'alipay.trade.pay';

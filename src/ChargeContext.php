@@ -10,6 +10,7 @@
 namespace Payment;
 
 use Payment\Charge\Ali\AliAppCharge;
+use Payment\Charge\Ali\AliBarCharge;
 use Payment\Charge\Ali\AliWapCharge;
 use Payment\Charge\Ali\AliWebCharge;
 use Payment\Charge\Ali\AliQrCharge;
@@ -33,7 +34,7 @@ class ChargeContext
      * 支付的渠道
      * @var BaseStrategy
      */
-    protected $payWay;
+    protected $channel;
 
 
     /**
@@ -50,26 +51,29 @@ class ChargeContext
         try {
             switch ($channel) {
                 case Config::ALI_CHANNEL_WAP:
-                    $this->payWay = new AliWapCharge($config);
+                    $this->channel = new AliWapCharge($config);
                     break;
                 case Config::ALI_CHANNEL_APP:
-                    $this->payWay = new AliAppCharge($config);
+                    $this->channel = new AliAppCharge($config);
                     break;
                 case Config::ALI_CHANNEL_WEB:
-                    $this->payWay = new AliWebCharge($config);
+                    $this->channel = new AliWebCharge($config);
                     break;
                 case Config::ALI_CHANNEL_QR:
-                    $this->payWay = new AliQrCharge($config);
+                    $this->channel = new AliQrCharge($config);
+                    break;
+                case Config::ALI_CHANNEL_BAR:
+                    $this->channel = new AliBarCharge($config);
                     break;
 
                 case Config::WX_CHANNEL_QR:
-                    $this->payWay = new WxQrCharge($config);
+                    $this->channel = new WxQrCharge($config);
                     break;
                 case Config::WX_CHANNEL_PUB:
-                    $this->payWay = new WxPubCharge($config);
+                    $this->channel = new WxPubCharge($config);
                     break;
                 case Config::WX_CHANNEL_APP:
-                    $this->payWay = new WxAppCharge($config);
+                    $this->channel = new WxAppCharge($config);
                     break;
                 default:
                     throw new PayException('当前仅支持：支付宝 与 微信');
@@ -100,12 +104,12 @@ class ChargeContext
      */
     public function charge(array $data)
     {
-        if (! $this->payWay instanceof BaseStrategy) {
+        if (! $this->channel instanceof BaseStrategy) {
             throw new PayException('请检查初始化是否正确');
         }
 
         try {
-            return $this->payWay->handle($data);
+            return $this->channel->handle($data);
         } catch (PayException $e) {
             throw $e;
         }

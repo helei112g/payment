@@ -3,27 +3,26 @@
 namespace Payment\Charge\Ali;
 
 use Payment\Common\Ali\AliBaseStrategy;
-use Payment\Common\Ali\Data\Charge\QrChargeData;
+use Payment\Common\Ali\Data\Charge\BarChargeData;
 use Payment\Common\AliConfig;
 use Payment\Common\PayException;
 use Payment\Utils\Curl;
-use Payment\Utils\DataParser;
 
 /**
- * 支付宝扫码支付- 用户扫商户生成的二维码完成支付
+ * 商户扫用户的二维码
  *
- * Class AliQrCharge
+ * Class AliBarCharge
  * @package Payment\Charge\Weixin
  *
- * @link      https://github.com/helei112g/payment
+ * @link      https://github.com/helei112g/payment/tree/paymentv2
  * @link      https://helei112g.github.io/
  */
-class AliQrCharge extends AliBaseStrategy
+class AliBarCharge extends AliBaseStrategy
 {
     protected function getBuildDataClass()
     {
-        $this->config->method = AliConfig::QR_PAY_METHOD;
-        return QrChargeData::class;
+        $this->config->method = AliConfig::BAR_PAY_METHOD;
+        return BarChargeData::class;
     }
 
     /**
@@ -39,7 +38,7 @@ class AliQrCharge extends AliBaseStrategy
         $url = parent::retData($ret);
 
         // 发起网络请求
-        $curl = new Curl();
+        /*$curl = new Curl();
         $responseTxt = $curl->set([
             'CURLOPT_SSL_VERIFYPEER'    => true,
             'CURLOPT_SSL_VERIFYHOST'    => 2,
@@ -52,11 +51,29 @@ class AliQrCharge extends AliBaseStrategy
 
         $body = $responseTxt['body'];
 
-        $data = json_decode($body, true)['alipay_trade_precreate_response'];
+        $data = json_decode($body, true)['alipay_trade_pay_response'];*/
+        $data = [
+            'code' => 10000,
+            'msg' => 'Success',
+            'buyer_logon_id' => 'day***@gmail.com',
+            'buyer_pay_amount' => '0.01',
+            'buyer_user_id' => '2088002162809334',
+            'fund_bill_list' => [
+                ['amount' => '0.01', 'fund_channel' => 'ALIPAYACCOUNT'],
+            ],
+            'gmt_payment' => '2017-03-05 22:27:46',
+            'open_id' => '20880008025007264081318860117433',
+            'out_trade_no' => '14887240631516',
+            'point_amount' => '0.00',
+            'receipt_amount' => '0.01',
+            'total_amount' =>  '0.01',
+            'trade_no' =>  '2017030521001004330274482163',
+        ];
+
         if ($data['code'] != 10000) {
             throw new PayException($data['sub_msg']);
         }
 
-        return $data['qr_code'];
+        return $data;
     }
 }
