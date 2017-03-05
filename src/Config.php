@@ -18,13 +18,13 @@ final class Config
     //========================= ali相关接口 =======================//
     const ALI = 'ali';
 
-    const ALI_CHANNEL_APP = 'alipay_app';// 支付宝 手机app 支付
+    const ALI_CHANNEL_APP = 'ali_app';// 支付宝 手机app 支付
 
-    const ALI_CHANNEL_WAP = 'alipay_wap';// 支付宝 手机网页 支付
+    const ALI_CHANNEL_WAP = 'ali_wap';// 支付宝 手机网页 支付
 
-    const ALI_CHANNEL_WEB = 'alipay_pc_direct';// 支付宝 PC 网页支付
+    const ALI_CHANNEL_WEB = 'ali_pc_direct';// 支付宝 PC 网页支付
 
-    const ALI_CHANNEL_QR = 'alipay_qr';// 支付宝 扫码支付
+    const ALI_CHANNEL_QR = 'ali_qr';// 支付宝 扫码支付
 
     const ALI_REFUND = 'ali_refund';// 支付宝 退款查询
 

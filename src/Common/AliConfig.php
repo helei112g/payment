@@ -119,6 +119,12 @@ final class AliConfig extends ConfigInterface
     {
         $config = ArrayUtil::paraFilter($config);// 过滤掉空值，下面不用在检查是否为空
 
+        // 初始 支付宝网关地址
+        $this->getewayUrl = 'https://openapi.alipay.com/gateway.do?';
+        if (isset($config['use_sandbox']) && $config['use_sandbox'] === true) {
+            $this->getewayUrl = 'https://openapi.alipaydev.com/gateway.do?';
+        }
+
         // 支付宝分配给开发者的应用ID
         if (key_exists('app_id', $config) && is_numeric($config['app_id'])) {
             $this->appId = $config['app_id'];
@@ -155,12 +161,6 @@ final class AliConfig extends ConfigInterface
             $this->rsaPrivatePath = $config['rsa_private_key'];
         } elseif ($this->signType === 'RSA') {
             throw new PayException('请提供商户的rsa私钥文件');
-        }
-
-        // 初始 支付宝网关地址
-        $this->getewayUrl = 'https://openapi.alipay.com/gateway.do?';
-        if ($config['use_sandbox'] === true) {
-            $this->getewayUrl = 'https://openapi.alipaydev.com/gateway.do?';
         }
 
         // 	发送请求的时间，格式"yyyy-MM-dd HH:mm:ss"  需要正确设置时区

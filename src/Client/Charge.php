@@ -11,20 +11,21 @@ namespace Payment\Client;
 
 use Payment\ChargeContext;
 use Payment\Common\PayException;
+use Payment\Config;
 
 class Charge
 {
     private static $supportChannel = [
-        'alipay_app',// 支付宝 APP 支付
-        'alipay_wap', // 支付宝手机网页支付
-        'alipay_pc_direct', // 支付宝电脑网站支付
-        'alipay_qr', // 支付宝当面付，即支付宝扫码支付
+        Config::ALI_CHANNEL_APP,// 支付宝 APP 支付
+        Config::ALI_CHANNEL_WAP, // 支付宝手机网页支付
+        Config::ALI_CHANNEL_WEB, // 支付宝电脑网站支付
+        Config::ALI_CHANNEL_QR, // 支付宝当面付，即支付宝扫码支付
 
-        'wx_app',// 微信 APP 支付
-        'wx_pub',// 微信公众号支付
-        'wx_pub_qr',// 微信公众号扫码支付
-        'wx_wap',// 微信 WAP 支付（此渠道仅针对特定客户开放）
-        'wx_lite',// 微信小程序支付
+        Config::WX_CHANNEL_APP,// 微信 APP 支付
+        Config::WX_CHANNEL_PUB,// 微信公众号支付
+        Config::WX_CHANNEL_QR,// 微信公众号扫码支付
+        Config::WX_CHANNEL_WAP,// 微信 WAP 支付（此渠道仅针对特定客户开放）
+        Config::WX_CHANNEL_LITE,// 微信小程序支付
 
         'cmb_wallet',// 招行一网通
         'applepay_upacp',// Apple Pay
