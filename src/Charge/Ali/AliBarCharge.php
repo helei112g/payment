@@ -28,6 +28,23 @@ class AliBarCharge extends AliBaseStrategy
     /**
      * 处理扫码支付的返回值
      * @param array $ret
+     * $data = [
+            'code' => 10000,
+            'msg' => 'Success',
+            'buyer_logon_id' => 'day***@gmail.com',
+            'buyer_pay_amount' => '0.01',
+            'buyer_user_id' => '2088002162809334',
+            'fund_bill_list' => [
+            ['amount' => '0.01', 'fund_channel' => 'ALIPAYACCOUNT'],
+            ],
+            'gmt_payment' => '2017-03-05 22:27:46',
+            'open_id' => '20880008025007264081318860117433',
+            'out_trade_no' => '14887240631516',
+            'point_amount' => '0.00',
+            'receipt_amount' => '0.01',
+            'total_amount' =>  '0.01',
+            'trade_no' =>  '2017030521001004330274482163',
+        ];
      *
      * @throws PayException
      * @return string  可生产二维码的uri
@@ -38,7 +55,7 @@ class AliBarCharge extends AliBaseStrategy
         $url = parent::retData($ret);
 
         // 发起网络请求
-        /*$curl = new Curl();
+        $curl = new Curl();
         $responseTxt = $curl->set([
             'CURLOPT_SSL_VERIFYPEER'    => true,
             'CURLOPT_SSL_VERIFYHOST'    => 2,
@@ -51,24 +68,7 @@ class AliBarCharge extends AliBaseStrategy
 
         $body = $responseTxt['body'];
 
-        $data = json_decode($body, true)['alipay_trade_pay_response'];*/
-        $data = [
-            'code' => 10000,
-            'msg' => 'Success',
-            'buyer_logon_id' => 'day***@gmail.com',
-            'buyer_pay_amount' => '0.01',
-            'buyer_user_id' => '2088002162809334',
-            'fund_bill_list' => [
-                ['amount' => '0.01', 'fund_channel' => 'ALIPAYACCOUNT'],
-            ],
-            'gmt_payment' => '2017-03-05 22:27:46',
-            'open_id' => '20880008025007264081318860117433',
-            'out_trade_no' => '14887240631516',
-            'point_amount' => '0.00',
-            'receipt_amount' => '0.01',
-            'total_amount' =>  '0.01',
-            'trade_no' =>  '2017030521001004330274482163',
-        ];
+        $data = json_decode($body, true)['alipay_trade_pay_response'];
 
         if ($data['code'] != 10000) {
             throw new PayException($data['sub_msg']);
