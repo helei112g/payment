@@ -28,15 +28,16 @@ class AppChargeData extends ChargeBaseData
 
             // 销售产品码，商家和支付宝签约的产品码，为固定值QUICK_MSECURITY_PAY
             'product_code'  => 'QUICK_MSECURITY_PAY',
-            'goods_type'    => strval(1),
+            'goods_type'    => $this->goods_type,
             'passback_params' => urlencode($this->return_param),
             'disable_pay_channels' => $this->disablePayChannels,
             'store_id' => $this->store_id,
         ];
 
-        $timeExpire = $this->timeoutExpress;
+        $timeExpire = $this->timeout_express;
         if (! empty($timeExpire)) {
-            $content['timeout_express'] = floor(($this->timestamp - $timeExpire) / 60) . 'm';// 超时时间 统一使用分钟计算
+            $express = floor(($timeExpire - strtotime($this->timestamp)) / 60);
+            $express && $content['it_b_pay'] = $express . 'm';// 超时时间 统一使用分钟计算
         }
 
         $content = ArrayUtil::paraFilter($content);// 过滤掉空值，下面不用在检查是否为空

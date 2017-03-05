@@ -20,7 +20,7 @@ use Payment\Utils\ArrayUtil;
  * @property string $body
  * @property string $subject
  * @property string $order_no
- * @property integer $timeoutExpress
+ * @property integer $timeout_express
  * @property string $amount
  * @property string $goods_type
  * @property string $return_param

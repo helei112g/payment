@@ -13,9 +13,6 @@ use Payment\Utils\ArrayUtil;
 
 final class AliConfig extends ConfigInterface
 {
-    // 订单在支付宝服务器过期的时间，过期后无法支付
-    public $timeExpire;
-
     // 付款账号名
     public $account_name;
 
