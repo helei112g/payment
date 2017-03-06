@@ -62,6 +62,9 @@ final class WxConfig extends ConfigInterface
     // 统一下单url
     const UNIFIED_URL = 'https://api.mch.weixin.qq.com/pay/unifiedorder';
 
+    // 提交刷卡支付url
+    const MICROPAY_URL = 'https://api.mch.weixin.qq.com/pay/micropay';
+
     // 查询url
     const ORDER_QUERY_URL = 'https://api.mch.weixin.qq.com/pay/orderquery';
 

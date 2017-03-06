@@ -16,6 +16,7 @@ use Payment\Utils\ArrayUtil;
  *
  * @inheritdoc
  * @property string $product_id  扫码支付时,必须设置该参数
+ * @property string $openid  trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识
  *
  * @package Payment\Common\Weixin\Data\Charge
  */

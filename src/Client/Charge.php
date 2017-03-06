@@ -25,6 +25,7 @@ class Charge
         Config::WX_CHANNEL_APP,// 微信 APP 支付
         Config::WX_CHANNEL_PUB,// 微信公众号支付
         Config::WX_CHANNEL_QR,// 微信公众号扫码支付
+        Config::WX_CHANNEL_BAR,// 微信刷卡支付
         Config::WX_CHANNEL_WAP,// 微信 WAP 支付（此渠道仅针对特定客户开放）
         Config::WX_CHANNEL_LITE,// 微信小程序支付
 

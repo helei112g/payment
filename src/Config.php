@@ -39,7 +39,9 @@ final class Config
 
     const WX_CHANNEL_PUB = 'wx_pub';// 微信 公众账号 支付
 
-    const WX_CHANNEL_QR = 'wx_pub_qr';// 微信公众账号 扫码支付  主要用于pc站点
+    const WX_CHANNEL_QR = 'wx_qr';// 微信 扫码支付  (可以使用app的帐号，也可以用公众的帐号完成)
+
+    const WX_CHANNEL_BAR = 'wx_bar';// 微信 刷卡支付，与支付宝的条码支付对应
 
     const WX_CHANNEL_LITE = 'wx_lite';// 微信小程序支付
 
