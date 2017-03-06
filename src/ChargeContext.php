@@ -16,7 +16,6 @@ use Payment\Charge\Ali\AliWebCharge;
 use Payment\Charge\Ali\AliQrCharge;
 use Payment\Charge\Weixin\WxAppCharge;
 use Payment\Charge\Weixin\WxBarCharge;
-use Payment\Charge\Weixin\WxLiteCharge;
 use Payment\Charge\Weixin\WxPubCharge;
 use Payment\Charge\Weixin\WxQrCharge;
 use Payment\Charge\Weixin\WxWapCharge;
