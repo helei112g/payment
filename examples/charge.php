@@ -18,12 +18,13 @@ date_default_timezone_set('Asia/Shanghai');
 $payData = [
     'subject'    => 'test',
     'body'    => 'test',
-    'order_no'    => time() . rand(1000, 9999),// ali: 14887239163319   14887240631516   wx:  14887927481312    14887931921301
+    'order_no'    => time() . rand(1000, 9999),
     'amount'    => '0.01',// 单位为元 ,最小为0.01
     'timeout_express' => time() + 600,// 表示必须 600s 内付款
     'return_param' => '123',
     'terminal_id' => '',// 终端设备号(门店号或收银设备ID) 默认值 web
-    'openid' => 'ottkCuO1PW1Dnh6PWFffNk-2MPbY',
+    'openid' => 'xxxxx',
+    'scene' => 'bar_code'
 ];
 
 /**
@@ -34,9 +35,9 @@ $payData = [
 $aliConfig = require_once __DIR__ . '/aliconfig.php';
 $wxConfig = require_once __DIR__ . '/wxconfig.php';
 
-$channel = 'wx_lite';
+$channel = 'ali_bar';
 try {
-    $ret = Charge::pay($channel, $wxConfig, $payData);
+    $ret = Charge::run($channel, $aliConfig, $payData);
 } catch (PayException $e) {
     echo $e->errorMessage();
     exit;
