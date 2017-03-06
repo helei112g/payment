@@ -25,6 +25,7 @@ class WxPubCharge extends WxBaseStrategy
 {
     protected function getBuildDataClass()
     {
+        $this->config->tradeType = 'JSAPI';
         return PubChargeData::class;
     }
 
@@ -57,6 +58,6 @@ class WxPubCharge extends WxBaseStrategy
         // 移除sign
         unset($backData['sign']);
 
-        return json_encode($backData);// 格式化为json数据
+        return json_encode($backData, JSON_UNESCAPED_UNICODE);// 格式化为json数据
     }
 }

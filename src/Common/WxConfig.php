@@ -142,6 +142,11 @@ final class WxConfig extends ConfigInterface
             throw new PayException('MD5 Key 不能为空，再微信商户后台可查看');
         }
 
+        // 设置支付的货币类型
+        if (key_exists('fee_type', $config) && in_array($config['fee_type'], ['CNY'])) {
+            $this->feeType = $config['fee_type'];
+        }
+
         // 设置禁止使用的支付方式
         if (key_exists('limit_pay', $config) && $config['limit_pay'][0] === 'no_credit') {
             $this->limitPay = $config['limit_pay'][0];

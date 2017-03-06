@@ -24,6 +24,7 @@ class AppChargeData extends ChargeBaseData
             'mch_id'    => trim($this->mchId),
             'nonce_str' => $this->nonceStr,
             'sign_type' => $this->signType,
+            'fee_type'  => $this->feeType,
             'notify_url'    => $this->notifyUrl,
             'trade_type'    => $this->tradeType, //设置APP支付
             'limit_pay' => $this->limitPay,  // 指定不使用信用卡
@@ -34,7 +35,6 @@ class AppChargeData extends ChargeBaseData
             //'detail' => json_encode($this->body, JSON_UNESCAPED_UNICODE);
             'attach'    => trim($this->return_param),
             'out_trade_no'  => trim($this->order_no),
-            'fee_type'  => $this->feeType,
             'total_fee' => $this->amount,
             'spbill_create_ip'  => trim($this->client_ip),
             'time_start'    => $this->timeStart,

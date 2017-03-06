@@ -25,10 +25,10 @@ class BackPubChargeData extends WxBaseData
     {
         $this->retData = [
             'appId' => $this->appId,
-            'package'   => 'prepay_id=' . $this->prepay_id,
-            'nonceStr'  => $this->nonceStr,
             'timeStamp' => time() . '',
-            'signType'  => 'MD5',
+            'nonceStr'  => $this->nonceStr,
+            'package'   => 'prepay_id=' . $this->prepay_id,
+            'signType'  => 'MD5',// 签名算法，暂支持MD5
         ];
     }
 
