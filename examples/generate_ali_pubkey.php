@@ -21,3 +21,13 @@ $keyStr = str_replace("\n", "", $keyStr);
 $alipay_public_key = '-----BEGIN PUBLIC KEY-----' . PHP_EOL . wordwrap($keyStr, 64, "\n", true) . PHP_EOL . '-----END PUBLIC KEY-----';
 
 file_put_contents($filename, $alipay_public_key);
+
+
+// 个人私钥生成
+/*$keyStr = str_replace("-----BEGIN PRIVATE KEY-----", "", $keyStr);
+$keyStr = str_replace("-----END PRIVATE KEY-----", "", $keyStr);
+$keyStr = str_replace("\n", "", $keyStr);
+
+$rsa_private_key = '-----BEGIN PRIVATE KEY-----' . PHP_EOL . wordwrap($keyStr, 64, "\n", true) . PHP_EOL . '-----END PRIVATE KEY-----';
+
+file_put_contents($filename, $rsa_private_key);*/

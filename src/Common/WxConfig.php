@@ -59,6 +59,9 @@ final class WxConfig extends ConfigInterface
     // 是否返回原始数据
     public $returnRaw = false;
 
+    // 指定回调页面
+    public $returnUrl;
+
     // 统一下单url
     const UNIFIED_URL = 'https://api.mch.weixin.qq.com/pay/unifiedorder';
 
@@ -157,6 +160,10 @@ final class WxConfig extends ConfigInterface
 
         if (key_exists('return_raw', $config)) {
             $this->returnRaw = filter_var($config['return_raw'], FILTER_VALIDATE_BOOLEAN);
+        }
+
+        if (key_exists('redirect_url', $config)) {
+            $this->returnUrl = $config['redirect_url'];
         }
 
         // 以下两个文件，如果是调用资金流向接口，必须提供

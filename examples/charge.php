@@ -18,18 +18,13 @@ date_default_timezone_set('Asia/Shanghai');
 $payData = [
     'subject'    => 'test',
     'body'    => 'test',
-    'order_no'    => time() . rand(1000, 9999),// 14887239163319   14887240631516
+    'order_no'    => time() . rand(1000, 9999),// ali: 14887239163319   14887240631516   wx:  14887927481312    14887931921301
     'amount'    => '0.01',// 单位为元 ,最小为0.01
-    'timeout_express' => time() + 600,// 表示必须 60s 内付款
-    'scene' => 'bar_code',// 条码支付：bar_code 声波支付：wave_code
-    'auth_code' => '281590693078650089',// 用户付款码
+    'timeout_express' => time() + 600,// 表示必须 600s 内付款
+    'return_param' => '123',
+    'terminal_id' => '',// 终端设备号(门店号或收银设备ID) 默认值 web
+    'openid' => 'ohQeiwnNrAg5bD7EVvmGFIhba--k',
 ];
-
-// 微信扫码支付，需要设置的参数
-$payData['product_id']  = '123456';
-
-// 微信公众号支付，需要的参数
-$payData['openid'] = 'oinNst2_hWU_5oBigLd8n3-59PCc';// 需要通过微信提供的api获取该openid
 
 /**
  * 包含客户的配置文件
@@ -39,9 +34,9 @@ $payData['openid'] = 'oinNst2_hWU_5oBigLd8n3-59PCc';// 需要通过微信提供�
 $aliConfig = require_once __DIR__ . '/aliconfig.php';
 $wxConfig = require_once __DIR__ . '/wxconfig.php';
 
-$channel = 'ali_bar';
+$channel = 'wx_wap';
 try {
-    $ret = Charge::pay($channel, $aliConfig, $payData);
+    $ret = Charge::pay($channel, $wxConfig, $payData);
 } catch (PayException $e) {
     echo $e->errorMessage();
     exit;
@@ -57,10 +52,10 @@ if ($channel === Config::ALI_CHANNEL_APP) {
 } elseif ($channel === Config::ALI_CHANNEL_BAR) {// 条码支付，直接返回支付结果
     var_dump($ret);
     exit;
-} elseif ($channel === Config::WX_CHANNEL_QR) {
+} elseif ($channel === Config::WX_CHANNEL_QR) {// 二维码生成推荐使用：endroid/qrcode
     $url = \Payment\Utils\DataParser::toQRimg($ret);
     echo "<img alt='微信扫码支付' src='{$url}' style='width:150px;height:150px;'/>";
-    exit;
+    return $ret;
 } elseif ($channel === Config::WX_CHANNEL_PUB) {
     $json = $ret;
     var_dump($json);

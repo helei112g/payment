@@ -18,6 +18,7 @@ use Payment\Charge\Weixin\WxAppCharge;
 use Payment\Charge\Weixin\WxBarCharge;
 use Payment\Charge\Weixin\WxPubCharge;
 use Payment\Charge\Weixin\WxQrCharge;
+use Payment\Charge\Weixin\WxWapCharge;
 use Payment\Common\BaseStrategy;
 use Payment\Common\PayException;
 
@@ -72,6 +73,9 @@ class ChargeContext
                     break;
                 case Config::WX_CHANNEL_PUB:
                     $this->channel = new WxPubCharge($config);
+                    break;
+                case Config::WX_CHANNEL_WAP:
+                    $this->channel = new WxWapCharge($config);
                     break;
                 case Config::WX_CHANNEL_QR:
                     $this->channel = new WxQrCharge($config);
