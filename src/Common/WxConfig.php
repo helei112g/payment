@@ -14,9 +14,6 @@ use Payment\Utils\StrUtil;
 
 final class WxConfig extends ConfigInterface
 {
-    // 微信支付的网关
-    public $getewayUrl = 'https://api.mch.weixin.qq.com/';
-
     // 微信分配的公众账号ID
     public $appId;
 
@@ -50,8 +47,17 @@ final class WxConfig extends ConfigInterface
     // key文件路径
     public $keyPath;
 
-    // 加密方式 默认使用MD5  微信当前仅支持该方式
+    // 加密方式 默认使用MD5
     public $signType = 'MD5';
+
+    // 禁止使用的支付渠道
+    public $limitPay;
+
+    // 	支付类型
+    public $tradeType;
+
+    // 是否返回原始数据
+    public $returnRaw = false;
 
     // 统一下单url
     const UNIFIED_URL = 'https://api.mch.weixin.qq.com/pay/unifiedorder';
@@ -118,9 +124,6 @@ final class WxConfig extends ConfigInterface
             throw new PayException('必须提供微信支付分配的商户号');
         }
 
-        // 生成随机字符串
-        $this->nonceStr = StrUtil::getNonceStr();
-
         // 检查 异步通知的url
         if (key_exists('notify_url', $config) && !empty($config['notify_url'])) {
             $this->notifyUrl = trim($config['notify_url']);
@@ -132,18 +135,6 @@ final class WxConfig extends ConfigInterface
         $startTime = time();
         $this->timeStart = date('YmdHis', $startTime);
 
-        // 初始 微信订单过期时间，最短失效时间间隔必须大于5分钟
-        if (key_exists('time_expire', $config) && !empty($config['time_expire']) && $config['time_expire'] >= 5) {
-            $this->timeExpire = date('YmdHis', $startTime + ($config['time_expire'] * 60));
-        } else {
-            throw new PayException('必须设置订单过期时间,且需要大于5分钟.如果不正确请检查是否正确设置时区');
-        }
-
-        // 初始 支付宝网关地址
-        if (key_exists('geteway_url', $config) && !empty($config['geteway_url'])) {
-            $this->getewayUrl = $config['geteway_url'];
-        }
-
         // 初始 MD5 key
         if (key_exists('md5_key', $config) && !empty($config['md5_key'])) {
             $this->md5Key = $config['md5_key'];
@@ -151,13 +142,20 @@ final class WxConfig extends ConfigInterface
             throw new PayException('MD5 Key 不能为空，再微信商户后台可查看');
         }
 
+        // 设置禁止使用的支付方式
+        if (key_exists('limit_pay', $config) && $config['limit_pay'][0] === 'no_credit') {
+            $this->limitPay = $config['limit_pay'][0];
+        }
+
         // 以下两个文件，如果是调用资金流向接口，必须提供
         if (! empty($config['cert_path'])) {
             $this->certPath = $config['cert_path'];
         }
-
         if (! empty($config['key_path'])) {
             $this->keyPath = $config['key_path'];
         }
+
+        // 生成随机字符串
+        $this->nonceStr = StrUtil::getNonceStr();
     }
 }

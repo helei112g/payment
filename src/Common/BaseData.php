@@ -7,7 +7,6 @@
 
 namespace Payment\Common;
 
-use Payment\Common\PayException;
 use Payment\Utils\ArrayUtil;
 
 /**

@@ -28,6 +28,7 @@ final class Config
 
     const ALI_CHANNEL_BAR = 'ali_bar';// 支付宝 条码支付
 
+
     const ALI_REFUND = 'ali_refund';// 支付宝 退款查询
 
 
@@ -40,9 +41,10 @@ final class Config
 
     const WX_CHANNEL_QR = 'wx_pub_qr';// 微信公众账号 扫码支付  主要用于pc站点
 
+    const WX_CHANNEL_LITE = 'wx_lite';// 微信小程序支付
+
     const WX_CHANNEL_WAP = 'wx_wap';// 微信wap支付，针对特定用户
 
-    const WX_CHANNEL_LITE = 'wx_lite';// 微信小程序支付
 
     const WX_REFUND = 'wx_refund';// 微信退款单查询
 

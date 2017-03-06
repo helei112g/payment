@@ -66,14 +66,14 @@ class ChargeContext
                     $this->channel = new AliBarCharge($config);
                     break;
 
+                case Config::WX_CHANNEL_APP:
+                    $this->channel = new WxAppCharge($config);
+                    break;
                 case Config::WX_CHANNEL_QR:
                     $this->channel = new WxQrCharge($config);
                     break;
                 case Config::WX_CHANNEL_PUB:
                     $this->channel = new WxPubCharge($config);
-                    break;
-                case Config::WX_CHANNEL_APP:
-                    $this->channel = new WxAppCharge($config);
                     break;
                 default:
                     throw new PayException('当前仅支持：支付宝 与 微信');

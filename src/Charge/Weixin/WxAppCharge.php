@@ -17,6 +17,7 @@ class WxAppCharge extends WxBaseStrategy
 {
     protected function getBuildDataClass()
     {
+        $this->config->tradeType = 'APP';
         return AppChargeData::class;
     }
 

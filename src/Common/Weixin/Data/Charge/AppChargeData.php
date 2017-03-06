@@ -22,21 +22,23 @@ class AppChargeData extends ChargeBaseData
             // 基本数据
             'appid' => trim($this->appId),
             'mch_id'    => trim($this->mchId),
-            'device_info'   => 'WEB',
             'nonce_str' => $this->nonceStr,
-            'fee_type'  => $this->feeType,
+            'sign_type' => $this->signType,
             'notify_url'    => $this->notifyUrl,
-            'time_start'    => $this->timeStart,
-            'time_expire'   => $this->timeExpire,
-            //'limit_pay' => 'no_credit',  // 指定不使用信用卡
+            'trade_type'    => $this->tradeType, //设置APP支付
+            'limit_pay' => $this->limitPay,  // 指定不使用信用卡
 
             // 业务数据
-            'body'  => trim($this->body),
-            'attach'    => trim($this->extra_param),
+            'device_info'   => $this->terminal_id,
+            'body'  => trim($this->subject),
+            //'detail' => json_encode($this->body, JSON_UNESCAPED_UNICODE);
+            'attach'    => trim($this->return_param),
             'out_trade_no'  => trim($this->order_no),
+            'fee_type'  => $this->feeType,
             'total_fee' => $this->amount,
             'spbill_create_ip'  => trim($this->client_ip),
-            'trade_type'    => 'APP', //设置APP支付
+            'time_start'    => $this->timeStart,
+            'time_expire'   => $this->timeout_express,
         ];
 
         // 移除数组中的空值

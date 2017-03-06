@@ -12,10 +12,6 @@ use Payment\Common\PayException;
 /**
  * Class BackAppChargeData
  *
- * @property string $device_info   设备号
- * @property string $trade_type  交易类型
- * @property string $prepay_id   预支付交易会话标识
- *
  * @package Payment\Common\Weixin\Data
  * anthor helei
  */
