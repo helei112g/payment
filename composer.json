@@ -15,7 +15,9 @@
     "require": {
         "php": ">=5.6",
         "ext-bcmath": "*",
-        "ext-mbstring": "*",
+        "ext-mbstring": "*"
+    },
+    "require-dev": {
         "endroid/qrcode": "~1.9"
     },
     "autoload": {
