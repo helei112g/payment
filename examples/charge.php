@@ -23,7 +23,7 @@ $payData = [
     'timeout_express' => time() + 600,// 表示必须 600s 内付款
     'return_param' => '123',
     'terminal_id' => '',// 终端设备号(门店号或收银设备ID) 默认值 web
-    'openid' => 'ohQeiwnNrAg5bD7EVvmGFIhba--k',
+    'openid' => 'ottkCuO1PW1Dnh6PWFffNk-2MPbY',
 ];
 
 /**
@@ -34,7 +34,7 @@ $payData = [
 $aliConfig = require_once __DIR__ . '/aliconfig.php';
 $wxConfig = require_once __DIR__ . '/wxconfig.php';
 
-$channel = 'wx_wap';
+$channel = 'wx_lite';
 try {
     $ret = Charge::pay($channel, $wxConfig, $payData);
 } catch (PayException $e) {

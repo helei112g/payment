@@ -16,6 +16,7 @@ use Payment\Charge\Ali\AliWebCharge;
 use Payment\Charge\Ali\AliQrCharge;
 use Payment\Charge\Weixin\WxAppCharge;
 use Payment\Charge\Weixin\WxBarCharge;
+use Payment\Charge\Weixin\WxLiteCharge;
 use Payment\Charge\Weixin\WxPubCharge;
 use Payment\Charge\Weixin\WxQrCharge;
 use Payment\Charge\Weixin\WxWapCharge;
@@ -71,6 +72,7 @@ class ChargeContext
                 case Config::WX_CHANNEL_APP:
                     $this->channel = new WxAppCharge($config);
                     break;
+                case Config::WX_CHANNEL_LITE:// 小程序支付与公众号支付一样，仅仅是客户端的调用方式不同
                 case Config::WX_CHANNEL_PUB:
                     $this->channel = new WxPubCharge($config);
                     break;

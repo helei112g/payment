@@ -11,7 +11,7 @@ use Payment\Common\PayException;
 
 /**
  * Class BackPubChargeData
- *
+ *  小程序数据也在这里处理
  * @property string $device_info   设备号
  * @property string $trade_type  交易类型
  * @property string $prepay_id   预支付交易会话标识

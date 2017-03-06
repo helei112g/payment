@@ -10,7 +10,7 @@
  */
 
 // 从开发者平台拷贝的支付宝公钥key
-$keyStr = 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnZqR2nr7EwrE0D6R95TmvXR7jfFqytxWFUdI6JDrQBvzMPSI5Sww5rYG7eQbSJaJFgfbMek5P15zWG65+VgYkCsKNtSpElsf+h0FOWWWL74CQddeMwYu8NdLuOPdQqgz+Sc5vcJ3XSNGmym280IImOtvZA1L/2q8bErYnGJjfGJz/NOwwPfnW1P2edAyEwOswy10BJmUipu2d2iMVglTzyvVz7evzz7Ih4MbaL4CfOP8lo4tuEa3NfNKWPI5uBdnW9Wxk6ZlHK73N78ijIMs8nIOC28cerwmEjebjUi82Nc5j/LJS1ga1QF/gVK/GZcMCUo7+S0Ql6GZYP2qb58k7wIDAQAB';
+$keyStr = 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAxxxxxxxx';
 
 $filename = 'alipay_public_key.pem';// 默认生成在当前目录
 
