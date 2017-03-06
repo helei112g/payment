@@ -55,23 +55,11 @@ class AliBarCharge extends AliBaseStrategy
         $url = parent::retData($ret);
 
         // 发起网络请求
-        $curl = new Curl();
-        $responseTxt = $curl->set([
-            'CURLOPT_SSL_VERIFYPEER'    => true,
-            'CURLOPT_SSL_VERIFYHOST'    => 2,
-            'CURLOPT_HEADER'    => 0,// 为了便于解析，将头信息过滤掉
-        ])->get($url);
-
-        if ($responseTxt['error']) {
-            throw new PayException('网络发生错误，请稍后再试');
-        }
-
-        $body = $responseTxt['body'];
-
-        $data = json_decode($body, true)['alipay_trade_pay_response'];
-
-        if ($data['code'] != 10000) {
-            throw new PayException($data['sub_msg']);
+        try {
+            $responseKey = 'alipay_trade_pay_response';
+            $data = $this->sendReq($url, $responseKey);
+        } catch (PayException $e) {
+            throw $e;
         }
 
         return $data;

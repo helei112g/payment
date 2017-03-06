@@ -63,7 +63,7 @@ class BarChargeData extends ChargeBaseData
         $authCode = $this->auth_code;
 
         if (empty($scene) || ! in_array($scene, ['bar_code', 'wave_code'])) {
-            throw new PayException('支付场景必须设置 条码支付：bar_code 声波支付：wave_code');
+            throw new PayException('支付场景 scene 必须设置 条码支付：bar_code 声波支付：wave_code');
         }
 
         if (empty($authCode)) {

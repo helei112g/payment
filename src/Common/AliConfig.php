@@ -82,11 +82,11 @@ final class AliConfig extends ConfigInterface
     // 条码支付   商户扫用户的二维码
     const BAR_PAY_METHOD = 'alipay.trade.pay';
 
-
-
-
     // 统一收单线下交易查询
     const ALI_TRADE_QUERY = 'alipay.trade.query';
+
+
+
 
     // 统一收单交易退款接口
     const ALI_TRADE_REFUDN = 'alipay.trade.refund';

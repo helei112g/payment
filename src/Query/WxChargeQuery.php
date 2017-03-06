@@ -11,6 +11,7 @@ use Payment\Common\Weixin\Data\Query\ChargeData;
 use Payment\Common\Weixin\WxBaseStrategy;
 use Payment\Common\WxConfig;
 use Payment\Config;
+use Payment\Utils\ArrayUtil;
 
 class WxChargeQuery extends WxBaseStrategy
 {
@@ -94,6 +95,6 @@ class WxChargeQuery extends WxBaseStrategy
             ],
         ];
 
-        return $retData;
+        return ArrayUtil::paraFilter($retData);
     }
 }
