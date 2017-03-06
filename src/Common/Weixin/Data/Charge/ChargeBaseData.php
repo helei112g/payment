@@ -76,7 +76,10 @@ abstract class ChargeBaseData extends WxBaseData
         $this->amount = bcmul($amount, 100, 0);
 
         // 设置ip地址
-        $this->client_ip = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '127.0.0.1';
+        $clientIp = $this->client_ip;
+        if (empty($clientIp)) {
+            $this->client_ip = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '127.0.0.1';
+        }
 
         // 设置设备号
         if (empty($deviceInfo)) {
