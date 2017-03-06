@@ -30,7 +30,7 @@ class AppChargeData extends ChargeBaseData
             'product_code'  => 'QUICK_MSECURITY_PAY',
             'goods_type'    => $this->goods_type,
             'passback_params' => $this->return_param,
-            'disable_pay_channels' => $this->disablePayChannels,
+            'disable_pay_channels' => $this->limitPay,
             'store_id' => $this->store_id,
         ];
 

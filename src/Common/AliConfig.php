@@ -52,7 +52,7 @@ final class AliConfig extends ConfigInterface
     public $notifyUrl;
 
     // 禁止使用的支付渠道
-    public $disablePayChannels;
+    public $limitPay;
 
     // 合作者身份ID
     public $partner;
@@ -171,8 +171,8 @@ final class AliConfig extends ConfigInterface
         }
 
         // 设置禁止使用的支付方式
-        if (key_exists('disable_pay_channels', $config) && is_array($config['disable_pay_channels'])) {
-            $this->disablePayChannels = implode(',', $config['disable_pay_channels']);
+        if (key_exists('limit_pay', $config) && is_array($config['limit_pay'])) {
+            $this->limitPay = implode(',', $config['limit_pay']);
         }
 
         if (key_exists('return_raw', $config)) {

@@ -24,7 +24,6 @@ use Payment\Utils\ArrayUtil;
  * @property string $amount
  * @property string $goods_type
  * @property string $return_param
- * @property string $disablePayChannels   用户不可用指定渠道支付
  * @property string $store_id  	商户门店编号
  *
  * @package Payment\Common\Ali\Data\Charge

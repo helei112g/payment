@@ -75,10 +75,10 @@ class WebChargeData extends ChargeBaseData
             $express && $content['it_b_pay'] = $express . 'm';// 超时时间 统一使用分钟计算
         }
 
-        $disableChannel = $this->disablePayChannels;
-        if ($disableChannel) {
-            $disableChannel = explode(',', $disableChannel);
-            $content['disable_paymethod'] = implode('^', $disableChannel);
+        $limitPay = $this->limitPay;
+        if ($limitPay) {
+            $limitPay = explode(',', $limitPay);
+            $content['disable_paymethod'] = implode('^', $limitPay);
         }
 
         // 移除数组中的空值
