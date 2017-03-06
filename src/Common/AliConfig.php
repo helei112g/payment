@@ -102,10 +102,6 @@ final class AliConfig extends ConfigInterface
         } catch (PayException $e) {
             throw $e;
         }
-
-        $basePath = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'Ali' . DIRECTORY_SEPARATOR;
-
-        $this->cacertPath = "{$basePath}cacert.pem";
     }
 
     /**
