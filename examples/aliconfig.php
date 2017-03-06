@@ -8,10 +8,10 @@
 return [
     'use_sandbox'               => false,// 是否使用沙盒模式
 
-    'partner'                   => '2088xxxxxxx',
-    'app_id'                    => '2016xxxxxxxx',
-    'account'                   => 'xxxxxxx@163.com',
-    'account_name'              => '何磊',
+    'partner'                   => '2088021513742744',
+    'app_id'                    => '2016071901639368',
+    'account'                   => 'yimimarket@163.com',
+    'account_name'              => '一米市集',
     'sign_type'                 => 'RSA',// RSA  RSA2
     'ali_public_key'            => dirname(__FILE__) . DIRECTORY_SEPARATOR . 'alipay_public_key.pem',
     'rsa_private_key'           => dirname(__FILE__) . DIRECTORY_SEPARATOR . 'rsa_private_key.pem',
