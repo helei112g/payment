@@ -152,6 +152,10 @@ final class WxConfig extends ConfigInterface
             $this->limitPay = $config['limit_pay'][0];
         }
 
+        if (key_exists('return_raw', $config)) {
+            $this->returnRaw = filter_var($config['return_raw'], FILTER_VALIDATE_BOOLEAN);
+        }
+
         // 以下两个文件，如果是调用资金流向接口，必须提供
         if (! empty($config['cert_path'])) {
             $this->certPath = $config['cert_path'];

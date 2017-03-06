@@ -15,7 +15,8 @@
     "require": {
         "php": ">=5.6",
         "ext-bcmath": "*",
-        "ext-mbstring": "*"
+        "ext-mbstring": "*",
+        "endroid/qrcode": "~1.9"
     },
     "autoload": {
         "psr-4": {"Payment\\": "src/"}

@@ -172,7 +172,7 @@ final class AliConfig extends ConfigInterface
         }
 
         if (key_exists('return_raw', $config)) {
-            $this->returnRaw = filter_input($config['return_raw'], FILTER_VALIDATE_BOOLEAN);
+            $this->returnRaw = filter_var($config['return_raw'], FILTER_VALIDATE_BOOLEAN);
         }
     }
 }

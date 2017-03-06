@@ -28,6 +28,10 @@ class WxQrCharge extends WxBaseStrategy
      */
     protected function retData(array $ret)
     {
+        if ($this->config->returnRaw) {
+            return $ret;
+        }
+
         // 扫码支付，返回链接
         return $ret['code_url'];
     }
