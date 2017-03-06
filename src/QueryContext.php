@@ -11,9 +11,8 @@ use Payment\Common\BaseStrategy;
 use Payment\Common\PayException;
 use Payment\Query\AliRefundQuery;
 use Payment\Query\AliTradeQuery;
-use Payment\Query\ChinapayQuery;
+use Payment\Query\WxChargeQuery;
 use Payment\Query\WxRefundQuery;
-use Payment\Query\WxTradeQuery;
 use Payment\Query\WxTransferQuery;
 
 class QueryContext
@@ -38,23 +37,24 @@ class QueryContext
     {
         try {
             switch ($channel) {
-                case Config::ALI:
+                case Config::ALI_CHARGE:
                     $this->query = new AliTradeQuery($config);
                     break;
                 case Config::ALI_REFUND:// 支付宝退款订单查询
                     $this->query = new AliRefundQuery($config);
                     break;
-                case Config::WEIXIN:// 微信支付订单查询
-                    $this->query = new WxTradeQuery($config);
+
+                case Config::WX_CHARGE:// 微信支付订单查询
+                    $this->query = new WxChargeQuery($config);
                     break;
-                case Config::WEIXIN_REFUND:// 微信退款订单查询
+                case Config::WX_REFUND:// 微信退款订单查询
                     $this->query = new WxRefundQuery($config);
                     break;
-                case Config::WEIXIN_TRANS:// 微信转款订单查询
+                case Config::WX_TRANSFER:// 微信转款订单查询
                     $this->query = new WxTransferQuery($config);
                     break;
                 default:
-                    throw new PayException('当前仅支持：ALI WEIXIN WEIXIN_REFUND WEIXIN_TRANS');
+                    throw new PayException('当前仅支持：ALI_CHARGE ALI_REFUND WX_CHARGE WX_REFUND WX_TRANSFER');
             }
         } catch (PayException $e) {
             throw $e;

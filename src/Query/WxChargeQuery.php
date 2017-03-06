@@ -7,12 +7,12 @@
 
 namespace Payment\Query;
 
-use Payment\Common\Weixin\Data\QueryData;
+use Payment\Common\Weixin\Data\Query\ChargeData;
 use Payment\Common\Weixin\WxBaseStrategy;
 use Payment\Common\WxConfig;
 use Payment\Config;
 
-class WxTradeQuery extends WxBaseStrategy
+class WxChargeQuery extends WxBaseStrategy
 {
 
     /**
@@ -21,7 +21,7 @@ class WxTradeQuery extends WxBaseStrategy
      */
     protected function getBuildDataClass()
     {
-        return QueryData::class;
+        return ChargeData::class;
     }
 
     /**
@@ -31,7 +31,7 @@ class WxTradeQuery extends WxBaseStrategy
      */
     protected function getReqUrl()
     {
-        return WxConfig::ORDER_QUERY_URL;
+        return WxConfig::CHARGE_QUERY_URL;
     }
 
     /**
@@ -42,6 +42,10 @@ class WxTradeQuery extends WxBaseStrategy
      */
     protected function retData(array $data)
     {
+        if ($this->config->returnRaw) {
+            return $data;
+        }
+
         // 请求失败，可能是网络
         if ($data['return_code'] != 'SUCCESS') {
             return $retData = [
@@ -76,16 +80,17 @@ class WxTradeQuery extends WxBaseStrategy
         $retData = [
             'is_success'    => 'T',
             'response'  => [
-                //'subject'   => '',// 微信不返回 subject   body字段
-                //'body'   => '',
                 'amount'   => $data['total_fee'],
-                'channel'   => Config::WEIXIN,
+                'channel'   => Config::WX_CHARGE,// 支付查询
                 'order_no'   => $data['out_trade_no'],
                 'buyer_id'   => $data['openid'],
                 'trade_state'   => strtolower($data['trade_state']),
                 'transaction_id'   => $data['transaction_id'],
                 'time_end'   => date('Y-m-d H:i:s', strtotime($data['time_end'])),
-                'attach'    => $data['attach'],
+                'return_param'    => $data['attach'],
+                'terminal_id' => $data['device_info'],
+                'trade_type' => $data['trade_type'],
+                'bank_type' => $data['bank_type'],
             ],
         ];
 

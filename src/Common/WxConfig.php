@@ -68,8 +68,12 @@ final class WxConfig extends ConfigInterface
     // 提交刷卡支付url
     const MICROPAY_URL = 'https://api.mch.weixin.qq.com/pay/micropay';
 
-    // 查询url
-    const ORDER_QUERY_URL = 'https://api.mch.weixin.qq.com/pay/orderquery';
+    // 支付查询url
+    const CHARGE_QUERY_URL = 'https://api.mch.weixin.qq.com/pay/orderquery';
+
+
+
+
 
     // 申请退款url
     const REFUND_URL = 'https://api.mch.weixin.qq.com/secapi/pay/refund';

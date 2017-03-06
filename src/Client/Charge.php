@@ -41,7 +41,7 @@ class Charge
      * @return mixed
      * @throws PayException
      */
-    public static function pay($channel, $config, $metadata)
+    public static function run($channel, $config, $metadata)
     {
         if (! in_array($channel, self::$supportChannel)) {
             throw new PayException('sdk当前不支持该支付渠道，当前仅支持：' . implode(',', self::$supportChannel));
