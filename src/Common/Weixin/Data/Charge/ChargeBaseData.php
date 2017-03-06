@@ -30,7 +30,6 @@ use Payment\Config;
  *  - @link https://pay.weixin.qq.com/wiki/doc/api/app/app.php?chapter=4_2
  * @property integer $timeout_express  订单失效时间   格式为yyyyMMddHHmmss
  *
- * @property string $product_id  扫码支付时,必须设置该参数
  * @property string $openid  trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识
  *
  * @package Payment\Common\Weixin\Data\Charge

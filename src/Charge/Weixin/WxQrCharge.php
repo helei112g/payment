@@ -16,6 +16,7 @@ class WxQrCharge extends WxBaseStrategy
 {
     protected function getBuildDataClass()
     {
+        $this->config->tradeType = 'NATIVE';// 微信文档这里写错了
         return QrChargeData::class;
     }
 
