@@ -165,6 +165,12 @@ final class WxConfig extends ConfigInterface
             $this->appKeyPem = $config['app_key_pem'];
         }
 
+        if (key_exists('sign_type', $config) && in_array($config['sign_type'], ['RSA', 'HMAC-SHA256'])) {
+            $this->signType = $config['sign_type'];
+        } else {
+            $this->signType = 'MD5';
+        }
+
         // 生成随机字符串
         $this->nonceStr = StrUtil::getNonceStr();
     }

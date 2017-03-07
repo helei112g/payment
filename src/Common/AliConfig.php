@@ -122,7 +122,7 @@ final class AliConfig extends ConfigInterface
             $this->returnUrl = $config['return_url'];
         }
 
-        // 初始 支付宝 同步通知地址，可为空
+        // 初始 支付宝 签名方式，可为空
         if (key_exists('sign_type', $config) && in_array($config['sign_type'], ['RSA', 'RSA2'])) {
             $this->signType = $config['sign_type'];
         } else {
