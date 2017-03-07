@@ -56,7 +56,6 @@ class RefundData extends AliBaseData
             'app_id'        => $this->appId,
             'method'        => $this->method,
             'format'        => $this->format,
-            'return_url'    => $this->returnUrl,
             'charset'       => $this->charset,
             'sign_type'     => $this->signType,
             'timestamp'     => $this->timestamp,

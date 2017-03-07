@@ -44,7 +44,7 @@ class NotifyContext
                     $this->notify = new WxNotify($config);
                     break;
                 default:
-                    throw new PayException('当前仅支持：ALI WEIXIN两个常量');
+                    throw new PayException('当前仅支持：ALI_CHARGE WX_CHARGE 两个常量');
             }
         } catch (PayException $e) {
             throw $e;
