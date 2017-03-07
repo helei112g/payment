@@ -37,10 +37,10 @@ class NotifyContext
     {
         try {
             switch ($channel) {
-                case Config::ALI:
+                case Config::ALI_CHARGE:
                     $this->notify = new AliNotify($config);
                     break;
-                case Config::WEIXIN:
+                case Config::WX_CHARGE:
                     $this->notify = new WxNotify($config);
                     break;
                 default:
@@ -49,6 +49,15 @@ class NotifyContext
         } catch (PayException $e) {
             throw $e;
         }
+    }
+
+    /**
+     * 返回异步通知的数据
+     * @return array|false
+     */
+    public function getNotifyData()
+    {
+        return $this->notify->getNotifyData();
     }
 
     /**

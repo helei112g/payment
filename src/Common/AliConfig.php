@@ -13,12 +13,6 @@ use Payment\Utils\ArrayUtil;
 
 final class AliConfig extends ConfigInterface
 {
-    // 付款账号名
-    public $account_name;
-
-    // 付款账号 支付宝账号，邮箱或者手机
-    public $account;
-
     // ================= 支付宝 2.0 新接口 支持参数 ================= //
 
     // 支付宝的网关

@@ -36,8 +36,6 @@ use Payment\Utils\RsaEncrypt;
  * @property string $rsaAliPubPath  rsa支付宝公钥路径
  *
  * @property string $partner  合作id
- * @property string $account  卖家支付宝账号，手机号或者邮箱
- * @property string $account_name  卖家支付宝昵称
  *
  * @package Payment\Charge\Ali\Data
  * anthor helei

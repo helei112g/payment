@@ -133,6 +133,7 @@ abstract class AliBaseStrategy implements BaseStrategy
         }
 
         $data['sign'] = $sign;// sign  需要放在末尾
+
         return $this->config->getewayUrl . http_build_query($data);
     }
 
