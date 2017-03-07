@@ -5,7 +5,7 @@
  * @description:
  */
 
-namespace Payment\Query;
+namespace Payment\Query\Wx;
 
 use Payment\Common\Weixin\Data\Query\ChargeData;
 use Payment\Common\Weixin\WxBaseStrategy;

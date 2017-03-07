@@ -6,7 +6,7 @@
  * Time: 下午5:44
  */
 
-namespace Payment\Charge\Weixin;
+namespace Payment\Charge\Wx;
 
 
 use Payment\Common\BaseData;

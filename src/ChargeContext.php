@@ -14,11 +14,11 @@ use Payment\Charge\Ali\AliBarCharge;
 use Payment\Charge\Ali\AliWapCharge;
 use Payment\Charge\Ali\AliWebCharge;
 use Payment\Charge\Ali\AliQrCharge;
-use Payment\Charge\Weixin\WxAppCharge;
-use Payment\Charge\Weixin\WxBarCharge;
-use Payment\Charge\Weixin\WxPubCharge;
-use Payment\Charge\Weixin\WxQrCharge;
-use Payment\Charge\Weixin\WxWapCharge;
+use Payment\Charge\Wx\WxAppCharge;
+use Payment\Charge\Wx\WxBarCharge;
+use Payment\Charge\Wx\WxPubCharge;
+use Payment\Charge\Wx\WxQrCharge;
+use Payment\Charge\Wx\WxWapCharge;
 use Payment\Common\BaseStrategy;
 use Payment\Common\PayException;
 

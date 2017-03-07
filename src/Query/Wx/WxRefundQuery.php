@@ -5,7 +5,7 @@
  * @description:
  */
 
-namespace Payment\Query;
+namespace Payment\Query\Wx;
 
 use Payment\Common\WxConfig;
 use Payment\Config;

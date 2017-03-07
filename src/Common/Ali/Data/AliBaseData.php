@@ -13,6 +13,7 @@ use Payment\Common\AliConfig;
 use Payment\Common\BaseData;
 use Payment\Common\PayException;
 use Payment\Utils\ArrayUtil;
+use Payment\Utils\Rsa2Encrypt;
 use Payment\Utils\RsaEncrypt;
 
 /**
@@ -70,7 +71,10 @@ abstract class AliBaseData extends BaseData
                 $sign = $rsa->encrypt($signStr);
                 break;
             case 'RSA2':
-                // @TODO
+                $rsaPrivatePath = @file_get_contents($this->rsaPrivatePath);
+                $rsa = new Rsa2Encrypt($rsaPrivatePath);
+
+                $sign = $rsa->encrypt($signStr);
                 break;
             default:
                 $sign = '';

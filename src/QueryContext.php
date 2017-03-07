@@ -9,11 +9,11 @@ namespace Payment;
 
 use Payment\Common\BaseStrategy;
 use Payment\Common\PayException;
-use Payment\Query\AliChargeQuery;
-use Payment\Query\AliRefundQuery;
-use Payment\Query\WxChargeQuery;
-use Payment\Query\WxRefundQuery;
-use Payment\Query\WxTransferQuery;
+use Payment\Query\Ali\AliChargeQuery;
+use Payment\Query\Ali\AliRefundQuery;
+use Payment\Query\Wx\WxChargeQuery;
+use Payment\Query\Wx\WxRefundQuery;
+use Payment\Query\Wx\WxTransferQuery;
 
 class QueryContext
 {

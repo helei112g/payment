@@ -7,7 +7,7 @@
  * @link      https://helei112g.github.io/
  */
 
-namespace Payment\Charge\Weixin;
+namespace Payment\Charge\Wx;
 
 use Payment\Common\Weixin\Data\BackPubChargeData;
 use Payment\Common\Weixin\Data\Charge\PubChargeData;

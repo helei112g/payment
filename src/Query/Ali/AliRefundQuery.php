@@ -5,7 +5,7 @@
  * @description:
  */
 
-namespace Payment\Query;
+namespace Payment\Query\Ali;
 
 use Payment\Common\Ali\Data\TradeQueryData;
 use Payment\Common\AliConfig;

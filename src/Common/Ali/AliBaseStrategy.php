@@ -16,6 +16,8 @@ use Payment\Common\PayException;
 use Payment\Config;
 use Payment\Utils\ArrayUtil;
 use Payment\Utils\Curl;
+use Payment\Utils\Rsa2Encrypt;
+use Payment\Utils\RsaEncrypt;
 use Payment\Utils\StrUtil;
 
 abstract class AliBaseStrategy implements BaseStrategy
@@ -73,7 +75,13 @@ abstract class AliBaseStrategy implements BaseStrategy
         return $this->retData($data);
     }
 
-    protected function sendReq($url, $responseKey)
+    /**
+     * 支付宝业务发送网络请求，并验证签名
+     * @param $url
+     * @return mixed
+     * @throws PayException
+     */
+    protected function sendReq($url)
     {
         // 发起网络请求
         $curl = new Curl();
@@ -87,16 +95,22 @@ abstract class AliBaseStrategy implements BaseStrategy
             throw new PayException('网络发生错误，请稍后再试');
         }
 
-        // TODO  验证签名，检查支付宝返回的数据
-
         $body = $responseTxt['body'];
 
-        $data = json_decode($body, true)[$responseKey];
-        if ($data['code'] != 10000) {
-            throw new PayException($data['sub_msg']);
+        $responseKey = str_ireplace('.', '_', $this->config->method . '.response');
+
+        $body = json_decode($body, true);
+        if ($body[$responseKey]['code'] != 10000) {
+            throw new PayException($body[$responseKey]['sub_msg']);
         }
 
-        return $data;
+        // 验证签名，检查支付宝返回的数据
+        $flag = $this->verifySign($body[$responseKey], $body['sign']);
+        if (! $flag) {
+            throw new PayException('支付宝返回数据被篡改。请检查网络是否安全！');
+        }
+
+        return $body[$responseKey];
     }
 
     /**
@@ -139,6 +153,32 @@ abstract class AliBaseStrategy implements BaseStrategy
             case 'TRADE_CLOSED':
             default:
                 return Config::TRADE_STATUS_FAILD;
+        }
+    }
+
+    /**
+     * 检查支付宝数据 签名是否被篡改
+     * @param array $data
+     * @param string $sign  支付宝返回的签名结果
+     * @return bool
+     * @author helei
+     */
+    protected function verifySign(array $data, $sign)
+    {
+        $preStr = json_encode($data);
+
+        if ($this->config->signType === 'RSA') {// 使用RSA
+            $publicKeyContent = file_get_contents($this->config->rsaAliPubPath);
+            $rsa = new RsaEncrypt($publicKeyContent);
+
+            return $rsa->rsaVerify($preStr, $sign);
+        } elseif ($this->config->signType === 'RSA2') {// 使用rsa方式
+            $publicKeyContent = file_get_contents($this->config->rsaAliPubPath);
+            $rsa = new Rsa2Encrypt($publicKeyContent);
+
+            return $rsa->rsaVerify($preStr, $sign);
+        } else {
+            return false;
         }
     }
 }

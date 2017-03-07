@@ -56,8 +56,7 @@ class AliBarCharge extends AliBaseStrategy
 
         // 发起网络请求
         try {
-            $responseKey = 'alipay_trade_pay_response';
-            $data = $this->sendReq($url, $responseKey);
+            $data = $this->sendReq($url);
         } catch (PayException $e) {
             throw $e;
         }

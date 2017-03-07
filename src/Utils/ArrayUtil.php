@@ -19,7 +19,7 @@ class ArrayUtil
      */
     public static function paraFilter($para)
     {
-        $para_filter = array();
+        $paraFilter = [];
         while (list($key, $val) = each($para)) {
             if ($val == "") {
                 continue;
@@ -28,11 +28,11 @@ class ArrayUtil
                     $para[$key] = is_bool($para[$key]) ? $para[$key] : trim($para[$key]);
                 }
 
-                $para_filter[$key] = $para[$key];
+                $paraFilter[$key] = $para[$key];
             }
         }
 
-        return $para_filter;
+        return $paraFilter;
     }
 
     /**
