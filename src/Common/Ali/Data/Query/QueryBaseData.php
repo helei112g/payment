@@ -45,9 +45,4 @@ abstract class QueryBaseData extends AliBaseData
      * @return mixed
      */
     abstract protected function getBizContent();
-
-    protected function checkDataParam()
-    {
-        // TODO: Implement checkDataParam() method.
-    }
 }

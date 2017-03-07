@@ -82,16 +82,16 @@ final class AliConfig extends ConfigInterface
     // 条码支付   商户扫用户的二维码
     const BAR_PAY_METHOD = 'alipay.trade.pay';
 
+
     // 统一收单线下交易查询
-    const ALI_TRADE_QUERY = 'alipay.trade.query';
-
-    // 统一收单交易退款接口
-    const ALI_TRADE_REFUND = 'alipay.trade.refund';
-
-
+    const TRADE_QUERY_METHOD = 'alipay.trade.query';
 
     // 统一收单交易退款查询  未完成
-    const ALI_REFUND_QUERY = 'alipay.trade.fastpay.refund.query';
+    const REFUND_QUERY_METHOD = 'alipay.trade.fastpay.refund.query';
+
+
+    // 统一收单交易退款接口
+    const TRADE_REFUND_METHOD = 'alipay.trade.refund';
 
     public function __construct(array $config)
     {

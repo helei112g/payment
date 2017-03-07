@@ -17,7 +17,7 @@ class AliRefund extends AliBaseStrategy
 {
     protected function getBuildDataClass()
     {
-        $this->config->method = AliConfig::ALI_TRADE_REFUND;
+        $this->config->method = AliConfig::TRADE_REFUND_METHOD;
         return RefundData::class;
     }
 

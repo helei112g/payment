@@ -18,6 +18,8 @@ use Payment\Utils\ArrayUtil;
  *
  * @property string $transaction_id 微信的订单号，优先使用
  * @property string $out_trade_no 商户系统内部的订单号
+ * @property string $refund_no  商户侧传给微信的退款单号
+ * @property string $refund_id  微信生成的退款单号，在申请退款接口有返回
  *
  * Class RefundQueryData
  * @package Payment\Common\Weixin\Data\Query
@@ -36,6 +38,8 @@ class RefundQueryData extends WxBaseData
 
             'transaction_id'    => $this->transaction_id,
             'out_trade_no'  => $this->out_trade_no,
+            'out_refund_no' => $this->refund_no,
+            'refund_id' => $this->refund_id,
         ];
 
         $this->retData = ArrayUtil::paraFilter($this->retData);
@@ -43,12 +47,14 @@ class RefundQueryData extends WxBaseData
 
     protected function checkDataParam()
     {
-        $transaction_id = $this->transaction_id;// 微信交易号，查询效率高
-        $order_no = $this->out_trade_no;// 商户订单号，查询效率低，不建议使用
+        $transactionId = $this->transaction_id;// 微信交易号，查询效率高
+        $orderNo = $this->out_trade_no;// 商户订单号，查询效率低，不建议使用
+        $refundNo = $this->refund_no;// 商户的退款单号
+        $refundId = $this->refund_id;// 微信的退款交易号
 
-        // 二者不能同时为空
-        if (empty($transaction_id) && empty($order_no)) {
-            throw new PayException('查询退款  必须提供微信交易号或商户网站唯一订单号。建议使用微信交易号');
+        // 四者不能同时为空
+        if (empty($transaction_id) && empty($order_no) && empty($refundNo) && empty($refundId)) {
+            throw new PayException('查询退款  必须提供微信交易号、商户订单号、商户退款单号、微信退款交易号中的一种');
         }
     }
 }

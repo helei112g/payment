@@ -18,7 +18,7 @@ class AliChargeQuery extends AliBaseStrategy
 {
     protected function getBuildDataClass()
     {
-        $this->config->method = AliConfig::ALI_TRADE_QUERY;
+        $this->config->method = AliConfig::TRADE_QUERY_METHOD;
         return ChargeQueryData::class;
     }
     
