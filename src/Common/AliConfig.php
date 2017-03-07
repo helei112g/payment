@@ -57,9 +57,6 @@ final class AliConfig extends ConfigInterface
     // 合作者身份ID
     public $partner;
 
-    // 安全证书的路径
-    public $cacertPath;
-
     // 用于rsa加密的私钥文件路径
     public $rsaPrivatePath;
 
@@ -104,9 +101,6 @@ final class AliConfig extends ConfigInterface
         } catch (PayException $e) {
             throw $e;
         }
-
-        $basePath = dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'CacertFile' . DIRECTORY_SEPARATOR;
-        $this->cacertPath = "{$basePath}/ali_cacert.pem";
     }
 
     /**
