@@ -5,12 +5,27 @@
  * @description:
  */
 
-return [
-    'use_sandbox'               => false,// 是否使用沙盒模式
+// 一下配置均为本人的沙箱环境，贡献出来，大家测试
 
-    'partner'                   => '2088xxx',
-    'app_id'                    => '2016xxxxxxxxxxx',
-    'account'                   => 'xxxxxxxx@163.com',
+// 个人沙箱帐号：
+/*商家账号   naacvg9185@sandbox.com
+商户UID   2088102169252684
+登录密码   111111*/
+
+/*买家账号    aaqlmq0729@sandbox.com
+登录密码    111111
+支付密码    111111
+用户名称    沙箱环境
+证件类型    身份证(IDENTITY_CARD)
+证件号码    43982819131125559X*/
+
+
+return [
+    'use_sandbox'               => true,// 是否使用沙盒模式
+
+    'partner'                   => '2088102169252684',
+    'app_id'                    => '2016073100130857',
+    'account'                   => 'dayugog@gmai.com',
     'account_name'              => '何磊',
     'sign_type'                 => 'RSA',// RSA  RSA2
     'ali_public_key'            => dirname(__FILE__) . DIRECTORY_SEPARATOR . 'alipay_public_key.pem',

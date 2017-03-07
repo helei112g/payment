@@ -18,25 +18,27 @@ $wxConfig = require_once __DIR__ . '/wxconfig.php';
 // ali: 14887239163319   14887240631516
 // wx:  14887927481312    14887931921301
 
+$tmp = time() . rand(1000, 9999);
 // ali退款
-/*$data = [
-    'out_trade_no' => '14887239163319',
+$data = [
+    'out_trade_no' => '14887240631516',
     'refund_fee' => '0.01',
-    'refund_reason' => '测试帐号退款',
-    'refund_no' => time() . rand(1000, 9999),
-];*/
+    'reason' => '测试帐号退款',
+    'refund_no' => $tmp,
+];
 
 // wx退款
-$data = [
+/*$data = [
     'out_trade_no' => '14887927481312',
     'total_fee' => '0.01',
     'refund_fee' => 0.01,
-    'refund_no' => time() . rand(1000, 9999),
-];
+    'refund_no' => $tmp,
+];*/
+var_dump($tmp);
 
-$channel = 'wx';
+$channel = 'ali_refund';//xx_refund
 try {
-    $ret = Refund::run($channel, $wxConfig, $data);
+    $ret = Refund::run($channel, $aliConfig, $data);
 } catch (PayException $e) {
     echo $e->errorMessage();
     exit;
