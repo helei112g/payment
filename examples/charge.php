@@ -7,7 +7,6 @@
 
 require_once __DIR__ . '/../autoload.php';
 
-use Payment\Config;
 use Payment\Common\PayException;
 use Payment\Client\Charge;
 
@@ -19,7 +18,7 @@ $orderNo = time() . rand(1000, 9999);
 $payData = [
     'body'    => 'test body',
     'subject'    => 'test subject',
-    'order_no'    => '123123123w',
+    'order_no'    => '123123123e',
     'timeout_express' => time() + 600,// 表示必须 600s 内付款
     'amount'    => '0.01',// 单位为元 ,最小为0.01
     'return_param' => '123',
@@ -41,7 +40,7 @@ $payData = [
 
     'client_ip' => '127.0.0.1',
 
-    'openid' => 'ottkxxxxxxx',
+    'openid' => '------------',
     'product_id' => '123',
 ];
 
@@ -50,13 +49,17 @@ $wxConfig = require_once __DIR__ . '/wxconfig.php';
 
 // ali_app  ali_wap  ali_web  ali_qr  ali_bar
 // wx_app    wx_pub   wx_qr   wx_bar  wx_lite   wx_wap
-$channel = 'ali_wap';
+$channel = 'wx_qr';
 try {
-    $ret = Charge::run($channel, $aliConfig, $payData);
+    $ret = Charge::run($channel, $wxConfig, $payData);
 } catch (PayException $e) {
     echo $e->errorMessage();
     exit;
 }
 
-echo htmlspecialchars($ret);
+if (is_array($ret)) {
+    var_dump($ret);
+} else {
+    echo htmlspecialchars($ret);
+}
 exit;

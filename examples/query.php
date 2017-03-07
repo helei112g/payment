@@ -7,18 +7,14 @@
 
 require_once __DIR__ . '/../autoload.php';
 
+use Payment\Common\PayException;
+use Payment\Client\Query;
+
 $aliConfig = require_once __DIR__ . '/aliconfig.php';
 $wxConfig = require_once __DIR__ . '/wxconfig.php';
 
-use Payment\QueryContext;
-use Payment\Common\PayException;
-use Payment\Config;
-use Payment\Client\Query;
-
-$query = new QueryContext();
-
 // ali: 123123123q(14888971346355)    123123123w
-// wx:  123123123q    123123123w
+// wx:  123123123q
 
 // 支付查询
 //ali_charge
@@ -27,10 +23,10 @@ $query = new QueryContext();
     'trade_no' => '2017030721001004350200139475',
 ];*/
 //wx_charge
-$data = [
-    'out_trade_no' => '14887931921301',
+/*$data = [
+    'out_trade_no' => '123123123q',
     'transaction_id' => '',
-];
+];*/
 
 // 退款查询
 // ali_refund
@@ -40,12 +36,12 @@ $data = [
     'refund_no' => '14888971346355',
 ];*/
 // wx_refund
-/*$data = [
-    'out_trade_no' => '',
+$data = [
+    'out_trade_no' => '123123123q',
     'refund_no' => '',
     'transaction_id' => '',
-    'refund_id' => '2007572001201703070896576492',
-];*/
+    'refund_id' => '',
+];
 
 // 转账查询
 // ali_transfer
@@ -55,12 +51,12 @@ $data = [
 ];*/
 // wx_transfer
 /*$data = [
-    'trans_no' => '1488872748',
+    'trans_no' => '123123123q',
 ];*/
 
-$type = 'wx_charge';// xx_charge  xx_refund   xx_transfer
+$type = 'wx_refund';// xx_charge  xx_refund   xx_transfer
 try {
-    $ret = Query::run($type, $aliConfig, $data);
+    $ret = Query::run($type, $wxConfig, $data);
 } catch (PayException $e) {
     echo $e->errorMessage();
     exit;

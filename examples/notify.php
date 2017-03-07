@@ -16,11 +16,11 @@ $wxConfig = require_once __DIR__ . '/wxconfig.php';
 
 $callback = new TestNotify();
 
-$type = 'ali_charge';
+$type = 'wx_charge';
 try {
     //$retData = Notify::getNotifyData($type, $aliConfig);// 获取第三方的原始数据
 
-    $ret = Notify::run($type, $aliConfig, $callback);
+    $ret = Notify::run($type, $wxConfig, $callback);
 } catch (PayException $e) {
     echo $e->errorMessage();
     exit;

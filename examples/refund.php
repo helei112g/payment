@@ -8,7 +8,6 @@
 require_once __DIR__ . '/../autoload.php';
 
 use Payment\Common\PayException;
-use Payment\Config;
 use Payment\Client\Refund;
 
 
@@ -20,25 +19,25 @@ $wxConfig = require_once __DIR__ . '/wxconfig.php';
 
 $refundNo = time() . rand(1000, 9999);
 // ali退款
-$data = [
+/*$data = [
     'out_trade_no' => '123123123q',
     'refund_fee' => '0.01',
     'reason' => '测试帐号退款',
     'refund_no' => $refundNo,
-];
+];*/
 
 // wx退款
-/*$data = [
-    'out_trade_no' => '14887927481312',
+$data = [
+    'out_trade_no' => '123123123q',
     'total_fee' => '0.01',
     'refund_fee' => 0.01,
-    'refund_no' => $tmp,
-];*/
+    'refund_no' => $refundNo,
+];
 var_dump($refundNo);
 
-$channel = 'ali_refund';//xx_refund
+$channel = 'wx_refund';//xx_refund
 try {
-    $ret = Refund::run($channel, $aliConfig, $data);
+    $ret = Refund::run($channel, $wxConfig, $data);
 } catch (PayException $e) {
     echo $e->errorMessage();
     exit;
