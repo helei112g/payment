@@ -16,8 +16,6 @@ final class Config
     const VERSION = 'dev-payment3';
 
     //========================= ali相关接口 =======================//
-    const ALI = 'ali';
-
     // 支付相关常量
     const ALI_CHANNEL_APP = 'ali_app';// 支付宝 手机app 支付
 
@@ -30,18 +28,16 @@ final class Config
     const ALI_CHANNEL_BAR = 'ali_bar';// 支付宝 条码支付
 
     // 其他操作常量
-    const ALI_CHARGE = 'ali_charge';// 支付查询
+    const ALI_CHARGE = 'ali_charge';// 支付
 
-    const ALI_REFUND = 'ali_refund';// 退款查询
+    const ALI_REFUND = 'ali_refund';// 退款
 
-    const ALI_RED = 'ali_red';// 红包查询
+    const ALI_RED = 'ali_red';// 红包
 
-    const ALI_TRANSFER = 'ali_transfer';// 转账查询
+    const ALI_TRANSFER = 'ali_transfer';// 转账
 
 
     //========================= 微信相关接口 =======================//
-    const WX = 'wx';
-
     // 支付常量
     const WX_CHANNEL_APP = 'wx_app';// 微信 APP 支付
 
@@ -56,13 +52,13 @@ final class Config
     const WX_CHANNEL_WAP = 'wx_wap';// 微信wap支付，针对特定用户
 
     // 其他相关常量
-    const WX_CHARGE = 'wx_charge';// 支付查询
+    const WX_CHARGE = 'wx_charge';// 支付
 
-    const WX_REFUND = 'wx_refund';// 退款查询
+    const WX_REFUND = 'wx_refund';// 退款
 
-    const WX_RED = 'wx_red';// 红包查询
+    const WX_RED = 'wx_red';// 红包
 
-    const WX_TRANSFER = 'wx_transfer';// 转账查询
+    const WX_TRANSFER = 'wx_transfer';// 转账
 
 
 
@@ -78,7 +74,5 @@ final class Config
     const TRADE_STATUS_SUCC = 'success';// 交易成功
 
     const TRADE_STATUS_FAILD  = 'not_pay';// 交易未完成
-
-    const TRADE_STATUS_REFUND_SUCC = 'refund_succ';// 交易退款成功
 
 }

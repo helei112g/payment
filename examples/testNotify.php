@@ -1,6 +1,4 @@
 <?php
-namespace Example;
-
 use \Payment\Notify\PayNotifyInterface;
 
 /**

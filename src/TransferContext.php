@@ -52,15 +52,6 @@ class TransferContext
      *
      * @param array $data
      *
-     * $data['trans_no']    = '';// 转款单号
-     * $data['trans_data'][] = [
-     *      'serial_no' => '流水号',
-     *      'user_account'   => '收款账号',
-     *      'user_name'     => '收款人姓名',
-     *      'trans_fee'       => '付款金额',
-     *      'desc'      => '付款备注说明',
-     *  ];
-     *
      * @return array
      * @throws PayException
      * @author helei

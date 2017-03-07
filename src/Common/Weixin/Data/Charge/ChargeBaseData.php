@@ -25,8 +25,6 @@ use Payment\Config;
  * @property string $subject  商品详情  商品详细列表，使用Json格式，传输签名前请务必使用CDATA标签将JSON文本串保护起来。  暂时未使用
  * @property string $body
  * @property string $return_param  附加数据，在查询API和支付通知中原样返回
- * @property string $fee_type 默认人民币：CNY
- *  - @link https://pay.weixin.qq.com/wiki/doc/api/app/app.php?chapter=4_2
  * @property integer $timeout_express  订单失效时间   格式为yyyyMMddHHmmss
  *
  * @package Payment\Common\Weixin\Data\Charge
@@ -41,7 +39,6 @@ abstract class ChargeBaseData extends WxBaseData
     {
         $orderNo = $this->order_no;
         $amount = $this->amount;
-        $clientIp = $this->client_ip;
         $subject = $this->subject;
         $body = $this->body;
         $deviceInfo = $this->terminal_id;
