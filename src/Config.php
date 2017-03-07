@@ -21,7 +21,7 @@ final class Config
 
     const ALI_CHANNEL_WAP = 'ali_wap';// 支付宝 手机网页 支付
 
-    const ALI_CHANNEL_WEB = 'ali_direct';// 支付宝 PC 网页支付
+    const ALI_CHANNEL_WEB = 'ali_web';// 支付宝 PC 网页支付
 
     const ALI_CHANNEL_QR = 'ali_qr';// 支付宝 扫码支付
 

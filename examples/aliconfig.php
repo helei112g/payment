@@ -25,10 +25,8 @@ return [
 
     'partner'                   => '2088102169252684',
     'app_id'                    => '2016073100130857',
-    'account'                   => 'dayugog@gmai.com',
-    'account_name'              => '何磊',
     'sign_type'                 => 'RSA',// RSA  RSA2
-    'ali_public_key'            => dirname(__FILE__) . DIRECTORY_SEPARATOR . 'alipay_public_key.pem',
+    'ali_public_key'            => dirname(__FILE__) . DIRECTORY_SEPARATOR . 'alipay_public_key_rsa.pem',
     'rsa_private_key'           => dirname(__FILE__) . DIRECTORY_SEPARATOR . 'rsa_private_key.pem',
     'limit_pay'      => [
         //'balance',// 余额
@@ -41,7 +39,7 @@ return [
     ],// 用户不可用指定渠道支付当有多个渠道时用“,”分隔
 
     // 与业务相关参数
-    'notify_url'                => 'https://helei112g.github.io/',
+    'notify_url'                => 'http://api-demo.yimishiji.com/v1/notify/ali',
     'return_url'                => 'https://helei112g.github.io/',
 
     'return_raw'                => false,// 在处理回调时，是否直接返回原始数据，默认为false

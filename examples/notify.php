@@ -8,15 +8,11 @@
 require_once __DIR__ . '/../autoload.php';
 require_once __DIR__ . '/testNotify.php';
 
-use Payment\NotifyContext;
 use Payment\Common\PayException;
-use Payment\Config;
 use Payment\Client\Notify;
 
 $aliConfig = require_once __DIR__ . '/aliconfig.php';
 $wxConfig = require_once __DIR__ . '/wxconfig.php';
-
-$notify = new NotifyContext();
 
 $callback = new TestNotify();
 
