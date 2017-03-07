@@ -23,7 +23,7 @@ final class Config
 
     const ALI_CHANNEL_WAP = 'ali_wap';// 支付宝 手机网页 支付
 
-    const ALI_CHANNEL_WEB = 'ali_pc_direct';// 支付宝 PC 网页支付
+    const ALI_CHANNEL_WEB = 'ali_direct';// 支付宝 PC 网页支付
 
     const ALI_CHANNEL_QR = 'ali_qr';// 支付宝 扫码支付
 
@@ -70,6 +70,8 @@ final class Config
     const PAY_MIN_FEE = '0.01';// 支付的最小金额
 
     const PAY_MAX_FEE = '100000000.00';// 支付的最大金额
+
+    const TRANS_FEE = '50000';// 转账达到这个金额，需要添加额外信息
 
 
     //======================= 交易状态常量定义 ======================//

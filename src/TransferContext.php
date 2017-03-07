@@ -33,10 +33,10 @@ class TransferContext
     {
         try {
             switch ($channel) {
-                case Config::ALI:
+                case Config::ALI_TRANSFER:
                     $this->transfer = new AliTransfer($config);
                     break;
-                case Config::WEIXIN:
+                case Config::WX_TRANSFER:
                     $this->transfer = new WxTransfer($config);
                     break;
                 default:

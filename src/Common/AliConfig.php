@@ -89,9 +89,15 @@ final class AliConfig extends ConfigInterface
     // 统一收单交易退款查询  未完成
     const REFUND_QUERY_METHOD = 'alipay.trade.fastpay.refund.query';
 
+    // 转账情况查询
+    const TRANS_QUERY_METHOD = 'alipay.fund.trans.order.query';
+
 
     // 统一收单交易退款接口
     const TRADE_REFUND_METHOD = 'alipay.trade.refund';
+
+    // 单笔转账到支付宝账户接口
+    const TRANS_TOACCOUNT_METHOD = 'alipay.fund.trans.toaccount.transfer';
 
     public function __construct(array $config)
     {
