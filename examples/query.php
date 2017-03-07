@@ -17,27 +17,27 @@ use Payment\Client\Query;
 
 $query = new QueryContext();
 
-// ali: 14887239163319(已退款)   14887240631516(已退款)    14888693949249
-// wx:  14887927481312(已退款)   14887931921301
+// ali: 123123123q(14888971346355)    123123123w
+// wx:  123123123q    123123123w
 
 // 支付查询
 //ali_charge
 /*$data = [
-    'out_trade_no' => '14888693949249',
-    'trade_no' => '',
+    'out_trade_no' => '123123123q',
+    'trade_no' => '2017030721001004350200139475',
 ];*/
 //wx_charge
-/*$data = [
+$data = [
     'out_trade_no' => '14887931921301',
     'transaction_id' => '',
-];*/
+];
 
 // 退款查询
 // ali_refund
 /*$data = [
-    //'out_trade_no' => '14887240631516',
-    'trade_no' => '2017030521001004330274482163',
-    'refund_no' => '14888682939597',
+    'out_trade_no' => '123123123q',
+    'trade_no' => '2017030721001004350200139475',
+    'refund_no' => '14888971346355',
 ];*/
 // wx_refund
 /*$data = [
@@ -50,17 +50,17 @@ $query = new QueryContext();
 // 转账查询
 // ali_transfer
 /*$data = [
-    //'trans_no' => '1488872748',// 1488872842    使用id转账
-    'transaction_id' => '20170307110070001502680000001002',//  20170307110070001502680000001001  使用帐号转账
+    'trans_no' => '1488897403',
+    'transaction_id' => '20170307110070001502680000002892',
 ];*/
 // wx_transfer
-$data = [
+/*$data = [
     'trans_no' => '1488872748',
-];
+];*/
 
-$type = 'wx_transfer';// xx_charge  xx_refund   xx_transfer
+$type = 'wx_charge';// xx_charge  xx_refund   xx_transfer
 try {
-    $ret = Query::run($type, $wxConfig, $data);
+    $ret = Query::run($type, $aliConfig, $data);
 } catch (PayException $e) {
     echo $e->errorMessage();
     exit;

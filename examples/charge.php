@@ -19,7 +19,7 @@ $orderNo = time() . rand(1000, 9999);
 $payData = [
     'body'    => 'test body',
     'subject'    => 'test subject',
-    'order_no'    => '123123123q',
+    'order_no'    => '123123123w',
     'timeout_express' => time() + 600,// 表示必须 600s 内付款
     'amount'    => '0.01',// 单位为元 ,最小为0.01
     'return_param' => '123',
@@ -50,9 +50,9 @@ $wxConfig = require_once __DIR__ . '/wxconfig.php';
 
 // ali_app  ali_wap  ali_web  ali_qr  ali_bar
 // wx_app    wx_pub   wx_qr   wx_bar  wx_lite   wx_wap
-$channel = 'wx_app';
+$channel = 'ali_wap';
 try {
-    $ret = Charge::run($channel, $wxConfig, $payData);
+    $ret = Charge::run($channel, $aliConfig, $payData);
 } catch (PayException $e) {
     echo $e->errorMessage();
     exit;

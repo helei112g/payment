@@ -15,16 +15,16 @@ use Payment\Client\Refund;
 $aliConfig = require_once __DIR__ . '/aliconfig.php';
 $wxConfig = require_once __DIR__ . '/wxconfig.php';
 
-// ali: 14887239163319   14887240631516
-// wx:  14887927481312    14887931921301
+// ali: 123123123q    123123123w
+// wx:  123123123q    123123123w
 
-$tmp = time() . rand(1000, 9999);
+$refundNo = time() . rand(1000, 9999);
 // ali退款
 $data = [
-    'out_trade_no' => '14887240631516',
+    'out_trade_no' => '123123123q',
     'refund_fee' => '0.01',
     'reason' => '测试帐号退款',
-    'refund_no' => $tmp,
+    'refund_no' => $refundNo,
 ];
 
 // wx退款
@@ -34,7 +34,7 @@ $data = [
     'refund_fee' => 0.01,
     'refund_no' => $tmp,
 ];*/
-var_dump($tmp);
+var_dump($refundNo);
 
 $channel = 'ali_refund';//xx_refund
 try {
