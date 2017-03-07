@@ -17,7 +17,7 @@ return [
     ],// 指定不能使用信用卡支付   不传入，则均可使用
     'fee_type' => 'CNY',// 货币类型  当前仅支持该字段
 
-    'notify_url'    => 'http://api-demo.yimishiji.com/v1/notify/wx',
+    'notify_url'    => 'https://helei112g.github.io/',
 
     'redirect_url' => 'https://helei112g.github.io/',// 如果是h5支付，可以设置该值，返回到指定页面
 
