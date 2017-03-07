@@ -61,7 +61,6 @@ class AliTransfer extends AliBaseStrategy
                 'trans_no'  => $data['out_biz_no'],
                 'pay_date'   => $data['pay_date'],
                 'channel'   => Config::ALI_TRANSFER,
-
             ],
         ];
 

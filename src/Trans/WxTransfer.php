@@ -10,6 +10,7 @@ namespace Payment\Trans;
 use Payment\Common\Weixin\Data\TransferData;
 use Payment\Common\Weixin\WxBaseStrategy;
 use Payment\Common\WxConfig;
+use Payment\Config;
 use Payment\Utils\Curl;
 
 /**
@@ -47,8 +48,8 @@ class WxTransfer extends WxBaseStrategy
             'CURLOPT_HEADER'    => 0,
             'CURLOPT_SSL_VERIFYHOST'    => false,
             'CURLOPT_SSLCERTTYPE'   => 'PEM', //默认支持的证书的类型，可以注释
-            'CURLOPT_SSLCERT'   => $this->config->certPath,
-            'CURLOPT_SSLKEY'    => $this->config->keyPath,
+            'CURLOPT_SSLCERT'   => $this->config->appCertPem,
+            'CURLOPT_SSLKEY'    => $this->config->appKeyPem,
             'CURLOPT_CAINFO'    => $this->config->cacertPath,
         ])->post($xml)->submit($url);
 
@@ -62,6 +63,10 @@ class WxTransfer extends WxBaseStrategy
      */
     protected function retData(array $ret)
     {
+        if ($this->config->returnRaw) {
+            return $ret;
+        }
+
         // 请求失败，可能是网络
         if ($ret['return_code'] != 'SUCCESS') {
             return $retData = [
@@ -92,8 +97,10 @@ class WxTransfer extends WxBaseStrategy
             'is_success'    => 'T',
             'response'  => [
                 'trans_no'   => $data['partner_trade_no'],
-                'trans_id'  => $data['payment_no'],
-                'payment_time' => $data['payment_time'],// 企业付款成功时间  2015-05-19 15:26:59
+                'transaction_id'  => $data['payment_no'],
+                'pay_date' => $data['payment_time'],// 企业付款成功时间  2015-05-19 15:26:59
+                'device_info' => $data['device_info'],
+                'channel'   => Config::WX_TRANSFER,
             ],
         ];
 
