@@ -8,7 +8,7 @@
 namespace Payment\Query\Ali;
 
 use Payment\Common\Ali\AliBaseStrategy;
-use Payment\Common\Ali\Data\Query\ChargeData;
+use Payment\Common\Ali\Data\Query\ChargeQueryData;
 use Payment\Common\AliConfig;
 use Payment\Common\PayException;
 use Payment\Config;
@@ -19,7 +19,7 @@ class AliChargeQuery extends AliBaseStrategy
     protected function getBuildDataClass()
     {
         $this->config->method = AliConfig::ALI_TRADE_QUERY;
-        return ChargeData::class;
+        return ChargeQueryData::class;
     }
     
     protected function retData(array $data)

@@ -14,7 +14,7 @@ use Payment\Utils\ArrayUtil;
 
 /**
  * 查询交易的数据结构
- * Class ChargeData
+ * Class ChargeQueryData
  *
  * @property string $transaction_id 微信的订单号，优先使用
  * @property string $out_trade_no 商户系统内部的订单号

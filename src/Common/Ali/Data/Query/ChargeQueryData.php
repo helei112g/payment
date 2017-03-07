@@ -11,7 +11,7 @@ use Payment\Common\PayException;
 use Payment\Utils\ArrayUtil;
 
 /**
- * Class ChargeData
+ * Class ChargeQueryData
  *
  * @property string $trade_no 支付宝的订单号，优先使用
  * @property string $out_trade_no 商户系统内部的订单号
@@ -19,7 +19,7 @@ use Payment\Utils\ArrayUtil;
  * @package Payment\Common\Ali\Data\Query
  * anthor helei
  */
-class ChargeData extends QueryBaseData
+class ChargeQueryData extends QueryBaseData
 {
     /**
      * 检查参数
