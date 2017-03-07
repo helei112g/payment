@@ -11,6 +11,7 @@ use Payment\Common\BaseStrategy;
 use Payment\Common\PayException;
 use Payment\Query\Ali\AliChargeQuery;
 use Payment\Query\Ali\AliRefundQuery;
+use Payment\Query\Ali\AliTransferQuery;
 use Payment\Query\Wx\WxChargeQuery;
 use Payment\Query\Wx\WxRefundQuery;
 use Payment\Query\Wx\WxTransferQuery;
@@ -42,6 +43,9 @@ class QueryContext
                     break;
                 case Config::ALI_REFUND:// 支付宝退款订单查询
                     $this->query = new AliRefundQuery($config);
+                    break;
+                case Config::ALI_TRANSFER:
+                    $this->query = new AliTransferQuery($config);
                     break;
 
                 case Config::WX_CHARGE:// 微信支付订单查询
