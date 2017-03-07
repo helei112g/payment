@@ -12,18 +12,19 @@ $wxConfig = require_once __DIR__ . '/wxconfig.php';
 
 use Payment\QueryContext;
 use Payment\Common\PayException;
+use Payment\Config;
 use Payment\Client\Query;
 
 $query = new QueryContext();
 
 // ali: 14887239163319   14887240631516
 // wx:  14887927481312    14887931921301
-$queryValue = '14887239163319';
+$queryValue = '14887927481312';
 $queryName = Query::NAME_SELF_QUERY;
 
-$type = 'ali_charge';
+$type = 'wx_charge';
 try {
-    $ret = Query::run($type, $aliConfig, $queryName, $queryValue);
+    $ret = Query::run($type, $wxConfig, $queryName, $queryValue);
 } catch (PayException $e) {
     echo $e->errorMessage();
     exit;

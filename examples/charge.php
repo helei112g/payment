@@ -23,7 +23,7 @@ $payData = [
     'timeout_express' => time() + 600,// 表示必须 600s 内付款
     'return_param' => '123',
     'terminal_id' => '',// 终端设备号(门店号或收银设备ID) 默认值 web
-    'openid' => 'xxxxx',
+    'openid' => 'ottkxxxxxxx',
     'scene' => 'bar_code'
 ];
 
