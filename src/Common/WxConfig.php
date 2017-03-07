@@ -26,9 +26,6 @@ final class WxConfig extends ConfigInterface
     // 符合ISO 4217标准的三位字母代码
     public $feeType = 'CNY';
 
-    // 用于异步通知的地址
-    public $notifyUrl;
-
     // 交易开始时间 格式为yyyyMMddHHmmss
     public $timeStart;
 
@@ -47,17 +44,8 @@ final class WxConfig extends ConfigInterface
     // key文件路径或者内容
     public $appKeyPem;
 
-    // 加密方式 默认使用MD5
-    public $signType = 'MD5';
-
-    // 禁止使用的支付渠道
-    public $limitPay;
-
     // 	支付类型
     public $tradeType;
-
-    // 是否返回原始数据
-    public $returnRaw = false;
 
     // 指定回调页面
     public $returnUrl;

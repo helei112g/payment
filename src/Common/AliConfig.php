@@ -13,8 +13,6 @@ use Payment\Utils\ArrayUtil;
 
 final class AliConfig extends ConfigInterface
 {
-    // ================= 支付宝 2.0 新接口 支持参数 ================= //
-
     // 支付宝的网关
     public $getewayUrl;
 
@@ -33,20 +31,11 @@ final class AliConfig extends ConfigInterface
     // 采用的编码
     public $charset = 'UTF-8';
 
-    // 加密方式 默认使用RSA   目前支持RSA2和RSA
-    public $signType = 'RSA';
-
     // 发送请求的时间，格式"yyyy-MM-dd HH:mm:ss"
     public $timestamp;
 
     // 调用的接口版本，固定为：1.0
     public $version = '1.0';
-
-    // 用于异步通知的地址
-    public $notifyUrl;
-
-    // 禁止使用的支付渠道
-    public $limitPay;
 
     // 合作者身份ID
     public $partner;
@@ -56,9 +45,6 @@ final class AliConfig extends ConfigInterface
 
     // 用于rsa解密的支付宝公钥文件路径
     public $rsaAliPubPath;
-
-    // 是否返回原始数据
-    public $returnRaw = false;
 
     // 支付宝各类method名称
     // wap 支付

@@ -81,11 +81,4 @@ final class Config
 
     const TRADE_STATUS_REFUND_SUCC = 'refund_succ';// 交易退款成功
 
-
-    //======================= 回调通知类型 =========================//
-    const TRADE_NOTIFY = 'trade';// 支付的交易通知
-
-    const REFUND_NOTIFY = 'refund';// 退款的通知
-
-    const TRANSFER_NOTIFY = 'transfer';// 转账的通知
 }
