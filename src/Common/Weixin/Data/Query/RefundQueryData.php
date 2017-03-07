@@ -53,7 +53,7 @@ class RefundQueryData extends WxBaseData
         $refundId = $this->refund_id;// 微信的退款交易号
 
         // 四者不能同时为空
-        if (empty($transaction_id) && empty($order_no) && empty($refundNo) && empty($refundId)) {
+        if (empty($transactionId) && empty($orderNo) && empty($refundNo) && empty($refundId)) {
             throw new PayException('查询退款  必须提供微信交易号、商户订单号、商户退款单号、微信退款交易号中的一种');
         }
     }
