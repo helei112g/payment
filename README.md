@@ -51,14 +51,14 @@ Payment 针对不同支付平台，提供了统一的调用方式，开发者无
 通过composer，这是推荐的方式，可以使用composer.json 声明依赖，或者运行下面的命令。SDK 包已经放到这里 riverslei/payment
 
 ```php
-    composer require "riverslei/payment:~2.0"
+    composer require "riverslei/payment:~3.0"
 ```
 
 放入composer.json文件中
 
 ```php
     "require": {
-        "riverslei/payment": "~2.0"
+        "riverslei/payment": "~3.0"
     }
 ```
 
@@ -68,12 +68,9 @@ Payment 针对不同支付平台，提供了统一的调用方式，开发者无
 代码中以提供一个默认autolaod.php  可直接使用.
 
 
-**Payment v2.x**需要 PHP >= 5.6，并且需要安装以下扩展：
+**Payment**需要 PHP >= 5.6，并且需要安装以下扩展：
 - cURL extension
 - mbstring
-
-**Payment v1.x**需要 PHP >= 5.3 , 并且需要安装以下扩展：
-- cURL extension
 
 Payment SDK使用文档[请看这里](https://helei112g.github.io/categories/payment/)
 
