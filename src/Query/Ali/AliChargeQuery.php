@@ -32,6 +32,10 @@ class AliChargeQuery extends AliBaseStrategy
             throw $e;
         }
 
+        if ($this->config->returnRaw) {
+            return $ret;
+        }
+
         return $this->createBackData($ret);
     }
 
@@ -43,10 +47,6 @@ class AliChargeQuery extends AliBaseStrategy
      */
     protected function createBackData(array $data)
     {
-        if ($this->config->returnRaw) {
-            return $data;
-        }
-
         // 新版本
         if ($data['code'] !== '10000') {
             return $retData = [

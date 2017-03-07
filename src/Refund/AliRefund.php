@@ -12,13 +12,12 @@ use Payment\Common\Ali\Data\RefundData;
 use Payment\Common\AliConfig;
 use Payment\Common\PayException;
 use Payment\Config;
-use Payment\Utils\Curl;
 
 class AliRefund extends AliBaseStrategy
 {
     protected function getBuildDataClass()
     {
-        $this->config->method = AliConfig::ALI_TRADE_REFUDN;
+        $this->config->method = AliConfig::ALI_TRADE_REFUND;
         return RefundData::class;
     }
 
@@ -26,19 +25,23 @@ class AliRefund extends AliBaseStrategy
      * 返回数据
      * @param array $data
      * @return array|string
+     * @throws PayException
      */
     protected function retData(array $data)
     {
         $url = parent::retData($data);
-        $version = $this->config->version;
 
-        if ($version === Config::ALI_API_VERSION) {
-            $data = $this->request($url);
-
-            return $this->createBackData($data);
-        } else {
-            return $url;
+        try {
+            $data = $this->sendReq($url);
+        } catch (PayException $e) {
+            throw $e;
         }
+
+        if ($this->config->returnRaw) {
+            return $data;
+        }
+
+        return $this->createBackData($data);
     }
 
     /**
@@ -62,38 +65,18 @@ class AliRefund extends AliBaseStrategy
             'response'  => [
                 'transaction_id'   => $data['trade_no'],
                 'order_no'  => $data['out_trade_no'],
-                // 'refund_no' => $data['out_refund_no'],  这里比较坑爹，支付宝没有返回商户提交的退款单号
-                // 'refund_id' => $data['refund_id'],  退款单号也没有
-                'refund_fee'    => $data['refund_fee'],// 返回的总金额，这里支付宝会累计
-                'buyer_id'   => $data['buyer_user_id'],
                 'logon_id'   => $data['buyer_logon_id'],
+                'fund_change' => $data['fund_change'],
+                'refund_fee'    => $data['refund_fee'],// 返回的总金额，这里支付宝会累计
                 'refund_time'=> $data['gmt_refund_pay'],
+                'refund_detail_item_list' => $data['refund_detail_item_list	'],
+                'store_name' => $data['store_name'],
+                'buyer_id'   => $data['buyer_user_id'],
+                'channel'   => Config::ALI,
+
             ],
         ];
 
         return $retData;
-    }
-
-    protected function request($url)
-    {
-        // 发起网络请求
-        $curl = new Curl();
-        $responseTxt = $curl->set([
-            'CURLOPT_SSL_VERIFYPEER'    => true,
-            'CURLOPT_SSL_VERIFYHOST'    => 2,
-            'CURLOPT_CAINFO'    => $this->config->cacertPath,
-            'CURLOPT_HEADER'    => 0,// 为了便于解析，将头信息过滤掉
-        ])->get($url);
-
-        if ($responseTxt['error']) {
-            throw new PayException('网络发生错误，请稍后再试');
-        }
-
-        $body = $responseTxt['body'];
-
-        // 格式化为数组
-        $retData = json_decode($body, true);
-
-        return $retData['alipay_trade_refund_response'];
     }
 }

@@ -27,11 +27,11 @@ class ChargeData extends QueryBaseData
      */
     protected function checkDataParam()
     {
-        $transaction_id = $this->trade_no;// 支付宝交易号，查询效率高
-        $order_no = $this->out_trade_no;// 商户订单号，查询效率低，不建议使用
+        $tradeNo = $this->trade_no;// 支付宝交易号，查询效率高
+        $outTradeNo = $this->out_trade_no;// 商户订单号，查询效率低，不建议使用
 
         // 二者不能同时为空
-        if (empty($transaction_id) && empty($order_no)) {
+        if (empty($outTradeNo) && empty($tradeNo)) {
             throw new PayException('必须提供支付宝交易号或者商户网站唯一订单号。建议使用支付宝交易号');
         }
     }

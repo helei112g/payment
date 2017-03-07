@@ -39,7 +39,7 @@ class RefundContext
                 case Config::ALI:
                     $this->refund = new AliRefund($config);
                     break;
-                case Config::WEIXIN:
+                case Config::WX:
                     $this->refund = new WxRefund($config);
                     break;
                 default:
@@ -54,13 +54,6 @@ class RefundContext
      * 通过环境类调用支付退款操作
      *
      * @param array $data
-     *
-     *      $data['refund_no'] = '',  退款单号，在系统内部唯一
-     *      $data['refund_data'][] => [
-     *          'transaction_id'    => '原付款支付宝交易号',
-     *          'refund_fee' => '退款总金额', // 单位元
-     *          'reason'     => '退款理由', // “退款理由”中不能有“^”、“|”、“$”、“#”
-     *      ];// 如果有多笔数据， refund_data 就写入多个数据集
      *
      * @return array
      * @throws PayException
