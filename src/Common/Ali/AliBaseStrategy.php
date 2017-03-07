@@ -89,6 +89,7 @@ abstract class AliBaseStrategy implements BaseStrategy
             'CURLOPT_SSL_VERIFYPEER'    => true,
             'CURLOPT_SSL_VERIFYHOST'    => 2,
             'CURLOPT_HEADER'    => 0,// 为了便于解析，将头信息过滤掉
+            'CURLOPT_CAINFO'    => $this->config->cacertPath,
         ])->get($url);
 
         if ($responseTxt['error']) {
