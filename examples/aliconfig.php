@@ -25,8 +25,8 @@ return [
 
     'partner'                   => '2088102169252684',
     'app_id'                    => '2016073100130857',
-    'sign_type'                 => 'RSA',// RSA  RSA2
-    'ali_public_key'            => dirname(__FILE__) . DIRECTORY_SEPARATOR . 'alipay_public_key_rsa.pem',
+    'sign_type'                 => 'RSA2',// RSA  RSA2
+    'ali_public_key'            => dirname(__FILE__) . DIRECTORY_SEPARATOR . 'alipay_public_key_rsa2.pem',
     'rsa_private_key'           => dirname(__FILE__) . DIRECTORY_SEPARATOR . 'rsa_private_key.pem',
     'limit_pay'      => [
         //'balance',// 余额
