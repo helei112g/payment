@@ -21,7 +21,7 @@ use Payment\Utils\ArrayUtil;
  *
  * @package Payment\Common\Weixin\Data\Query
  */
-class ChargeData extends WxBaseData
+class ChargeQueryData extends WxBaseData
 {
 
     protected function buildData()

@@ -36,10 +36,10 @@ class RefundContext
     {
         try {
             switch ($channel) {
-                case Config::ALI:
+                case Config::ALI_REFUND:
                     $this->refund = new AliRefund($config);
                     break;
-                case Config::WX:
+                case Config::WX_REFUND:
                     $this->refund = new WxRefund($config);
                     break;
                 default:

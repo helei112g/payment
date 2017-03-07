@@ -7,7 +7,7 @@
 
 namespace Payment\Query\Wx;
 
-use Payment\Common\Weixin\Data\Query\ChargeData;
+use Payment\Common\Weixin\Data\Query\ChargeQueryData;
 use Payment\Common\Weixin\WxBaseStrategy;
 use Payment\Common\WxConfig;
 use Payment\Config;
@@ -22,7 +22,7 @@ class WxChargeQuery extends WxBaseStrategy
      */
     protected function getBuildDataClass()
     {
-        return ChargeData::class;
+        return ChargeQueryData::class;
     }
 
     /**

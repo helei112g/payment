@@ -20,9 +20,9 @@ use Payment\RefundContext;
 class Refund
 {
     private static $supportChannel = [
-        Config::ALI,// 支付宝
+        Config::ALI_REFUND,// 支付宝
 
-        Config::WX,// 微信
+        Config::WX_REFUND,// 微信
 
         'cmb_wallet',// 招行一网通
         'applepay_upacp',// Apple Pay

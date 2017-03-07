@@ -7,8 +7,9 @@
 
 namespace Payment\Query\Wx;
 
+use Payment\Common\Weixin\Data\Query\RefundQueryData;
+use Payment\Common\Weixin\WxBaseStrategy;
 use Payment\Common\WxConfig;
-use Payment\Config;
 
 /**
  *
@@ -17,11 +18,48 @@ use Payment\Config;
  * @package Payment\Query
  * anthor helei
  */
-class WxRefundQuery extends WxTradeQuery
+class WxRefundQuery extends WxBaseStrategy
 {
+    protected function getBuildDataClass()
+    {
+        return RefundQueryData::class;
+    }
+
     protected function getReqUrl()
     {
         return WxConfig::REFUDN_QUERY_URL;// 查询退款url
+    }
+
+    /**
+     * 处理通知的返回数据
+     * @param array $data
+     * @return mixed
+     * @author helei
+     */
+    protected function retData(array $data)
+    {
+        if ($this->config->returnRaw) {
+            return $data;
+        }
+
+        // 请求失败，可能是网络
+        if ($data['return_code'] != 'SUCCESS') {
+            return $retData = [
+                'is_success'    => 'F',
+                'error' => $data['return_msg']
+            ];
+        }
+
+        // 业务失败
+        if ($data['result_code'] != 'SUCCESS') {
+            return $retData = [
+                'is_success'    => 'F',
+                'error' => $data['err_code_des']
+            ];
+        }
+
+        // 正确
+        return $this->createBackData($data);
     }
 
     /**
@@ -35,7 +73,8 @@ class WxRefundQuery extends WxTradeQuery
         $refund_count = $data['refund_count'];// 退款的笔数
 
         // 将金额处理为元
-        $data['total_fee'] = bcdiv($data['total_fee'], 100, 2);
+        $totalFee = bcdiv($data['total_fee'], 100, 2);
+        $refundFee = bcdiv($data['refund_fee'], 100, 2);
 
         // 获取退款笔数
         $refundData = [];
@@ -65,9 +104,11 @@ class WxRefundQuery extends WxTradeQuery
         $retData = [
             'is_success'    => 'T',
             'response'  => [
-                'amount'   => $data['total_fee'],// 订单总金额
+                'amount'   => $totalFee,// 订单总金额
                 'order_no'   => $data['out_trade_no'],// 商户订单号
                 'transaction_id'   => $data['transaction_id'],// 微信订单号
+                'refund_count' => $data['refund_count'],// 退款总笔数
+                'refund_fee' => $refundFee,// 退款总金额
                 'refund_data'   => $refundData,// 退款信息
             ],
         ];

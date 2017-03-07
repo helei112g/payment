@@ -7,13 +7,11 @@
 
 namespace Payment\Refund;
 
-use Payment\Common\PayException;
 use Payment\Common\Weixin\Data\RefundData;
 use Payment\Common\Weixin\WxBaseStrategy;
 use Payment\Common\WxConfig;
 use Payment\Config;
 use Payment\Utils\Curl;
-use Payment\Utils\DataParser;
 
 /**
  * Class WxRefund
@@ -104,7 +102,7 @@ class WxRefund extends WxBaseStrategy
                 'refund_fee'    => $refund_fee,
                 'refund_channel' => $data['refund_channel'],
                 'amount'   => $total_fee,
-                'channel'   => Config::WX,
+                'channel'   => Config::WX_REFUND,
 
                 'coupon_refund_fee' => bcdiv($data['coupon_refund_fee'], 100, 2),
                 'coupon_refund_count' => $data['coupon_refund_count'],

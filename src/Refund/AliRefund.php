@@ -72,7 +72,7 @@ class AliRefund extends AliBaseStrategy
                 'refund_detail_item_list' => $data['refund_detail_item_list	'],
                 'store_name' => $data['store_name'],
                 'buyer_id'   => $data['buyer_user_id'],
-                'channel'   => Config::ALI,
+                'channel'   => Config::ALI_REFUND,
 
             ],
         ];

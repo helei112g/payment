@@ -82,11 +82,11 @@ class Query
     protected static function getQueryData($queryType, $queryName, $queryValue)
     {
         if ($queryName === self::NAME_SELF_QUERY) {
-            if (in_array($queryType, [Config::WX_CHARGE, Config::ALI_CHARGE])) {
+            if (in_array($queryType, [Config::WX_CHARGE, Config::ALI_CHARGE, Config::WX_REFUND])) {
                 return ['out_trade_no' => $queryValue];
             }
         } else {
-            if ($queryType === Config::WX_CHARGE) {
+            if (in_array($queryType, [Config::WX_CHARGE, Config::WX_REFUND])) {
                 return ['transaction_id' => $queryValue];
             } elseif ($queryType === Config::ALI_CHARGE) {
                 return ['trade_no' => $queryValue];

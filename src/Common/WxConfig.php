@@ -74,12 +74,12 @@ final class WxConfig extends ConfigInterface
     // 申请退款url
     const REFUND_URL = 'https://api.mch.weixin.qq.com/secapi/pay/refund';
 
-
-
-
-
     // 查询退款url
     const REFUDN_QUERY_URL = 'https://api.mch.weixin.qq.com/pay/refundquery';
+
+
+
+
 
     // 企业付款
     const TRANSFERS_URL = 'https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers';

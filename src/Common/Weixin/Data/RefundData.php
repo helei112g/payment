@@ -11,6 +11,7 @@ use Payment\Common\PayException;
 use Payment\Utils\ArrayUtil;
 
 /**
+ * 用户退款
  * Class RefundData
  *
  * @property string $refund_no  商户系统内部的退款单号，商户系统内部唯一，同一退款单号多次请求只退一笔
