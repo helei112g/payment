@@ -16,7 +16,7 @@ use Payment\Utils\ArrayUtil;
  *
  * @property string $trade_no 支付宝的订单号，优先使用
  * @property string $out_trade_no 商户系统内部的订单号
- * @property float $refund_amount 退款总金额，订单总金额，只能为整数
+ * @property float $refund_fee 退款总金额，订单总金额，只能为整数
  * @property string $reason 	退款的原因说明
  * @property string $refund_no  商户系统内部的退款单号，商户系统内部唯一，同一退款单号多次请求只退一笔(3～24位)
  * @property string $operator_id 商户的操作员编号
@@ -37,7 +37,7 @@ class RefundData extends AliBaseData
     {
         $tradeNo = $this->trade_no;// 支付宝交易号，查询效率高
         $outTradeNo = $this->out_trade_no;// 商户订单号，查询效率低，不建议使用
-        $refundAmount = $this->refund_amount;
+        $refundAmount = $this->refund_fee;
 
         // 二者不能同时为空
         if (empty($outTradeNo) && empty($tradeNo)) {
@@ -80,7 +80,7 @@ class RefundData extends AliBaseData
         $content = [
             'out_trade_no'    => $this->out_trade_no,
             'trade_no'        => $this->trade_no,
-            'refund_amount'     => $this->refund_amount,
+            'refund_amount'     => $this->refund_fee,
             'refund_reason'     => $this->reason,
             'out_request_no'    => $this->refund_no,
             'operator_id'       => $this->operator_id,

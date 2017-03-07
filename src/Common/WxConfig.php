@@ -41,11 +41,11 @@ final class WxConfig extends ConfigInterface
     // 安全证书的路径
     public $cacertPath;
 
-    // cert证书路径
-    public $certPath;
+    // cert证书路径或者内容
+    public $appCertPem;
 
-    // key文件路径
-    public $keyPath;
+    // key文件路径或者内容
+    public $appKeyPem;
 
     // 加密方式 默认使用MD5
     public $signType = 'MD5';
@@ -71,12 +71,12 @@ final class WxConfig extends ConfigInterface
     // 支付查询url
     const CHARGE_QUERY_URL = 'https://api.mch.weixin.qq.com/pay/orderquery';
 
-
-
-
-
     // 申请退款url
     const REFUND_URL = 'https://api.mch.weixin.qq.com/secapi/pay/refund';
+
+
+
+
 
     // 查询退款url
     const REFUDN_QUERY_URL = 'https://api.mch.weixin.qq.com/pay/refundquery';
@@ -107,8 +107,8 @@ final class WxConfig extends ConfigInterface
             throw $e;
         }
 
-        $basePath = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'Weixin' . DIRECTORY_SEPARATOR;
-        $this->cacertPath = "{$basePath}/rootca.pem";
+        $basePath = dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'CacertFile' . DIRECTORY_SEPARATOR;
+        $this->cacertPath = "{$basePath}/wx_cacert.pem";
     }
 
     /**
@@ -171,11 +171,11 @@ final class WxConfig extends ConfigInterface
         }
 
         // 以下两个文件，如果是调用资金流向接口，必须提供
-        if (! empty($config['cert_path'])) {
-            $this->certPath = $config['cert_path'];
+        if (! empty($config['app_cert_pem'])) {
+            $this->appCertPem = $config['app_cert_pem'];
         }
-        if (! empty($config['key_path'])) {
-            $this->keyPath = $config['key_path'];
+        if (! empty($config['app_key_pem'])) {
+            $this->appKeyPem = $config['app_key_pem'];
         }
 
         // 生成随机字符串

@@ -25,7 +25,6 @@ use Payment\Config;
  * @property string $subject  商品详情  商品详细列表，使用Json格式，传输签名前请务必使用CDATA标签将JSON文本串保护起来。  暂时未使用
  * @property string $body
  * @property string $return_param  附加数据，在查询API和支付通知中原样返回
- * @property string $terminal_id 终端设备号(门店号或收银设备ID)，默认请传"WEB"
  * @property string $fee_type 默认人民币：CNY
  *  - @link https://pay.weixin.qq.com/wiki/doc/api/app/app.php?chapter=4_2
  * @property integer $timeout_express  订单失效时间   格式为yyyyMMddHHmmss

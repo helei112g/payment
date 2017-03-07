@@ -23,11 +23,12 @@ use Payment\Utils\ArrayUtil;
  * @property string $timeStart  交易开始时间 格式为yyyyMMddHHmmss
  * @property string $md5Key  用于加密的md5Key
  * @property string $signType  加密方式。默认md5
- * @property string $certPath 从apiclient_cert.p12中导出证书部分的文件，为pem格式，
- * @property string $keyPath 从apiclient_key.pem中导出密钥部分的文件，为pem格式
+ * @property string $appCertPem 从apiclient_cert.p12中导出证书部分的文件，为pem格式，
+ * @property string $appKeyPem 从apiclient_key.pem中导出密钥部分的文件，为pem格式
  * @property array $limitPay 限制的支付渠道
  * @property boolean $returnRaw  是否返回原始数据，只进行签名检查
  * @property string $tradeType   支付类型
+ * @property string $terminal_id 终端设备号(门店号或收银设备ID)，默认请传"WEB"
  *
  * @package Payment\Common\Weixin\Dataa
  */

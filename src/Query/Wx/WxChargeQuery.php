@@ -76,12 +76,12 @@ class WxChargeQuery extends WxBaseStrategy
     protected function createBackData(array $data)
     {
         // 将金额处理为元
-        $data['total_fee'] = bcdiv($data['total_fee'], 100, 2);
+        $totalFee = bcdiv($data['total_fee'], 100, 2);
 
         $retData = [
             'is_success'    => 'T',
             'response'  => [
-                'amount'   => $data['total_fee'],
+                'amount'   => $totalFee,
                 'channel'   => Config::WX_CHARGE,// 支付查询
                 'order_no'   => $data['out_trade_no'],
                 'buyer_id'   => $data['openid'],
@@ -92,6 +92,7 @@ class WxChargeQuery extends WxBaseStrategy
                 'terminal_id' => $data['device_info'],
                 'trade_type' => $data['trade_type'],
                 'bank_type' => $data['bank_type'],
+                'trade_state_desc' => $data['trade_state_desc'],
             ],
         ];
 
