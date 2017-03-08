@@ -170,13 +170,11 @@ abstract class AliBaseStrategy implements BaseStrategy
         $preStr = json_encode($data);
 
         if ($this->config->signType === 'RSA') {// 使用RSA
-            $publicKeyContent = file_get_contents($this->config->rsaAliPubPath);
-            $rsa = new RsaEncrypt($publicKeyContent);
+            $rsa = new RsaEncrypt($this->config->rsaAliPubKey);
 
             return $rsa->rsaVerify($preStr, $sign);
-        } elseif ($this->config->signType === 'RSA2') {// 使用rsa方式
-            $publicKeyContent = file_get_contents($this->config->rsaAliPubPath);
-            $rsa = new Rsa2Encrypt($publicKeyContent);
+        } elseif ($this->config->signType === 'RSA2') {// 使用rsa2方式
+            $rsa = new Rsa2Encrypt($this->config->rsaAliPubKey);
 
             return $rsa->rsaVerify($preStr, $sign);
         } else {

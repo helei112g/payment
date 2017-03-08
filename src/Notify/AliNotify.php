@@ -170,13 +170,11 @@ class AliNotify extends NotifyStrategy
         $preStr = ArrayUtil::createLinkstring($values);
 
         if ($signType === 'RSA') {// 使用rsa方式
-            $publicKeyContent = file_get_contents($this->config->rsaAliPubPath);
-            $rsa = new RsaEncrypt($publicKeyContent);
+            $rsa = new RsaEncrypt($this->config->rsaAliPubKey);
 
             return $rsa->rsaVerify($preStr, $sign);
         } elseif ($signType === 'RSA2') {
-            $publicKeyContent = file_get_contents($this->config->rsaAliPubPath);
-            $rsa = new Rsa2Encrypt($publicKeyContent);
+            $rsa = new Rsa2Encrypt($this->config->rsaAliPubKey);
 
             return $rsa->rsaVerify($preStr, $sign);
         } else {

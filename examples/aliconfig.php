@@ -26,8 +26,14 @@ return [
     'partner'                   => '2088102169252684',
     'app_id'                    => '2016073100130857',
     'sign_type'                 => 'RSA2',// RSA  RSA2
-    'ali_public_key'            => dirname(__FILE__) . DIRECTORY_SEPARATOR . 'alipay_public_key_rsa2.pem',
+
+    // 可以填写文件路径，或者密钥字符串  当前字符串是 rsa2 的支付宝公钥
+    'ali_public_key'            => 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAmBjJu2eA5HVSeHb7jZsuKKbPp3w0sKEsLTVvBKQOtyb7bjQRWMWBI7FrcwEekM1nIL+rDv71uFtgv7apMMJdQQyF7g6Lnn9niG8bT1ttB8Fp0eud5L97eRjFTOa9NhxUVFjGDqQ3b88o6u20HNJ3PRckZhNaFJJQzlahCpxaiIRX2umAWFkaeQu1fcjmoS3l3BLj8Ly2zRZAnczv8Jnkp7qsVYeYt01EPsAxd6dRZRw3uqsv9pxSvyEYA7GV7XL6da+JdvXECalQeyvUFzn9u1K5ivGID7LPUakdTBUDzlYIhbpU1VS8xO1BU3GYXkAaumdWQt7f+khoFoSw+x8yqQIDAQAB',
+    //'ali_public_key' => dirname(__FILE__) . DIRECTORY_SEPARATOR . 'alipay_public_key_rsa.pem',// 这里是支付宝rsa的公钥
+
+    // 可以填写文件路径，或者密钥字符串  我的沙箱模式，rsa与rsa2的私钥相同，为了方便测试
     'rsa_private_key'           => dirname(__FILE__) . DIRECTORY_SEPARATOR . 'rsa_private_key.pem',
+
     'limit_pay'      => [
         //'balance',// 余额
         //'moneyFund',// 余额宝

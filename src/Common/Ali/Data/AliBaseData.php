@@ -32,8 +32,8 @@ use Payment\Utils\RsaEncrypt;
  * @property string $limitPay   用户不可用指定渠道支付
  * @property boolean $return_raw  是否返回原始数据，只进行签名检查
  *
- * @property string $rsaPrivatePath  rsa私钥路径
- * @property string $rsaAliPubPath  rsa支付宝公钥路径
+ * @property string $rsaPrivateKey  rsa私钥路径
+ * @property string $rsaAliPubKey  rsa支付宝公钥路径
  *
  * @property string $partner  合作id
  *
@@ -63,14 +63,12 @@ abstract class AliBaseData extends BaseData
         $sign = '';
         switch ($this->signType) {
             case 'RSA':
-                $rsaPrivatePath = @file_get_contents($this->rsaPrivatePath);
-                $rsa = new RsaEncrypt($rsaPrivatePath);
+                $rsa = new RsaEncrypt($this->rsaPrivateKey);
 
                 $sign = $rsa->encrypt($signStr);
                 break;
             case 'RSA2':
-                $rsaPrivatePath = @file_get_contents($this->rsaPrivatePath);
-                $rsa = new Rsa2Encrypt($rsaPrivatePath);
+                $rsa = new Rsa2Encrypt($this->rsaPrivateKey);
 
                 $sign = $rsa->encrypt($signStr);
                 break;

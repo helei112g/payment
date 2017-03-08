@@ -41,10 +41,10 @@ final class AliConfig extends ConfigInterface
     public $partner;
 
     // 用于rsa加密的私钥文件路径
-    public $rsaPrivatePath;
+    public $rsaPrivateKey;
 
     // 用于rsa解密的支付宝公钥文件路径
-    public $rsaAliPubPath;
+    public $rsaAliPubKey;
 
     // 支付宝各类method名称
     // wap 支付
@@ -129,17 +129,18 @@ final class AliConfig extends ConfigInterface
             throw new PayException('目前支付宝仅支持RSA2和RSA，推荐使用RSA2');
         }
 
+
         // 新版本，需要提供独立的公钥信息。每一个应用，公钥都不相同
-        if (key_exists('ali_public_key', $config) && file_exists($config['ali_public_key'])) {
-            $this->rsaAliPubPath = $config['ali_public_key'];
+        if (key_exists('ali_public_key', $config) && (file_exists($config['ali_public_key']) || ! empty($config['ali_public_key']))) {
+            $this->rsaAliPubKey = $this->getRsaKeyValue($config['ali_public_key'], 'public');
         } else {
             throw new PayException('请提供支付宝对应的rsa公钥');
         }
 
         // 初始 RSA私钥文件 需要检查该文件是否存在
-        if (key_exists('rsa_private_key', $config) && file_exists($config['rsa_private_key'])) {
-            $this->rsaPrivatePath = $config['rsa_private_key'];
-        } elseif ($this->signType === 'RSA') {
+        if (key_exists('rsa_private_key', $config) && (file_exists($config['rsa_private_key']) || ! empty($config['ali_public_key']))) {
+            $this->rsaPrivateKey = $this->getRsaKeyValue($config['rsa_private_key'], 'private');
+        } else {
             throw new PayException('请提供商户的rsa私钥文件');
         }
 
@@ -160,4 +161,37 @@ final class AliConfig extends ConfigInterface
             $this->returnRaw = filter_var($config['return_raw'], FILTER_VALIDATE_BOOLEAN);
         }
     }
+
+    /**
+     * 获取rsa密钥内容
+     * @param string $key 传入的密钥信息， 可能是文件或者字符串
+     * @param string $type
+     *
+     * @return string
+     */
+    protected function getRsaKeyValue($key, $type = 'private')
+    {
+        if (is_file($key)) {// 是文件
+            $keyStr = @file_get_contents($key);
+        } else {
+            $keyStr = $key;
+        }
+
+        $keyStr = str_replace("\n", "", $keyStr);
+        // 为了解决用户传入的密钥格式，这里进行统一处理
+        if ($type === 'private') {
+            $beginStr = '-----BEGIN PRIVATE KEY-----';
+            $endStr = '-----END PRIVATE KEY-----';
+        } else {
+            $beginStr = '-----BEGIN PUBLIC KEY-----';
+            $endStr = '-----END PUBLIC KEY-----';
+        }
+        $keyStr = str_replace($beginStr, '', $keyStr);
+        $keyStr = str_replace($endStr, '', $keyStr);
+
+        $rsaKey = $beginStr . PHP_EOL . wordwrap($keyStr, 64, "\n", true) . PHP_EOL . $endStr;
+
+        return $rsaKey;
+    }
+
 }
