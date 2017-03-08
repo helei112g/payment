@@ -85,7 +85,7 @@ class Rsa2Encrypt
         }
 
         openssl_free_key($res);
-        return $strnull;
+        return $str;
     }
 
     /**
