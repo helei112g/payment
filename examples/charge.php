@@ -12,13 +12,12 @@ use Payment\Client\Charge;
 
 date_default_timezone_set('Asia/Shanghai');
 
-
 $orderNo = time() . rand(1000, 9999);
 // 订单信息
 $payData = [
     'body'    => 'test body',
     'subject'    => 'test subject',
-    'order_no'    => '123123123e',
+    'order_no'    => $orderNo,
     'timeout_express' => time() + 600,// 表示必须 600s 内付款
     'amount'    => '0.01',// 单位为元 ,最小为0.01
     'return_param' => '123',
@@ -40,7 +39,7 @@ $payData = [
 
     'client_ip' => '127.0.0.1',
 
-    'openid' => '------------',
+    'openid' => 'ohQeiwnNrAg5bD7EVvmGFIhba--k',
     'product_id' => '123',
 ];
 

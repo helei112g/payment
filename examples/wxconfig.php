@@ -8,10 +8,10 @@
 return [
     'app_id'        => 'xxxxxx',  // 公众账号ID
     'mch_id'        => 'xxxxx',// 商户id
-    'md5_key'       => 'xxxxxxx',// md5 秘钥
+    'md5_key'       => 'xxxxxx',// md5 秘钥
     'app_cert_pem'     => dirname(__FILE__) . DIRECTORY_SEPARATOR . 'wx' . DIRECTORY_SEPARATOR . 'weixin_app_cert.pem',
     'app_key_pem'      => dirname(__FILE__) . DIRECTORY_SEPARATOR . 'wx' . DIRECTORY_SEPARATOR . 'weixin_app_key.pem',
-    'sign_type'     => 'MD5',// MD5  HMAC-SHA256（尚未支持）
+    'sign_type'     => 'MD5',// MD5  HMAC-SHA256
     'limit_pay'     => [
         //'no_credit',
     ],// 指定不能使用信用卡支付   不传入，则均可使用
