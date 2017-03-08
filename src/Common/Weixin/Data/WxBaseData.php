@@ -43,13 +43,15 @@ abstract class WxBaseData extends BaseData
     protected function makeSign($signStr)
     {
         $sign = '';
+
         switch ($this->signType) {
             case 'MD5':
                 $signStr .= '&key=' . $this->md5Key;
                 $sign = md5($signStr);
                 break;
-            case 'RSA2':
-                // @TODO
+            case 'HMAC-SHA256':
+                $sign = base64_encode(hash_hmac('sha256', $signStr, $this->md5Key));
+
                 break;
             default:
                 $sign = '';

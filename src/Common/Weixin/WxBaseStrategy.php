@@ -75,7 +75,7 @@ abstract class WxBaseStrategy implements BaseStrategy
         if (is_null($url)) {
             throw new PayException('目前不支持该接口。请联系开发者添加');
         }
-        
+
         $responseTxt = $this->curlPost($xml, $url);
         if ($responseTxt['error']) {
             throw new PayException('网络发生错误，请稍后再试curl返回码：' . $responseTxt['message']);
@@ -85,7 +85,6 @@ abstract class WxBaseStrategy implements BaseStrategy
         if ($retData['return_code'] != 'SUCCESS') {
             throw new PayException('微信返回错误提示:' . $retData['return_msg']);
         }
-
         if ($retData['result_code'] != 'SUCCESS') {
             throw new PayException('微信返回错误提示:' . $retData['err_code_des']);
         }
@@ -135,6 +134,7 @@ abstract class WxBaseStrategy implements BaseStrategy
         }
 
         $this->reqData->setSign();
+
         $xml = DataParser::toXml($this->reqData->getData());
         $ret = $this->sendReq($xml);
 
@@ -175,10 +175,18 @@ abstract class WxBaseStrategy implements BaseStrategy
 
         $signStr = ArrayUtil::createLinkstring($values);
 
-        $signStr .= "&key=" . $this->config->md5Key;
+        $signStr .= '&key=' . $this->config->md5Key;
+        switch ($this->config->signType) {
+            case 'MD5':
+                $sign = md5($signStr);
+                break;
+            case 'HMAC-SHA256':
+                $sign = hash_hmac('sha256', $signStr, $this->config->md5Key);
+                break;
+            default:
+                $sign = '';
+        }
 
-        $string = md5($signStr);
-
-        return strtoupper($string) === $retSign;
+        return strtoupper($sign) === $retSign;
     }
 }

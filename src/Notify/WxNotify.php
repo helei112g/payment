@@ -95,9 +95,17 @@ class WxNotify extends NotifyStrategy
 
         $signStr = ArrayUtil::createLinkstring($values);
 
-        $signStr .= "&key=" . $this->config->md5Key;
-
-        $sign = md5($signStr);
+        $signStr .= '&key=' . $this->config->md5Key;
+        switch ($this->config->signType) {
+            case 'MD5':
+                $sign = md5($signStr);
+                break;
+            case 'HMAC-SHA256':
+                $sign = hash_hmac('sha256', $signStr, $this->config->md5Key);
+                break;
+            default:
+                $sign = '';
+        }
 
         return strtoupper($sign) === $retSign;
     }
