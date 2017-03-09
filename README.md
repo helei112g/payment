@@ -34,7 +34,7 @@ Payment 针对不同支付平台，提供了统一的调用方式，开发者无
 
 *招商一网通支付 正在开发中... ...*
 
-更多详细情况请[点击这里](https://helei112g.github.io/categories/payment/)
+更多详细情况请[点击这里](https://helei112g.github.io/categories/payment-3/)
 
 由于 `payment v1` 版本在设计开发时的缺陷，不在进行维护升级。并且 `v2` 版本也不与之兼容。建议大家都升级v2版本
 
@@ -73,7 +73,7 @@ Payment 针对不同支付平台，提供了统一的调用方式，开发者无
 - cURL extension
 - mbstring
 
-Payment SDK使用文档[请看这里](https://helei112g.github.io/categories/payment/)
+Payment SDK使用文档[请看这里](https://helei112g.github.io/categories/payment-3/)
 
 ## 联系&打赏 ##
 
