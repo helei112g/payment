@@ -176,20 +176,19 @@ final class AliConfig extends ConfigInterface
         } else {
             $keyStr = $key;
         }
-
-        $keyStr = str_replace("\n", "", $keyStr);
+        $keyStr = str_replace(PHP_EOL, '', $keyStr);
         // 为了解决用户传入的密钥格式，这里进行统一处理
         if ($type === 'private') {
-            $beginStr = '-----BEGIN PRIVATE KEY-----';
-            $endStr = '-----END PRIVATE KEY-----';
+            $beginStr = ['-----BEGIN RSA PRIVATE KEY-----', '-----BEGIN PRIVATE KEY-----'];
+            $endStr = ['-----END RSA PRIVATE KEY-----', '-----END PRIVATE KEY-----'];
         } else {
-            $beginStr = '-----BEGIN PUBLIC KEY-----';
-            $endStr = '-----END PUBLIC KEY-----';
+            $beginStr = ['-----BEGIN PUBLIC KEY-----', ''];
+            $endStr = ['-----END PUBLIC KEY-----', ''];
         }
-        $keyStr = str_replace($beginStr, '', $keyStr);
-        $keyStr = str_replace($endStr, '', $keyStr);
+        $keyStr = str_replace($beginStr, ['', ''], $keyStr);
+        $keyStr = str_replace($endStr, ['', ''], $keyStr);
 
-        $rsaKey = $beginStr . PHP_EOL . wordwrap($keyStr, 64, "\n", true) . PHP_EOL . $endStr;
+        $rsaKey = $beginStr[1] . PHP_EOL . wordwrap($keyStr, 64, PHP_EOL, true) . PHP_EOL . $endStr[1];
 
         return $rsaKey;
     }
