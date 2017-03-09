@@ -188,7 +188,7 @@ final class AliConfig extends ConfigInterface
         $keyStr = str_replace($beginStr, ['', ''], $keyStr);
         $keyStr = str_replace($endStr, ['', ''], $keyStr);
 
-        $rsaKey = $beginStr[1] . PHP_EOL . wordwrap($keyStr, 64, PHP_EOL, true) . PHP_EOL . $endStr[1];
+        $rsaKey = $beginStr[0] . PHP_EOL . wordwrap($keyStr, 64, PHP_EOL, true) . PHP_EOL . $endStr[0];
 
         return $rsaKey;
     }
