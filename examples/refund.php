@@ -36,8 +36,15 @@ $data = [
 var_dump($refundNo);
 
 $channel = 'wx_refund';//xx_refund
+
+if (stripos($channel, 'ali') !== false) {
+    $config = $aliConfig;
+} else {
+    $config = $wxConfig;
+}
+
 try {
-    $ret = Refund::run($channel, $wxConfig, $data);
+    $ret = Refund::run($channel, $config, $data);
 } catch (PayException $e) {
     echo $e->errorMessage();
     exit;

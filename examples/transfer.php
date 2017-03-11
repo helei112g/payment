@@ -35,8 +35,15 @@ $data = [
 ];
 
 $channel = 'wx_transfer';//wx_transfer   ali_transfer
+
+if (stripos($channel, 'ali') !== false) {
+    $config = $aliConfig;
+} else {
+    $config = $wxConfig;
+}
+
 try {
-    $ret = Transfer::run($channel, $wxConfig, $data);
+    $ret = Transfer::run($channel, $config, $data);
 } catch (PayException $e) {
     echo $e->errorMessage();
     exit;

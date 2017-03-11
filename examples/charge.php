@@ -48,9 +48,16 @@ $wxConfig = require_once __DIR__ . '/wxconfig.php';
 
 // ali_app  ali_wap  ali_web  ali_qr  ali_bar
 // wx_app    wx_pub   wx_qr   wx_bar  wx_lite   wx_wap
-$channel = 'ali_wap';
+$channel = 'ali_web';
+
+if (stripos($channel, 'ali') !== false) {
+    $config = $aliConfig;
+} else {
+    $config = $wxConfig;
+}
+
 try {
-    $ret = Charge::run($channel, $aliConfig, $payData);
+    $ret = Charge::run($channel, $config, $payData);
 } catch (PayException $e) {
     echo $e->errorMessage();
     exit;

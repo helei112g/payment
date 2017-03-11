@@ -55,8 +55,15 @@ $data = [
 ];*/
 
 $type = 'wx_refund';// xx_charge  xx_refund   xx_transfer
+
+if (stripos($type, 'ali') !== false) {
+    $config = $aliConfig;
+} else {
+    $config = $wxConfig;
+}
+
 try {
-    $ret = Query::run($type, $wxConfig, $data);
+    $ret = Query::run($type, $config, $data);
 } catch (PayException $e) {
     echo $e->errorMessage();
     exit;
