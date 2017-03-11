@@ -28,14 +28,14 @@ $refundNo = time() . rand(1000, 9999);
 
 // wx退款
 $data = [
-    'out_trade_no' => '123123123q',
+    'out_trade_no' => '14892259638926',
     'total_fee' => '0.01',
     'refund_fee' => 0.01,
     'refund_no' => $refundNo,
 ];
 var_dump($refundNo);
 
-$channel = 'wx_refund';//xx_refund
+$channel = 'ali_refund';//xx_refund
 
 if (stripos($channel, 'ali') !== false) {
     $config = $aliConfig;

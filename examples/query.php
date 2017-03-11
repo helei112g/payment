@@ -18,10 +18,10 @@ $wxConfig = require_once __DIR__ . '/wxconfig.php';
 
 // 支付查询
 //ali_charge
-/*$data = [
-    'out_trade_no' => '123123123q',
-    'trade_no' => '2017030721001004350200139475',
-];*/
+$data = [
+    'out_trade_no' => '14892259638926',
+    //'trade_no' => '2017030721001004350200139475',
+];
 //wx_charge
 /*$data = [
     'out_trade_no' => '123123123q',
@@ -36,12 +36,12 @@ $wxConfig = require_once __DIR__ . '/wxconfig.php';
     'refund_no' => '14888971346355',
 ];*/
 // wx_refund
-$data = [
+/*$data = [
     'out_trade_no' => '123123123q',
     'refund_no' => '',
     'transaction_id' => '',
     'refund_id' => '',
-];
+];*/
 
 // 转账查询
 // ali_transfer
@@ -54,7 +54,7 @@ $data = [
     'trans_no' => '123123123q',
 ];*/
 
-$type = 'wx_refund';// xx_charge  xx_refund   xx_transfer
+$type = 'ali_charge';// xx_charge  xx_refund   xx_transfer
 
 if (stripos($type, 'ali') !== false) {
     $config = $aliConfig;
