@@ -14,7 +14,6 @@ use Payment\Common\AliConfig;
 use Payment\Common\PayException;
 use Payment\Config;
 use Payment\Utils\ArrayUtil;
-use Payment\Utils\Curl;
 use Payment\Utils\Rsa2Encrypt;
 use Payment\Utils\RsaEncrypt;
 
@@ -34,6 +33,13 @@ class AliNotify extends NotifyStrategy
         } catch (PayException $e) {
             throw $e;
         }
+    }
+
+    protected function getOldAliPublicKey()
+    {
+        $filePath = dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR .'CacertFile/old_alipay_public_key.pem';
+
+        return @file_get_contents($filePath);
     }
 
     /**
@@ -69,6 +75,11 @@ class AliNotify extends NotifyStrategy
         if ($status !== Config::TRADE_STATUS_SUCC) {
             // 如果不是交易成功状态，直接返回错误，
             return false;
+        }
+
+        // 主要是为了即时到账的签名
+        if (! isset($data['version'])) {
+            $this->config->rsaAliPubKey = $this->getOldAliPublicKey();
         }
 
         // 检查签名
