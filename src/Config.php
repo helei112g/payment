@@ -13,7 +13,7 @@ namespace Payment;
 
 final class Config
 {
-    const VERSION = '3.0.3';
+    const VERSION = 'dev-master';
 
     //========================= ali相关接口 =======================//
     // 支付相关常量
