@@ -48,7 +48,7 @@ $wxConfig = require_once __DIR__ . '/wxconfig.php';
 
 // ali_app  ali_wap  ali_web  ali_qr  ali_bar
 // wx_app    wx_pub   wx_qr   wx_bar  wx_lite   wx_wap
-$channel = 'ali_web';
+$channel = 'ali_wap';
 
 if (stripos($channel, 'ali') !== false) {
     $config = $aliConfig;
