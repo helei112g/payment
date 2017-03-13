@@ -19,20 +19,20 @@ $wxConfig = require_once __DIR__ . '/wxconfig.php';
 
 $refundNo = time() . rand(1000, 9999);
 // ali退款
-/*$data = [
-    'out_trade_no' => '123123123q',
+$data = [
+    'out_trade_no' => '14893825198432',
     'refund_fee' => '0.01',
     'reason' => '测试帐号退款',
     'refund_no' => $refundNo,
-];*/
+];
 
 // wx退款
-$data = [
+/*$data = [
     'out_trade_no' => '14892259638926',
     'total_fee' => '0.01',
     'refund_fee' => 0.01,
     'refund_no' => $refundNo,
-];
+];*/
 var_dump($refundNo);
 
 $channel = 'ali_refund';//xx_refund

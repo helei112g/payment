@@ -96,6 +96,11 @@ class AliNotify extends NotifyStrategy
      */
     protected function getRetData(array $data)
     {
+        if ($this->config->returnRaw) {
+            $data['channel'] = Config::ALI_CHARGE;
+            return $data;
+        }
+
         $retData = [
             'amount'   => $data['total_amount'],
             'buyer_id'   => $data['buyer_id'],

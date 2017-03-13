@@ -119,6 +119,11 @@ class WxNotify extends NotifyStrategy
      */
     protected function getRetData(array $data)
     {
+        if ($this->config->returnRaw) {
+            $data['channel'] = Config::WX_CHARGE;
+            return $data;
+        }
+
         // 将金额处理为元
         $totalFee = bcdiv($data['total_fee'], 100, 2);
         $cashFee = bcdiv($data['cash_fee'], 100, 2);
@@ -132,7 +137,7 @@ class WxNotify extends NotifyStrategy
             'buyer_id'   => $data['openid'],
             'order_no'   => $data['out_trade_no'],
             'pay_time'   => date('Y-m-d H:i:s', strtotime($data['time_end'])),// 支付完成时间
-            'amount'   => $data['total_fee'],
+            'amount'   => $totalFee,
             'trade_type' => $data['trade_type'],
             'transaction_id'   => $data['transaction_id'],
             'trade_state'   => strtolower($data['return_code']),

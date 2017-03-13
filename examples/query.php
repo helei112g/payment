@@ -19,7 +19,7 @@ $wxConfig = require_once __DIR__ . '/wxconfig.php';
 // 支付查询
 //ali_charge
 $data = [
-    'out_trade_no' => '14892259638926',
+    'out_trade_no' => '14893825198432',
     //'trade_no' => '2017030721001004350200139475',
 ];
 //wx_charge

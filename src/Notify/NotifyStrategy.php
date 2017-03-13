@@ -71,11 +71,8 @@ abstract class NotifyStrategy
      */
     protected function callback(PayNotifyInterface $notify, array $notifyData)
     {
-        if ($this->config->returnRaw) {
-            $data = $notifyData;
-        } else {
-            $data = $this->getRetData($notifyData);
-        }
+        $data = $this->getRetData($notifyData);
+
         if ($data === false) {
             return false;
         }
