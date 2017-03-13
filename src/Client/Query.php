@@ -32,6 +32,27 @@ class Query
     ];
 
     /**
+     * 异步通知类
+     * @var QueryContext
+     */
+    protected static $instance;
+
+    protected static function getInstance($queryType, $config)
+    {
+        if (is_null(self::$instance)) {
+            static::$instance = new QueryContext();
+
+            try {
+                static::$instance->initQuery($queryType, $config);
+            } catch (PayException $e) {
+                throw $e;
+            }
+        }
+
+        return static::$instance;
+    }
+
+    /**
      * @param string $queryType
      * @param array $config
      * @param array $metadata
@@ -44,12 +65,10 @@ class Query
             throw new PayException('sdk当前不支持该类型查询，当前仅支持：' . implode(',', self::$supportType));
         }
 
-        $query = new QueryContext();
-
         try {
-            $query->initQuery($queryType, $config);
+            $instance = self::getInstance($queryType, $config);
 
-            $ret = $query->query($metadata);
+            $ret = $instance->query($metadata);
         } catch (PayException $e) {
             throw $e;
         }

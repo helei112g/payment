@@ -26,6 +26,27 @@ class Transfer
     ];
 
     /**
+     * 异步通知类
+     * @var TransferContext
+     */
+    protected static $instance;
+
+    protected static function getInstance($channel, $config)
+    {
+        if (is_null(self::$instance)) {
+            static::$instance = new TransferContext();
+
+            try {
+                static::$instance->initTransfer($channel, $config);
+            } catch (PayException $e) {
+                throw $e;
+            }
+        }
+
+        return static::$instance;
+    }
+
+    /**
      * @param $channel
      * @param $config
      * @param $metadata
@@ -39,12 +60,10 @@ class Transfer
             throw new PayException('sdk当前不支持该退款渠道，当前仅支持：' . implode(',', self::$supportChannel));
         }
 
-        $refund = new TransferContext();
-
         try {
-            $refund->initTransfer($channel, $config);
+            $instance = self::getInstance($channel, $config);
 
-            $ret = $refund->transfer($metadata);
+            $ret = $instance->transfer($metadata);
         } catch (PayException $e) {
             throw $e;
         }

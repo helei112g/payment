@@ -34,6 +34,27 @@ class Charge
     ];
 
     /**
+     * 异步通知类
+     * @var ChargeContext
+     */
+    protected static $instance;
+
+    protected static function getInstance($channel, $config)
+    {
+        if (is_null(self::$instance)) {
+            static::$instance = new ChargeContext();
+
+            try {
+                static::$instance->initCharge($channel, $config);
+            } catch (PayException $e) {
+                throw $e;
+            }
+        }
+
+        return static::$instance;
+    }
+
+    /**
      * @param string $channel
      * @param array $config
      * @param array $metadata
@@ -47,12 +68,10 @@ class Charge
             throw new PayException('sdk当前不支持该支付渠道，当前仅支持：' . implode(',', self::$supportChannel));
         }
 
-        $charge = new ChargeContext();
-
         try {
-            $charge->initCharge($channel, $config);
+            $instance = self::getInstance($channel, $config);
 
-            $ret = $charge->charge($metadata);
+            $ret = $instance->charge($metadata);
         } catch (PayException $e) {
             throw $e;
         }

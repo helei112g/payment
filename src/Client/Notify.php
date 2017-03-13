@@ -35,12 +35,12 @@ class Notify
     {
         if (is_null(self::$instance)) {
             static::$instance = new NotifyContext();
-        }
 
-        try {
-            static::$instance->initNotify($type, $config);
-        } catch (PayException $e) {
-            throw $e;
+            try {
+                static::$instance->initNotify($type, $config);
+            } catch (PayException $e) {
+                throw $e;
+            }
         }
 
         return static::$instance;
@@ -60,9 +60,9 @@ class Notify
             throw new PayException('sdk当前不支持该异步方式，当前仅支持：' . implode(',', self::$supportChannel));
         }
 
-        $instance = self::getInstance($type, $config);
-
         try {
+            $instance = self::getInstance($type, $config);
+
             $ret = $instance->notify($callback);
         } catch (PayException $e) {
             throw $e;
@@ -76,11 +76,16 @@ class Notify
      * @param $type
      * @param $config
      * @return array|false
+     * @throws PayException
      */
     public static function getNotifyData($type, $config)
     {
-        $instance = self::getInstance($type, $config);
+        try {
+            $instance = self::getInstance($type, $config);
 
-        return $instance->getNotifyData();
+            return $instance->getNotifyData();
+        } catch (PayException $e) {
+            throw $e;
+        }
     }
 }

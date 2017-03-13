@@ -28,17 +28,37 @@ class Refund
         'applepay_upacp',// Apple Pay
     ];
 
+    /**
+     * 异步通知类
+     * @var RefundContext
+     */
+    protected static $instance;
+
+    protected static function getInstance($channel, $config)
+    {
+        if (is_null(self::$instance)) {
+            static::$instance = new RefundContext();
+
+            try {
+                static::$instance->initRefund($channel, $config);
+            } catch (PayException $e) {
+                throw $e;
+            }
+        }
+
+        return static::$instance;
+    }
+
     public static function run($channel, $config, $refundData)
     {
         if (! in_array($channel, self::$supportChannel)) {
             throw new PayException('sdk当前不支持该退款渠道，当前仅支持：' . implode(',', self::$supportChannel));
         }
 
-        $refund = new RefundContext();
         try {
-            $refund->initRefund($channel, $config);
+            $instance = self::getInstance($channel, $config);
 
-            $ret = $refund->refund($refundData);
+            $ret = $instance->refund($refundData);
         } catch (PayException $e) {
             throw $e;
         }
