@@ -145,7 +145,7 @@ final class WxConfig extends ConfigInterface
         }
 
         // 设置禁止使用的支付方式
-        if (key_exists('limit_pay', $config) && $config['limit_pay'][0] === 'no_credit') {
+        if (key_exists('limit_pay', $config) && !empty($config['limit_pay']) && $config['limit_pay'][0] === 'no_credit') {
             $this->limitPay = $config['limit_pay'][0];
         }
 
