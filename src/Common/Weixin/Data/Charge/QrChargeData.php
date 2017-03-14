@@ -67,11 +67,5 @@ class QrChargeData extends ChargeBaseData
         if (empty($productId)) {
             throw new PayException('扫码支付,必须设置商品ID.');
         }
-
-        // 扫码支付,必须设置openid
-        $openid = $this->openid;
-        if (empty($openid)) {
-            throw new PayException('用户在商户appid下的唯一标识,公众号支付,必须设置该参数.');
-        }
     }
 }
