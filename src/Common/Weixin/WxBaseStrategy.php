@@ -10,7 +10,6 @@ namespace Payment\Common\Weixin;
 use Payment\Common\BaseData;
 use Payment\Common\BaseStrategy;
 use Payment\Common\PayException;
-use Payment\Common\Weixin\Data\Charge\AppChargeData;
 use Payment\Common\WxConfig;
 use Payment\Utils\ArrayUtil;
 use Payment\Utils\Curl;

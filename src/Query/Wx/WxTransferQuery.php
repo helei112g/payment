@@ -7,10 +7,12 @@
 
 namespace Payment\Query\Wx;
 
+use Payment\Common\PayException;
 use Payment\Common\Weixin\Data\Query\TransferQueryData;
 use Payment\Common\Weixin\WxBaseStrategy;
 use Payment\Common\WxConfig;
 use Payment\Utils\Curl;
+use Payment\Utils\DataParser;
 
 /**
  * Class WxTransferQuery
@@ -115,5 +117,29 @@ class WxTransferQuery extends WxBaseStrategy
         ];
 
         return $retData;
+    }
+
+    /**
+     * @param array $data
+     * @author helei
+     * @throws PayException
+     * @return array|string
+     */
+    public function handle(array $data)
+    {
+        $buildClass = $this->getBuildDataClass();
+
+        try {
+            $this->reqData = new $buildClass($this->config, $data);
+        } catch (PayException $e) {
+            throw $e;
+        }
+
+        $this->reqData->setSign();
+
+        $xml = DataParser::toXml($this->reqData->getData());
+        $ret = $this->sendReq($xml);
+
+        return $this->retData($ret);
     }
 }

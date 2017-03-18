@@ -30,7 +30,7 @@ class TransferQueryData extends WxBaseData
             'appid' => $this->appId,
             'mch_id'    => $this->mchId,
             'nonce_str' => $this->nonceStr,
-            'sign_type' => $this->signType,
+            //'sign_type' => $this->signType,// 转账查询，不能加入该数据
 
             'partner_trade_no'    => $this->trans_no,
         ];
