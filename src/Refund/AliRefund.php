@@ -69,7 +69,7 @@ class AliRefund extends AliBaseStrategy
                 'fund_change' => $data['fund_change'],
                 'refund_fee'    => $data['refund_fee'],// 返回的总金额，这里支付宝会累计
                 'refund_time'=> $data['gmt_refund_pay'],
-                'refund_detail_item_list' => $data['refund_detail_item_list	'],
+                'refund_detail_item_list' => $data['refund_detail_item_list'],
                 'store_name' => $data['store_name'],
                 'buyer_id'   => $data['buyer_user_id'],
                 'channel'   => Config::ALI_REFUND,
