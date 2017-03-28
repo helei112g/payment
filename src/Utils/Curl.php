@@ -34,7 +34,7 @@ class Curl
 
     /**
      * 静态实例化
-     * @return array
+     * @return Curl
      */
     public static function init()
     {
