@@ -90,9 +90,8 @@ Payment SDK使用文档[请看这里](https://helei112g.github.io/categories/pay
 
 **邮箱**：dayugog@gmail.com
 
-**个人公众号:**
 
-公众号: `icanfo`
+**个人公众号：** `icanfo`
 
 ![image](http://ol59nqr1i.bkt.clouddn.com/mp-qr.jpg)
 
