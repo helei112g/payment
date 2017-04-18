@@ -13,10 +13,14 @@
 
 # 安装Payment #
 
-推荐大家通过composer来进行安装。
-* 方式一
+`Payment` 需要 `PHP >= 5.6`，并且需要安装以下扩展：
+- cURL extension
+- mbstring
+- BC Math
 
-通过composer，这是推荐的方式，可以使用composer.json 声明依赖，或者运行下面的命令。SDK 包已经放到这里 riverslei/payment
+* **安装方式一**
+
+通过composer，这是推荐的方式，可以使用composer.json 声明依赖，或者直接运行下面的命令。
 
 ```php
     composer require "riverslei/payment:~3.0"
@@ -30,16 +34,15 @@
     }
 ```
 
-* 方式二
-直接下载安装，SDK 没有依赖其他第三方库，但需要参照 composer的autoloader，增加一个自己的autoloader程序。
+然后运行
 
-代码中以提供一个默认autolaod.php  可直接使用.
+```
+composer update
+```
 
+* **安装方式二**
 
-**Payment**需要 PHP >= 5.6，并且需要安装以下扩展：
-- cURL extension
-- mbstring
-- BC Math
+直接下载放入自己的项目中，通过 `require` 的方式引用代码。极度不推荐
 
 # Change Log #
 - 即时到账支付宝异步通知自动识别处理，example演示demo优化 (from v3.0.3)
@@ -48,6 +51,8 @@
 - 支持支付宝rsa2签名 加入支付宝当面付-条码支付(条码与声波两种模式)   微信加入刷卡支付、小程序支付、H5支付  提供客户端静态调用类 不再兼容支付宝老版本接口（from v3.0.0）
 - 支持支付宝新版本支付接口（from v2.7.0）
 - 配置文件控制权限由使用者控制（from v2.0.0）
+
+----
 
 # Payment 能够做什么 #
 
