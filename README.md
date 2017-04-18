@@ -4,9 +4,12 @@
 
 -----
 
-# [Payment3.x 使用教程](https://helei112g.github.io/categories/payment-3/)
+所有的支付接入请看文档操作。如果文档遇到问题可通过后面提供的方式联系到我。
 
-## 重要变更 ##
+- [Payment3.x 使用教程](https://helei112g.github.io/categories/payment-3/)
+- [Payment2.x 使用教程](https://helei112g.github.io/categories/payment/)
+
+# 重要变更 #
 - 即时到账支付宝异步通知自动识别处理，example演示demo优化 (from v3.0.3)
 - 支付宝密钥公钥自动设置对应头信息（fromv3.0.2）
 - 支付宝密钥支持字符串、文件两种方式配置，微信支持HMAC-SHA256加密（from v3.0.1）
