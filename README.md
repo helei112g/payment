@@ -8,8 +8,6 @@
 
 *招商一网通支付 正在开发中... ...*
 
-更多详细情况请[点击这里](https://helei112g.github.io/categories/payment-3/)
-
 - [Payment3.x 使用教程](https://helei112g.github.io/categories/payment-3/) (推荐的版本)
 - [Payment2.x 使用教程](https://helei112g.github.io/categories/payment/)
 
