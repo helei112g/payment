@@ -6,10 +6,10 @@
 
 所有的支付接入请看文档操作。如果文档遇到问题可通过后面提供的方式联系到我。
 
-*招商一网通支付 正在开发中... ...*
-
 - [Payment3.x 使用教程](https://helei112g.github.io/categories/payment-3/) (推荐的版本)
 - [Payment2.x 使用教程](https://helei112g.github.io/categories/payment/)
+
+**后期计划：招商一网通支付**
 
 # 安装Payment #
 
