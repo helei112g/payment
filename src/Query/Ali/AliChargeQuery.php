@@ -12,7 +12,6 @@ use Payment\Common\Ali\Data\Query\ChargeQueryData;
 use Payment\Common\AliConfig;
 use Payment\Common\PayException;
 use Payment\Config;
-use Payment\Utils\ArrayUtil;
 
 class AliChargeQuery extends AliBaseStrategy
 {
@@ -73,9 +72,6 @@ class AliChargeQuery extends AliBaseStrategy
                 'invoice_amount' => $data['invoice_amount'],// 交易中用户支付的可开具发票的金额，单位为元，两位小数
                 'fund_bill_list' => empty($data['fund_bill_list']) ? '' : $data['fund_bill_list'],// 支付成功的各个渠道金额信息
                 'logon_id'   => $data['buyer_logon_id'],// 买家支付宝账号
-                'alipay_store_id' => $data['alipay_store_id'],
-                'store_id' => $data['store_id'],
-                'terminal_id' => $data['terminal_id'],
             ],
         ];
 
