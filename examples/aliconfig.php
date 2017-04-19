@@ -20,7 +20,6 @@
  * 支付密码    111111
  */
 
-
 return [
     'use_sandbox'               => true,// 是否使用沙盒模式
 
@@ -29,9 +28,10 @@ return [
     'sign_type'                 => 'RSA2',// RSA  RSA2
 
     // 可以填写文件路径，或者密钥字符串  当前字符串是 rsa2 的支付宝公钥
-    //'ali_public_key'            => 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAmBjJu2eA5HVSeHb7jZsuKKbPp3w0sKEsLTVvBKQOtyb7bjQRWMWBI7FrcwEekM1nIL+rDv71uFtgv7apMMJdQQyF7g6Lnn9niG8bT1ttB8Fp0eud5L97eRjFTOa9NhxUVFjGDqQ3b88o6u20HNJ3PRckZhNaFJJQzlahCpxaiIRX2umAWFkaeQu1fcjmoS3l3BLj8Ly2zRZAnczv8Jnkp7qsVYeYt01EPsAxd6dRZRw3uqsv9pxSvyEYA7GV7XL6da+JdvXECalQeyvUFzn9u1K5ivGID7LPUakdTBUDzlYIhbpU1VS8xO1BU3GYXkAaumdWQt7f+khoFoSw+x8yqQIDAQAB',
-    'ali_public_key'            => 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAts2aQLfyeL/THqDgktc6x8kkm+UG7WykiLZjmzhubCkSGH8be2j9lMhS+X8CFOTzibpuHx2ShzBR9raGVZy2AXR5E6e+Q9H1xL5xutnOfu09OgRDqCeQT/2OCGWKCPLMFMfz6tOYuedeY5IsHuiNzADZX8/0GkiqfYDAlyxGhGxyW7DAhf+Kdj09idC2n2vVD5LQHr+v14xIDk4J4HEckkXfsIESUGsKttmFyIKT6jvPfXz4Uor32qU/R1ZQan2waktcMd8/eDQzuLXm6J9AZ1kRA1TcknlCllk/uovqMx4M7R7UaqvKmNLtz5g+1HN48GjhZTR631wngfOrl1JzLwIDAQAB',
-    //'ali_public_key' => dirname(__FILE__) . DIRECTORY_SEPARATOR . 'alipay_public_key_rsa.pem',// 这里是支付宝rsa的公钥
+    'ali_public_key'            => 'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDIgHnOn7LLILlKETd6BFRJ0Gqg
+S2Y3mn1wMQmyh9zEyWlz5p1zrahRahbXAfCfSqshSNfqOmAQzSHRVjCqjsAw1jyq
+rXaPdKBmr90DIpIxmIyKXv4GGAkPyJ/6FTFY99uhpiq0qadD/uSzQsefWo0aTvP/
+65zi3eof7TcZ32oWpwIDAQAB',
 
     // 可以填写文件路径，或者密钥字符串  我的沙箱模式，rsa与rsa2的私钥相同，为了方便测试
     'rsa_private_key'              => 'MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC/z+Ue/oS0GjO2
@@ -60,13 +60,12 @@ lj0S/flDaSEulGclDmvYinoGwX+aAyLy0VQIlUqj5wKBgHEUEf7YDnvw/IBnF1E4
 983/7zBx9skoHhpEZsh2+1or7LIw6z0m3lsNBnK0MZZBmW/7HwOtVfhXUUPbVrOJ
 di70YoMynX3gjK3LTXhzISheZgcNRKTqiJgVunPokJxQRyYcAfaQeuIm9O8cCPE1
 rZpNAzCdd4NSj83UZRm3YOmC',
-    //'rsa_private_key'           => dirname(__FILE__) . DIRECTORY_SEPARATOR . 'rsa_private_key.pem',
 
     'limit_pay'      => [
         //'balance',// 余额
         //'moneyFund',// 余额宝
         //'debitCardExpress',// 	借记卡快捷
-        'creditCard',//信用卡
+        //'creditCard',//信用卡
         //'creditCardExpress',// 信用卡快捷
         //'creditCardCartoon',//信用卡卡通
         //'credit_group',// 信用支付类型（包含信用卡卡通、信用卡快捷、花呗、花呗分期）
