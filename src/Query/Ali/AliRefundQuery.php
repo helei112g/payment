@@ -71,7 +71,8 @@ class AliRefundQuery extends AliBaseStrategy
         $retData = [
             'is_success'    => 'T',
             'response'  => [
-                'amount'   => $data['total_amount'],// 退款金额
+                'amount'   => $data['total_amount'],// 订单总金额
+                'refund_amount'   => $data['refund_amount'],// 退款金额
                 'order_no'   => $data['out_trade_no'],// 商户订单号
                 'refund_no' => $data['out_request_no'],// 本笔退款对应的退款请求号
                 'transaction_id'   => $data['trade_no'],// 微信订单号
