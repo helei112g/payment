@@ -14,9 +14,14 @@
 # 安装Payment #
 
 `Payment` 需要 `PHP >= 5.6`，并且需要安装以下扩展：
+```
 - cURL extension
+
 - mbstring
+
 - BC Math
+```
+
 
 * **安装方式一**
 
