@@ -13,7 +13,7 @@ namespace Payment\Common;
 abstract class ConfigInterface
 {
     // 是否返回原始数据
-    public $returnRaw = false;
+    public $returnRaw = true;
 
     // 禁止使用的支付渠道
     public $limitPay;
