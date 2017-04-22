@@ -21,7 +21,7 @@ class ArrayUtil
     {
         $paraFilter = [];
         while (list($key, $val) = each($para)) {
-            if ($val === '' || is_null($val)) {
+            if ($val === '' || $val === null) {
                 continue;
             } else {
                 if (! is_array($para[$key])) {
@@ -94,13 +94,13 @@ class ArrayUtil
         }
 
         reset($para);
-        $arg  = "";
+        $arg = '';
         while (list($key, $val) = each($para)) {
             if (is_array($val)) {
                 continue;
             }
 
-            $arg.=$key."=".urldecode($val)."&";
+            $arg.=$key.'='.urldecode($val).'&';
         }
         //去掉最后一个&字符
         $arg = substr($arg, 0, count($arg) - 2);
