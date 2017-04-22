@@ -21,7 +21,7 @@ class ArrayUtil
     {
         $paraFilter = [];
         while (list($key, $val) = each($para)) {
-            if ($val === '') {
+            if ($val === '' || is_null($val)) {
                 continue;
             } else {
                 if (! is_array($para[$key])) {
