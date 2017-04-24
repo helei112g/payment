@@ -93,7 +93,7 @@ abstract class AliBaseStrategy implements BaseStrategy
         ])->get($url);
 
         if ($responseTxt['error']) {
-            throw new PayException('网络发生错误，请稍后再试');
+            throw new PayException('网络发生错误，请稍后再试curl返回码：' . $responseTxt['message']);
         }
 
         $body = $responseTxt['body'];
