@@ -15,6 +15,9 @@ abstract class ConfigInterface
     // 是否返回原始数据
     public $returnRaw = true;
 
+    // 是否使用测试模式
+    public $useSandbox = true;
+
     // 禁止使用的支付渠道
     public $limitPay;
 

@@ -9,6 +9,7 @@
 
 namespace Payment\Common;
 
+use Payment\Common\Weixin\WechatHelper;
 use Payment\Utils\ArrayUtil;
 use Payment\Utils\StrUtil;
 
@@ -51,34 +52,38 @@ final class WxConfig extends ConfigInterface
     public $returnUrl;
 
     // 统一下单url
-    const UNIFIED_URL = 'https://api.mch.weixin.qq.com/pay/unifiedorder';
+    const UNIFIED_URL = 'https://api.mch.weixin.qq.com/{debug}/pay/unifiedorder';
 
     // 提交刷卡支付url
-    const MICROPAY_URL = 'https://api.mch.weixin.qq.com/pay/micropay';
+    const MICROPAY_URL = 'https://api.mch.weixin.qq.com/{debug}/pay/micropay';
 
 
     // 支付查询url
-    const CHARGE_QUERY_URL = 'https://api.mch.weixin.qq.com/pay/orderquery';
+    const CHARGE_QUERY_URL = 'https://api.mch.weixin.qq.com/{debug}/pay/orderquery';
 
     // 查询退款url
-    const REFUDN_QUERY_URL = 'https://api.mch.weixin.qq.com/pay/refundquery';
+    const REFUDN_QUERY_URL = 'https://api.mch.weixin.qq.com/{debug}/pay/refundquery';
 
     // 企业付款的查询
-    const TRANS_QUERY_URL = 'https://api.mch.weixin.qq.com/mmpaymkttransfers/gettransferinfo';
+    const TRANS_QUERY_URL = 'https://api.mch.weixin.qq.com/{debug}/mmpaymkttransfers/gettransferinfo';
 
 
     // 申请退款url
-    const REFUND_URL = 'https://api.mch.weixin.qq.com/secapi/pay/refund';
+    const REFUND_URL = 'https://api.mch.weixin.qq.com/{debug}/secapi/pay/refund';
 
     // 企业付款
-    const TRANSFERS_URL = 'https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers';
+    const TRANSFERS_URL = 'https://api.mch.weixin.qq.com/{debug}/mmpaymkttransfers/promotion/transfers';
 
 
     // 关闭订单url  尚未接入
-    const CLOSE_URL = 'https://api.mch.weixin.qq.com/pay/closeorder';
+    const CLOSE_URL = 'https://api.mch.weixin.qq.com/{debug}/pay/closeorder';
 
     // 短连接转化url  尚未接入
-    const SHORT_URL = 'https://api.mch.weixin.qq.com/tools/shorturl';
+    const SHORT_URL = 'https://api.mch.weixin.qq.com/{debug}/tools/shorturl';
+
+    // 沙箱测试相关
+    const SANDBOX_PRE = 'sandboxnew';
+    const SANDBOX_URL = 'https://api.mch.weixin.qq.com/sandboxnew/pay/getsignkey';
 
     /**
      * 初始化微信配置文件
@@ -173,5 +178,14 @@ final class WxConfig extends ConfigInterface
 
         // 生成随机字符串
         $this->nonceStr = StrUtil::getNonceStr();
+
+        if (isset($config['use_sandbox']) && $config['use_sandbox'] === true) {
+            $this->useSandbox = true;// 是沙箱模式  重新获取key
+
+            $helper = new WechatHelper($this, []);
+            $this->md5Key = $helper->getSandboxSignKey();
+        } else {
+            $this->useSandbox = false;// 不是沙箱模式
+        }
     }
 }

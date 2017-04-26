@@ -75,6 +75,12 @@ abstract class WxBaseStrategy implements BaseStrategy
             throw new PayException('目前不支持该接口。请联系开发者添加');
         }
 
+        if ($this->config->useSandbox) {
+            $url = str_ireplace('{debug}',WxConfig::SANDBOX_PRE, $url);
+        } else {
+            $url = str_ireplace('{debug}/', '', $url);
+        }
+
         $responseTxt = $this->curlPost($xml, $url);
         if ($responseTxt['error']) {
             throw new PayException('网络发生错误，请稍后再试curl返回码：' . $responseTxt['message']);

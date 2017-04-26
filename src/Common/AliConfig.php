@@ -103,6 +103,8 @@ final class AliConfig extends ConfigInterface
         $this->getewayUrl = 'https://openapi.alipay.com/gateway.do?';
         if (isset($config['use_sandbox']) && $config['use_sandbox'] === true) {
             $this->getewayUrl = 'https://openapi.alipaydev.com/gateway.do?';
+        } else {
+            $this->useSandbox = false;// 不是沙箱模式
         }
 
         // 支付宝分配给开发者的应用ID
