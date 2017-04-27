@@ -30,9 +30,6 @@ final class WxConfig extends ConfigInterface
     // 交易开始时间 格式为yyyyMMddHHmmss
     public $timeStart;
 
-    // 订单在微信服务器过期的时间，过期后无法支付
-    public $timeExpire;
-
     // 用于加密的md5Key
     public $md5Key;
 

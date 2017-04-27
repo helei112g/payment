@@ -35,7 +35,7 @@ abstract class AliBaseStrategy implements BaseStrategy
     protected $reqData;
 
     /**
-     * AliCharge constructor.
+     * AliBaseStrategy constructor.
      * @param array $config
      * @throws PayException
      */
