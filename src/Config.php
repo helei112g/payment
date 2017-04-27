@@ -62,6 +62,16 @@ final class Config
 
 
 
+    //========================= 招商相关接口 =======================//
+    // 支付常量
+    const CMB_CHANNEL_APP = 'cmb_app';// 招商 app  ，实际上招商并无该概念
+
+
+    const CMB_CHARGE = 'cmb_charge';// 招商支付
+
+    const CMB_REFUND = 'cmb_refund';// 招商退款
+
+
     //========================= 金额问题设置 =======================//
     const PAY_MIN_FEE = '0.01';// 支付的最小金额
 
