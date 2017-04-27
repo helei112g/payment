@@ -55,7 +55,6 @@ abstract class AliBaseData extends BaseData
      */
     protected function makeSign($signStr)
     {
-        $sign = '';
         switch ($this->signType) {
             case 'RSA':
                 $rsa = new RsaEncrypt($this->rsaPrivateKey);

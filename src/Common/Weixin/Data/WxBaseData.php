@@ -36,8 +36,6 @@ abstract class WxBaseData extends BaseData
      */
     protected function makeSign($signStr)
     {
-        $sign = '';
-
         switch ($this->signType) {
             case 'MD5':
                 $signStr .= '&key=' . $this->md5Key;
