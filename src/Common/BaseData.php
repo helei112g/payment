@@ -13,6 +13,12 @@ use Payment\Utils\ArrayUtil;
  * Class BaseData
  * 支付相关接口的数据基类
  * @package Payment\Common\Weixin\Dataa
+ *
+ * @property string $limitPay   用户不可用指定渠道支付
+ * @property boolean $returnRaw  是否返回原始数据，只进行签名检查
+ * @property string $useSandbox 是否使用的测试模式
+ * @property string $signType  签名算法
+ *
  */
 abstract class BaseData
 {
