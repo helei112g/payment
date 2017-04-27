@@ -137,7 +137,7 @@ abstract class WxBaseStrategy implements BaseStrategy
         $ret = $this->sendReq($xml);
 
         // 检查返回的数据是否被篡改
-        $flag = $this->signVerify($ret);
+        $flag = $this->verifySign($ret);
         if (!$flag) {
             throw new PayException('微信返回数据被篡改。请检查网络是否安全！');
         }
@@ -162,7 +162,7 @@ abstract class WxBaseStrategy implements BaseStrategy
      * @return boolean
      * @author helei
      */
-    protected function signVerify(array $retData)
+    protected function verifySign(array $retData)
     {
         $retSign = $retData['sign'];
         $values = ArrayUtil::removeKeys($retData, ['sign', 'sign_type']);
