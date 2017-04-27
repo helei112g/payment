@@ -16,4 +16,11 @@ interface BaseStrategy
      * @author helei
      */
     public function handle(array $data);
+
+    /**
+     * 获取支付对应的数据完成类
+     * @return BaseData
+     * @author helei
+     */
+    public function getBuildDataClass();
 }

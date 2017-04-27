@@ -21,7 +21,7 @@ use Payment\Utils\Curl;
  */
 class WxRefund extends WxBaseStrategy
 {
-    protected function getBuildDataClass()
+    public function getBuildDataClass()
     {
         return RefundData::class;
     }

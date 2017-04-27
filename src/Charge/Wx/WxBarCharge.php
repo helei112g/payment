@@ -15,7 +15,7 @@ use Payment\Common\WxConfig;
 
 class WxBarCharge extends WxBaseStrategy
 {
-    protected function getBuildDataClass()
+    public function getBuildDataClass()
     {
         return BarChargeData::class;
     }

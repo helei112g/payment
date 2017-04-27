@@ -15,7 +15,7 @@ use Payment\Config;
 
 class AliChargeQuery extends AliBaseStrategy
 {
-    protected function getBuildDataClass()
+    public function getBuildDataClass()
     {
         $this->config->method = AliConfig::TRADE_QUERY_METHOD;
         return ChargeQueryData::class;

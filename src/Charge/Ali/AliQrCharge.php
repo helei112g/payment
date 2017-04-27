@@ -18,7 +18,7 @@ use Payment\Common\PayException;
  */
 class AliQrCharge extends AliBaseStrategy
 {
-    protected function getBuildDataClass()
+    public function getBuildDataClass()
     {
         $this->config->method = AliConfig::QR_PAY_METHOD;
         return QrChargeData::class;

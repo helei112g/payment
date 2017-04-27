@@ -22,7 +22,7 @@ class AliAppCharge extends AliBaseStrategy
      * @return string
      * @author helei
      */
-    protected function getBuildDataClass()
+    public function getBuildDataClass()
     {
         $this->config->method = AliConfig::APP_PAY_METHOD;
         // 以下两种方式任选一种

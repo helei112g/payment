@@ -20,7 +20,7 @@ use Payment\Common\WxConfig;
  */
 class WxRefundQuery extends WxBaseStrategy
 {
-    protected function getBuildDataClass()
+    public function getBuildDataClass()
     {
         return RefundQueryData::class;
     }

@@ -15,7 +15,7 @@ use Payment\Config;
 
 class AliTransfer extends AliBaseStrategy
 {
-    protected function getBuildDataClass()
+    public function getBuildDataClass()
     {
         $this->config->method = AliConfig::TRANS_TOACCOUNT_METHOD;
         return TransData::class;

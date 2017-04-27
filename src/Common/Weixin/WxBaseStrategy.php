@@ -55,13 +55,6 @@ abstract class WxBaseStrategy implements BaseStrategy
     }
 
     /**
-     * 获取支付对应的数据完成类
-     * @return BaseData
-     * @author helei
-     */
-    abstract protected function getBuildDataClass();
-
-    /**
      * 发送完了请求
      * @param string $xml
      * @return mixed

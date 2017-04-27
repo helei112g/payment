@@ -20,7 +20,7 @@ class AliWebCharge extends AliBaseStrategy
      * @return string
      * @author helei
      */
-    protected function getBuildDataClass()
+    public function getBuildDataClass()
     {
         $this->config->method = AliConfig::PC_PAY_METHOD;
         // 以下两种方式均可以

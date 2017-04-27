@@ -51,13 +51,6 @@ abstract class AliBaseStrategy implements BaseStrategy
         }
     }
 
-    /**
-     * 获取支付对应的数据完成类
-     * @return BaseData
-     * @author helei
-     */
-    abstract protected function getBuildDataClass();
-
     public function handle(array $data)
     {
         $buildClass = $this->getBuildDataClass();

@@ -21,7 +21,7 @@ use Payment\Common\PayException;
  */
 class AliRefundQuery extends AliBaseStrategy
 {
-    protected function getBuildDataClass()
+    public function getBuildDataClass()
     {
         $this->config->method = AliConfig::REFUND_QUERY_METHOD;
         return RefundQueryData::class;

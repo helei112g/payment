@@ -20,7 +20,7 @@ class WxChargeQuery extends WxBaseStrategy
      * 返回查询订单的数据
      * @author helei
      */
-    protected function getBuildDataClass()
+    public function getBuildDataClass()
     {
         return ChargeQueryData::class;
     }
