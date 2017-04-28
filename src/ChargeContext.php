@@ -14,6 +14,7 @@ use Payment\Charge\Ali\AliBarCharge;
 use Payment\Charge\Ali\AliWapCharge;
 use Payment\Charge\Ali\AliWebCharge;
 use Payment\Charge\Ali\AliQrCharge;
+use Payment\Charge\Cmb\CmbCharge;
 use Payment\Charge\Wx\WxAppCharge;
 use Payment\Charge\Wx\WxBarCharge;
 use Payment\Charge\Wx\WxPubCharge;
@@ -83,6 +84,9 @@ class ChargeContext
                     break;
                 case Config::WX_CHANNEL_BAR:
                     $this->channel = new WxBarCharge($config);
+                    break;
+                case Config::CMB_CHANNEL_APP:
+                    $this->channel = new CmbCharge($config);
                     break;
                 default:
                     throw new PayException('当前仅支持：支付宝 与 微信');

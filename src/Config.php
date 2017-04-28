@@ -85,4 +85,9 @@ final class Config
 
     const TRADE_STATUS_FAILD  = 'not_pay';// 交易未完成
 
+
+    //======================= 账户类型 ======================//
+    const WECHAT_PAY = 'wechat';
+    const ALI_PAY = 'ali';
+    const CMB_PAY = 'cmb';
 }

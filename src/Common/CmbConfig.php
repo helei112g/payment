@@ -37,6 +37,15 @@ class CmbConfig extends ConfigInterface
     // 成功签约结果通知地址:首次签约，必填. 商户接收成功签约结果通知的地址。
     public $signNoticeUrl;
 
+    // 招商请求的网关
+    public $getewayUrl;
+
+    const MAX_EXPIRE_TIME = 30;// 过期时间最大 30分钟
+
+    const REQ_FILED_NAME = 'jsonRequestData';// 报文的参数名：jsonRequestData
+
+    const SUCC_TAG = 'SUC0000';// SUC0000表示成功，其他表示错误，具体错误码见详细API定义。
+
     /**
      * 初始化微信配置文件
      * WxConfig constructor.
@@ -60,6 +69,13 @@ class CmbConfig extends ConfigInterface
     protected function initConfig(array $config)
     {
         $config = ArrayUtil::paraFilter($config);
+
+        // 初始 mer key
+        if (key_exists('mer_key', $config) && !empty($config['mer_key'])) {
+            $this->merKey = $config['mer_key'];
+        } else {
+            throw new PayException('Mer Key 不能为空，请前往招商一网通进行设置');
+        }
 
         // 检查 异步通知的url
         if (key_exists('notify_url', $config) && !empty($config['notify_url'])) {
@@ -115,6 +131,10 @@ class CmbConfig extends ConfigInterface
             $this->useSandbox = false;// 不是沙箱模式
         }
 
+        // 初始 支付宝 同步通知地址，可为空
+        if (key_exists('return_url', $config)) {
+            $this->returnUrl = $config['return_url'];
+        }
         // 设置交易开始时间 格式为yyyyMMddHHmmss   .再此之前一定要设置时区
         $this->dateTime = date('YmdHis', time());
     }

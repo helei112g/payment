@@ -76,23 +76,50 @@ abstract class CmbBaseStrategy implements BaseStrategy
      */
     protected function retData(array $ret)
     {
-        return $ret;
+        $json = json_encode($ret, JSON_UNESCAPED_UNICODE);
+
+        $reqData = [
+            'url' => $this->config->getewayUrl,
+            'name' => CmbConfig::REQ_FILED_NAME,
+            'value' => $json,
+        ];
+        return $reqData;
+    }
+
+    /**
+     * 发送完了请求
+     * @param string $json
+     * @return mixed
+     * @throws PayException
+     * @author helei
+     */
+    protected function sendReq($json)
+    {
+        $responseTxt = $this->curlPost($json, $this->config->getewayUrl);
+        if ($responseTxt['error']) {
+            throw new PayException('网络发生错误，请稍后再试curl返回码：' . $responseTxt['message']);
+        }
+
+        return $responseTxt['body'];
     }
 
     /**
      * 父类仅提供基础的post请求，子类可根据需要进行重写
-     * @param string $xml
+     * @param string $json
      * @param string $url
      * @return array
      * @author helei
      */
-    protected function curlPost($xml, $url)
+    protected function curlPost($json, $url)
     {
+        /*$header = [
+            'User-Agent:Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.23 Mobile Safari/537.36',
+        ];*/
+
         $curl = new Curl();
         return $curl->set([
-            'CURLOPT_HEADER'    => 0
-        ])->post($xml)->submit($url);
+            'CURLOPT_HEADER'    => 0,
+            //'CURLOPT_HTTPHEADER' => $header,
+        ])->post($json)->submit($url);
     }
-
-
 }

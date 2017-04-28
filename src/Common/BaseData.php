@@ -7,6 +7,7 @@
 
 namespace Payment\Common;
 
+use Payment\Config;
 use Payment\Utils\ArrayUtil;
 
 /**
@@ -36,6 +37,12 @@ abstract class BaseData
     protected $retData;
 
     /**
+     * 配置类型
+     * @var string $configType
+     */
+    protected $channel;
+
+    /**
      * BaseData constructor.
      * @param ConfigInterface $config
      * @param array $reqData
@@ -43,6 +50,14 @@ abstract class BaseData
      */
     public function __construct(ConfigInterface $config, array $reqData)
     {
+        if ($config instanceof WxConfig) {
+            $this->channel = Config::WECHAT_PAY;
+        } elseif ($config instanceof AliConfig) {
+            $this->channel = Config::ALI_PAY;
+        } elseif ($config instanceof CmbConfig) {
+            $this->channel = Config::CMB_PAY;
+        }
+
         $this->data = array_merge($config->toArray(), $reqData);
 
         try {
@@ -86,7 +101,12 @@ abstract class BaseData
     {
         $this->buildData();
 
-        $values = ArrayUtil::removeKeys($this->retData, ['sign']);
+        if ($this->channel === Config::CMB_PAY) {
+            $data = $this->retData['reqData'];
+        } else {
+            $data = $this->retData;
+        }
+        $values = ArrayUtil::removeKeys($data, ['sign']);
 
         $values = ArrayUtil::arraySort($values);
 
