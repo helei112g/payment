@@ -67,6 +67,8 @@ final class Config
     const CMB_CHANNEL_APP = 'cmb_app';// 招商 app  ，实际上招商并无该概念
 
 
+    const CMB_BIND = 'cmb_bind';// 签约API
+
     const CMB_CHARGE = 'cmb_charge';// 招商支付
 
     const CMB_REFUND = 'cmb_refund';// 招商退款

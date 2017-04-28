@@ -18,7 +18,8 @@
         "ext-mbstring": "*"
     },
     "require-dev": {
-        "endroid/qrcode": "~1.9"
+        "endroid/qrcode": "~1.9",
+        "guzzlehttp/guzzle": "~6.2"
     },
     "autoload": {
         "psr-4": {"Payment\\": "src/"}

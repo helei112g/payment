@@ -16,14 +16,8 @@ use Payment\Common\PayException;
  * @property string $order_no  订单号, 10位数字，由商户生成，一天内不能重复。订单日期+订单号唯一定位一笔订单。
  * @property string $amount  金额, 格式：xxxx.xx  固定两位小数，最大11位整数
  * @property integer $timeout_express  过期时间
- * @property string $return_param  结果通知附加参数  该参数在发送成功签约结果通知时，将原样返回商户 注意：该参数可为空，商户如果需要不止一个参数，可以自行把参数组合、拼装，但组合后的结果不能带有’&’字符。
- * @property string $agr_no 客户协议号。必须为纯数字串，不超过30位。
- * @property string $serial_no  协议开通请求流水号，开通协议时必填。
- * @property string $user_id 用于标识商户用户的唯一ID。 商户系统内用户唯一标识，不超过20位，数字字母都可以，建议纯数字
- * @property string $mobile 商户用户的手机号
  * @property string $lon 经度，商户app获取的手机定位数据，如30.949505
  * @property string $lat 纬度，商户app获取的手机定位数据，如50.949506
- * @property string $risk_level 风险等级:用户在商户系统内风险等级标识
  *
  */
 class ChargeData extends CmbBaseData
@@ -33,26 +27,12 @@ class ChargeData extends CmbBaseData
      */
     protected function checkDataParam()
     {
+        parent::checkDataParam();
         $orderNo = $this->order_no;
-        $branchNo = $this->branchNo;
-        $merchantNo = $this->merchantNo;
-        $agrNo = $this->agr_no;
 
         // 检查订单号是否合法
         if (empty($orderNo) || mb_strlen($orderNo) !== 10 || ! is_numeric($orderNo)) {
             throw new PayException('订单号不能为空，并且长度必须为 10位 数字');
-        }
-
-        if (empty($branchNo) || mb_strlen($branchNo) !== 4) {
-            throw new PayException('商户分行号，4位数字');
-        }
-
-        if (empty($merchantNo) || mb_strlen($merchantNo) !== 6) {
-            throw new PayException('商户号，6位数字');
-        }
-
-        if (empty($agrNo) || mb_strlen($agrNo) > 30 || ! is_numeric($agrNo)) {
-            throw new PayException('客户协议号。必须为纯数字串，不超过30位');
         }
 
         // 设置ip地址
@@ -76,7 +56,7 @@ class ChargeData extends CmbBaseData
     /**
      * 请求数据
      */
-    protected function getreqData()
+    protected function getReqData()
     {
         $reqData = [
             'dateTime' => $this->dateTime,

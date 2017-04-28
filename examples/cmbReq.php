@@ -1,4 +1,16 @@
-<?php $data = require 'charge.php';?>
+<?php
+$type = $_GET['type'];
+
+if ($type === 'charge') {
+    $data = require 'charge.php';
+    $btnText = '开始支付';
+} elseif ($type === 'bind') {
+    $data = require 'bindCard.php';
+    $btnText = '开始绑卡';
+} else {
+    $btnText = '请选择操作';
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -48,7 +60,7 @@
     <div class="box">
         <form method="post" action="<?php echo $data['url'] ?>">
             <input type="hidden" name="<?php echo $data['name'] ?>" value='<?php echo $data['value'] ?>'>
-            <button type="submit" class="button button-rounded button-uppercase">点我开始支付</button>
+            <button type="submit" class="button button-rounded button-uppercase"><?php echo $btnText ?></button>
         </form>
     </div>
 </body>

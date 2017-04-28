@@ -10,6 +10,7 @@ namespace Payment\Common\Cmb\Data;
 
 
 use Payment\Common\BaseData;
+use Payment\Common\PayException;
 use Payment\Utils\ArrayUtil;
 
 /**
@@ -25,6 +26,13 @@ use Payment\Utils\ArrayUtil;
  * @property string $returnUrl  	HTTP/HTTPS开头字符串
  * @property string $merKey  用于加密的 key
  * @property string $client_ip  用户端实际ip
+ * @property string $serial_no  协议开通请求流水号，开通协议时必填。
+ * @property string $agr_no 客户协议号。必须为纯数字串，不超过30位。
+ * @property string $user_id 用于标识商户用户的唯一ID。 商户系统内用户唯一标识，不超过20位，数字字母都可以，建议纯数字
+ * @property string $mobile 商户用户的手机号
+ * @property string $risk_level 风险等级:用户在商户系统内风险等级标识
+ * @property string $return_param  结果通知附加参数  该参数在发送成功签约结果通知时，将原样返回商户 注意：该参数可为空，商户如果需要不止一个参数，可以自行把参数组合、拼装，但组合后的结果不能带有’&’字符。
+ *
  *
  * @package Payment\Common\Weixin\Dataa
  */
@@ -65,6 +73,28 @@ abstract class CmbBaseData extends BaseData
 
         // 移除数组中的空值
         $this->retData = ArrayUtil::paraFilter($signData);
+    }
+
+    /**
+     * 检查基本数据
+     */
+    protected function checkDataParam()
+    {
+        $branchNo = $this->branchNo;
+        $merchantNo = $this->merchantNo;
+        $agrNo = $this->agr_no;
+
+        if (empty($branchNo) || mb_strlen($branchNo) !== 4) {
+            throw new PayException('商户分行号，4位数字');
+        }
+
+        if (empty($merchantNo) || mb_strlen($merchantNo) !== 6) {
+            throw new PayException('商户号，6位数字');
+        }
+
+        if (empty($agrNo) || mb_strlen($agrNo) > 30 || ! is_numeric($agrNo)) {
+            throw new PayException('客户协议号。必须为纯数字串，不超过30位');
+        }
     }
 
     /**
