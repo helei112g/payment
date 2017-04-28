@@ -13,6 +13,7 @@ return [
     'branch_no'     => '0021',  // 商户分行号，4位数字
     'merchant_no'   => '000250',// 商户号，6位数字
     'mer_key'       => 'WWWyimishijicom1',// 秘钥
+    'op_pwd'        => '000250',// 操作员登录密码。
     'sign_type'     => 'SHA-256',// 签名算法,固定为“SHA-256”
     'limit_pay'     => [
         //'A',

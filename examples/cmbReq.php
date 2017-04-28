@@ -7,6 +7,9 @@ if ($type === 'charge') {
 } elseif ($type === 'bind') {
     $data = require 'bindCard.php';
     $btnText = '开始绑卡';
+} elseif ($type === 'query') {
+    $data = require 'query.php';
+    $btnText = '开始查询订单';
 } else {
     $btnText = '请选择操作';
 }
