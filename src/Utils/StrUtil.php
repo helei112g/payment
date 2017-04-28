@@ -48,4 +48,19 @@ class StrUtil
 
         return $str;
     }
+
+    /**
+     * 转成16进制
+     * @param string $string
+     * @return string
+     */
+    public static function String2Hex($string)
+    {
+        $hex = '';
+        $len = strlen($string);
+        for ($i=0; $i < $len; $i++) {
+            $hex .= dechex(ord($string[$i]));
+        }
+        return $hex;
+    }
 }

@@ -25,6 +25,7 @@ use Payment\Utils\ArrayUtil;
  * @property string $signNoticeUrl  成功签约结果通知地址  商户接收成功签约结果通知的地址。
  * @property string $returnUrl  	HTTP/HTTPS开头字符串
  * @property string $merKey  用于加密的 key
+ * @property string $opPwd  用于加密的 key
  * @property string $client_ip  用户端实际ip
  * @property string $serial_no  协议开通请求流水号，开通协议时必填。
  * @property string $agr_no 客户协议号。必须为纯数字串，不超过30位。

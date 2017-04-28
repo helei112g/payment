@@ -28,9 +28,13 @@ class ChargeQueryData extends CmbBaseData
         $date = $this->date;
         $orderNo = $this->out_trade_no;
 
+        if (empty($date) || mb_strlen($date) !== 8) {
+            throw new PayException('商户订单日期必须提供,格式：yyyyMMdd');
+        }
+
         if ($bankSerialNo && mb_strlen($bankSerialNo) === 20) {
             $this->type = 'A';
-        } elseif ($date && mb_strlen($orderNo) === 10) {
+        } elseif (mb_strlen($orderNo) === 10) {
             $this->type = 'B';
         } else {
             throw new PayException('必须设置商户订单信息或者招商流水号');

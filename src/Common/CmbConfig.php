@@ -37,6 +37,9 @@ class CmbConfig extends ConfigInterface
     // 成功签约结果通知地址:首次签约，必填. 商户接收成功签约结果通知的地址。
     public $signNoticeUrl;
 
+    // 操作员登录密码。
+    public $opPwd;
+
     // 招商请求的网关
     public $getewayUrl;
 
@@ -75,6 +78,13 @@ class CmbConfig extends ConfigInterface
             $this->merKey = $config['mer_key'];
         } else {
             throw new PayException('Mer Key 不能为空，请前往招商一网通进行设置');
+        }
+
+        // 设置操作员登陆密码
+        if (key_exists('op_pwd', $config) && !empty($config['op_pwd'])) {
+            $this->opPwd = $config['op_pwd'];
+        } else {
+            throw new PayException('请设置操作员登陆密码');
         }
 
         // 检查 异步通知的url
