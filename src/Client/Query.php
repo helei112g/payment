@@ -29,6 +29,8 @@ class Query
         Config::WX_REFUND,
         Config::WX_RED,
         Config::WX_TRANSFER,
+
+        Config::CMB_CHARGE,
     ];
 
     /**

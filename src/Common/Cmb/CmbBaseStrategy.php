@@ -6,6 +6,7 @@ use Payment\Common\BaseData;
 use Payment\Common\BaseStrategy;
 use Payment\Common\CmbConfig;
 use Payment\Common\PayException;
+use Payment\Config;
 use Payment\Utils\Curl;
 
 /**
@@ -100,7 +101,14 @@ abstract class CmbBaseStrategy implements BaseStrategy
             throw new PayException('网络发生错误，请稍后再试curl返回码：' . $responseTxt['message']);
         }
 
-        return $responseTxt['body'];
+        $body = json_decode($responseTxt['body'], true);
+        $rspData = $body['rspData'];
+
+        if ($rspData['rspCode'] !== CmbConfig::SUCC_TAG) {
+            throw new PayException('招商返回错误提示：' . $rspData['rspMsg']);
+        }
+
+        return $rspData;
     }
 
     /**
@@ -112,14 +120,30 @@ abstract class CmbBaseStrategy implements BaseStrategy
      */
     protected function curlPost($json, $url)
     {
-        /*$header = [
-            'User-Agent:Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.23 Mobile Safari/537.36',
-        ];*/
-
         $curl = new Curl();
         return $curl->set([
             'CURLOPT_HEADER'    => 0,
-            //'CURLOPT_HTTPHEADER' => $header,
         ])->post($json)->submit($url);
+    }
+
+    /**
+     * 返回统一的交易状态  做一些转化，方便处理
+     * @param $status
+     * @return string
+     * @author helei
+     */
+    protected function getTradeStatus($status)
+    {
+        switch ($status) {
+            case '0':// 0:已结帐
+                return Config::TRADE_STATUS_SUCC;
+            case '1':// 1:已撤销
+            case '2':// 2:部分结帐
+            case '4':// 4:未结帐
+            case '7':// 7:冻结交易-冻结金额已经全部结账
+            case '8':// 8:冻结交易，冻结金额只结帐了一部分
+            default:
+                return Config::TRADE_STATUS_FAILD;// 以上状态全部设置为失败
+        }
     }
 }

@@ -12,6 +12,7 @@ use Payment\Common\PayException;
 use Payment\Query\Ali\AliChargeQuery;
 use Payment\Query\Ali\AliRefundQuery;
 use Payment\Query\Ali\AliTransferQuery;
+use Payment\Query\Cmb\CmbChargeQuery;
 use Payment\Query\Wx\WxChargeQuery;
 use Payment\Query\Wx\WxRefundQuery;
 use Payment\Query\Wx\WxTransferQuery;
@@ -57,8 +58,12 @@ class QueryContext
                 case Config::WX_TRANSFER:// 微信转款订单查询
                     $this->query = new WxTransferQuery($config);
                     break;
+
+                case Config::CMB_CHARGE:// 招商支付查询
+                    $this->query = new CmbChargeQuery($config);
+                    break;
                 default:
-                    throw new PayException('当前仅支持：ALI_CHARGE ALI_REFUND WX_CHARGE WX_REFUND WX_TRANSFER');
+                    throw new PayException('当前仅支持：ALI_CHARGE ALI_REFUND WX_CHARGE WX_REFUND WX_TRANSFER CMB_CHARGE');
             }
         } catch (PayException $e) {
             throw $e;

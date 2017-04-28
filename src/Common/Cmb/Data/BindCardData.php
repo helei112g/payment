@@ -25,7 +25,11 @@ class BindCardData extends CmbBaseData
 
     protected function checkDataParam()
     {
-        // TODO: Implement checkDataParam() method.
+        parent::checkDataParam();
+        $agrNo = $this->agr_no;
+        if (empty($agrNo) || mb_strlen($agrNo) > 30 || ! is_numeric($agrNo)) {
+            throw new PayException('客户协议号。必须为纯数字串，不超过30位');
+        }
     }
 
     protected function getReqData()

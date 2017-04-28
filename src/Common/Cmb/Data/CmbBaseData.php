@@ -82,7 +82,6 @@ abstract class CmbBaseData extends BaseData
     {
         $branchNo = $this->branchNo;
         $merchantNo = $this->merchantNo;
-        $agrNo = $this->agr_no;
 
         if (empty($branchNo) || mb_strlen($branchNo) !== 4) {
             throw new PayException('商户分行号，4位数字');
@@ -90,10 +89,6 @@ abstract class CmbBaseData extends BaseData
 
         if (empty($merchantNo) || mb_strlen($merchantNo) !== 6) {
             throw new PayException('商户号，6位数字');
-        }
-
-        if (empty($agrNo) || mb_strlen($agrNo) > 30 || ! is_numeric($agrNo)) {
-            throw new PayException('客户协议号。必须为纯数字串，不超过30位');
         }
     }
 

@@ -44,6 +44,7 @@ class WxChargeQuery extends WxBaseStrategy
     protected function retData(array $data)
     {
         if ($this->config->returnRaw) {
+            $data['channel'] = Config::WX_CHARGE;
             return $data;
         }
 

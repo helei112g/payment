@@ -32,6 +32,7 @@ class AliChargeQuery extends AliBaseStrategy
         }
 
         if ($this->config->returnRaw) {
+            $ret['channel'] = Config::ALI_CHARGE;
             return $ret;
         }
 
