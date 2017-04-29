@@ -10,6 +10,7 @@ namespace Payment\Common;
 
 
 use Payment\Utils\ArrayUtil;
+use Payment\Utils\StrUtil;
 
 class CmbConfig extends ConfigInterface
 {
@@ -43,6 +44,9 @@ class CmbConfig extends ConfigInterface
     // 招商请求的网关
     public $getewayUrl;
 
+    // 招商的公钥
+    public $rsaPubKey;
+
     const MAX_EXPIRE_TIME = 30;// 过期时间最大 30分钟
 
     const REQ_FILED_NAME = 'jsonRequestData';// 报文的参数名：jsonRequestData
@@ -50,6 +54,10 @@ class CmbConfig extends ConfigInterface
     const SUCC_TAG = 'SUC0000';// SUC0000表示成功，其他表示错误，具体错误码见详细API定义。
 
     const TRADE_CODE = 'FBPK';// 交易码,固定为“FBPK”
+
+    const NOTICE_PAY = 'BKPAYRTN';// 支付成功回调
+
+    const NOTICE_SIGN = 'BKQY';// 签约成功回调
 
     /**
      * 初始化微信配置文件
@@ -141,6 +149,12 @@ class CmbConfig extends ConfigInterface
             $this->useSandbox = true;
         } else {
             $this->useSandbox = false;// 不是沙箱模式
+        }
+
+        if (key_exists('cmb_pub_key', $config) && (file_exists($config['cmb_pub_key']) || ! empty($config['cmb_pub_key']))) {
+            $this->rsaPubKey = StrUtil::getRsaKeyValue($config['cmb_pub_key'], 'public');
+        } else {
+            throw new PayException('请提供招商对应的rsa公钥，可通过Helper接口获取');
         }
 
         // 初始 支付宝 同步通知地址，可为空

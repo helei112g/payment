@@ -21,7 +21,7 @@ $cmbConfig = require_once __DIR__ . '/cmbconfig.php';
 $channel = 'cmb_pub_key';
 
 try {
-    $ret = Helper::run($channel, $cmbConfig, []);
+    $ret = Helper::run($channel, $cmbConfig);
 } catch (PayException $e) {
     echo $e->errorMessage();
     exit;

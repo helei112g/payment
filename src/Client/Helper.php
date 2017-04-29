@@ -53,7 +53,7 @@ class Helper
      * @return mixed
      * @throws PayException
      */
-    public static function run($channel, $config, $metadata)
+    public static function run($channel, $config, array $metadata = [])
     {
         if (! in_array($channel, self::$supportChannel)) {
             throw new PayException('sdk当前不支持该渠道，当前仅支持：' . implode(',', self::$supportChannel));

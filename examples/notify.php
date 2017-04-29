@@ -11,17 +11,22 @@ require_once __DIR__ . '/testNotify.php';
 use Payment\Common\PayException;
 use Payment\Client\Notify;
 
+date_default_timezone_set('Asia/Shanghai');
+
 $aliConfig = require_once __DIR__ . '/aliconfig.php';
 $wxConfig = require_once __DIR__ . '/wxconfig.php';
+$cmbConfig = require_once __DIR__ . '/cmbconfig.php';
 
 $callback = new TestNotify();
 
-$type = 'wx_charge';// xx_charge
+$type = 'cmb_charge';// xx_charge
 
 if (stripos($type, 'ali') !== false) {
     $config = $aliConfig;
-} else {
+} elseif (stripos($type, 'wx') !== false) {
     $config = $wxConfig;
+} else {
+    $config = $cmbConfig;
 }
 
 try {
