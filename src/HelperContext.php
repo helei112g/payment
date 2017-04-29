@@ -11,6 +11,7 @@ namespace Payment;
 use Payment\Common\BaseStrategy;
 use Payment\Common\PayException;
 use Payment\Helper\Cmb\BindCardHelper;
+use Payment\Helper\Cmb\PubKeyHelper;
 
 /**
  * 用于完成一些辅助操作，例如： 招商绑卡  操作
@@ -41,8 +42,11 @@ class HelperContext
                 case Config::CMB_BIND:
                     $this->helper = new BindCardHelper($config);
                     break;
+                case Config::CMB_PUB_KEY:
+                    $this->helper = new PubKeyHelper($config);
+                    break;
                 default:
-                    throw new PayException('当前仅支持：招商绑卡操作');
+                    throw new PayException('当前仅支持：CMB_BIND CMB_PUB_KEY 操作');
             }
         } catch (PayException $e) {
             throw $e;

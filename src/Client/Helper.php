@@ -21,6 +21,7 @@ class Helper
 {
     private static $supportChannel = [
         Config::CMB_BIND,// 招商绑卡操作
+        Config::CMB_PUB_KEY,// 招商公钥查询操作
     ];
 
     /**

@@ -49,6 +49,8 @@ class CmbConfig extends ConfigInterface
 
     const SUCC_TAG = 'SUC0000';// SUC0000表示成功，其他表示错误，具体错误码见详细API定义。
 
+    const TRADE_CODE = 'FBPK';// 交易码,固定为“FBPK”
+
     /**
      * 初始化微信配置文件
      * WxConfig constructor.

@@ -69,6 +69,8 @@ final class Config
 
     const CMB_BIND = 'cmb_bind';// 签约API
 
+    const CMB_PUB_KEY = 'cmb_pub_key';// 查询招商公钥
+
     const CMB_CHARGE = 'cmb_charge';// 招商支付
 
     const CMB_REFUND = 'cmb_refund';// 招商退款
