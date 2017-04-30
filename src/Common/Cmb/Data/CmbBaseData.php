@@ -50,7 +50,6 @@ abstract class CmbBaseData extends BaseData
         switch ($this->signType) {
             case 'SHA-256':
                 $sign = hash('sha256', "$signStr&{$this->merKey}");
-
                 break;
             default:
                 $sign = '';

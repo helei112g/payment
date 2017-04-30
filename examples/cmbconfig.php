@@ -23,9 +23,9 @@ return [
         //'A',
     ],// 允许支付的卡类型,默认对支付卡种不做限制，储蓄卡和信用卡均可支付   A:储蓄卡支付，即禁止信用卡支付
 
-    'notify_url'        => 'https://helei112g.github.io/v1/notify/cmb',// 支付成功的回调
+    'notify_url'        => 'http://114.215.86.31/__readme/phpinfo.php',// 支付成功的回调
 
-    'sign_notify_url'   => 'https://helei112g.github.io/v1/notify/cmb',// 成功签约结果通知地址
+    'sign_notify_url'   => 'http://114.215.86.31/__readme/phpinfo.php',// 成功签约结果通知地址
 
     'return_url'        => 'https://helei112g.github.io/',// 如果是h5支付，可以设置该值，返回到指定页面
 

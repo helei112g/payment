@@ -125,6 +125,7 @@ class CmbConfig extends ConfigInterface
             throw new PayException('商户号必须提供，6位数字.');
         }
 
+        $this->limitPay = '';
         // 设置禁止使用的支付方式
         if (
             key_exists('limit_pay', $config) &&

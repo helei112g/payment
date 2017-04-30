@@ -24,7 +24,7 @@ $payData = [
     'order_no'    => substr($orderNo, 2, 10),
     'timeout_express' => time() + 600,// 表示必须 600s 内付款
     'amount'    => '0.01',// 单位为元 ,最小为0.01
-    'return_param' => '123',
+    'return_param' => 'tatata',
     'client_ip' => isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '127.0.0.1',// 客户地址
     'date' => date('Ymd'),
     'agr_no' => '430802198004014358',// 建议用身份证
@@ -51,7 +51,7 @@ $btnText = '点我开始支付';
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>招商支付</title>
+    <title>一网通支付</title>
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
     <meta content="telephone=no" name="format-detection">
     <style>
