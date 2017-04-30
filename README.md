@@ -9,7 +9,14 @@
 - [Payment3.x 使用教程](https://helei112g.github.io/categories/payment-3/) (推荐的版本)
 - [Payment2.x 使用教程](https://helei112g.github.io/categories/payment/)
 
-**后期计划：招商一网通支付**
+当前支持支付能力如下： 
+- 微信刷卡支付、公众号支付、扫码支付、APP支付、H5支付、小程序支付；
+
+- 支持支付宝手机网站支付、APP支付、扫码支付、条码支付、电脑网站支付（即时到账）；
+
+- 支持招商一网通支付，可用于app支付、手机网站支付。
+
+支持所有第三方的支付订单查询、退款操作、退款订单状态查询。同时支持支付宝与微信的转账操作。
 
 # 安装Payment #
 
@@ -50,6 +57,7 @@ composer update
 直接下载放入自己的项目中，通过 `require` 的方式引用代码。极度不推荐
 
 # Change Log #
+- 加入招商一网通支付，加入详细的demo(from v3.1.0)
 - 即时到账支付宝异步通知自动识别处理，example演示demo优化 (from v3.0.3)
 - 支付宝密钥公钥自动设置对应头信息（fromv3.0.2）
 - 支付宝密钥支持字符串、文件两种方式配置，微信支持HMAC-SHA256加密（from v3.0.1）

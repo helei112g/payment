@@ -6,7 +6,7 @@
  */
 
 return [
-    'use_sandbox'       => false,// 是否使用 微信支付仿真测试系统
+    'use_sandbox'       => true,// 是否使用 微信支付仿真测试系统
 
     'app_id'            => 'wx5ec5e41b40d4a4dc',  // 公众账号ID
     'mch_id'            => '1372726302',// 商户id
