@@ -11,7 +11,6 @@ namespace Payment\Common\Cmb\Data\Query;
 
 use Payment\Common\Cmb\Data\CmbBaseData;
 use Payment\Common\PayException;
-use function Sodium\crypto_box_seal;
 
 /**
  * Class RefundQueryData

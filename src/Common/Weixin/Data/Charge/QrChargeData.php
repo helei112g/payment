@@ -25,7 +25,6 @@ class QrChargeData extends ChargeBaseData
 
     /**
      * 生成下单的数据
-     * @return array
      */
     protected function buildData()
     {

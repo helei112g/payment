@@ -58,6 +58,10 @@ class RefundData extends WxBaseData
         $refundFee = $this->refund_fee;
         $operatorId = $this->operator_id;
 
+        if (empty($refundNo)) {
+            throw new PayException('请设置退款单号 refund_no');
+        }
+
         // 二者不能同时为空
         if (empty($transactionId) && empty($outTradeNo)) {
             throw new PayException('必须提供微信交易号或商户网站唯一订单号。建议使用微信交易号');

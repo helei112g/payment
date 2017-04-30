@@ -2,7 +2,6 @@
 
 namespace Payment\Charge\Cmb;
 
-use Payment\Common\BaseData;
 use Payment\Common\Cmb\CmbBaseStrategy;
 use Payment\Common\Cmb\Data\Charge\ChargeData;
 

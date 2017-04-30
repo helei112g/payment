@@ -10,7 +10,6 @@ namespace Payment\Common\Ali\Data\Query;
 
 
 use Payment\Common\Ali\Data\AliBaseData;
-use Payment\Common\PayException;
 use Payment\Utils\ArrayUtil;
 
 abstract class QueryBaseData extends AliBaseData

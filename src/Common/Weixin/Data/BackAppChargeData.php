@@ -7,7 +7,6 @@
 
 namespace Payment\Common\Weixin\Data;
 
-use Payment\Common\PayException;
 
 /**
  * Class BackAppChargeData

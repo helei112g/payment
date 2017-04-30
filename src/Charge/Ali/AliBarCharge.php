@@ -6,7 +6,6 @@ use Payment\Common\Ali\AliBaseStrategy;
 use Payment\Common\Ali\Data\Charge\BarChargeData;
 use Payment\Common\AliConfig;
 use Payment\Common\PayException;
-use Payment\Utils\Curl;
 
 /**
  * 商户扫用户的二维码

@@ -8,8 +8,6 @@
 
 namespace Payment\Charge\Wx;
 
-
-use Payment\Common\BaseData;
 use Payment\Common\Weixin\Data\Charge\WapChargeData;
 use Payment\Common\Weixin\WxBaseStrategy;
 

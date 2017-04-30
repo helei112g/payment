@@ -8,7 +8,6 @@
 namespace Payment\Common\Ali\Data;
 
 use Payment\Common\PayException;
-use Payment\Config;
 use Payment\Utils\ArrayUtil;
 
 /**

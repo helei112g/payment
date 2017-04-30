@@ -85,11 +85,13 @@ class ChargeContext
                 case Config::WX_CHANNEL_BAR:
                     $this->channel = new WxBarCharge($config);
                     break;
+
+                case Config::CMB_CHANNEL_WAP:
                 case Config::CMB_CHANNEL_APP:
                     $this->channel = new CmbCharge($config);
                     break;
                 default:
-                    throw new PayException('当前仅支持：支付宝 与 微信');
+                    throw new PayException('当前仅支持：支付宝  微信 招商一网通');
             }
         } catch (PayException $e) {
             throw $e;

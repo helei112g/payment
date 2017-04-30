@@ -12,7 +12,6 @@ namespace Payment\Query\Ali;
 use Payment\Common\Ali\AliBaseStrategy;
 use Payment\Common\Ali\Data\Query\TransferQueryData;
 use Payment\Common\AliConfig;
-use Payment\Common\BaseData;
 use Payment\Common\PayException;
 
 /**

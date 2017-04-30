@@ -66,6 +66,7 @@ final class Config
     // 支付常量
     const CMB_CHANNEL_APP = 'cmb_app';// 招商 app  ，实际上招商并无该概念
 
+    const CMB_CHANNEL_WAP = 'cmb_wap';// 招商h5支付，其实app支付也是使用的h5
 
     const CMB_BIND = 'cmb_bind';// 签约API
 
