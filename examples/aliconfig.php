@@ -72,5 +72,5 @@ rZpNAzCdd4NSj83UZRm3YOmC',
     'notify_url'                => 'https://helei112g.github.io/v1/notify/cmb',
     'return_url'                => 'https://helei112g.github.io/',
 
-    'return_raw'                => true,// 在处理回调时，是否直接返回原始数据，默认为 true
+    'return_raw'                => false,// 在处理回调时，是否直接返回原始数据，默认为 true
 ];

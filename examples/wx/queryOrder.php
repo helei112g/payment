@@ -18,8 +18,8 @@ date_default_timezone_set('Asia/Shanghai');
 $wxConfig = require_once __DIR__ . '/../wxconfig.php';
 
 $data = [
-    'out_trade_no' => '14935385689466',
-    'transaction_id' => '20170430154930897178654',
+    'out_trade_no' => '14935505602169',
+    'transaction_id' => '20170430190922203640695',
 ];
 
 try {
