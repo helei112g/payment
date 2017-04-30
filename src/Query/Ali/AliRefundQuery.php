@@ -11,6 +11,7 @@ use Payment\Common\Ali\AliBaseStrategy;
 use Payment\Common\Ali\Data\Query\RefundQueryData;
 use Payment\Common\AliConfig;
 use Payment\Common\PayException;
+use Payment\Config;
 
 /**
  *
@@ -38,6 +39,7 @@ class AliRefundQuery extends AliBaseStrategy
         }
 
         if ($this->config->returnRaw) {
+            $ret['channel'] = Config::ALI_REFUND;
             return $ret;
         }
 
@@ -56,7 +58,8 @@ class AliRefundQuery extends AliBaseStrategy
         if ($data['code'] !== '10000') {
             return $retData = [
                 'is_success'    => 'F',
-                'error' => $data['sub_msg']
+                'error' => $data['sub_msg'],
+                'channel'   => Config::ALI_REFUND,
             ];
         }
 
@@ -65,6 +68,7 @@ class AliRefundQuery extends AliBaseStrategy
             return [
                 'is_success'    => 'T',
                 'msg'   => strtolower($data['msg']),
+                'channel'   => Config::ALI_REFUND,
             ];
         }
 
@@ -77,6 +81,7 @@ class AliRefundQuery extends AliBaseStrategy
                 'refund_no' => $data['out_request_no'],// 本笔退款对应的退款请求号
                 'transaction_id'   => $data['trade_no'],// 微信订单号
                 'reason'   => $data['refund_reason'],// 退款理由
+                'channel'   => Config::ALI_REFUND,
             ]
         ];
 

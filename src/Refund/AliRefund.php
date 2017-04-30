@@ -40,6 +40,7 @@ class AliRefund extends AliBaseStrategy
         $refundNo = $content['out_request_no'];
 
         if ($this->config->returnRaw) {
+            $rsqData['channel'] = Config::ALI_REFUND;
             return $rsqData;
         }
 

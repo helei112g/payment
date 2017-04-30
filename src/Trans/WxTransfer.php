@@ -66,6 +66,7 @@ class WxTransfer extends WxBaseStrategy
     protected function retData(array $ret)
     {
         if ($this->config->returnRaw) {
+            $ret['channel'] = Config::WX_TRANSFER;
             return $ret;
         }
 
@@ -73,7 +74,8 @@ class WxTransfer extends WxBaseStrategy
         if ($ret['return_code'] != 'SUCCESS') {
             return $retData = [
                 'is_success'    => 'F',
-                'error' => $ret['return_msg']
+                'error' => $ret['return_msg'],
+                'channel'   => Config::WX_TRANSFER,
             ];
         }
 
@@ -81,7 +83,8 @@ class WxTransfer extends WxBaseStrategy
         if ($ret['result_code'] != 'SUCCESS') {
             return $retData = [
                 'is_success'    => 'F',
-                'error' => $ret['err_code_des']
+                'error' => $ret['err_code_des'],
+                'channel'   => Config::WX_TRANSFER,
             ];
         }
 

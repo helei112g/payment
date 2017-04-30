@@ -13,6 +13,7 @@ use Payment\Common\Ali\AliBaseStrategy;
 use Payment\Common\Ali\Data\Query\TransferQueryData;
 use Payment\Common\AliConfig;
 use Payment\Common\PayException;
+use Payment\Config;
 
 /**
  * 查询转账订单的情况
@@ -39,6 +40,7 @@ class AliTransferQuery extends AliBaseStrategy
         }
 
         if ($this->config->returnRaw) {
+            $ret['channel'] = Config::ALI_TRANSFER;
             return $ret;
         }
 
@@ -57,7 +59,8 @@ class AliTransferQuery extends AliBaseStrategy
         if ($data['code'] !== '10000') {
             return $retData = [
                 'is_success'    => 'F',
-                'error' => $data['sub_msg']
+                'error' => $data['sub_msg'],
+                'channel'   => Config::ALI_TRANSFER,
             ];
         }
 
@@ -71,6 +74,7 @@ class AliTransferQuery extends AliBaseStrategy
                 'status'   => strtolower($data['status']),
                 'fail_reason' => $data['fail_reason'],// 查询到的订单状态为FAIL失败或REFUND退票时，返回具体的原因。
                 'arrival_time_end' => $data['arrival_time_end'],// 预计到账时间，转账到银行卡专用，格式为yyyy-MM-dd HH:mm:ss
+                'channel'   => Config::ALI_TRANSFER,
             ]
         ];
 

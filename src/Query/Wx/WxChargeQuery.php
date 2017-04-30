@@ -52,7 +52,8 @@ class WxChargeQuery extends WxBaseStrategy
         if ($data['return_code'] != 'SUCCESS') {
             return $retData = [
                 'is_success'    => 'F',
-                'error' => $data['return_msg']
+                'error' => $data['return_msg'],
+                'channel'   => Config::WX_CHARGE,// 支付查询
             ];
         }
 
@@ -60,7 +61,8 @@ class WxChargeQuery extends WxBaseStrategy
         if ($data['result_code'] != 'SUCCESS') {
             return $retData = [
                 'is_success'    => 'F',
-                'error' => $data['err_code_des']
+                'error' => $data['err_code_des'],
+                'channel'   => Config::WX_CHARGE,// 支付查询
             ];
         }
 

@@ -57,6 +57,7 @@ class WxRefund extends WxBaseStrategy
     protected function retData(array $ret)
     {
         if ($this->config->returnRaw) {
+            $ret['channel'] = Config::WX_REFUND;
             return $ret;
         }
 

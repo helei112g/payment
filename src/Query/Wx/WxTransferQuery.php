@@ -11,6 +11,7 @@ use Payment\Common\PayException;
 use Payment\Common\Weixin\Data\Query\TransferQueryData;
 use Payment\Common\Weixin\WxBaseStrategy;
 use Payment\Common\WxConfig;
+use Payment\Config;
 use Payment\Utils\Curl;
 use Payment\Utils\DataParser;
 
@@ -67,6 +68,7 @@ class WxTransferQuery extends WxBaseStrategy
     protected function retData(array $data)
     {
         if ($this->config->returnRaw) {
+            $data['channel'] = Config::WX_TRANSFER;
             return $data;
         }
 
@@ -74,7 +76,8 @@ class WxTransferQuery extends WxBaseStrategy
         if ($data['return_code'] != 'SUCCESS') {
             return $retData = [
                 'is_success'    => 'F',
-                'error' => $data['return_msg']
+                'error' => $data['return_msg'],
+                'channel' => Config::WX_TRANSFER,
             ];
         }
 
@@ -82,7 +85,8 @@ class WxTransferQuery extends WxBaseStrategy
         if ($data['result_code'] != 'SUCCESS') {
             return $retData = [
                 'is_success'    => 'F',
-                'error' => $data['err_code_des']
+                'error' => $data['err_code_des'],
+                'channel' => Config::WX_TRANSFER,
             ];
         }
 
@@ -113,6 +117,7 @@ class WxTransferQuery extends WxBaseStrategy
                 'amount'   => $amount,
                 'pay_date'   => $data['transfer_time'],
                 'desc'   => $data['desc'],// 付款描述
+                'channel' => Config::WX_TRANSFER,
             ],
         ];
 
