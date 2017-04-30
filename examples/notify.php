@@ -31,9 +31,9 @@ if (stripos($type, 'ali') !== false) {
 }
 
 try {
-    //$retData = Notify::getNotifyData($type, $config);// 获取第三方的原始数据
+    //$retData = Notify::getNotifyData($type, $config);// 获取第三方的原始数据，未进行签名检查
 
-    $ret = Notify::run($type, $config, $callback);
+    $ret = Notify::run($type, $config, $callback);// 处理回调，内部进行了签名检查
 } catch (PayException $e) {
     echo $e->errorMessage();
     exit;

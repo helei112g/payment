@@ -25,4 +25,4 @@ try {
     exit;
 }
 
-echo json_encode($ret);
+echo json_encode($ret, JSON_UNESCAPED_UNICODE);

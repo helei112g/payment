@@ -48,15 +48,15 @@ class CmbRefund extends CmbBaseStrategy
         $retData = [
             'is_success'    => 'T',
             'response'  => [
-                'transaction_id'   => $ret['transaction_id'],
+                'transaction_id'   => $rsqData['bankSerialNo'],// 银行的退款流水号
                 'order_no'  => $ret['reqData']['orderNo'],
-                'refund_no' => trim($rsqData['refundSerialNo']),
-                'refund_id' => $rsqData['bankSerialNo'],
+                'date' => $ret['reqData']['date'],
+                'refund_no' => trim($rsqData['refundSerialNo']),//退款流水号,商户生成
+                'refund_id' => $rsqData['refundRefNo'],// 银行的退款参考号
                 'currency' => $rsqData['currency'],
                 'refund_fee'    => $rsqData['amount'],
                 'channel'   => Config::CMB_REFUND,
                 'refund_time' => date('Y-m-d H:i:s', strtotime($rsqData['bankDate'] . $rsqData['bankTime'])),
-                'ref_no' => $rsqData['refundRefNo'],
             ],
         ];
 

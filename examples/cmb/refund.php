@@ -1,29 +1,33 @@
 <?php
 /**
+ * 招商退款操作
  * Created by PhpStorm.
  * User: helei
  * Date: 2017/4/30
- * Time: 下午2:29
+ * Time: 下午6:03
  */
 
 require_once __DIR__ . '/../../autoload.php';
 
 use Payment\Common\PayException;
 use Payment\Config;
-use Payment\Client\Query;
+use Payment\Client\Refund;
 
 date_default_timezone_set('Asia/Shanghai');
 $cmbConfig = require_once __DIR__ . '/../cmbconfig.php';
 
+$refundNo = time() . rand(1000, 9999);
 $data = [
     'out_trade_no' => '9354737499',
-    'refund_no' => '',// 商户退款流水号,长度不超过20位
     'date' => '20170430',
-    'refund_id' => '',// 银行退款流水号,长度不超过20位
+    'refund_no' => $refundNo,
+    'refund_fee' => 0.01,
+    'reason' => '测试帐号退款',
+    'operator_id' => '9999',
 ];
 
 try {
-    $ret = Query::run(Config::CMB_REFUND, $cmbConfig, $data);
+    $ret = Refund::run(Config::CMB_REFUND, $cmbConfig, $data);
 } catch (PayException $e) {
     echo $e->errorMessage();
     exit;
