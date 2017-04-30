@@ -32,45 +32,33 @@ class AliRefund extends AliBaseStrategy
         $url = parent::retData($data);
 
         try {
-            $data = $this->sendReq($url);
+            $rsqData = $this->sendReq($url);
         } catch (PayException $e) {
             throw $e;
         }
 
         if ($this->config->returnRaw) {
-            return $data;
+            return $rsqData;
         }
 
-        return $this->createBackData($data);
-    }
-
-    /**
-     * 处理返回的数据
-     * @param array $data
-     * @return array
-     * @author helei
-     */
-    protected function createBackData(array $data)
-    {
-        // 新版本
-        if ($data['code'] !== '10000') {
+        if ($rsqData['code'] !== '10000') {
             return $retData = [
                 'is_success'    => 'F',
-                'error' => $data['sub_msg']
+                'error' => $rsqData['sub_msg']
             ];
         }
 
         $retData = [
             'is_success'    => 'T',
             'response'  => [
-                'transaction_id'   => $data['trade_no'],
-                'order_no'  => $data['out_trade_no'],
-                'logon_id'   => $data['buyer_logon_id'],
-                'buyer_id'   => $data['buyer_user_id'],
+                'transaction_id'   => $rsqData['trade_no'],
+                'order_no'  => $rsqData['out_trade_no'],
+                'logon_id'   => $rsqData['buyer_logon_id'],
+                'buyer_id'   => $rsqData['buyer_user_id'],
 
-                'fund_change' => $data['fund_change'],// 本次退款是否发生了资金变化
-                'refund_fee'    => $data['refund_fee'],// 返回的总金额，这里支付宝会累计
-                'refund_time'=> $data['gmt_refund_pay'],
+                'fund_change' => $rsqData['fund_change'],// 本次退款是否发生了资金变化
+                'refund_fee'    => $rsqData['refund_fee'],// 返回的总金额，这里支付宝会累计
+                'refund_time'=> $rsqData['gmt_refund_pay'],
 
                 'channel'   => Config::ALI_REFUND,
             ],

@@ -39,7 +39,7 @@ $cmbConfig = require_once __DIR__ . '/cmbconfig.php';
 // ali_app  ali_wap  ali_web  ali_qr  ali_bar
 // wx_app    wx_pub   wx_qr   wx_bar  wx_lite   wx_wap
 // cmb_app
-$channel = 'cmb_app';
+$channel = 'ali_qr';
 
 if (stripos($channel, 'ali') !== false) {
     // 支付宝公有

@@ -27,8 +27,6 @@ class AliAppCharge extends AliBaseStrategy
         $this->config->method = AliConfig::APP_PAY_METHOD;
         // 以下两种方式任选一种
         return AppChargeData::class;
-
-        //return 'Payment\Common\Ali\Data\Charge\AppChargeData';
     }
 
     /**
