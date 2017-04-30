@@ -26,7 +26,5 @@ class AliWapCharge extends AliBaseStrategy
         $this->config->method = AliConfig::WAP_PAY_METHOD;
         // 以下两种方式任选一种
         return WapChargeData::class;
-
-        //return 'Payment\Common\Ali\Data\Charge\WapChargeData';
     }
 }

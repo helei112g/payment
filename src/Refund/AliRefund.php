@@ -36,6 +36,8 @@ class AliRefund extends AliBaseStrategy
         } catch (PayException $e) {
             throw $e;
         }
+        $content = json_decode($data['biz_content'], true);
+        $refundNo = $content['out_request_no'];
 
         if ($this->config->returnRaw) {
             return $rsqData;
@@ -55,6 +57,7 @@ class AliRefund extends AliBaseStrategy
                 'order_no'  => $rsqData['out_trade_no'],
                 'logon_id'   => $rsqData['buyer_logon_id'],
                 'buyer_id'   => $rsqData['buyer_user_id'],
+                'refund_no' => $refundNo,
 
                 'fund_change' => $rsqData['fund_change'],// 本次退款是否发生了资金变化
                 'refund_fee'    => $rsqData['refund_fee'],// 返回的总金额，这里支付宝会累计
