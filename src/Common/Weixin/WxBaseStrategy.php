@@ -84,7 +84,8 @@ abstract class WxBaseStrategy implements BaseStrategy
             throw new PayException('微信返回错误提示:' . $retData['return_msg']);
         }
         if ($retData['result_code'] != 'SUCCESS') {
-            throw new PayException('微信返回错误提示:' . $retData['err_code_des']);
+            $msg = $retData['err_code_des'] ? $retData['err_code_des'] : $retData['err_msg'];
+            throw new PayException('微信返回错误提示:' . $msg);
         }
 
         return $retData;
