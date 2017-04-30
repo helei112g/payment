@@ -4,6 +4,7 @@ namespace Payment\Common\Cmb\Data\Charge;
 use Payment\Common\Cmb\Data\CmbBaseData;
 use Payment\Common\CmbConfig;
 use Payment\Common\PayException;
+use Payment\Config;
 
 
 /**
@@ -30,6 +31,7 @@ class ChargeData extends CmbBaseData
         parent::checkDataParam();
         $orderNo = $this->order_no;
         $agrNo = $this->agr_no;
+        $amount = $this->amount;
 
         // 检查订单号是否合法
         if (empty($orderNo) || mb_strlen($orderNo) !== 10 || ! is_numeric($orderNo)) {
@@ -37,6 +39,11 @@ class ChargeData extends CmbBaseData
         }
         if (empty($agrNo) || mb_strlen($agrNo) > 30 || ! is_numeric($agrNo)) {
             throw new PayException('客户协议号。必须为纯数字串，不超过30位');
+        }
+
+        // 检查金额不能低于0.01
+        if (bccomp($amount, Config::PAY_MIN_FEE, 2) === -1) {
+            throw new PayException('支付金额不能低于 ' . Config::PAY_MIN_FEE . ' 元');
         }
 
         // 设置ip地址
