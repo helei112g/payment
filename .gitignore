@@ -2,7 +2,7 @@
 .DS_Store
 /codecept.phar
 /examples/test.php
-/examples/wx/
+/examples/wx/pemfile
 /vendor/
 /examples_bak/
 /composer.lock
