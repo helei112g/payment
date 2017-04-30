@@ -9,6 +9,8 @@
 - [Payment3.x 使用教程](https://helei112g.github.io/categories/payment-3/) (推荐的版本)
 - [Payment2.x 使用教程](https://helei112g.github.io/categories/payment/)
 
+----
+
 当前支持 `微信`、`支付宝`、`招商一网通` 三个渠道： 
 - **微信支付**：刷卡支付、公众号支付、扫码支付、APP支付、H5支付、小程序支付全部支持；
 
