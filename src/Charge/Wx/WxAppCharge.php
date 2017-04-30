@@ -15,7 +15,7 @@ use Payment\Common\Weixin\WxBaseStrategy;
 
 class WxAppCharge extends WxBaseStrategy
 {
-    protected function getBuildDataClass()
+    public function getBuildDataClass()
     {
         $this->config->tradeType = 'APP';
         return AppChargeData::class;

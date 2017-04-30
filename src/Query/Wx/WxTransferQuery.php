@@ -21,7 +21,7 @@ use Payment\Utils\DataParser;
  */
 class WxTransferQuery extends WxBaseStrategy
 {
-    protected function getBuildDataClass()
+    public function getBuildDataClass()
     {
         return TransferQueryData::class;
     }

@@ -23,7 +23,7 @@ use Payment\Common\Weixin\WxBaseStrategy;
  */
 class WxPubCharge extends WxBaseStrategy
 {
-    protected function getBuildDataClass()
+    public function getBuildDataClass()
     {
         $this->config->tradeType = 'JSAPI';
         return PubChargeData::class;

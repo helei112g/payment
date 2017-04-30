@@ -29,7 +29,7 @@ class Charge
         Config::WX_CHANNEL_WAP,// 微信 WAP 支付（此渠道仅针对特定客户开放）
         Config::WX_CHANNEL_LITE,// 微信小程序支付
 
-        'cmb_wallet',// 招行一网通
+        Config::CMB_CHANNEL_APP,// 招行一网通
         'applepay_upacp',// Apple Pay
     ];
 

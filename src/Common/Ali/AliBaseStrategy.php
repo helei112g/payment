@@ -35,7 +35,7 @@ abstract class AliBaseStrategy implements BaseStrategy
     protected $reqData;
 
     /**
-     * AliCharge constructor.
+     * AliBaseStrategy constructor.
      * @param array $config
      * @throws PayException
      */
@@ -50,13 +50,6 @@ abstract class AliBaseStrategy implements BaseStrategy
             throw $e;
         }
     }
-
-    /**
-     * 获取支付对应的数据完成类
-     * @return BaseData
-     * @author helei
-     */
-    abstract protected function getBuildDataClass();
 
     public function handle(array $data)
     {

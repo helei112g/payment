@@ -16,6 +16,7 @@ class TestNotify implements PayNotifyInterface
 {
     public function notifyProcess(array $data)
     {
+        var_dump($data);exit;
         // 执行业务逻辑，成功后返回true
         return true;
     }

@@ -19,7 +19,7 @@ use Payment\Utils\Curl;
  */
 class AliBarCharge extends AliBaseStrategy
 {
-    protected function getBuildDataClass()
+    public function getBuildDataClass()
     {
         $this->config->method = AliConfig::BAR_PAY_METHOD;
         return BarChargeData::class;

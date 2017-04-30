@@ -62,10 +62,22 @@ final class Config
 
 
 
+    //========================= 招商相关接口 =======================//
+    // 支付常量
+    const CMB_CHANNEL_APP = 'cmb_app';// 招商 app  ，实际上招商并无该概念
+
+
+    const CMB_BIND = 'cmb_bind';// 签约API
+
+    const CMB_PUB_KEY = 'cmb_pub_key';// 查询招商公钥
+
+    const CMB_CHARGE = 'cmb_charge';// 招商支付
+
+    const CMB_REFUND = 'cmb_refund';// 招商退款
+
+
     //========================= 金额问题设置 =======================//
     const PAY_MIN_FEE = '0.01';// 支付的最小金额
-
-    const PAY_MAX_FEE = '100000000.00';// 支付的最大金额
 
     const TRANS_FEE = '50000';// 转账达到这个金额，需要添加额外信息
 
@@ -75,4 +87,9 @@ final class Config
 
     const TRADE_STATUS_FAILD  = 'not_pay';// 交易未完成
 
+
+    //======================= 账户类型 ======================//
+    const WECHAT_PAY = 'wechat';
+    const ALI_PAY = 'ali';
+    const CMB_PAY = 'cmb';
 }

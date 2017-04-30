@@ -29,6 +29,9 @@ class Query
         Config::WX_REFUND,
         Config::WX_RED,
         Config::WX_TRANSFER,
+
+        Config::CMB_CHARGE,
+        Config::CMB_REFUND,
     ];
 
     /**
@@ -62,7 +65,7 @@ class Query
     public static function run($queryType, $config, $metadata)
     {
         if (! in_array($queryType, self::$supportType)) {
-            throw new PayException('sdk当前不支持该类型查询，当前仅支持：' . implode(',', self::$supportType));
+            throw new PayException('sdk当前不支持该类型查询，当前仅支持：' . implode(',', self::$supportType) . __LINE__);
         }
 
         try {

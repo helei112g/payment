@@ -23,7 +23,7 @@ use Payment\Common\PayException;
 class AliTransferQuery extends AliBaseStrategy
 {
 
-    protected function getBuildDataClass()
+    public function getBuildDataClass()
     {
         $this->config->method = AliConfig::TRANS_QUERY_METHOD;
         return TransferQueryData::class;

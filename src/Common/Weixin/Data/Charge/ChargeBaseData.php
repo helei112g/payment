@@ -48,12 +48,9 @@ abstract class ChargeBaseData extends WxBaseData
             throw new PayException('订单号不能为空，并且长度不能超过64位');
         }
 
-        // 检查金额不能低于0.01，不能大于 100000000.00
+        // 检查金额不能低于0.01
         if (bccomp($amount, Config::PAY_MIN_FEE, 2) === -1) {
             throw new PayException('支付金额不能低于 ' . Config::PAY_MIN_FEE . ' 元');
-        }
-        if (bccomp($amount, Config::PAY_MAX_FEE, 2) === 1) {
-            throw new PayException('支付金额不能大于 ' . Config::PAY_MAX_FEE . ' 元');
         }
 
         // 检查 商品名称 与 商品描述

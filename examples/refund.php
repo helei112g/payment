@@ -10,21 +10,20 @@ require_once __DIR__ . '/../autoload.php';
 use Payment\Common\PayException;
 use Payment\Client\Refund;
 
+date_default_timezone_set('Asia/Shanghai');
 
 $aliConfig = require_once __DIR__ . '/aliconfig.php';
 $wxConfig = require_once __DIR__ . '/wxconfig.php';
-
-// ali: 123123123q    123123123w
-// wx:  123123123q    123123123w
+$cmbConfig = require_once __DIR__ . '/cmbconfig.php';
 
 $refundNo = time() . rand(1000, 9999);
 // ali退款
-$data = [
-    'out_trade_no' => '14893825198432',
+/*$data = [
+    'out_trade_no' => '14925658629435',
     'refund_fee' => '0.01',
     'reason' => '测试帐号退款',
     'refund_no' => $refundNo,
-];
+];*/
 
 // wx退款
 /*$data = [
@@ -33,14 +32,27 @@ $data = [
     'refund_fee' => 0.01,
     'refund_no' => $refundNo,
 ];*/
+
+// cmb退款
+$data = [
+    'out_trade_no' => '9336161758',
+    'date' => '20170428',
+    'refund_no' => $refundNo,
+    'refund_fee' => 0.01,
+    'reason' => '测试帐号退款',
+    'operator_id' => '9999',
+];
+
 var_dump($refundNo);
 
-$channel = 'ali_refund';//xx_refund
+$channel = 'cmb_refund';//xx_refund
 
 if (stripos($channel, 'ali') !== false) {
     $config = $aliConfig;
-} else {
+} elseif (stripos($channel, 'wx') !== false) {
     $config = $wxConfig;
+} else {
+    $config = $cmbConfig;
 }
 
 try {

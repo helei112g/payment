@@ -15,7 +15,7 @@ use Payment\Config;
 
 class AliRefund extends AliBaseStrategy
 {
-    protected function getBuildDataClass()
+    public function getBuildDataClass()
     {
         $this->config->method = AliConfig::TRADE_REFUND_METHOD;
         return RefundData::class;

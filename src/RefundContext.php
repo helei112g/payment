@@ -12,6 +12,7 @@ namespace Payment;
 use Payment\Common\BaseStrategy;
 use Payment\Common\PayException;
 use Payment\Refund\AliRefund;
+use Payment\Refund\CmbRefund;
 use Payment\Refund\WxRefund;
 
 class RefundContext
@@ -42,8 +43,11 @@ class RefundContext
                 case Config::WX_REFUND:
                     $this->refund = new WxRefund($config);
                     break;
+                case Config::CMB_REFUND:
+                    $this->refund = new CmbRefund($config);
+                    break;
                 default:
-                    throw new PayException('当前仅支持：ALI WEIXIN两个常量');
+                    throw new PayException('当前仅支持：ALI WEIXIN CMB');
             }
         } catch (PayException $e) {
             throw $e;

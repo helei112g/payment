@@ -10,6 +10,7 @@
 namespace Payment;
 
 use Payment\Notify\AliNotify;
+use Payment\Notify\CmbNotify;
 use Payment\Notify\NotifyStrategy;
 use Payment\Notify\PayNotifyInterface;
 use Payment\Notify\WxNotify;
@@ -43,8 +44,11 @@ class NotifyContext
                 case Config::WX_CHARGE:
                     $this->notify = new WxNotify($config);
                     break;
+                case Config::CMB_CHARGE:
+                    $this->notify = new CmbNotify($config);
+                    break;
                 default:
-                    throw new PayException('当前仅支持：ALI_CHARGE WX_CHARGE 两个常量');
+                    throw new PayException('当前仅支持：ALI_CHARGE WX_CHARGE CMB_CHARGE 常量');
             }
         } catch (PayException $e) {
             throw $e;
