@@ -52,7 +52,7 @@ class WebChargeData extends ChargeBaseData
             'service'   => $this->method,
             'partner'   => trim($this->partner),
             '_input_charset'   => trim($this->charset),
-            'sign_type'   => 'RSA',// 这里仅支持rsa
+            'sign_type'   => $this->signType,// 这里仅支持rsa
             'notify_url'    => trim($this->notifyUrl),
             'return_url'    => trim($this->returnUrl),
 
@@ -97,6 +97,9 @@ class WebChargeData extends ChargeBaseData
         // paymethod
         $payMethod = $this->paymethod;
         $qrMod = $this->qr_mod;
+
+        // 需要设置签名方式为Rsa  即时到账只支持该签名方式
+        $this->signType = 'RSA';
 
         if (! empty($payMethod) && ! in_array($payMethod, ['creditPay', 'directPay'])) {
             throw new PayException('paymethod 仅支持： creditPay  directPay两种方式');
