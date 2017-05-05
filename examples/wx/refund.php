@@ -13,6 +13,7 @@ require_once __DIR__ . '/../../autoload.php';
 use Payment\Common\PayException;
 use Payment\Client\Refund;
 use Payment\Config;
+use Payment\Common\WxConfig;
 
 date_default_timezone_set('Asia/Shanghai');
 $wxConfig = require_once __DIR__ . '/../wxconfig.php';
@@ -23,6 +24,7 @@ $data = [
     'total_fee' => '3.01',
     'refund_fee' => '3.01',
     'refund_no' => $refundNo,
+    'refund_account' => WxConfig::REFUND_RECHARGE,// REFUND_RECHARGE:可用余额退款  REFUND_UNSETTLED:未结算资金退款（默认）
 ];
 
 try {
