@@ -7,13 +7,11 @@
 
 namespace Payment\Trans;
 
-use Payment\Common\PayException;
 use Payment\Common\Weixin\Data\TransferData;
 use Payment\Common\Weixin\WxBaseStrategy;
 use Payment\Common\WxConfig;
 use Payment\Config;
 use Payment\Utils\Curl;
-use Payment\Utils\DataParser;
 
 /**
  * 微信企业付款接口
@@ -113,27 +111,12 @@ class WxTransfer extends WxBaseStrategy
     }
 
     /**
-     *  这里需要重写的目的是，微信转账，返回结果不需要签名验证
-     * @param array $data
-     * @author helei
-     * @throws PayException
-     * @return array|string
+     * 企业转账，不需要签名，使用返回true
+     * @param array $retData
+     * @return bool
      */
-    public function handle(array $data)
+    protected function verifySign(array $retData)
     {
-        $buildClass = $this->getBuildDataClass();
-
-        try {
-            $this->reqData = new $buildClass($this->config, $data);
-        } catch (PayException $e) {
-            throw $e;
-        }
-
-        $this->reqData->setSign();
-
-        $xml = DataParser::toXml($this->reqData->getData());
-        $ret = $this->sendReq($xml);
-
-        return $this->retData($ret);
+        return true;
     }
 }
