@@ -8,6 +8,7 @@
 namespace Payment\Common\Weixin\Data;
 
 use Payment\Common\PayException;
+use Payment\Common\WxConfig;
 use Payment\Utils\ArrayUtil;
 
 /**
@@ -20,6 +21,7 @@ use Payment\Utils\ArrayUtil;
  * @property int $total_fee 订单总金额，单位为分，只能为整数
  * @property int $refund_fee 退款总金额，订单总金额，单位为分，只能为整数
  * @property string $operator_id 操作员帐号, 默认为商户号
+ * @property string $refund_account  退款账户  UNSETTLED:未结算资金退款  RECHARGE：可用余额退款
  *
  * @package Payment\Common\Weixin\Data
  * anthor helei
@@ -40,6 +42,7 @@ class RefundData extends WxBaseData
             'total_fee' => $this->total_fee,// 订单总金额
             'refund_fee' => $this->refund_fee,// 退款总金额
             'op_user_id'    => $this->operator_id,//操作员帐号, 默认为商户号
+            'refund_account' => $this->refund_account,// 退款账户类型
         ];
 
         $this->retData = ArrayUtil::paraFilter($this->retData);
@@ -57,6 +60,7 @@ class RefundData extends WxBaseData
         $totalFee = $this->total_fee;
         $refundFee = $this->refund_fee;
         $operatorId = $this->operator_id;
+        $refundAccount = $this->refund_account;// 退款账户
 
         if (empty($refundNo)) {
             throw new PayException('请设置退款单号 refund_no');
@@ -72,6 +76,10 @@ class RefundData extends WxBaseData
 
         if (bccomp($refundFee, $totalFee, 2) === 1) {
             throw new PayException('退款金额不能大于订单总金额');
+        }
+
+        if (! in_array($refundAccount, [WxConfig::REFUND_RECHARGE, WxConfig::REFUND_UNSETTLED])) {
+            $this->refund_account = WxConfig::REFUND_UNSETTLED;
         }
 
         // 该接口，微信配置文件，必须提供cert  key  两个pem文件

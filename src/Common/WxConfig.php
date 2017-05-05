@@ -78,6 +78,10 @@ final class WxConfig extends ConfigInterface
     // 短连接转化url  尚未接入
     const SHORT_URL = 'https://api.mch.weixin.qq.com/{debug}/tools/shorturl';
 
+    // 退款账户
+    const REFUND_UNSETTLED = 'REFUND_SOURCE_UNSETTLED_FUNDS';// 未结算资金退款（默认使用未结算资金退款）
+    const REFUND_RECHARGE = 'REFUND_SOURCE_RECHARGE_FUNDS';// 可用余额退款(限非当日交易订单的退款）
+
     // 沙箱测试相关
     const SANDBOX_PRE = 'sandboxnew';
     const SANDBOX_URL = 'https://api.mch.weixin.qq.com/sandboxnew/pay/getsignkey';
