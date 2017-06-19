@@ -28,6 +28,10 @@ $payData = [
     'client_ip' => isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '127.0.0.1',// 客户地址
     'goods_type' => '1',
     'store_id' => '',
+
+    // 说明地址：https://doc.open.alipay.com/doc2/detail.htm?treeId=270&articleId=105901&docType=1
+    // 建议什么也不填
+    'qr_mod' => '',
 ];
 
 try {

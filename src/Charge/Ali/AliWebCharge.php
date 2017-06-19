@@ -33,10 +33,10 @@ class AliWebCharge extends AliBaseStrategy
      * @param array $data
      * @return string
      */
-    protected function retData(array $data)
+    /*protected function retData(array $data)
     {
         $oldGateWayUrl = 'https://mapi.alipay.com/gateway.do?';
 
         return $oldGateWayUrl . http_build_query($data);
-    }
+    }*/
 }

@@ -43,7 +43,7 @@ class QrChargeData extends ChargeBaseData
         $timeExpire = $this->timeout_express;
         if (! empty($timeExpire)) {
             $express = floor(($timeExpire - strtotime($this->timestamp)) / 60);
-            $express && $content['it_b_pay'] = $express . 'm';// 超时时间 统一使用分钟计算
+            $express && $content['timeout_express'] = $express . 'm';// 超时时间 统一使用分钟计算
         }
 
         return json_encode($content, JSON_UNESCAPED_UNICODE);

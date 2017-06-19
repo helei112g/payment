@@ -54,8 +54,8 @@ final class AliConfig extends ConfigInterface
     // app 支付
     const APP_PAY_METHOD = 'alipay.trade.app.pay';
 
-    // 即时到账 web支付
-    const PC_PAY_METHOD = 'create_direct_pay_by_user';
+    // 即时到账 web支付 新版接口
+    const PC_PAY_METHOD = 'alipay.trade.page.pay';
 
     // 扫码支付   用户扫商户的二维码
     const QR_PAY_METHOD = 'alipay.trade.precreate';
