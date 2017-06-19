@@ -29,6 +29,10 @@ $payData = [
     'client_ip' => isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '127.0.0.1',// 客户地址
     'openid' => 'o-e_mwTXTaxEhBM8xDoj1ui1f950',
     'product_id' => '123',
+
+    // 如果是服务商，请提供以下参数
+    'sub_appid' => '',//微信分配的子商户公众账号ID
+    'sub_mch_id' => '',// 微信支付分配的子商户号
 ];
 
 try {

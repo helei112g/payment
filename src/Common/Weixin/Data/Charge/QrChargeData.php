@@ -17,6 +17,8 @@ use Payment\Utils\ArrayUtil;
  * @inheritdoc
  * @property string $product_id  扫码支付时,必须设置该参数
  * @property string $openid  trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识
+ * @property string $sub_appid 微信分配的子商户公众账号ID
+ * @property string $sub_mch_id 	微信支付分配的子商户号
  *
  * @package Payment\Common\Weixin\Data\Charge
  */
@@ -51,6 +53,10 @@ class QrChargeData extends ChargeBaseData
             'time_expire'   => $this->timeout_express,
             'openid' => $this->openid,
             'product_id'    => $this->product_id,
+
+            // 服务商
+            'sub_appid' => $this->sub_appid,
+            'sub_mch_id' => $this->sub_mch_id,
         ];
 
         // 移除数组中的空值

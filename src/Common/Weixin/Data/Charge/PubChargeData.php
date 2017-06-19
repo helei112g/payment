@@ -16,6 +16,9 @@ use Payment\Utils\ArrayUtil;
  * 微信公众号支付
  *
  * @property string $openid  trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识
+ * @property string $sub_appid 微信分配的子商户公众账号ID
+ * @property string $sub_mch_id 	微信支付分配的子商户号
+ * @property string $sub_openid 用户在子商户appid下的唯一标识
  *
  * @package Payment\Common\Weixin\Data\Charge
  * anthor helei
@@ -30,6 +33,12 @@ class PubChargeData extends ChargeBaseData
         $openid = $this->openid;
         if (empty($openid)) {
             throw new PayException('用户在商户appid下的唯一标识,公众号支付,必须设置该参数.');
+        }
+
+        $subMchId = $this->sub_mch_id;// 如果是服务商模式，则 sub_openid 必须提供
+        $subOpenid = $this->sub_openid;
+        if ($subMchId && empty($subOpenid)) {
+            throw new PayException('公众号的服务商模式，必须提供 sub_openid 参数.');
         }
     }
 
