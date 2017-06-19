@@ -27,16 +27,4 @@ class AliWebCharge extends AliBaseStrategy
         return WebChargeData::class;
         //return 'Payment\Common\Ali\Data\Charge\WebChargeData';
     }
-
-    /**
-     * 即时到账，支付宝目前尚未迁移到新网关
-     * @param array $data
-     * @return string
-     */
-    /*protected function retData(array $data)
-    {
-        $oldGateWayUrl = 'https://mapi.alipay.com/gateway.do?';
-
-        return $oldGateWayUrl . http_build_query($data);
-    }*/
 }
