@@ -27,13 +27,20 @@ $payData = [
     'amount'    => '3.01',// 微信沙箱模式，需要金额固定为3.01
     'return_param' => '123',
     'client_ip' => isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '127.0.0.1',// 客户地址
+
+    //{"h5_info": {"type":"Wap","wap_url": "https://pay.qq.com","wap_name": "腾讯充值"}}
+    'scene_info' => [
+        'type' => 'Wap',// IOS  Android  Wap  腾讯建议 IOS  ANDROID 采用app支付
+        'wap_url' => 'helei112g.github.io',//自己的 wap 地址
+        'wap_name' => '测试充值',
+    ],
 ];
 
 try {
-    $ret = Charge::run(Config::WX_CHANNEL_APP, $wxConfig, $payData);
+    $url = Charge::run(Config::WX_CHANNEL_WAP, $wxConfig, $payData);
 } catch (PayException $e) {
     echo $e->errorMessage();
     exit;
 }
 
-echo json_encode($ret, JSON_UNESCAPED_UNICODE);
+echo $url;

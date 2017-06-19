@@ -39,4 +39,4 @@ try {
     exit;
 }
 
-echo $ret;
+echo json_encode($ret, JSON_UNESCAPED_UNICODE);
