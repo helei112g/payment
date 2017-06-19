@@ -10,14 +10,14 @@
 return [
     'use_sandbox'       => true,// 是否使用 招商测试系统
 
-    'branch_no'         => '0021',  // 商户分行号，4位数字
-    'merchant_no'       => '000250',// 商户号，6位数字
-    'mer_key'           => 'WWWyimishijicom1',// 秘钥16位，包含大小写字母 数字
+    'branch_no'         => 'xxx',  // 商户分行号，4位数字
+    'merchant_no'       => 'xxxx',// 商户号，6位数字
+    'mer_key'           => 'xxxxxx',// 秘钥16位，包含大小写字母 数字
 
     // 招商的公钥，建议每天凌晨2:15发起查询招行公钥请求更新公钥。
-    'cmb_pub_key'       => 'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDZs4l8Ez3F4MG0kF7RRSL+pn8MmxVE3nfdXzjx6d3rH8IfDbNvNRLS0X0b5iJnPyFO8sbbUo1Im4zX0M8XA0xnnviGyn5E6occiyUXJRgokphWb5BwaYdVhnLldctdimHoJTk3NFEQFav3guygR54i3tymrDc8lWtuG8EczVu8FwIDAQAB',
+    'cmb_pub_key'       => 'xxxxx',
 
-    'op_pwd'            => '000250',// 操作员登录密码。
+    'op_pwd'            => 'xxxxx',// 操作员登录密码。
     'sign_type'         => 'SHA-256',// 签名算法,固定为“SHA-256”
     'limit_pay'         => [
         //'A',
