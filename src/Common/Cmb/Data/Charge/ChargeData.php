@@ -29,17 +29,7 @@ class ChargeData extends CmbBaseData
     protected function checkDataParam()
     {
         parent::checkDataParam();
-        $orderNo = $this->order_no;
-        $agrNo = $this->agr_no;
         $amount = $this->amount;
-
-        // 检查订单号是否合法
-        if (empty($orderNo) || mb_strlen($orderNo) !== 10 || ! is_numeric($orderNo)) {
-            throw new PayException('订单号不能为空，并且长度必须为 10位 数字');
-        }
-        if (empty($agrNo) || mb_strlen($agrNo) > 30 || ! is_numeric($agrNo)) {
-            throw new PayException('客户协议号。必须为纯数字串，不超过30位');
-        }
 
         // 检查金额不能低于0.01
         if (bccomp($amount, Config::PAY_MIN_FEE, 2) === -1) {
