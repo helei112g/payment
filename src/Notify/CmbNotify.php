@@ -46,7 +46,7 @@ class CmbNotify extends NotifyStrategy
             return false;
         }
 
-        $retData = json_decode($data[CmbConfig::REQ_FILED_NAME], true);
+        $retData = json_decode(urldecode($data[CmbConfig::REQ_FILED_NAME]), true);		//对请求的回调参数做urldecode
         return $retData;
     }
 
