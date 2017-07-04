@@ -95,7 +95,7 @@ class WxChargeQuery extends WxBaseStrategy
                 'terminal_id' => $data['device_info'],
                 'trade_type' => $data['trade_type'],
                 'bank_type' => $data['bank_type'],
-                'trade_state_desc' => $data['trade_state_desc'],
+                'trade_state_desc' => isset($data['trade_state_desc']) ? $data['trade_state_desc'] : '交易成功',
             ],
         ];
 
