@@ -109,7 +109,7 @@ Payment 针对不同支付平台，提供了统一的调用方式，开发者无
 
 感谢朋友们的支持：[支持名单](SUPPORT.md)
 
-#Contribution／贡献#
+# Contribution／贡献 #
 贡献指南：[Contribution Guide](CONTRIBUTING.md)
 
 # License #
