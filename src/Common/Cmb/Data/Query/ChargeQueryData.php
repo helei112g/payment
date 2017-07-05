@@ -34,7 +34,7 @@ class ChargeQueryData extends CmbBaseData
 
         if ($bankSerialNo && mb_strlen($bankSerialNo) === 20) {
             $this->type = 'A';
-        } elseif ( $orderNo && mb_strlen($bankSerialNo) <= 32 ) {
+        } elseif ($orderNo && mb_strlen($bankSerialNo) <= 32) {
             $this->type = 'B';
         } else {
             throw new PayException('必须设置商户订单信息或者招商流水号');
