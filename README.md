@@ -109,6 +109,9 @@ Payment 针对不同支付平台，提供了统一的调用方式，开发者无
 
 感谢朋友们的支持：[支持名单](SUPPORT.md)
 
+建了个微信群，二维码有过期时间，就不放出来了，如果想入群的可加我微信号: `helei543345`
+![image](http://ol59nqr1i.bkt.clouddn.com/pay-qr.jpg)
+
 # Contribution #
 [Contribution Guide](CONTRIBUTING.md)
 
