@@ -30,10 +30,10 @@ Payment是一个集成了 **支付宝支付**、**微信支付**、**招商支�
 
 ```
 try {
-$str = Charge::run(支付类型, 配置文件, 支付数据);
+    $str = Charge::run(支付类型, 配置文件, 支付数据);
 } catch (PayException $e) {
-echo $e->errorMessage();
-exit;
+    echo $e->errorMessage();
+    exit;
 }
 ```
 
@@ -84,6 +84,7 @@ Payment支持所有的PHP项目，只要求PHP版本大于等于5.6即可。同�
 * 查询协议（待开发）
 * 取消协议（待开发）
 
+## 安装
 * **安装方式一**
 
 通过composer，这是推荐的方式，可以使用composer.json 声明依赖，或者直接运行下面的命令。
