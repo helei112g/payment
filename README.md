@@ -5,10 +5,10 @@
 -----
 
 最新文档使用 GitBook 编写，内容完整清晰
-- [Payment文档](https://helei112g1.gitbooks.io/payment-sdk/content/)
+- [Payment使用文档](https://helei112g1.gitbooks.io/payment-sdk/content/)(未完结)
 
 历史文档
-- [Payment3.x 使用教程](https://helei112g.github.io/categories/payment-3/) (推荐的版本)
+- [Payment3.x 使用教程](https://helei112g.github.io/categories/payment-3/)
 - [Payment2.x 使用教程](https://helei112g.github.io/categories/payment/)
 
 ----
