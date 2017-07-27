@@ -43,7 +43,7 @@ Payment支持所有的PHP项目，只要求PHP版本大于等于5.6即可。同�
 
 # 当前支持的接口
 
-当前sdk仅接入了支付宝支付、微信支付、招商支付（支付、退款）。中国现在电子支付的公司巨多，无法一一接入，欢迎各位发扬自己动手、丰衣足食的光荣传统，提交** PR **给我，代码贡献指南 [看这里](dai-ma-gong-xian.md)
+当前sdk仅接入了支付宝支付、微信支付、招商支付（支付、退款）。中国现在电子支付的公司巨多，无法一一接入，欢迎各位发扬自己动手、丰衣足食的光荣传统，提交**PR**给我，代码贡献指南 [看这里](dai-ma-gong-xian.md)
 
 ## 支付宝接口
 
@@ -90,14 +90,14 @@ Payment支持所有的PHP项目，只要求PHP版本大于等于5.6即可。同�
 通过composer，这是推荐的方式，可以使用composer.json 声明依赖，或者直接运行下面的命令。
 
 ```php
-    composer require "riverslei/payment:~3.1"
+    composer require "riverslei/payment:~4.0"
 ```
 
 放入composer.json文件中
 
 ```php
     "require": {
-        "riverslei/payment": "~3.1"
+        "riverslei/payment": "~4.0"
     }
 ```
 
