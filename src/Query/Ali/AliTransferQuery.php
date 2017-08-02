@@ -72,8 +72,8 @@ class AliTransferQuery extends AliBaseStrategy
                 'trans_no'   => $data['out_biz_no'],// 商户转账订单号
                 'pay_date' => $data['pay_date'],// 转账日期
                 'status'   => strtolower($data['status']),
-                'fail_reason' => $data['fail_reason'],// 查询到的订单状态为FAIL失败或REFUND退票时，返回具体的原因。
-                'arrival_time_end' => $data['arrival_time_end'],// 预计到账时间，转账到银行卡专用，格式为yyyy-MM-dd HH:mm:ss
+                'fail_reason' => isset($data['fail_reason']) ? $data['fail_reason'] : '',// 查询到的订单状态为FAIL失败或REFUND退票时，返回具体的原因。
+                'arrival_time_end' => isset($data['arrival_time_end']) ? $data['arrival_time_end'] : '',// 预计到账时间，转账到银行卡专用，格式为yyyy-MM-dd HH:mm:ss
                 'channel'   => Config::ALI_TRANSFER,
             ]
         ];
