@@ -101,51 +101,30 @@ class AliNotify extends NotifyStrategy
             return $data;
         }
 
-        if (! isset($data['version'])) {// 即时到账
-            $retData = [
-                'order_no'   => $data['out_trade_no'],
-                'subject'   => $data['subject'],
-                'transaction_id'   => $data['trade_no'],
-                'trade_state'   => $this->getTradeStatus($data['trade_status']),
-                'trade_create_time' => $data['gmt_create'],// 交易创建时间
-                'pay_time'   => $data['gmt_payment'],// 交易付款时间
-                'seller_id' => $data['seller_id'],
-                'seller_email' => $data['seller_email'],
-                'buyer_id'   => $data['buyer_id'],
-                'amount'   => $data['total_fee'],
-                'channel'   => Config::ALI_CHARGE,
-                'body'   => $data['body'],
-                'discount' => $data['discount'],
-                'return_param' => $data['extra_common_param'],
-                'notify_time'   => $data['notify_time'],
-                'notify_type' => $data['notify_type'],
-            ];
-        } else {
-            $retData = [
-                'amount'   => $data['total_amount'],
-                'buyer_id'   => $data['buyer_id'],
-                'transaction_id'   => $data['trade_no'],
-                'body'   => $data['body'],
-                'notify_time'   => $data['notify_time'],
-                'subject'   => $data['subject'],
-                'buyer_account' => $data['buyer_logon_id'],
-                'auth_app_id' => $data['auth_app_id'],
-                'notify_type' => $data['notify_type'],
-                'invoice_amount' => $data['invoice_amount'],
-                'order_no'   => $data['out_trade_no'],
-                'trade_state'   => $this->getTradeStatus($data['trade_status']),
-                'pay_time'   => $data['gmt_payment'],// 交易付款时间
-                'point_amount' => $data['point_amount'],// 使用集分宝支付的金额
-                'trade_create_time' => $data['gmt_create'],// 交易创建时间
-                'pay_amount' => $data['buyer_pay_amount'],// 用户在交易中支付的金额
-                'receipt_amount' => $data['receipt_amount'],// 商家在交易中实际收到的款项，单位为元
-                'fund_bill_list' => $data['fund_bill_list'],// 支付成功的各个渠道金额信息
-                'app_id' => $data['app_id'],
-                'seller_id' => $data['seller_id'],
-                'seller_email' => $data['seller_email'],
-                'channel'   => Config::ALI_CHARGE,
-            ];
-        }
+        $retData = [
+            'amount'   => $data['total_amount'],
+            'buyer_id'   => $data['buyer_id'],
+            'transaction_id'   => $data['trade_no'],
+            'body'   => $data['body'],
+            'notify_time'   => $data['notify_time'],
+            'subject'   => $data['subject'],
+            'buyer_account' => isset($data['buyer_logon_id']) ? $data['buyer_logon_id'] : '',
+            'auth_app_id' => $data['auth_app_id'],
+            'notify_type' => $data['notify_type'],
+            'invoice_amount' => $data['invoice_amount'],
+            'order_no'   => $data['out_trade_no'],
+            'trade_state'   => $this->getTradeStatus($data['trade_status']),
+            'pay_time'   => $data['gmt_payment'],// 交易付款时间
+            'point_amount' => $data['point_amount'],// 使用集分宝支付的金额
+            'trade_create_time' => $data['gmt_create'],// 交易创建时间
+            'pay_amount' => $data['buyer_pay_amount'],// 用户在交易中支付的金额
+            'receipt_amount' => $data['receipt_amount'],// 商家在交易中实际收到的款项，单位为元
+            'fund_bill_list' => $data['fund_bill_list'],// 支付成功的各个渠道金额信息
+            'app_id' => $data['app_id'],
+            'seller_id' => $data['seller_id'],
+            'seller_email' => $data['seller_email'],
+            'channel'   => Config::ALI_CHARGE,
+        ];
 
         // 检查是否存在用户自定义参数
         if (isset($data['passback_params']) && ! empty($data['passback_params'])) {
