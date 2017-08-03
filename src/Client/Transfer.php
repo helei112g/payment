@@ -26,7 +26,7 @@ class Transfer
     ];
 
     /**
-     * 异步通知类
+     * 转账实例
      * @var TransferContext
      */
     protected static $instance;

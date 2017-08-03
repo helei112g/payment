@@ -30,7 +30,7 @@ class Refund
     ];
 
     /**
-     * 异步通知类
+     * 退款实例
      * @var RefundContext
      */
     protected static $instance;

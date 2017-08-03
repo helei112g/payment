@@ -34,7 +34,7 @@ class Charge
     ];
 
     /**
-     * 异步通知类
+     * 支付实例
      * @var ChargeContext
      */
     protected static $instance;

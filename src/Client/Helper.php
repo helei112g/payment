@@ -25,7 +25,7 @@ class Helper
     ];
 
     /**
-     * 异步通知类
+     * 辅助类实例
      * @var HelperContext
      */
     protected static $instance;

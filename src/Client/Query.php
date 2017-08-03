@@ -35,7 +35,7 @@ class Query
     ];
 
     /**
-     * 异步通知类
+     * 查询实例
      * @var QueryContext
      */
     protected static $instance;
