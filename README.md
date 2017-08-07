@@ -90,14 +90,14 @@ Payment支持所有的PHP项目，只要求PHP版本大于等于5.6即可。同�
 通过composer，这是推荐的方式，可以使用composer.json 声明依赖，或者直接运行下面的命令。
 
 ```php
-    composer require "riverslei/payment:~4.0"
+    composer require "riverslei/payment:~4.0.0"
 ```
 
 放入composer.json文件中
 
 ```php
     "require": {
-        "riverslei/payment": "~4.0"
+        "riverslei/payment": "~4.0.0"
     }
 ```
 
