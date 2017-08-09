@@ -122,7 +122,7 @@ class AliNotify extends NotifyStrategy
             'fund_bill_list' => $data['fund_bill_list'],// 支付成功的各个渠道金额信息
             'app_id' => $data['app_id'],
             'seller_id' => $data['seller_id'],
-            'seller_email' => $data['seller_email'],
+            'seller_email' => isset($data['seller_email']) ? $data['seller_email'] : '',
             'channel'   => Config::ALI_CHARGE,
         ];
 
