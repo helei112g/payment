@@ -13,8 +13,7 @@ namespace Payment\Common\Ali\Data\Charge;
  * Class QrChargeData
  *
  * @property string $operator_id  商户操作员编号
- * @property string $terminal_id 商户机具终端编号
- * @property string $alipay_store_id 支付宝店铺的门店ID
+ * @property string $terminal_id 商户机具终端编号=
  *
  * @package Payment\Common\Ali\Data\Charge
  */
@@ -37,13 +36,12 @@ class QrChargeData extends ChargeBaseData
             'store_id' => $this->store_id,
             'operator_id' => $this->operator_id,
             'terminal_id' => $this->terminal_id,
-            'alipay_store_id' => $this->alipay_store_id,
         ];
 
         $timeExpire = $this->timeout_express;
         if (! empty($timeExpire)) {
             $express = floor(($timeExpire - strtotime($this->timestamp)) / 60);
-            $express && $content['timeout_express'] = $express . 'm';// 超时时间 统一使用分钟计算
+            ($express > 0) && $content['timeout_express'] = $express . 'm';// 超时时间 统一使用分钟计算
         }
 
         return json_encode($content, JSON_UNESCAPED_UNICODE);

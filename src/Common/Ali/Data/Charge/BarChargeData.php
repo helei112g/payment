@@ -16,7 +16,6 @@ use Payment\Common\PayException;
  *
  * @property string $operator_id  商户操作员编号
  * @property string $terminal_id 商户机具终端编号
- * @property string $alipay_store_id 支付宝店铺的门店ID
  * @property string $scene  条码支付，取值：bar_code 声波支付，取值：wave_code
  * @property string $auth_code 支付授权码 二维码的数值
  *
@@ -41,7 +40,6 @@ class BarChargeData extends ChargeBaseData
             'store_id' => $this->store_id,
             'operator_id' => $this->operator_id,
             'terminal_id' => $this->terminal_id,
-            'alipay_store_id' => $this->alipay_store_id,
             'scene' => $this->scene,
             'auth_code' => $this->auth_code,
         ];
@@ -49,7 +47,7 @@ class BarChargeData extends ChargeBaseData
         $timeExpire = $this->timeout_express;
         if (! empty($timeExpire)) {
             $express = floor(($timeExpire - strtotime($this->timestamp)) / 60);
-            $express && $content['timeout_express'] = $express . 'm';// 超时时间 统一使用分钟计算
+            ($express > 0) && $content['timeout_express'] = $express . 'm';// 超时时间 统一使用分钟计算
         }
 
         return json_encode($content, JSON_UNESCAPED_UNICODE);

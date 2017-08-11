@@ -37,7 +37,7 @@ class AppChargeData extends ChargeBaseData
         $timeExpire = $this->timeout_express;
         if (! empty($timeExpire)) {
             $express = floor(($timeExpire - strtotime($this->timestamp)) / 60);
-            $express && $content['timeout_express'] = $express . 'm';// 超时时间 统一使用分钟计算
+            ($express > 0) && $content['timeout_express'] = $express . 'm';// 超时时间 统一使用分钟计算
         }
 
         $content = ArrayUtil::paraFilter($content);// 过滤掉空值，下面不用在检查是否为空

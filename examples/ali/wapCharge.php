@@ -24,7 +24,7 @@ $payData = [
     'timeout_express' => time() + 600,// 表示必须 600s 内付款
     'amount'    => '0.01',// 单位为元 ,最小为0.01
     'return_param' => 'tata',// 一定不要传入汉字，只能是 字母 数字组合
-    'client_ip' => isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '127.0.0.1',// 客户地址
+    // 'client_ip' => isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '127.0.0.1',// 客户地址
     'goods_type' => '1',
     'store_id' => '',
 ];
