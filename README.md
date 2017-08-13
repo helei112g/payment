@@ -26,7 +26,7 @@ Payment 需要 PHP &gt;= 5.6以上的版本，并且同时需要PHP安装以下�
 </p>
 <p align="center">
     <img src="http://ol59nqr1i.bkt.clouddn.com/neituisologan.jpeg" width=350>
-    <img src="http://ol59nqr1i.bkt.clouddn.com/neituiqr.jpeg" width="130" >
+    <img src="http://ol59nqr1i.bkt.clouddn.com/neituiqr.jpeg" width="200" >
 </p>
 
 # Payment是什么？
