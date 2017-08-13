@@ -20,13 +20,13 @@ Payment 需要 PHP &gt;= 5.6以上的版本，并且同时需要PHP安装以下�
 
 - BC Math
 ```
-
 <p align="center">
     <b>成都本地内推微信公众号，有需要的拿走:</b>
     <br><br>
+</p>
+<p align="center">
     <img src="http://ol59nqr1i.bkt.clouddn.com/neituisologan.jpeg" width=350>
-    <br><br>
-    <img width="200" src="http://ol59nqr1i.bkt.clouddn.com/neituiqr.jpeg">
+    <img src="http://ol59nqr1i.bkt.clouddn.com/neituiqr.jpeg" width="130" >
 </p>
 
 # Payment是什么？
