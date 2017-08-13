@@ -21,6 +21,18 @@ Payment 需要 PHP &gt;= 5.6以上的版本，并且同时需要PHP安装以下�
 - BC Math
 ```
 
+<p align="center">
+    <b>Special thanks to the generous sponsorship by:</b>
+    <br><br>
+    <a href="https://www.yousails.com">
+      <img src="https://yousails.com/banners/brand.png" width=350>
+    </a>
+    <br><br>
+    <a href="https://laravist.com">
+      <img width="160" src="https://o0dpls1ru.qnssl.com/laravist.com-logo.png">
+    </a>
+</p>
+
 # Payment是什么？
 
 Payment是一个集成了 **支付宝支付**、**微信支付**、**招商支付**的PHP SDK。服务端开发者将它集成到自己的项目中，可以方便的通过相同的操作方式进行各项支付操作。不在需要开发者去单独了解支付宝、微信、招商的接口文档。以发起支付举例，开发者只需要通过：
