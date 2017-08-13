@@ -22,15 +22,11 @@ Payment 需要 PHP &gt;= 5.6以上的版本，并且同时需要PHP安装以下�
 ```
 
 <p align="center">
-    <b>Special thanks to the generous sponsorship by:</b>
+    <b>成都本地内推微信公众号，有需要的拿走:</b>
     <br><br>
-    <a href="https://www.yousails.com">
-      <img src="https://yousails.com/banners/brand.png" width=350>
-    </a>
+    <img src="http://ol59nqr1i.bkt.clouddn.com/neituisologan.jpeg" width=350>
     <br><br>
-    <a href="https://laravist.com">
-      <img width="160" src="https://o0dpls1ru.qnssl.com/laravist.com-logo.png">
-    </a>
+    <img width="200" src="http://ol59nqr1i.bkt.clouddn.com/neituiqr.jpeg">
 </p>
 
 # Payment是什么？
