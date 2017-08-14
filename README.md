@@ -129,23 +129,20 @@ composer update
 
 # 联系&打赏 #
 
-如果真心觉得项目帮助到你，为你节省了成本，欢迎鼓励一下。
-
-如果有什么问题，可通过以下方式联系我。提供有偿技术服务。
-
-也希望更多朋友可用提供代码支持。欢迎交流与大赏。
-
-**邮箱**：dayugog@gmail.com
-
-
-**个人公众号：** `icanfo`
-
-![image](http://ol59nqr1i.bkt.clouddn.com/mp-qr.jpg)
-
 感谢朋友们的支持：[支持名单](SUPPORT.md)
 
-建了个微信群，二维码有过期时间，就不放出来了，如果想入群的可加我微信号: `helei543345`
-![image](http://ol59nqr1i.bkt.clouddn.com/pay-qr.jpg?imageView2/2/w/500/h/400)
+<p align="center">
+    <img src="http://ol59nqr1i.bkt.clouddn.com/mp-qr.jpg">
+    <p align="center">个人公众号：icanfo</p>
+    <p align="center">联系邮箱：dayugog@gmail.com</p>
+</p>
+
+----
+
+<p align="center">
+    <img src="http://ol59nqr1i.bkt.clouddn.com/pay-qr.jpg?imageView2/2/w/500/h/400">
+    <p align="center">打赏扫这里</p>
+</p>
 
 # Contribution #
 [Contribution Guide](CONTRIBUTING.md)
