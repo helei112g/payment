@@ -19,7 +19,8 @@
         "guzzlehttp/guzzle": "~6.0"
     },
     "require-dev": {
-        "endroid/qrcode": "~1.9"
+        "endroid/qrcode": "~1.9",
+        "codeception/codeception": "*"
     },
     "autoload": {
         "psr-4": {"Payment\\": "src/"}
