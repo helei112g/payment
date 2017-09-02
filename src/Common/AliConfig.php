@@ -46,9 +46,6 @@ final class AliConfig extends ConfigInterface
     // 扫码支付   用户扫商户的二维码
     const QR_PAY_METHOD = 'alipay.trade.precreate';
 
-    // 条码支付   商户扫用户的二维码
-    const BAR_PAY_METHOD = 'alipay.trade.pay';
-
     // 统一收单线下交易查询
     const TRADE_QUERY_METHOD = 'alipay.trade.query';
 
@@ -74,9 +71,9 @@ final class AliConfig extends ConfigInterface
         $config = ArrayUtil::paraFilter($config);// 过滤掉空值，下面不用在检查是否为空
 
         // 初始 支付宝网关地址
-        $this->getewayUrl = 'https://openapi.alipay.com/gateway.do?';
+        $this->getewayUrl = 'https://openapi.alipay.com/gateway.do';
         if (isset($config['use_sandbox']) && $config['use_sandbox'] === true) {
-            $this->getewayUrl = 'https://openapi.alipaydev.com/gateway.do?';
+            $this->getewayUrl = 'https://openapi.alipaydev.com/gateway.do';
         } else {
             $this->useSandbox = false;// 不是沙箱模式
         }

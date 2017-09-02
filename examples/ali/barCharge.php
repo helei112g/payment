@@ -32,7 +32,7 @@ $payData = [
     'operator_id' => '',
     'terminal_id' => '',// 终端设备号(门店号或收银设备ID) 默认值 web
     'scene' => 'bar_code',// 条码支付：bar_code 声波支付：wave_code
-    'auth_code' => '1231212232323123123',
+    'auth_code' => '12312313123',
 ];
 
 try {

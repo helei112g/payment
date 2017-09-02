@@ -31,17 +31,26 @@ class BarChargeData extends ChargeBaseData
     protected function getBizContent()
     {
         $content = [
-            'body'          => strval($this->body),
-            'subject'       => strval($this->subject),
             'out_trade_no'  => strval($this->order_no),
-            'total_amount'  => strval($this->amount),
-            'seller_id' => $this->partner,
-
-            'store_id' => $this->store_id,
-            'operator_id' => $this->operator_id,
-            'terminal_id' => $this->terminal_id,
             'scene' => $this->scene,
             'auth_code' => $this->auth_code,
+            'product_code' => 'FACE_TO_FACE_PAYMENT',
+
+            'subject'       => strval($this->subject),
+            // TODO 支付宝用户ID
+            // 'seller_id' => $this->partner,
+
+            'body'          => strval($this->body),
+            'total_amount'  => strval($this->amount),
+            // TODO 折扣金额
+            // 'discountable_amount' => '',
+            // TODO  业务扩展参数 订单商品列表信息，待支持
+            // 'extend_params => '',
+            // 'goods_detail' => '',
+
+            'operator_id' => $this->operator_id,
+            'store_id' => $this->store_id,
+            'terminal_id' => $this->terminal_id,
         ];
 
         $timeExpire = $this->timeout_express;

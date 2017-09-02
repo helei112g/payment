@@ -41,6 +41,6 @@ class AliWebCharge extends AliBaseStrategy
     {
         $data = parent::retData($data);
 
-        return $this->config->getewayUrl . http_build_query($data);
+        return $this->config->getewayUrl . '?' . http_build_query($data);
     }
 }
