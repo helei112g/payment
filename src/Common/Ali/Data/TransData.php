@@ -3,7 +3,6 @@ namespace Payment\Common\Ali\Data;
 
 use Payment\Common\PayException;
 use Payment\Config;
-use Payment\Utils\ArrayUtil;
 
 /**
  * 转账到支付宝帐号
@@ -58,45 +57,24 @@ class TransData extends AliBaseData
         }
     }
 
-    protected function buildData()
-    {
-        $signData = [
-            // 公共参数
-            'app_id'        => $this->appId,
-            'method'        => $this->method,
-            'format'        => $this->format,
-            'charset'       => $this->charset,
-            'sign_type'     => $this->signType,
-            'timestamp'     => $this->timestamp,
-            'version'       => $this->version,
-
-            // 业务参数
-            'biz_content'   => $this->getBizContent(),
-        ];
-
-        // 移除数组中的空值
-        $this->retData = ArrayUtil::paraFilter($signData);
-    }
-
     /**
      * 业务请求参数的集合，最大长度不限，除公共参数外所有请求参数都必须放在这个参数中传递
      *
      * @return string
      */
-    private function getBizContent()
+    protected function getBizContent()
     {
         $content = [
-            'out_biz_no'    => $this->trans_no,
-            'payee_type'        => strtoupper($this->payee_type),
-            'payee_account'     => $this->payee_account,
+            'out_biz_no'    => $this->trans_no,// 商户转账唯一订单号
+            'payee_type'        => strtoupper($this->payee_type),// 收款方账户类型
+            'payee_account'     => $this->payee_account,// 收款方账户
             'amount'     => $this->amount,
-            'payer_real_name'    => $this->payer_real_name,
             'payer_show_name'       => $this->payer_show_name,
+            'payer_real_name'    => $this->payer_real_name,
             'payee_real_name'          => $this->payee_real_name,
             'remark'       => $this->remark,
         ];
 
-        $content = ArrayUtil::paraFilter($content);// 过滤掉空值，下面不用在检查是否为空
-        return json_encode($content, JSON_UNESCAPED_UNICODE);
+        return $content;
     }
 }

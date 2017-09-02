@@ -34,6 +34,12 @@ class AliRefundQuery extends AliBaseStrategy
             throw $e;
         }
 
+        if ($this->config->returnRaw) {
+            $ret['channel'] = Config::ALI_REFUND;
+            return $ret;
+        }
+
+
         return $this->createBackData($ret);
     }
 
@@ -45,11 +51,6 @@ class AliRefundQuery extends AliBaseStrategy
      */
     protected function createBackData(array $data)
     {
-        if ($this->config->returnRaw) {
-            $ret['channel'] = Config::ALI_REFUND;
-            return $ret;
-        }
-
         if ($data['code'] !== '10000') {
             return $retData = [
                 'is_success'    => 'F',

@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: helei
- * Date: 2017/4/28
- * Time: 下午3:14
- */
-
 namespace Payment\Refund;
 
 use Payment\Common\Cmb\CmbBaseStrategy;

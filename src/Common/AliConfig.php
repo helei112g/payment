@@ -43,12 +43,6 @@ final class AliConfig extends ConfigInterface
     // 用于rsa解密的支付宝公钥文件路径
     public $rsaAliPubKey;
 
-    // 转账情况查询
-    const TRANS_QUERY_METHOD = 'alipay.fund.trans.order.query';
-
-    // 单笔转账到支付宝账户接口
-    const TRANS_TOACCOUNT_METHOD = 'alipay.fund.trans.toaccount.transfer';
-
     /**
      * 初始化配置文件
      * @param array $config

@@ -1,42 +1,37 @@
 <?php
-/**
- * @author: helei
- * @createTime: 2016-07-27 15:28
- * @description: 支付宝批量付款接口
- */
-
 namespace Payment\Trans;
 
 use Payment\Common\Ali\AliBaseStrategy;
 use Payment\Common\Ali\Data\TransData;
-use Payment\Common\AliConfig;
 use Payment\Common\PayException;
 use Payment\Config;
 
+/**
+ * 支付宝转账操作
+ * Class AliTransfer
+ * @package Payment\Trans
+ */
 class AliTransfer extends AliBaseStrategy
 {
+    protected static $method = 'alipay.fund.trans.toaccount.transfer';
+
     public function getBuildDataClass()
     {
-        $this->config->method = AliConfig::TRANS_TOACCOUNT_METHOD;
+        $this->config->method = static::$method;
         return TransData::class;
     }
 
     protected function retData(array $data)
     {
-        $url = parent::retData($data);
+        $reqData = parent::retData($data);
 
         try {
-            $data = $this->sendReq($url);
+            $retData = $this->sendReq($reqData);
         } catch (PayException $e) {
             throw $e;
         }
 
-        if ($this->config->returnRaw) {
-            $data['channel'] = Config::ALI_TRANSFER;
-            return $data;
-        }
-
-        return $this->createBackData($data);
+        return $this->createBackData($retData);
     }
 
     /**
@@ -47,7 +42,11 @@ class AliTransfer extends AliBaseStrategy
      */
     protected function createBackData(array $data)
     {
-        // 新版本
+        if ($this->config->returnRaw) {
+            $retData['channel'] = Config::ALI_TRANSFER;
+            return $retData;
+        }
+
         if ($data['code'] !== '10000') {
             return $retData = [
                 'is_success'    => 'F',
@@ -59,9 +58,9 @@ class AliTransfer extends AliBaseStrategy
         $retData = [
             'is_success'    => 'T',
             'response'  => [
-                'transaction_id'   => $data['order_id'],
-                'trans_no'  => $data['out_biz_no'],
-                'pay_date'   => $data['pay_date'],
+                'trans_no'  => $data['out_biz_no'],// 商户转账唯一订单号
+                'transaction_id'   => $data['order_id'],// 支付宝转账单据号
+                'pay_date'   => $data['pay_date'],// 支付时间
                 'channel'   => Config::ALI_TRANSFER,
             ],
         ];
