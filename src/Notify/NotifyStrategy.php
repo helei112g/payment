@@ -65,7 +65,7 @@ abstract class NotifyStrategy
         if ($data === false) {
             return false;
         }
-var_dump($data);exit;
+
         return $notify->notifyProcess($data);
     }
 
