@@ -87,30 +87,16 @@ final class WxConfig extends ConfigInterface
     const SANDBOX_URL = 'https://api.mch.weixin.qq.com/sandboxnew/pay/getsignkey';
 
     /**
-     * 初始化微信配置文件
-     * WxConfig constructor.
-     * @param array $config
-     * @throws PayException
-     */
-    public function __construct(array $config)
-    {
-        try {
-            $this->initConfig($config);
-        } catch (PayException $e) {
-            throw $e;
-        }
-
-        $basePath = dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'CacertFile' . DIRECTORY_SEPARATOR;
-        $this->cacertPath = "{$basePath}wx_cacert.pem";
-    }
-
-    /**
      * 初始化配置文件参数
      * @param array $config
      * @throws PayException
      */
-    private function initConfig(array $config)
+    protected function initConfig(array $config)
     {
+        $basePath = dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'CacertFile' . DIRECTORY_SEPARATOR;
+        $this->cacertPath = "{$basePath}wx_cacert.pem";
+
+
         $config = ArrayUtil::paraFilter($config);
 
         // 检查 微信分配的公众账号ID

@@ -33,4 +33,25 @@ abstract class ConfigInterface
     {
         return get_object_vars($this);
     }
+
+    /**
+     * 初始化配置文件
+     * WxConfig constructor.
+     * @param array $config
+     * @throws PayException
+     */
+    final public function __construct(array $config)
+    {
+        try {
+            $this->initConfig($config);
+        } catch (PayException $e) {
+            throw $e;
+        }
+    }
+
+    /**
+     * 配置文件初始化具体实现
+     * @param array $config
+     */
+    abstract protected function initConfig(array $config);
 }
