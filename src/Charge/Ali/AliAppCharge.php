@@ -28,4 +28,17 @@ class AliAppCharge extends AliBaseStrategy
         // 以下两种方式任选一种
         return AppChargeData::class;
     }
+
+    /**
+     * 组装返回的数据格式
+     * @param array $data
+     * @return string
+     */
+    protected function retData(array $data)
+    {
+        $data = parent::retData($data);
+
+        // 组装成 key=value&key=value 形式返回
+        return http_build_query($data);
+    }
 }
