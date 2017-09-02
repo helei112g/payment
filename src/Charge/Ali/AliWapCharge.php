@@ -14,7 +14,7 @@ use Payment\Common\Ali\Data\Charge\WapChargeData;
  */
 class AliWapCharge extends AliBaseStrategy
 {
-    // app 支付街口名称
+    // wap 支付接口名称
     protected static $method = 'alipay.trade.wap.pay';
 
     /**

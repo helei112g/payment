@@ -21,6 +21,9 @@ use Payment\Utils\StrUtil;
  */
 abstract class AliBaseStrategy implements BaseStrategy
 {
+    // 支付接口名称
+    protected static $method;
+
     /**
      * 支付宝的配置文件
      * @var AliConfig $config

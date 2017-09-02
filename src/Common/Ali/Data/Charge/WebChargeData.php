@@ -1,18 +1,15 @@
 <?php
+namespace Payment\Common\Ali\Data\Charge;
+
+use Payment\Utils\ArrayUtil;
+
 /**
  * @author: helei
  * @createTime: 2016-07-15 17:28
  * @description: 即时到帐 接口的数据处理类
- * @link      https://github.com/helei112g/payment/tree/paymentv2
+ * @link      https://www.gitbook.com/book/helei112g1/payment-sdk/details
  * @link      https://helei112g.github.io/
- */
-
-namespace Payment\Common\Ali\Data\Charge;
-
-use Payment\Common\PayException;
-use Payment\Utils\ArrayUtil;
-
-/**
+ *
  * Class WebChargeData
  *
  * @inheritdoc
@@ -31,18 +28,23 @@ class WebChargeData extends ChargeBaseData
     protected function getBizContent()
     {
         $content = [
-            'body'          => strval($this->body),
-            'subject'       => strval($this->subject),
             'out_trade_no'  => strval($this->order_no),
-            'total_amount'  => strval($this->amount),
-
             // 销售产品码，商家和支付宝签约的产品码，为固定值QUICK_WAP_PAY
             'product_code'  => 'FAST_INSTANT_TRADE_PAY',
+            'total_amount'  => strval($this->amount),
+            'subject'       => strval($this->subject),
+            'body'          => strval($this->body),
+            // TODO 订单包含的商品列表信息 待实现
+            // 'goods_detail' => '',
+            'passback_params' => $this->passback_params,
+            // TODO 业务扩展参数，待支持
+            // 'extend_params => '',
             'goods_type'    => $this->goods_type,
-            'passback_params' => $this->return_param,
             'disable_pay_channels' => $this->limitPay,
             'store_id' => $this->store_id,
             'qr_pay_mode'   => $this->qr_mod,
+            // TODO 设置二维码宽度
+            // 'qrcode_width' => '',// qr_pay_mode = 4时有效。设置二维码宽度
         ];
 
         $timeExpire = $this->timeout_express;

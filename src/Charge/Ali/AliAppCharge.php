@@ -14,7 +14,7 @@ use Payment\Common\Ali\Data\Charge\AppChargeData;
  */
 class AliAppCharge extends AliBaseStrategy
 {
-    // app 支付街口名称
+    // app 支付接口名称
     protected static $method = 'alipay.trade.app.pay';
 
     /**
