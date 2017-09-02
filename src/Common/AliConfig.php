@@ -1,6 +1,7 @@
 <?php
 namespace Payment\Common;
 
+use GuzzleHttp\Client;
 use Payment\Utils\ArrayUtil;
 use Payment\Utils\StrUtil;
 
@@ -42,10 +43,6 @@ final class AliConfig extends ConfigInterface
 
     // 用于rsa解密的支付宝公钥文件路径
     public $rsaAliPubKey;
-
-    // 支付宝各类method名称
-    // app 支付
-    const APP_PAY_METHOD = 'alipay.trade.app.pay';
 
     // wap 支付
     const WAP_PAY_METHOD = 'alipay.trade.wap.pay';
@@ -90,6 +87,10 @@ final class AliConfig extends ConfigInterface
         } else {
             $this->useSandbox = false;// 不是沙箱模式
         }
+        $this->httpClient = new Client([
+            'base_uri' => 'https://openapi.alipaydev.com/gateway.do',
+            'timeout'  => '30.0'
+        ]);
 
         // 支付宝分配给开发者的应用ID
         if (key_exists('app_id', $config) && is_numeric($config['app_id'])) {

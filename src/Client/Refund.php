@@ -37,6 +37,9 @@ class Refund
 
     protected static function getInstance($channel, $config)
     {
+        /* 设置内部字符编码为 UTF-8 */
+        mb_internal_encoding("UTF-8");
+
         if (is_null(self::$instance)) {
             static::$instance = new RefundContext();
 

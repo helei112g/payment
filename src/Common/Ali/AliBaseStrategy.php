@@ -1,25 +1,24 @@
 <?php
-/**
- * @author: helei
- * @createTime: 2016-07-15 17:10
- * @description: 支付宝支付接口的基类。
- * @link      https://github.com/helei112g/payment/tree/paymentv2
- * @link      https://helei112g.github.io/
- */
-
 namespace Payment\Common\Ali;
 
+use GuzzleHttp\Client;
 use Payment\Common\AliConfig;
 use Payment\Common\BaseData;
 use Payment\Common\BaseStrategy;
 use Payment\Common\PayException;
 use Payment\Config;
 use Payment\Utils\ArrayUtil;
-use Payment\Utils\Curl;
 use Payment\Utils\Rsa2Encrypt;
 use Payment\Utils\RsaEncrypt;
 use Payment\Utils\StrUtil;
 
+/**
+ * @author: helei
+ * @createTime: 2016-07-15 17:10
+ * @description: 支付宝支付接口的基类。
+ * @link      https://www.gitbook.com/book/helei112g1/payment-sdk/details
+ * @link      https://helei112g.github.io/
+ */
 abstract class AliBaseStrategy implements BaseStrategy
 {
     /**
@@ -29,10 +28,16 @@ abstract class AliBaseStrategy implements BaseStrategy
     protected $config;
 
     /**
-     * 支付数据
+     * 用于支付数据
      * @var BaseData $reqData
      */
     protected $reqData;
+
+    /**
+     * 网络请求类
+     * @var Client $client
+     */
+    protected $client;
 
     /**
      * AliBaseStrategy constructor.
@@ -41,9 +46,6 @@ abstract class AliBaseStrategy implements BaseStrategy
      */
     public function __construct(array $config)
     {
-        /* 设置内部字符编码为 UTF-8 */
-        mb_internal_encoding("UTF-8");
-
         try {
             $this->config = new AliConfig($config);
         } catch (PayException $e) {
@@ -51,6 +53,12 @@ abstract class AliBaseStrategy implements BaseStrategy
         }
     }
 
+    /**
+     * 实际执行操作，策略总控
+     * @param array $data
+     * @return array|string
+     * @throws PayException
+     */
     public function handle(array $data)
     {
         $buildClass = $this->getBuildDataClass();
@@ -66,45 +74,6 @@ abstract class AliBaseStrategy implements BaseStrategy
         $data = $this->reqData->getData();
 
         return $this->retData($data);
-    }
-
-    /**
-     * 支付宝业务发送网络请求，并验证签名
-     * @param $url
-     * @return mixed
-     * @throws PayException
-     */
-    protected function sendReq($url)
-    {
-        // 发起网络请求
-        $curl = new Curl();
-        $responseTxt = $curl->set([
-            'CURLOPT_SSL_VERIFYPEER'    => true,
-            'CURLOPT_SSL_VERIFYHOST'    => 2,
-            'CURLOPT_HEADER'    => 0,// 为了便于解析，将头信息过滤掉
-            //'CURLOPT_CAINFO'    => $this->config->cacertPath,
-        ])->get($url);
-
-        if ($responseTxt['error']) {
-            throw new PayException('网络发生错误，请稍后再试curl返回码：' . $responseTxt['message']);
-        }
-
-        $body = $responseTxt['body'];
-
-        $responseKey = str_ireplace('.', '_', $this->config->method . '.response');
-
-        $body = json_decode($body, true);
-        if ($body[$responseKey]['code'] != 10000) {
-            throw new PayException($body[$responseKey]['sub_msg']);
-        }
-
-        // 验证签名，检查支付宝返回的数据
-        $flag = $this->verifySign($body[$responseKey], $body['sign']);
-        if (! $flag) {
-            throw new PayException('支付宝返回数据被篡改。请检查网络是否安全！');
-        }
-
-        return $body[$responseKey];
     }
 
     /**
@@ -127,7 +96,49 @@ abstract class AliBaseStrategy implements BaseStrategy
 
         $data['sign'] = $sign;// sign  需要放在末尾
 
-        return $this->config->getewayUrl . http_build_query($data);
+        return http_build_query($data);
+    }
+
+    /**
+     * 支付宝业务发送网络请求，并验证签名
+     * @param array $data
+     * @return mixed
+     * @throws PayException
+     */
+    protected function sendReq(array $data)
+    {
+        // 发起网络请求
+        $response = $this->config->httpClient->request('GET', '', $data);
+        var_dump($response);exit;
+
+        /*$curl = new Curl();
+        $responseTxt = $curl->set([
+            'CURLOPT_SSL_VERIFYPEER'    => true,
+            'CURLOPT_SSL_VERIFYHOST'    => 2,
+            'CURLOPT_HEADER'    => 0,// 为了便于解析，将头信息过滤掉
+            //'CURLOPT_CAINFO'    => $this->config->cacertPath,
+        ])->get($url);*/
+
+        if ($response['error']) {
+            throw new PayException('网络发生错误，请稍后再试curl返回码：' . $response['message']);
+        }
+
+        $body = $response['body'];
+
+        $responseKey = str_ireplace('.', '_', $this->config->method . '.response');
+
+        $body = json_decode($body, true);
+        if ($body[$responseKey]['code'] != 10000) {
+            throw new PayException($body[$responseKey]['sub_msg']);
+        }
+
+        // 验证签名，检查支付宝返回的数据
+        $flag = $this->verifySign($body[$responseKey], $body['sign']);
+        if (! $flag) {
+            throw new PayException('支付宝返回数据被篡改。请检查网络是否安全！');
+        }
+
+        return $body[$responseKey];
     }
 
     /**

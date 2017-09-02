@@ -6,7 +6,8 @@
  * Date: 2017/4/30
  * Time: 上午11:31
  */
-require_once __DIR__ . '/../../autoload.php';
+
+require_once __DIR__ . '/../../vendor/autoload.php';
 
 use Payment\Common\PayException;
 use Payment\Client\Charge;

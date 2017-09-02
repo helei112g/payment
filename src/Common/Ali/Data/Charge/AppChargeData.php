@@ -1,14 +1,15 @@
 <?php
-/**
- * @author: helei
- * @createTime: 2016-07-25 14:49
- * @description:
- */
-
 namespace Payment\Common\Ali\Data\Charge;
 
 use Payment\Utils\ArrayUtil;
 
+/**
+ * @author: helei
+ * @createTime: 2016-07-25 14:49
+ * @description: 生成支付宝app 支付所需的请求数据
+ * @link      https://www.gitbook.com/book/helei112g1/payment-sdk/details
+ * @link      https://helei112g.github.io/
+ */
 class AppChargeData extends ChargeBaseData
 {
 
