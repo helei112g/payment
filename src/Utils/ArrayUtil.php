@@ -1,14 +1,13 @@
 <?php
+namespace Payment\Utils;
+
 /**
  * @author: helei
  * @createTime: 2016-06-07 21:01
  * @description:  常用的数组处理工具
- * @link      https://github.com/helei112g/payment/tree/paymentv2
+ * @link      https://www.gitbook.com/book/helei112g1/payment-sdk/details
  * @link      https://helei112g.github.io/
  */
-
-namespace Payment\Utils;
-
 class ArrayUtil
 {
     /**

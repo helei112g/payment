@@ -1,7 +1,6 @@
 <?php
 namespace Payment\Client;
 
-
 use Payment\Common\PayException;
 use Payment\Config;
 use Payment\TransferContext;

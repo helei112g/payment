@@ -1,14 +1,13 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: helei
- * Date: 2017/4/28
- * Time: 下午3:25
- */
-
 namespace Payment\Utils;
 
-
+/**
+ * rc4 加密实现
+ * Class Rc4Encrypt
+ * @package Payment\Utils
+ * @link      https://www.gitbook.com/book/helei112g1/payment-sdk/details
+ * @link      https://helei112g.github.io/
+ */
 class Rc4Encrypt
 {
     protected $key;

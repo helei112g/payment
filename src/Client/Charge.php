@@ -1,7 +1,6 @@
 <?php
 namespace Payment\Client;
 
-
 use Payment\ChargeContext;
 use Payment\Common\PayException;
 use Payment\Config;

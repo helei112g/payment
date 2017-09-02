@@ -4,7 +4,6 @@ namespace Payment\Common;
 use Payment\Config;
 use Payment\Utils\ArrayUtil;
 
-
 /**
  * @author: helei
  * @createTime: 2016-07-28 18:05
