@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: helei
- * Date: 2017/3/6
- * Time: 下午9:08
- */
-
 namespace Payment\Client;
 
 use Payment\Common\PayException;
@@ -13,7 +6,12 @@ use Payment\Config;
 use Payment\QueryContext;
 
 /**
- * 查询的客户端类
+ * @author: helei
+ * @createTime: 2017-09-02 18:20
+ * @description: 查询的客户端类
+ * @link      https://www.gitbook.com/book/helei112g1/payment-sdk/details
+ * @link      https://helei112g.github.io/
+ *
  * Class Query
  * @package Payment\Client
  */

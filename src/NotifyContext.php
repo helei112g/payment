@@ -1,12 +1,4 @@
 <?php
-/**
- * @author: helei
- * @createTime: 2016-07-14 17:42
- * @description: 暴露给客户端调用的接口
- * @link      https://github.com/helei112g/payment/tree/paymentv2
- * @link      https://helei112g.github.io/
- */
-
 namespace Payment;
 
 use Payment\Notify\AliNotify;
@@ -16,6 +8,14 @@ use Payment\Notify\PayNotifyInterface;
 use Payment\Notify\WxNotify;
 use Payment\Common\PayException;
 
+/**
+ * 异步通知的上下文
+ * @link      https://www.gitbook.com/book/helei112g1/payment-sdk/details
+ * @link      https://helei112g.github.io/
+ *
+ * Class NotifyContext
+ * @package Payment
+ */
 class NotifyContext
 {
     /**

@@ -1,12 +1,4 @@
 <?php
-/**
- * @author: helei
- * @createTime: 2016-07-27 17:42
- * @description: 退款统一接口
- * @link      https://github.com/helei112g/payment/tree/paymentv2
- * @link      https://helei112g.github.io/
- */
-
 namespace Payment;
 
 use Payment\Common\BaseStrategy;
@@ -15,6 +7,14 @@ use Payment\Refund\AliRefund;
 use Payment\Refund\CmbRefund;
 use Payment\Refund\WxRefund;
 
+/**
+ * 退款上下文
+ * @link      https://www.gitbook.com/book/helei112g1/payment-sdk/details
+ * @link      https://helei112g.github.io/
+ *
+ * Class RefundContext
+ * @package Payment
+ */
 class RefundContext
 {
     /**

@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: helei
- * Date: 2017/3/4
- * Time: 下午5:40
- */
-
 namespace Payment\Client;
 
 
@@ -13,6 +6,16 @@ use Payment\ChargeContext;
 use Payment\Common\PayException;
 use Payment\Config;
 
+/**
+ * @author: helei
+ * @createTime: 2017-09-02 18:20
+ * @description: 支付的客户端类
+ * @link      https://www.gitbook.com/book/helei112g1/payment-sdk/details
+ * @link      https://helei112g.github.io/
+ * Class Charge
+ * @package Payment\Client
+ *
+ */
 class Charge
 {
     private static $supportChannel = [

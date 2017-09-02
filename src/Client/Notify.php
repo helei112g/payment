@@ -1,19 +1,21 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: helei
- * Date: 2017/3/7
- * Time: 下午6:29
- */
-
 namespace Payment\Client;
-
 
 use Payment\Common\PayException;
 use Payment\Config;
 use Payment\Notify\PayNotifyInterface;
 use Payment\NotifyContext;
 
+/**
+ * @author: helei
+ * @createTime: 2017-09-02 18:20
+ * @description: 异步通知的客户端类
+ * @link      https://www.gitbook.com/book/helei112g1/payment-sdk/details
+ * @link      https://helei112g.github.io/
+ *
+ * Class Notify
+ * @package Payment\Client
+ */
 class Notify
 {
     private static $supportChannel = [

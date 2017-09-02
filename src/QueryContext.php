@@ -1,10 +1,4 @@
 <?php
-/**
- * @author: helei
- * @createTime: 2016-07-28 17:24
- * @description:
- */
-
 namespace Payment;
 
 use Payment\Common\BaseStrategy;
@@ -18,6 +12,13 @@ use Payment\Query\Wx\WxChargeQuery;
 use Payment\Query\Wx\WxRefundQuery;
 use Payment\Query\Wx\WxTransferQuery;
 
+/**
+ * 查询上下文
+ * @link      https://www.gitbook.com/book/helei112g1/payment-sdk/details
+ * @link      https://helei112g.github.io/
+ * Class QueryContext
+ * @package Payment
+ */
 class QueryContext
 {
     /**

@@ -1,13 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: helei
- * Date: 2017/3/7
- * Time: 下午1:45
- */
-
 namespace Payment\Common\Ali\Data\Query;
-
 
 use Payment\Common\PayException;
 use Payment\Utils\ArrayUtil;

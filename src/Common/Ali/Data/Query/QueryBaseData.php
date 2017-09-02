@@ -1,17 +1,15 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: helei
- * Date: 2017/3/6
- * Time: 下午10:37
- */
-
 namespace Payment\Common\Ali\Data\Query;
 
 
 use Payment\Common\Ali\Data\AliBaseData;
 use Payment\Utils\ArrayUtil;
 
+/**
+ * 查询数据基类
+ * Class QueryBaseData
+ * @package Payment\Common\Ali\Data\Query
+ */
 abstract class QueryBaseData extends AliBaseData
 {
     /**

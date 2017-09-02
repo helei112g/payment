@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: helei
- * Date: 2017/4/28
- * Time: 上午10:43
- */
-
 namespace Payment;
 
 use Payment\Common\BaseStrategy;

@@ -1,10 +1,4 @@
 <?php
-/**
- * @author: helei
- * @createTime: 2016-07-26 18:18
- * @description:
- */
-
 namespace Payment\Common\Ali\Data;
 
 use Payment\Common\PayException;

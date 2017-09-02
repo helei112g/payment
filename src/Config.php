@@ -8,11 +8,11 @@ namespace Payment;
  * @link      https://www.gitbook.com/book/helei112g1/payment-sdk/details
  * @link      https://helei112g.github.io/
  *
- * @version 2.6.1
+ * @version 4.1.0
  */
 final class Config
 {
-    const VERSION = '4.0.3-dev';
+    const VERSION = '4.1.0-dev';
 
     //========================= ali相关接口 =======================//
     // 支付相关常量

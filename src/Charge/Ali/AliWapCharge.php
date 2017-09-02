@@ -1,5 +1,4 @@
 <?php
-
 namespace Payment\Charge\Ali;
 
 use Payment\Common\Ali\AliBaseStrategy;

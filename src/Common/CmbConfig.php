@@ -1,7 +1,6 @@
 <?php
 namespace Payment\Common;
 
-
 use Payment\Utils\ArrayUtil;
 use Payment\Utils\StrUtil;
 
