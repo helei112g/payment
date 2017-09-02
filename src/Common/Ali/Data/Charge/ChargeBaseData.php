@@ -43,8 +43,8 @@ abstract class ChargeBaseData extends AliBaseData
             'app_id'        => $this->appId,
             'method'        => $this->method,
             'format'        => $this->format,
+            'return_url'    => $this->returnUrl,// 手机网站会有该参数
             'charset'       => $this->charset,
-            //'return_url'    => $this->returnUrl,
             'sign_type'     => $this->signType,
             'timestamp'     => $this->timestamp,
             'version'       => $this->version,

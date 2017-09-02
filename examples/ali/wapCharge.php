@@ -28,6 +28,7 @@ $payData = [
     // 'client_ip' => isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '127.0.0.1',// 客户地址
     'goods_type' => '1',
     'store_id' => '',
+    'quit_url' => 'http://helei112g.github.io', // 收银台的返回按钮（用户打断支付操作时返回的地址,4.0.3版本新增）
 ];
 
 try {

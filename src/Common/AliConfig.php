@@ -44,9 +44,6 @@ final class AliConfig extends ConfigInterface
     // 用于rsa解密的支付宝公钥文件路径
     public $rsaAliPubKey;
 
-    // wap 支付
-    const WAP_PAY_METHOD = 'alipay.trade.wap.pay';
-
     // 即时到账 web支付 新版接口
     const PC_PAY_METHOD = 'alipay.trade.page.pay';
 
