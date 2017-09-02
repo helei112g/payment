@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: helei
- * Date: 2017/4/29
- * Time: 上午10:36
- */
-
 namespace Payment\Notify;
 
 
@@ -19,6 +12,9 @@ use Payment\Utils\RsaEncrypt;
  * 招商回调处理
  * Class CmbNotify
  * @package Payment\Notify
+ * @link      https://www.gitbook.com/book/helei112g1/payment-sdk/details
+ * @link      https://helei112g.github.io/
+ *
  */
 class CmbNotify extends NotifyStrategy
 {
@@ -30,8 +26,6 @@ class CmbNotify extends NotifyStrategy
      */
     public function __construct(array $config)
     {
-        parent::__construct($config);
-
         try {
             $this->config = new CmbConfig($config);
         } catch (PayException $e) {

@@ -6,7 +6,7 @@
  * @description: 支付通知回调
  */
 
-require_once __DIR__ . '/../autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/testNotify.php';
 
 use Payment\Common\PayException;
@@ -20,7 +20,7 @@ $cmbConfig = require_once __DIR__ . '/cmbconfig.php';
 
 $callback = new TestNotify();
 
-$type = 'cmb_charge';// xx_charge
+$type = 'ali_charge';// xx_charge
 
 if (stripos($type, 'ali') !== false) {
     $config = $aliConfig;
