@@ -21,7 +21,7 @@ class AliBarCharge extends AliBaseStrategy
 
     public function getBuildDataClass()
     {
-        $this->config->method = self::$method;
+        $this->config->method = static::$method;
         return BarChargeData::class;
     }
 

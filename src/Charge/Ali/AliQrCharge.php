@@ -1,5 +1,4 @@
 <?php
-
 namespace Payment\Charge\Ali;
 
 use Payment\Common\Ali\AliBaseStrategy;
@@ -13,14 +12,16 @@ use Payment\Common\PayException;
  * Class AliQrCharge
  * @package Payment\Charge\Weixin
  *
- * @link      https://github.com/helei112g/payment
+ * @link      https://www.gitbook.com/book/helei112g1/payment-sdk/details
  * @link      https://helei112g.github.io/
  */
 class AliQrCharge extends AliBaseStrategy
 {
+    protected static $method = 'alipay.trade.precreate';
+
     public function getBuildDataClass()
     {
-        $this->config->method = AliConfig::QR_PAY_METHOD;
+        $this->config->method = static::$method;
         return QrChargeData::class;
     }
 

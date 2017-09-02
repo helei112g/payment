@@ -1,5 +1,4 @@
 <?php
-
 namespace Payment\Common\Ali\Data\Charge;
 
 use Payment\Utils\ArrayUtil;

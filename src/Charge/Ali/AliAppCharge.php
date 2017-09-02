@@ -24,7 +24,7 @@ class AliAppCharge extends AliBaseStrategy
      */
     public function getBuildDataClass()
     {
-        $this->config->method = self::$method;
+        $this->config->method = static::$method;
         // 以下两种方式任选一种
         return AppChargeData::class;
     }

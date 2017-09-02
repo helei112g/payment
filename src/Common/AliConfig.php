@@ -43,9 +43,6 @@ final class AliConfig extends ConfigInterface
     // 用于rsa解密的支付宝公钥文件路径
     public $rsaAliPubKey;
 
-    // 扫码支付   用户扫商户的二维码
-    const QR_PAY_METHOD = 'alipay.trade.precreate';
-
     // 统一收单线下交易查询
     const TRADE_QUERY_METHOD = 'alipay.trade.query';
 

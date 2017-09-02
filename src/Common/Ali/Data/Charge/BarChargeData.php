@@ -1,25 +1,22 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: helei  <dayugog@gmail.com>
- * Date: 2016/12/28
- * Time: 20:24
- */
-
 namespace Payment\Common\Ali\Data\Charge;
+
 use Payment\Common\PayException;
+use Payment\Utils\ArrayUtil;
 
 /**
  * 支付宝 条码支付
  *  - 扫户扫用户的二维码，完成支付
  * Class BarChargeData
+ * @package Payment\Common\Ali\Data\Charge
+ * @link      https://www.gitbook.com/book/helei112g1/payment-sdk/details
+ * @link      https://helei112g.github.io/
  *
  * @property string $operator_id  商户操作员编号
  * @property string $terminal_id 商户机具终端编号
  * @property string $scene  条码支付，取值：bar_code 声波支付，取值：wave_code
  * @property string $auth_code 支付授权码 二维码的数值
  *
- * @package Payment\Common\Ali\Data\Charge
  */
 class BarChargeData extends ChargeBaseData
 {
@@ -59,6 +56,7 @@ class BarChargeData extends ChargeBaseData
             ($express > 0) && $content['timeout_express'] = $express . 'm';// 超时时间 统一使用分钟计算
         }
 
+        $content = ArrayUtil::paraFilter($content);// 过滤掉空值，下面不用在检查是否为空
         return json_encode($content, JSON_UNESCAPED_UNICODE);
     }
 
