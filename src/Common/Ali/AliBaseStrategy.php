@@ -2,6 +2,7 @@
 namespace Payment\Common\Ali;
 
 use GuzzleHttp\Client;
+use InvalidArgumentException;
 use Payment\Common\AliConfig;
 use Payment\Common\BaseData;
 use Payment\Common\BaseStrategy;
@@ -105,43 +106,65 @@ abstract class AliBaseStrategy implements BaseStrategy
     /**
      * 支付宝业务发送网络请求，并验证签名
      * @param array $data
+     * @param string $method 网络请求的方法， get post 等
      * @return mixed
      * @throws PayException
      */
-    protected function sendReq(array $data)
+    protected function sendReq(array $data, $method = 'GET')
     {
+        $client = new Client([
+            'base_uri' => $this->config->getewayUrl,
+            'timeout' => '10.0'
+        ]);
         // 发起网络请求
-        $response = $this->config->httpClient->request('GET', '', $data);
-        var_dump($response);exit;
+        $response = $client->request(strtoupper($method), '', [
+            'query' => $data
+        ]);
 
-        /*$curl = new Curl();
-        $responseTxt = $curl->set([
-            'CURLOPT_SSL_VERIFYPEER'    => true,
-            'CURLOPT_SSL_VERIFYHOST'    => 2,
-            'CURLOPT_HEADER'    => 0,// 为了便于解析，将头信息过滤掉
-            //'CURLOPT_CAINFO'    => $this->config->cacertPath,
-        ])->get($url);*/
-
-        if ($response['error']) {
-            throw new PayException('网络发生错误，请稍后再试curl返回码：' . $response['message']);
+        if ($response->getStatusCode() != '200') {
+            throw new PayException('网络发生错误，请稍后再试curl返回码：' . $response->getReasonPhrase());
         }
 
-        $body = $response['body'];
-
-        $responseKey = str_ireplace('.', '_', $this->config->method . '.response');
-
-        $body = json_decode($body, true);
-        if ($body[$responseKey]['code'] != 10000) {
-            throw new PayException($body[$responseKey]['sub_msg']);
+        $body = $response->getBody()->getContents();
+        try {
+            $body = \GuzzleHttp\json_decode($body, true);
+        } catch (InvalidArgumentException $e) {
+            throw new PayException('返回数据 json 解析失败');
         }
 
+        $responseKey = str_ireplace('.', '_', $this->config->method) . '_response';
         // 验证签名，检查支付宝返回的数据
         $flag = $this->verifySign($body[$responseKey], $body['sign']);
         if (! $flag) {
             throw new PayException('支付宝返回数据被篡改。请检查网络是否安全！');
         }
 
+        // 这里可能带来不兼容问题。原先会检查code ，不正确时会抛出异常，而不是直接返回
         return $body[$responseKey];
+    }
+
+    /**
+     * 检查支付宝数据 签名是否被篡改
+     * @param array $data
+     * @param string $sign  支付宝返回的签名结果
+     * @return bool
+     * @author helei
+     */
+    protected function verifySign(array $data, $sign)
+    {
+        $preStr = \GuzzleHttp\json_encode($data, JSON_UNESCAPED_UNICODE);// 主要是为了解决中文问题
+
+        if ($this->config->signType === 'RSA') {// 使用RSA
+            $rsa = new RsaEncrypt($this->config->rsaAliPubKey);
+
+            return $rsa->rsaVerify($preStr, $sign);
+        } elseif ($this->config->signType === 'RSA2') {// 使用rsa2方式
+            $rsa = new Rsa2Encrypt($this->config->rsaAliPubKey);
+
+            return $rsa->rsaVerify($preStr, $sign);
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -162,30 +185,6 @@ abstract class AliBaseStrategy implements BaseStrategy
             case 'TRADE_CLOSED':
             default:
                 return Config::TRADE_STATUS_FAILD;
-        }
-    }
-
-    /**
-     * 检查支付宝数据 签名是否被篡改
-     * @param array $data
-     * @param string $sign  支付宝返回的签名结果
-     * @return bool
-     * @author helei
-     */
-    protected function verifySign(array $data, $sign)
-    {
-        $preStr = json_encode($data);
-
-        if ($this->config->signType === 'RSA') {// 使用RSA
-            $rsa = new RsaEncrypt($this->config->rsaAliPubKey);
-
-            return $rsa->rsaVerify($preStr, $sign);
-        } elseif ($this->config->signType === 'RSA2') {// 使用rsa2方式
-            $rsa = new Rsa2Encrypt($this->config->rsaAliPubKey);
-
-            return $rsa->rsaVerify($preStr, $sign);
-        } else {
-            return false;
         }
     }
 }
