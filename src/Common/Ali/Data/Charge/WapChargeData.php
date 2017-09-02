@@ -1,8 +1,6 @@
 <?php
 namespace Payment\Common\Ali\Data\Charge;
 
-use Payment\Utils\ArrayUtil;
-
 /**
  * @author: helei
  * @createTime: 2016-07-22 17:02
@@ -47,7 +45,6 @@ class WapChargeData extends ChargeBaseData
             ($express > 0) && $content['timeout_express'] = $express . 'm';// 超时时间 统一使用分钟计算
         }
 
-        $content = ArrayUtil::paraFilter($content);// 过滤掉空值，下面不用在检查是否为空
-        return json_encode($content, JSON_UNESCAPED_UNICODE);
+        return $content;
     }
 }

@@ -5,7 +5,10 @@ use Payment\Common\PayException;
 use Payment\Utils\ArrayUtil;
 
 /**
+ * 支付查询数据构造
  * Class ChargeQueryData
+ * @link      https://www.gitbook.com/book/helei112g1/payment-sdk/details
+ * @link      https://helei112g.github.io/
  *
  * @property string $trade_no 支付宝的订单号，优先使用
  * @property string $out_trade_no 商户系统内部的订单号
@@ -15,6 +18,20 @@ use Payment\Utils\ArrayUtil;
  */
 class ChargeQueryData extends QueryBaseData
 {
+    /**
+     * 构建业务数据
+     * @return string
+     */
+    protected function getBizContent()
+    {
+        $content = [
+            'out_trade_no'    => $this->out_trade_no,
+            'trade_no'        => $this->trade_no,
+        ];
+
+        return $content;
+    }
+
     /**
      * 检查参数
      * @author helei
@@ -28,16 +45,5 @@ class ChargeQueryData extends QueryBaseData
         if (empty($outTradeNo) && empty($tradeNo)) {
             throw new PayException('必须提供支付宝交易号或者商户网站唯一订单号。建议使用支付宝交易号');
         }
-    }
-
-    protected function getBizContent()
-    {
-        $content = [
-            'out_trade_no'    => $this->out_trade_no,
-            'trade_no'        => $this->trade_no,
-        ];
-
-        $content = ArrayUtil::paraFilter($content);// 过滤掉空值，下面不用在检查是否为空
-        return json_encode($content, JSON_UNESCAPED_UNICODE);
     }
 }

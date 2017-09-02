@@ -2,7 +2,6 @@
 namespace Payment\Common\Ali\Data\Query;
 
 use Payment\Common\PayException;
-use Payment\Utils\ArrayUtil;
 
 /**
  * 构建查询转账情况的数据
@@ -23,8 +22,7 @@ class TransferQueryData extends QueryBaseData
             'order_id'        => $this->transaction_id,
         ];
 
-        $content = ArrayUtil::paraFilter($content);// 过滤掉空值，下面不用在检查是否为空
-        return json_encode($content, JSON_UNESCAPED_UNICODE);
+        return $content;
     }
 
     protected function checkDataParam()

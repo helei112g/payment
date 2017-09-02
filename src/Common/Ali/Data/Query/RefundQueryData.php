@@ -2,7 +2,6 @@
 namespace Payment\Common\Ali\Data\Query;
 
 use Payment\Common\PayException;
-use Payment\Utils\ArrayUtil;
 
 /**
  * 支付宝退款查询
@@ -25,8 +24,7 @@ class RefundQueryData extends QueryBaseData
             'out_request_no'    => $this->refund_no,
         ];
 
-        $content = ArrayUtil::paraFilter($content);// 过滤掉空值，下面不用在检查是否为空
-        return json_encode($content, JSON_UNESCAPED_UNICODE);
+        return $content;
     }
 
     protected function checkDataParam()

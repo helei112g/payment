@@ -18,6 +18,9 @@ abstract class QueryBaseData extends AliBaseData
      */
     protected function buildData()
     {
+        $bizContent = $this->getBizContent();
+        $bizContent = ArrayUtil::paraFilter($bizContent);// 过滤掉空值，下面不用在检查是否为空
+
         $signData = [
             // 公共参数
             'app_id'        => $this->appId,
@@ -29,7 +32,7 @@ abstract class QueryBaseData extends AliBaseData
             'version'       => $this->version,
 
             // 业务参数
-            'biz_content'   => $this->getBizContent(),
+            'biz_content'   => json_encode($bizContent, JSON_UNESCAPED_UNICODE),
         ];
 
         // 移除数组中的空值
