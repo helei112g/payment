@@ -16,9 +16,10 @@ use Payment\Config;
 date_default_timezone_set('Asia/Shanghai');
 $aliConfig = require_once __DIR__ . '/../aliconfig.php';
 
+// 二者不能同时为空
 $data = [
-    'out_trade_no' => '14935448529859',
-    'trade_no' => '2017043021001004350200163279',
+    'out_trade_no' => '15043296209218',
+    'trade_no' => '2017090221001004350200242476',
 ];
 
 try {

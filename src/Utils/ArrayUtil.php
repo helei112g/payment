@@ -112,4 +112,21 @@ class ArrayUtil
 
         return $arg;
     }
+
+    /**
+     * 获取一个数组中某个key的值，如果key为不存在，返回默认值
+     * @param array $arr
+     * @param $key
+     * @param string $default
+     *
+     * @return string
+     */
+    public static function get(array $arr, $key, $default = '')
+    {
+        if (isset($arr[$key]) && ! empty($arr[$key])) {
+            return $arr[$key];
+        }
+
+        return $default;
+    }
 }

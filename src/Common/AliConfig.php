@@ -43,9 +43,6 @@ final class AliConfig extends ConfigInterface
     // 用于rsa解密的支付宝公钥文件路径
     public $rsaAliPubKey;
 
-    // 统一收单线下交易查询
-    const TRADE_QUERY_METHOD = 'alipay.trade.query';
-
     // 统一收单交易退款查询  未完成
     const REFUND_QUERY_METHOD = 'alipay.trade.fastpay.refund.query';
 
