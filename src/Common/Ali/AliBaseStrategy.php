@@ -116,10 +116,19 @@ abstract class AliBaseStrategy implements BaseStrategy
             'base_uri' => $this->config->getewayUrl,
             'timeout' => '10.0'
         ]);
+        $method = strtoupper($method);
+        $options = [];
+        if ($method === 'GET') {
+            $options = [
+                'query' => $data
+            ];
+        } elseif ($method === 'POST') {
+            $options = [
+                'form_params' => $data
+            ];
+        }
         // 发起网络请求
-        $response = $client->request(strtoupper($method), '', [
-            'query' => $data
-        ]);
+        $response = $client->request($method, '', $options);
 
         if ($response->getStatusCode() != '200') {
             throw new PayException('网络发生错误，请稍后再试curl返回码：' . $response->getReasonPhrase());

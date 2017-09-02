@@ -33,42 +33,6 @@ abstract class ChargeBaseData extends AliBaseData
 {
 
     /**
-     * 构建 APP支付 加密数据
-     * @author helei
-     */
-    protected function buildData()
-    {
-        $bizContent = $this->getBizContent();
-        $bizContent = ArrayUtil::paraFilter($bizContent);// 过滤掉空值，下面不用在检查是否为空
-
-        $signData = [
-            // 公共参数
-            'app_id'        => $this->appId,
-            'method'        => $this->method,
-            'format'        => $this->format,
-            'return_url'    => $this->returnUrl,// 手机网站 电脑网站 支付会有该参数
-            'charset'       => $this->charset,
-            'sign_type'     => $this->signType,
-            'timestamp'     => $this->timestamp,
-            'version'       => $this->version,
-            'notify_url'    => $this->notifyUrl,
-
-            // 业务参数
-            'biz_content'   => json_encode($bizContent, JSON_UNESCAPED_UNICODE),
-        ];
-
-        // 移除数组中的空值
-        $this->retData = ArrayUtil::paraFilter($signData);
-    }
-
-    /**
-     * 支付宝构建请求支付的数据
-     * @return mixed
-     */
-    abstract protected function getBizContent();
-
-
-    /**
      * 检查传入的支付业务参数是否正确
      *
      * 如果输入参数不符合规范，直接抛出异常

@@ -1,6 +1,7 @@
 <?php
 namespace Payment\Common\Ali\Data\Query;
 
+use Payment\Common\Ali\Data\AliBaseData;
 use Payment\Common\PayException;
 
 /**
@@ -13,7 +14,7 @@ use Payment\Common\PayException;
  *
  * @package Payment\Common\Ali\Data\Query
  */
-class RefundQueryData extends QueryBaseData
+class RefundQueryData extends AliBaseData
 {
 
     protected function getBizContent()

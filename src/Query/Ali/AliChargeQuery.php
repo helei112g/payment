@@ -3,7 +3,6 @@ namespace Payment\Query\Ali;
 
 use Payment\Common\Ali\AliBaseStrategy;
 use Payment\Common\Ali\Data\Query\ChargeQueryData;
-use Payment\Common\AliConfig;
 use Payment\Common\PayException;
 use Payment\Config;
 use Payment\Utils\ArrayUtil;
@@ -64,7 +63,7 @@ class AliChargeQuery extends AliBaseStrategy
     {
         // 新版本
         if ($data['code'] !== '10000') {
-            return $retData = [
+            return [
                 'is_success'    => 'F',
                 'error' => $data['sub_msg'],
                 'channel'   => Config::ALI_CHARGE,
@@ -91,7 +90,6 @@ class AliChargeQuery extends AliBaseStrategy
                 'terminal_id' => ArrayUtil::get($data, 'terminal_id'),
                 'store_name' => ArrayUtil::get($data, 'store_name'),
                 'buyer_id'   => ArrayUtil::get($data, 'buyer_user_id'),
-
                 'fund_bill_list' => ArrayUtil::get($data, 'fund_bill_list', []),// 支付成功的各个渠道金额信息
             ],
         ];

@@ -1,6 +1,7 @@
 <?php
 namespace Payment\Common\Ali\Data\Query;
 
+use Payment\Common\Ali\Data\AliBaseData;
 use Payment\Common\PayException;
 use Payment\Utils\ArrayUtil;
 
@@ -16,7 +17,7 @@ use Payment\Utils\ArrayUtil;
  * @package Payment\Common\Ali\Data\Query
  * anthor helei
  */
-class ChargeQueryData extends QueryBaseData
+class ChargeQueryData extends AliBaseData
 {
     /**
      * 构建业务数据

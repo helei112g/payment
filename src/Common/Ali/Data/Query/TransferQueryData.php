@@ -1,6 +1,7 @@
 <?php
 namespace Payment\Common\Ali\Data\Query;
 
+use Payment\Common\Ali\Data\AliBaseData;
 use Payment\Common\PayException;
 
 /**
@@ -12,7 +13,7 @@ use Payment\Common\PayException;
  * Class TransferQueryData
  * @package Payment\Common\Ali\Data\Query
  */
-class TransferQueryData extends QueryBaseData
+class TransferQueryData extends AliBaseData
 {
 
     protected function getBizContent()
