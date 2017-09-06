@@ -26,7 +26,7 @@ $payData = [
     'amount'    => '0.01',// 单位为元 ,最小为0.01
     'return_param' => 'tata',// 一定不要传入汉字，只能是 字母 数字组合
     // 'client_ip' => isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '127.0.0.1',// 客户地址
-    'goods_type' => '1',
+    'goods_type' => '1',// 0—虚拟类商品，1—实物类商品
     'store_id' => '',
     'quit_url' => 'http://helei112g.github.io', // 收银台的返回按钮（用户打断支付操作时返回的地址,4.0.3版本新增）
 ];
