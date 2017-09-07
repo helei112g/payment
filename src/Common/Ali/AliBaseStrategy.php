@@ -120,11 +120,13 @@ abstract class AliBaseStrategy implements BaseStrategy
         $options = [];
         if ($method === 'GET') {
             $options = [
-                'query' => $data
+                'query' => $data,
+                'http_errors' => false
             ];
         } elseif ($method === 'POST') {
             $options = [
-                'form_params' => $data
+                'form_params' => $data,
+                'http_errors' => false
             ];
         }
         // 发起网络请求
@@ -142,6 +144,10 @@ abstract class AliBaseStrategy implements BaseStrategy
         }
 
         $responseKey = str_ireplace('.', '_', $this->config->method) . '_response';
+        if (! isset($body[$responseKey])) {
+            throw new PayException('支付宝系统故障或非法请求');
+        }
+
         // 验证签名，检查支付宝返回的数据
         $flag = $this->verifySign($body[$responseKey], $body['sign']);
         if (! $flag) {

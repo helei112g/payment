@@ -18,8 +18,8 @@ $aliConfig = require_once __DIR__ . '/../aliconfig.php';
 
 // 二者不能同时为空
 $data = [
-    'out_trade_no' => '15043296209218',
-    'trade_no' => '2017090221001004350200242476',
+    'out_trade_no' => '15043337047336',
+    //'trade_no' => '2017090221001004350200242476',
 ];
 
 try {
