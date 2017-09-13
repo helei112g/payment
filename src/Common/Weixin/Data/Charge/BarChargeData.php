@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: helei
- * Date: 17/3/6
- * Time: 上午8:49
- */
-
 namespace Payment\Common\Weixin\Data\Charge;
 
 use Payment\Common\PayException;
@@ -40,23 +33,29 @@ class BarChargeData extends ChargeBaseData
      */
     protected function buildData()
     {
+        $info = $this->scene_info;
+        $sceneInfo = [];
+        if ($info && is_array($info)) {
+            $sceneInfo['store_info'] = $info;
+        }
+
         $signData = [
-            // 基本数据
             'appid' => trim($this->appId),
             'mch_id'    => trim($this->mchId),
+            'device_info'   => $this->terminal_id,
             'nonce_str' => $this->nonceStr,
             'sign_type' => $this->signType,
-            'fee_type'  => $this->feeType,
-
-            // 业务数据
-            'device_info'   => $this->terminal_id,
             'body'  => trim($this->subject),
-            //'detail' => json_encode($this->body, JSON_UNESCAPED_UNICODE);
+            //'detail' => json_encode($this->body, JSON_UNESCAPED_UNICODE),
             'attach'    => trim($this->return_param),
             'out_trade_no'  => trim($this->order_no),
             'total_fee' => $this->amount,
+            'fee_type'  => $this->feeType,
             'spbill_create_ip'  => trim($this->client_ip),
+            //'goods_tag' => '订单优惠标记',
+            'limit_pay' => $this->limitPay,  // 指定不使用信用卡
             'auth_code'    => $this->auth_code,
+            'scene_info' => $sceneInfo ? json_encode($sceneInfo, JSON_UNESCAPED_UNICODE) : '',
 
             // 服务商
             'sub_appid' => $this->sub_appid,

@@ -15,6 +15,9 @@ use Payment\Utils\ArrayUtil;
  *
  * @package Payment\Common\Weixin\Data\Charge
  * anthor helei
+ *
+ * @link      https://www.gitbook.com/book/helei112g1/payment-sdk/details
+ * @link      https://helei112g.github.io/
  */
 class PubChargeData extends ChargeBaseData
 {
@@ -37,6 +40,12 @@ class PubChargeData extends ChargeBaseData
 
     protected function buildData()
     {
+        $info = $this->scene_info;
+        $sceneInfo = [];
+        if ($info && is_array($info)) {
+            $sceneInfo['store_info'] = $info;
+        }
+
         $signData = [
             'appid' => trim($this->appId),
             'mch_id'    => trim($this->mchId),
@@ -53,21 +62,13 @@ class PubChargeData extends ChargeBaseData
             'time_start'    => $this->timeStart,
             'time_expire'   => $this->timeout_express,
             //'goods_tag' => '订单优惠标记',
-
             'notify_url'    => $this->notifyUrl,
             'trade_type'    => $this->tradeType, //设置APP支付
             //'product_id' => '商品id',
             'limit_pay' => $this->limitPay,  // 指定不使用信用卡
             // 业务数据
             'openid' => $this->openid,
-            /*'scene_info' => \GuzzleHttp\json_encode([
-                'store_info' => [
-                    'id' => '门店唯一标识',
-                    'name' => '门店名称',
-                    'area_code' => '门店所在地行政区划码',
-                    'address' => '门店详细地址',
-                ]
-            ])*/
+            'scene_info' => $sceneInfo ? json_encode($sceneInfo, JSON_UNESCAPED_UNICODE) : '',
         ];
 
         // 移除数组中的空值

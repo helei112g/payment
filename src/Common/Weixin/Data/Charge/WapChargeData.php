@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: helei
- * Date: 2017/3/6
- * Time: 下午5:45
- */
-
 namespace Payment\Common\Weixin\Data\Charge;
 
 use Payment\Common\PayException;
@@ -14,8 +7,6 @@ use Payment\Utils\ArrayUtil;
 /**
  * 构建wap支付的下单数据
  * Class WapChargeData
- *
- * @property array $scene_info 该字段用于上报支付的场景信息
  *
  * @package Payment\Common\Weixin\Data\Charge
  */
@@ -34,31 +25,34 @@ class WapChargeData extends ChargeBaseData
     protected function buildData()
     {
         $info = $this->scene_info;
-        $sceneInfo['h5_info'] = $info;
+        $sceneInfo = [];
+        if ($info && is_array($info)) {
+            $sceneInfo['h5_info'] = $info;
+        }
 
         $signData = [
-            // 基本数据
             'appid' => trim($this->appId),
             'mch_id'    => trim($this->mchId),
+            'device_info'   => $this->terminal_id,
             'nonce_str' => $this->nonceStr,
             'sign_type' => $this->signType,
-            'fee_type'  => $this->feeType,
-            'notify_url'    => $this->notifyUrl,
-            'trade_type'    => $this->tradeType, //设置APP支付
-            'limit_pay' => $this->limitPay,  // 指定不使用信用卡
-
-            // 业务数据
-            'device_info'   => $this->terminal_id,
             'body'  => trim($this->subject),
-            //'detail' => json_encode($this->body, JSON_UNESCAPED_UNICODE);
+            //'detail' => json_encode($this->body, JSON_UNESCAPED_UNICODE),
             'attach'    => trim($this->return_param),
             'out_trade_no'  => trim($this->order_no),
+            'fee_type'  => $this->feeType,
             'total_fee' => $this->amount,
             'spbill_create_ip'  => trim($this->client_ip),
             'time_start'    => $this->timeStart,
             'time_expire'   => $this->timeout_express,
+            //'goods_tag' => '订单优惠标记',
+            'notify_url'    => $this->notifyUrl,
+            'trade_type'    => $this->tradeType, //设置APP支付
+            //'product_id' => '商品id',
+            'limit_pay' => $this->limitPay,  // 指定不使用信用卡
+            //'openid' => '用户标识',
 
-            'scene_info' => json_encode($sceneInfo),
+            'scene_info' => $sceneInfo ? json_encode($sceneInfo, JSON_UNESCAPED_UNICODE) : '',
         ];
 
         // 移除数组中的空值
