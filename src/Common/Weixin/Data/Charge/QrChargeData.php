@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: helei
- * Date: 16/7/31
- * Time: 上午8:49
- */
-
 namespace Payment\Common\Weixin\Data\Charge;
 
 use Payment\Common\PayException;
@@ -50,14 +43,13 @@ class QrChargeData extends ChargeBaseData
             'trade_type'    => $this->tradeType, //设置APP支付
             'product_id'    => $this->product_id,
             'limit_pay' => $this->limitPay,  // 指定不使用信用卡
-            // 业务数据
             'openid' => $this->openid,
             /*'scene_info' => \GuzzleHttp\json_encode([
                 'store_info' => [
-                    'id' => 'SZTX001', // 门店唯一标识
-                    'name' => '腾讯大厦腾大餐厅',// 门店名称
-                    'area_code' => '440305', // 门店所在地行政区划码
-                    'address' => '科技园中一路腾讯大厦',// 门店详细地址
+                    'id' => '门店唯一标识',
+                    'name' => '门店名称',
+                    'area_code' => '门店所在地行政区划码',
+                    'address' => '门店详细地址',
                 ]
             ])*/
 
