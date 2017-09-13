@@ -75,8 +75,12 @@ abstract class WxBaseStrategy implements BaseStrategy
         $client = new Client([
             'timeout' => '10.0'
         ]);
+        // @note: 微信部分接口并不需要证书支持。这里为了统一，全部携带证书进行请求
         $options = [
             'body' => $xml,
+            'cert' => $this->config->appCertPem,
+            'ssl_key' => $this->config->appKeyPem,
+            'verify' => $this->config->cacertPath,
             'http_errors' => false
         ];
         $response = $client->request('POST', $url, $options);

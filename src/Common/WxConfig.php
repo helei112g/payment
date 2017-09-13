@@ -48,18 +48,8 @@ final class WxConfig extends ConfigInterface
     public $returnUrl;
 
 
-    // 支付查询url
-    const CHARGE_QUERY_URL = 'https://api.mch.weixin.qq.com/{debug}/pay/orderquery';
-
-    // 查询退款url
-    const REFUDN_QUERY_URL = 'https://api.mch.weixin.qq.com/{debug}/pay/refundquery';
-
     // 企业付款的查询
     const TRANS_QUERY_URL = 'https://api.mch.weixin.qq.com/{debug}/mmpaymkttransfers/gettransferinfo';
-
-
-    // 申请退款url
-    const REFUND_URL = 'https://api.mch.weixin.qq.com/{debug}/secapi/pay/refund';
 
     // 企业付款
     const TRANSFERS_URL = 'https://api.mch.weixin.qq.com/{debug}/mmpaymkttransfers/promotion/transfers';
