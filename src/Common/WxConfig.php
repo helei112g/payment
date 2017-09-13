@@ -47,8 +47,6 @@ final class WxConfig extends ConfigInterface
     // 指定回调页面
     public $returnUrl;
 
-    // 统一下单url
-    const UNIFIED_URL = 'https://api.mch.weixin.qq.com/{debug}/pay/unifiedorder';
 
     // 提交刷卡支付url
     const MICROPAY_URL = 'https://api.mch.weixin.qq.com/{debug}/pay/micropay';
@@ -83,7 +81,6 @@ final class WxConfig extends ConfigInterface
 
     // 沙箱测试相关
     const SANDBOX_PRE = 'sandboxnew';
-    const SANDBOX_URL = 'https://api.mch.weixin.qq.com/sandboxnew/pay/getsignkey';
 
     /**
      * 初始化配置文件参数
@@ -167,6 +164,7 @@ final class WxConfig extends ConfigInterface
 
         if (isset($config['use_sandbox']) && $config['use_sandbox'] === true) {
             $this->useSandbox = true;// 是沙箱模式  重新获取key
+            $this->signType = 'MD5';// 沙箱模式只能使用 md5 。沙箱下，微信部分接口不支持 HMAC-SHA256
 
             $helper = new WechatHelper($this, []);
             $this->md5Key = $helper->getSandboxSignKey();

@@ -38,12 +38,6 @@ abstract class AliBaseStrategy implements BaseStrategy
     protected $reqData;
 
     /**
-     * 网络请求类
-     * @var Client $client
-     */
-    protected $client;
-
-    /**
      * AliBaseStrategy constructor.
      * @param array $config
      * @throws PayException

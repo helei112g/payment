@@ -1,12 +1,4 @@
 <?php
-/**
- * @author: helei
- * @createTime: 2016-07-14 18:28
- * @description: 微信 公众号 支付接口
- * @link      https://github.com/helei112g/payment/tree/paymentv2
- * @link      https://helei112g.github.io/
- */
-
 namespace Payment\Charge\Wx;
 
 use Payment\Common\Weixin\Data\BackPubChargeData;
@@ -14,12 +6,11 @@ use Payment\Common\Weixin\Data\Charge\PubChargeData;
 use Payment\Common\Weixin\WxBaseStrategy;
 
 /**
- * Class WxPubCharge
- *
- * 微信公众号支付
- *
- * @package Payment\Charge\Weixin
- * anthor helei
+ * @author: helei
+ * @createTime: 2016-07-14 18:28
+ * @description: 微信 公众号 支付接口
+ * @link      https://www.gitbook.com/book/helei112g1/payment-sdk/details
+ * @link      https://helei112g.github.io/
  */
 class WxPubCharge extends WxBaseStrategy
 {

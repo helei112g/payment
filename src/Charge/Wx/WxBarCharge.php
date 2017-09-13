@@ -1,18 +1,17 @@
 <?php
-/**
- * @author: helei
- * @createTime: 2017-03-06 18:29
- * @description: 微信 刷卡支付  对应支付宝的条码支付
- * @link      https://github.com/helei112g/payment/tree/paymentv2
- * @link      https://helei112g.github.io/
- */
-
 namespace Payment\Charge\Wx;
 
 use Payment\Common\Weixin\Data\Charge\BarChargeData;
 use Payment\Common\Weixin\WxBaseStrategy;
 use Payment\Common\WxConfig;
 
+/**
+ * @author: helei
+ * @createTime: 2017-03-06 18:29
+ * @description: 微信 刷卡支付  对应支付宝的条码支付
+ * @link      https://www.gitbook.com/book/helei112g1/payment-sdk/details
+ * @link      https://helei112g.github.io/
+ */
 class WxBarCharge extends WxBaseStrategy
 {
     public function getBuildDataClass()

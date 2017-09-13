@@ -1,20 +1,15 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: helei
- * Date: 2017/3/6
- * Time: 下午5:44
- */
-
 namespace Payment\Charge\Wx;
 
 use Payment\Common\Weixin\Data\Charge\WapChargeData;
 use Payment\Common\Weixin\WxBaseStrategy;
 
 /**
- * 微信h5支付
- * Class WxWapCharge
- * @package Payment\Charge\Weixin
+ * @author: helei
+ * @createTime: 2016-07-14 18:29
+ * @description: 微信 h5 支付
+ * @link      https://www.gitbook.com/book/helei112g1/payment-sdk/details
+ * @link      https://helei112g.github.io/
  */
 class WxWapCharge extends WxBaseStrategy
 {
