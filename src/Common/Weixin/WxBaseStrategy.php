@@ -24,7 +24,7 @@ abstract class WxBaseStrategy implements BaseStrategy
      * 需要像微信请求的url。默认是统一下单url
      * @var string $reqUrl
      */
-    protected static $reqUrl = 'https://api.mch.weixin.qq.com/{debug}/pay/unifiedorder';
+    protected $reqUrl = 'https://api.mch.weixin.qq.com/{debug}/pay/unifiedorder';
 
     /**
      * 微信的配置文件
@@ -61,7 +61,7 @@ abstract class WxBaseStrategy implements BaseStrategy
      */
     protected function sendReq($xml)
     {
-        $url = static::$reqUrl;
+        $url = $this->reqUrl;
         if (is_null($url)) {
             throw new PayException('目前不支持该接口。请联系开发者添加');
         }

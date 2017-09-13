@@ -48,10 +48,6 @@ final class WxConfig extends ConfigInterface
     public $returnUrl;
 
 
-    // 提交刷卡支付url
-    const MICROPAY_URL = 'https://api.mch.weixin.qq.com/{debug}/pay/micropay';
-
-
     // 支付查询url
     const CHARGE_QUERY_URL = 'https://api.mch.weixin.qq.com/{debug}/pay/orderquery';
 

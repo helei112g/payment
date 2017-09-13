@@ -27,7 +27,7 @@ $payData = [
     'amount'    => '3.01',// 微信沙箱模式，需要金额固定为3.01
     'return_param' => '123',
     'client_ip' => isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '127.0.0.1',// 客户地址
-    'openid' => 'ottkCuO1PW1Dnh6PWFffNk-2MPbY',
+    'openid' => 'ohQeiwnNrAsfdsdf9VvmGFIhba--k',
     'product_id' => '123',
 
     // 如果是服务商，请提供以下参数

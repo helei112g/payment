@@ -14,20 +14,18 @@ use Payment\Common\WxConfig;
  */
 class WxBarCharge extends WxBaseStrategy
 {
+    protected $reqUrl = 'https://api.mch.weixin.qq.com/{debug}/pay/micropay';
+
     public function getBuildDataClass()
     {
         return BarChargeData::class;
     }
 
     /**
-     * 刷卡支付 的请求地址是另外一个
-     * @return string
+     * 返回的数据
+     * @param array $ret
+     * @return array
      */
-    protected function getReqUrl()
-    {
-        return WxConfig::MICROPAY_URL;
-    }
-
     protected function retData(array $ret)
     {
         $ret['total_fee'] = bcdiv($ret['total_fee'], 100, 2);
