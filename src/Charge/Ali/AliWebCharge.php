@@ -17,7 +17,7 @@ use Payment\Common\Ali\Data\Charge\WebChargeData;
 class AliWebCharge extends AliBaseStrategy
 {
     // web 支付接口名称
-    protected static $method = 'alipay.trade.page.pay';
+    protected $method = 'alipay.trade.page.pay';
 
     /**
      * 获取支付对应的数据完成类
@@ -26,7 +26,7 @@ class AliWebCharge extends AliBaseStrategy
      */
     public function getBuildDataClass()
     {
-        $this->config->method = static::$method;
+        $this->config->method = $this->method;
         // 以下两种方式均可以
         return WebChargeData::class;
         //return 'Payment\Common\Ali\Data\Charge\WebChargeData';

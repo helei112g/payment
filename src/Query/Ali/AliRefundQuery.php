@@ -16,11 +16,11 @@ use Payment\Utils\ArrayUtil;
  */
 class AliRefundQuery extends AliBaseStrategy
 {
-    protected static $method = 'alipay.trade.fastpay.refund.query';
+    protected $method = 'alipay.trade.fastpay.refund.query';
 
     public function getBuildDataClass()
     {
-        $this->config->method = static::$method;
+        $this->config->method = $this->method;
         return RefundQueryData::class;
     }
 

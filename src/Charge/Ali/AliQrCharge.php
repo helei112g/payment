@@ -17,11 +17,11 @@ use Payment\Common\PayException;
  */
 class AliQrCharge extends AliBaseStrategy
 {
-    protected static $method = 'alipay.trade.precreate';
+    protected $method = 'alipay.trade.precreate';
 
     public function getBuildDataClass()
     {
-        $this->config->method = static::$method;
+        $this->config->method = $this->method;
         return QrChargeData::class;
     }
 

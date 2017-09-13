@@ -14,7 +14,7 @@ use Payment\Utils\ArrayUtil;
  */
 class AliRefund extends AliBaseStrategy
 {
-    protected static $method = 'alipay.trade.refund';
+    protected $method = 'alipay.trade.refund';
 
     /**
      * 返回退款数据构造类
@@ -22,7 +22,7 @@ class AliRefund extends AliBaseStrategy
      */
     public function getBuildDataClass()
     {
-        $this->config->method = static::$method;
+        $this->config->method = $this->method;
         return RefundData::class;
     }
 

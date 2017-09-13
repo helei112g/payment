@@ -13,11 +13,11 @@ use Payment\Config;
  */
 class AliTransfer extends AliBaseStrategy
 {
-    protected static $method = 'alipay.fund.trans.toaccount.transfer';
+    protected $method = 'alipay.fund.trans.toaccount.transfer';
 
     public function getBuildDataClass()
     {
-        $this->config->method = static::$method;
+        $this->config->method = $this->method;
         return TransData::class;
     }
 

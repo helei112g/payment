@@ -17,7 +17,7 @@ use Payment\Utils\ArrayUtil;
  */
 class AliChargeQuery extends AliBaseStrategy
 {
-    protected static $method = 'alipay.trade.query';
+    protected $method = 'alipay.trade.query';
 
     /**
      * 返回数据构建类
@@ -25,7 +25,7 @@ class AliChargeQuery extends AliBaseStrategy
      */
     public function getBuildDataClass()
     {
-        $this->config->method = static::$method;
+        $this->config->method = $this->method;
         return ChargeQueryData::class;
     }
 

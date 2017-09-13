@@ -14,11 +14,11 @@ use Payment\Utils\ArrayUtil;
  */
 class AliTransferQuery extends AliBaseStrategy
 {
-    protected static $method = 'alipay.fund.trans.order.query';
+    protected $method = 'alipay.fund.trans.order.query';
 
     public function getBuildDataClass()
     {
-        $this->config->method = static::$method;
+        $this->config->method = $this->method;
         return TransferQueryData::class;
     }
 

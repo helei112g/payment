@@ -17,11 +17,11 @@ use Payment\Common\PayException;
 class AliBarCharge extends AliBaseStrategy
 {
     // app 支付接口名称
-    protected static $method = 'alipay.trade.pay';
+    protected $method = 'alipay.trade.pay';
 
     public function getBuildDataClass()
     {
-        $this->config->method = static::$method;
+        $this->config->method = $this->method;
         return BarChargeData::class;
     }
 

@@ -14,7 +14,7 @@ use Payment\Common\Ali\Data\Charge\WapChargeData;
 class AliWapCharge extends AliBaseStrategy
 {
     // wap 支付接口名称
-    protected static $method = 'alipay.trade.wap.pay';
+    protected $method = 'alipay.trade.wap.pay';
 
     /**
      * 获取支付对应的数据完成类
@@ -23,7 +23,7 @@ class AliWapCharge extends AliBaseStrategy
      */
     public function getBuildDataClass()
     {
-        $this->config->method = static::$method;
+        $this->config->method = $this->method;
         // 以下两种方式任选一种
         return WapChargeData::class;
     }
