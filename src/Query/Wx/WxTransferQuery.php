@@ -1,18 +1,10 @@
 <?php
-/**
- * @author: helei
- * @createTime: 2016-08-04 10:30
- * @description:
- */
-
 namespace Payment\Query\Wx;
 
 use Payment\Common\PayException;
 use Payment\Common\Weixin\Data\Query\TransferQueryData;
 use Payment\Common\Weixin\WxBaseStrategy;
-use Payment\Common\WxConfig;
 use Payment\Config;
-use Payment\Utils\Curl;
 use Payment\Utils\DataParser;
 
 /**
@@ -22,41 +14,11 @@ use Payment\Utils\DataParser;
  */
 class WxTransferQuery extends WxBaseStrategy
 {
+    protected $reqUrl = 'https://api.mch.weixin.qq.com/{debug}/mmpaymkttransfers/gettransferinfo';
+
     public function getBuildDataClass()
     {
         return TransferQueryData::class;
-    }
-
-    /**
-     * 使用证书方式进行查询
-     * @param string $xml
-     * @param string $url
-     * @return array
-     * @author helei
-     */
-    protected function curlPost($xml, $url)
-    {
-        $curl = new Curl();
-        $responseTxt = $curl->set([
-            'CURLOPT_HEADER'    => 0,
-            'CURLOPT_SSL_VERIFYHOST'    => false,
-            'CURLOPT_SSLCERTTYPE'   => 'PEM', //默认支持的证书的类型，可以注释
-            'CURLOPT_SSLCERT'   => $this->config->appCertPem,
-            'CURLOPT_SSLKEY'    => $this->config->appKeyPem,
-            'CURLOPT_CAINFO'    => $this->config->cacertPath,
-        ])->post($xml)->submit($url);
-
-        return $responseTxt;
-    }
-
-    /**
-     * 返回付款查询url
-     * @return string
-     * @author helei
-     */
-    protected function getReqUrl()
-    {
-        return WxConfig::TRANS_QUERY_URL;
     }
 
     /**

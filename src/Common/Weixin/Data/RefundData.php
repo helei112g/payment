@@ -43,6 +43,10 @@ class RefundData extends WxBaseData
             'refund_fee' => $this->refund_fee,// 退款总金额
             'op_user_id'    => $this->operator_id,//操作员帐号, 默认为商户号
             'refund_account' => $this->refund_account,// 退款账户类型
+
+            // 服务商
+            'sub_appid' => $this->sub_appid,
+            'sub_mch_id' => $this->sub_mch_id,
         ];
 
         $this->retData = ArrayUtil::paraFilter($this->retData);

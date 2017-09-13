@@ -47,14 +47,6 @@ final class WxConfig extends ConfigInterface
     // 指定回调页面
     public $returnUrl;
 
-
-    // 企业付款的查询
-    const TRANS_QUERY_URL = 'https://api.mch.weixin.qq.com/{debug}/mmpaymkttransfers/gettransferinfo';
-
-    // 企业付款
-    const TRANSFERS_URL = 'https://api.mch.weixin.qq.com/{debug}/mmpaymkttransfers/promotion/transfers';
-
-
     // 关闭订单url  尚未接入
     const CLOSE_URL = 'https://api.mch.weixin.qq.com/{debug}/pay/closeorder';
 

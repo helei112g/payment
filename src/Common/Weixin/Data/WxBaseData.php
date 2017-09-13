@@ -22,6 +22,10 @@ use Payment\Common\BaseData;
  * @property string $tradeType   支付类型
  * @property string $terminal_id 终端设备号(门店号或收银设备ID)，默认请传"WEB"
  *
+ * @note 服务商信息
+ * @property string $sub_appid 微信分配的子商户公众账号ID
+ * @property string $sub_mch_id 	微信支付分配的子商户号
+ *
  * @package Payment\Common\Weixin\Dataa
  *
  * @link      https://www.gitbook.com/book/helei112g1/payment-sdk/details

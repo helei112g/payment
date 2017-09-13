@@ -3,9 +3,7 @@ namespace Payment\Trans;
 
 use Payment\Common\Weixin\Data\TransferData;
 use Payment\Common\Weixin\WxBaseStrategy;
-use Payment\Common\WxConfig;
 use Payment\Config;
-use Payment\Utils\Curl;
 
 /**
  * 微信企业付款接口
@@ -15,39 +13,11 @@ use Payment\Utils\Curl;
  */
 class WxTransfer extends WxBaseStrategy
 {
+    protected $reqUrl = 'https://api.mch.weixin.qq.com/{debug}/mmpaymkttransfers/promotion/transfers';
+
     public function getBuildDataClass()
     {
         return TransferData::class;
-    }
-
-    /*
-     * 返回转款的url
-     */
-    protected function getReqUrl()
-    {
-        return WxConfig::TRANSFERS_URL;
-    }
-
-    /**
-     * 微信退款接口，需要用到相关加密文件及证书，需要重新进行curl的设置
-     * @param string $xml
-     * @param string $url
-     * @return array
-     * @author helei
-     */
-    protected function curlPost($xml, $url)
-    {
-        $curl = new Curl();
-        $responseTxt = $curl->set([
-            'CURLOPT_HEADER'    => 0,
-            'CURLOPT_SSL_VERIFYHOST'    => false,
-            'CURLOPT_SSLCERTTYPE'   => 'PEM', //默认支持的证书的类型，可以注释
-            'CURLOPT_SSLCERT'   => $this->config->appCertPem,
-            'CURLOPT_SSLKEY'    => $this->config->appKeyPem,
-            'CURLOPT_CAINFO'    => $this->config->cacertPath,
-        ])->post($xml)->submit($url);
-
-        return $responseTxt;
     }
 
     /**

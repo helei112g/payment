@@ -34,6 +34,10 @@ class ChargeQueryData extends WxBaseData
 
             'transaction_id'    => $this->transaction_id,
             'out_trade_no'  => $this->out_trade_no,
+
+            // 服务商
+            'sub_appid' => $this->sub_appid,
+            'sub_mch_id' => $this->sub_mch_id,
         ];
 
         $this->retData = ArrayUtil::paraFilter($this->retData);
