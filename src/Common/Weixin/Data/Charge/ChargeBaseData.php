@@ -19,6 +19,10 @@ use Payment\Config;
  * @property integer $timeout_express  订单失效时间   格式为yyyyMMddHHmmss
  * @property array $scene_info 该字段用于上报支付的场景信息
  *
+ * @note 服务商信息
+ * @property string $sub_appid 微信分配的子商户公众账号ID
+ * @property string $sub_mch_id 	微信支付分配的子商户号
+ *
  * @package Payment\Common\Weixin\Data\Charge
  *
  * @link      https://www.gitbook.com/book/helei112g1/payment-sdk/details

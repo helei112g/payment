@@ -9,8 +9,6 @@ use Payment\Utils\ArrayUtil;
  *
  * @inheritdoc
  * @property string $auth_code  扫码支付授权码，设备读取用户微信中的条码或者二维码信息
- * @property string $sub_appid 微信分配的子商户公众账号ID
- * @property string $sub_mch_id 	微信支付分配的子商户号
  *
  * @package Payment\Common\Weixin\Data\Charge
  */

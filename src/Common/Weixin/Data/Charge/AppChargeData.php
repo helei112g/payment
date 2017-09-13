@@ -41,7 +41,11 @@ class AppChargeData extends ChargeBaseData
             //'product_id' => '商品id',
             'limit_pay' => $this->limitPay,  // 指定不使用信用卡
             //'openid' => '用户标识',
-            'scene_info' => $sceneInfo ? json_encode($sceneInfo, JSON_UNESCAPED_UNICODE) : ''
+            'scene_info' => $sceneInfo ? json_encode($sceneInfo, JSON_UNESCAPED_UNICODE) : '',
+
+            // 服务商
+            'sub_appid' => $this->sub_appid,
+            'sub_mch_id' => $this->sub_mch_id,
         ];
 
         // 移除数组中的空值

@@ -8,6 +8,9 @@ use Payment\Utils\ArrayUtil;
  * 构建wap支付的下单数据
  * Class WapChargeData
  *
+ * @property string $openid  trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识
+ * @property string $sub_openid 用户在子商户appid下的唯一标识
+ *
  * @package Payment\Common\Weixin\Data\Charge
  */
 class WapChargeData extends ChargeBaseData
@@ -50,9 +53,13 @@ class WapChargeData extends ChargeBaseData
             'trade_type'    => $this->tradeType, //设置APP支付
             //'product_id' => '商品id',
             'limit_pay' => $this->limitPay,  // 指定不使用信用卡
-            //'openid' => '用户标识',
-
+            'openid' => $this->openid,
             'scene_info' => $sceneInfo ? json_encode($sceneInfo, JSON_UNESCAPED_UNICODE) : '',
+
+            // 服务商
+            'sub_appid' => $this->sub_appid,
+            'sub_mch_id' => $this->sub_mch_id,
+            'sub_openid' => $this->sub_openid,
         ];
 
         // 移除数组中的空值
