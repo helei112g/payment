@@ -21,7 +21,11 @@ Payment 需要 PHP &gt;= 5.6以上的版本，并且同时需要PHP安装以下�
 - mbstring
 
 - BC Math
+
+- Guzzle
 ```
+guzzle 是一个开源的php http请求lib，[项目地址](https://github.com/guzzle/guzzle)
+
 <p align="center">
     <b>成都本地内推微信公众号，有需要的拿走:</b>
     <br><br>
@@ -92,7 +96,6 @@ Payment支持所有的PHP项目，只要求PHP版本大于等于5.6即可。同�
 * 取消协议（待开发）
 
 ## 安装
-* **安装方式一**
 
 通过composer，这是推荐的方式，可以使用composer.json 声明依赖，或者直接运行下面的命令。
 
@@ -113,10 +116,6 @@ Payment支持所有的PHP项目，只要求PHP版本大于等于5.6即可。同�
 ```
 composer update
 ```
-
-* **安装方式二**
-
-直接下载放入自己的项目中，通过 `require` 的方式引用代码。极度不推荐
 
 # Change Log #
 - 接入支付宝电脑网站支付、微信服务商模式支持(from v4.0.0)
