@@ -35,12 +35,12 @@ class Helper
 
         if (is_null(self::$instance)) {
             static::$instance = new HelperContext();
+        }
 
-            try {
-                static::$instance->initHelper($channel, $config);
-            } catch (PayException $e) {
-                throw $e;
-            }
+        try {
+            static::$instance->initHelper($channel, $config);
+        } catch (PayException $e) {
+            throw $e;
         }
 
         return static::$instance;

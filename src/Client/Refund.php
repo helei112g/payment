@@ -40,12 +40,12 @@ class Refund
 
         if (is_null(self::$instance)) {
             static::$instance = new RefundContext();
+        }
 
-            try {
-                static::$instance->initRefund($channel, $config);
-            } catch (PayException $e) {
-                throw $e;
-            }
+        try {
+            static::$instance->initRefund($channel, $config);
+        } catch (PayException $e) {
+            throw $e;
         }
 
         return static::$instance;

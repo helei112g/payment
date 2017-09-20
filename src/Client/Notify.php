@@ -40,12 +40,12 @@ class Notify
 
         if (is_null(self::$instance)) {
             static::$instance = new NotifyContext();
+        }
 
-            try {
-                static::$instance->initNotify($type, $config);
-            } catch (PayException $e) {
-                throw $e;
-            }
+        try {
+            static::$instance->initNotify($type, $config);
+        } catch (PayException $e) {
+            throw $e;
         }
 
         return static::$instance;

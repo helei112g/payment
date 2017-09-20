@@ -40,12 +40,12 @@ class Transfer
 
         if (is_null(self::$instance)) {
             static::$instance = new TransferContext();
+        }
 
-            try {
-                static::$instance->initTransfer($channel, $config);
-            } catch (PayException $e) {
-                throw $e;
-            }
+        try {
+            static::$instance->initTransfer($channel, $config);
+        } catch (PayException $e) {
+            throw $e;
         }
 
         return static::$instance;
