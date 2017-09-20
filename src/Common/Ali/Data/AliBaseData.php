@@ -66,7 +66,7 @@ abstract class AliBaseData extends BaseData
     }
 
     /**
-     * 构建 APP支付 加密数据
+     * 构建 支付 加密数据
      * @author helei
      */
     protected function buildData()
@@ -83,10 +83,16 @@ abstract class AliBaseData extends BaseData
             'sign_type'     => $this->signType,
             'timestamp'     => $this->timestamp,
             'version'       => $this->version,
+            'notify_url'    => $this->notifyUrl,
 
             // 业务参数
             'biz_content'   => json_encode($bizContent, JSON_UNESCAPED_UNICODE),
         ];
+
+        // 电脑支付  wap支付添加额外参数
+        if (in_array($this->method, ['alipay.trade.page.pay', 'alipay.trade.wap.pay'])) {
+            $signData['return_url'] = $this->returnUrl;
+        }
 
         // 移除数组中的空值
         $this->retData = ArrayUtil::paraFilter($signData);
