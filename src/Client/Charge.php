@@ -48,12 +48,12 @@ class Charge
         
         if (is_null(self::$instance)) {
             static::$instance = new ChargeContext();
+        }
 
-            try {
-                static::$instance->initCharge($channel, $config);
-            } catch (PayException $e) {
-                throw $e;
-            }
+        try {
+            static::$instance->initCharge($channel, $config);
+        } catch (PayException $e) {
+            throw $e;
         }
 
         return static::$instance;
