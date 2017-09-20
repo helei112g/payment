@@ -44,12 +44,12 @@ class Query
     {
         if (is_null(self::$instance)) {
             static::$instance = new QueryContext();
+        }
 
-            try {
-                static::$instance->initQuery($queryType, $config);
-            } catch (PayException $e) {
-                throw $e;
-            }
+        try {
+            static::$instance->initQuery($queryType, $config);
+        } catch (PayException $e) {
+            throw $e;
         }
 
         return static::$instance;
