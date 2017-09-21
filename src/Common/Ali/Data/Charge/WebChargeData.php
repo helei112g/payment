@@ -34,7 +34,7 @@ class WebChargeData extends ChargeBaseData
             'body'          => strval($this->body),
             // TODO 订单包含的商品列表信息 待实现
             // 'goods_detail' => '',
-            'passback_params' => $this->passback_params,
+            'passback_params' => $this->return_param,
             // TODO 业务扩展参数，待支持
             // 'extend_params => '',
             'goods_type'    => $this->goods_type,

@@ -23,7 +23,7 @@ use Payment\Utils\ArrayUtil;
  * @property integer $timeout_express
  * @property string $amount
  * @property string $goods_type
- * @property string $passback_params
+ * @property string $return_param
  * @property string $store_id  	商户门店编号
  *
  * @package Payment\Common\Ali\Data\Charge
@@ -45,7 +45,7 @@ abstract class ChargeBaseData extends AliBaseData
         $orderNo = $this->order_no;
         $amount = $this->amount;
         $goodsType = $this->goods_type;
-        $passBack = $this->passback_params;
+        $passBack = $this->return_param;
 
         // 检查 商品名称 与 商品描述
         if (empty($subject)) {
@@ -74,7 +74,7 @@ abstract class ChargeBaseData extends AliBaseData
             throw new PayException('回传参数必须是字符串');
         }
         if (!empty($passBack)) {
-            $this->passback_params = urlencode($passBack);
+            $this->return_param = urlencode($passBack);
         }
     }
 }

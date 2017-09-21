@@ -29,7 +29,7 @@ class WapChargeData extends ChargeBaseData
             // 销售产品码，商家和支付宝签约的产品码，为固定值QUICK_WAP_PAY
             'product_code'  => 'QUICK_WAP_PAY',
             'goods_type'    => $this->goods_type,
-            'passback_params' => $this->passback_params,
+            'passback_params' => $this->return_param,
             // TODO 优惠信息待支持  业务扩展参数，待支持
             // 'promo_params' => '',
             // 'extend_params => '',
