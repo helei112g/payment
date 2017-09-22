@@ -142,7 +142,7 @@ composer update
 
 <p align="center">
     <img src="http://ol59nqr1i.bkt.clouddn.com/pay-qr.jpg?imageView2/2/w/500/h/400">
-    <p align="center">打赏扫这里</p>
+    <p align="center">打赏扫这里，请留下尊姓大名</p>
 </p>
 
 # Contribution #
