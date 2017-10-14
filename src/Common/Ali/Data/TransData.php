@@ -1,133 +1,80 @@
 <?php
-/**
- * @author: helei
- * @createTime: 2016-07-27 13:05
- * @description:
- */
-
 namespace Payment\Common\Ali\Data;
 
-
-use Payment\Common\AliConfig;
 use Payment\Common\PayException;
-use Payment\Utils\ArrayUtil;
+use Payment\Config;
 
 /**
+ * 转账到支付宝帐号
  * Class TransData
  *
- * @property string $trans_no  转账单号
- * @property string $amount  付款的总金额，最小0.01.单位元
- * @property string $batch_num  本次退款的总笔数
- * @property array $trans_data  付款详细数据
- *  $trans_data[] = [
- *      'serial_no' => '流水号',
- *      'user_account'   => '收款账号',
- *      'user_name'     => '收款人姓名',
- *      'trans_fee'       => '付款金额',
- *      'desc'      => '付款备注说明',
- *  ];
+ * @property string $trans_no  商户转账唯一订单号
+ * @property string $payee_type  收款方账户类型。可取值： 1、ALIPAY_USERID：支付宝账号对应的支付宝唯一用户号。以2088开头的16位纯数字组成。 2、ALIPAY_LOGONID：支付宝登录号，支持邮箱和手机号格式。
+ * @property string $payee_account 收款方账户。与payee_type配合使用。付款方和收款方不能是同一个账户。
+ * @property string $amount  转账金额，单位：元。 只支持2位小数，小数点前最大支持13位，金额必须大于0。
+ *
+ * // 可选参数
+ * @property string $payer_real_name 付款方真实姓名
+ * @property string $payee_real_name 收款方真实姓名
+ * @property string $payer_show_name  默认显示该账户在支付宝登记的实名。收款方可见。
+ * @property string $remark 转账备注  当付款方为企业账户，且转账金额达到（大于等于）50000元，remark不能为空
  *
  * @package Payment\Common\Ali\Data
  * anthor helei
  */
 class TransData extends AliBaseData
 {
-    // 付款描述中不能包含以下字符。直接进行过滤
-    protected $danger = ['^', '|', '$', '#'];
-
-    // 替换为安全的字符串
-    protected $safe = ['', '', '', ''];
-
-    protected function buildData()
-    {
-        // 设置加密的方式
-        $signData = [
-            // 基本参数
-            'service'   => 'batch_trans_notify',
-            'partner'   => trim($this->partner),
-            '_input_charset'   => trim($this->inputCharset),
-            'sign_type'   => trim($this->signType),
-            'notify_url'    => trim($this->notifyUrl),
-
-            // 业务参数
-            'account_name' => trim($this->account_name),
-            'detail_data'   => $this->trans_data,
-            'batch_no'  => trim($this->trans_no),
-            'batch_num' => $this->batch_num,
-            'batch_fee' => $this->amount,
-            'email' => $this->account,
-            'pay_date'  => date('Ymd', time()),
-        ];
-
-        // 移除数组中的空值
-        $this->retData = ArrayUtil::paraFilter($signData);
-    }
-
     /**
      * 检查参数是否合法
      * @author helei
      */
     protected function checkDataParam()
     {
-        $transNo = $this->trans_no;// 付款交易号，商户系统内唯一
-        $data = $this->trans_data;// 批量转款数据
-        $account = $this->account; // 付款账号
-        $accountName = $this->account_name;// 付款账号名称
+        $transNo = $this->trans_no;
+        $payeeType = $this->payee_type;
+        $payeeAccount = $this->payee_account;
+        $amount = $this->amount;
+        $remark = $this->remark;
 
-        // 检查付款单号是否设置
-        if (empty($transNo) || mb_strlen($transNo) < 11 || mb_strlen($transNo) > 32) {
-            throw new PayException('转账单号，不能为空，长度在11~32位之间');
+        if (empty($transNo)) {
+            throw new PayException('请传入 商户转账唯一订单号');
         }
 
-        // 此接口，配置文件必须设置付款账号名与付款账号
-        if (empty($account) || empty($accountName)) {
-            throw new PayException('该接口必须提供 account 与 account_name 两个配置信息');
+        if (empty($payeeType) || ! in_array($payeeType, ['ALIPAY_USERID', 'ALIPAY_LOGONID'])) {
+            throw new PayException('请传入收款账户类型');
         }
 
-        $amount = $batchNum = 0;
-        $transData = '';
-        // 统计总金额，及付款笔数
-        foreach ($data as $key => $item) {
-            // 检查备注
-            $desc = str_replace($this->danger, $this->safe, $item['desc']);
-            if (empty($desc) || mb_strlen($desc) > 50) {
-                throw new PayException("trans_data 索引为{$key}的数据，备注说明不能为空，并且不能超过50个字符");
-            }
-
-            // 检查流水号
-            if (empty($item['serial_no']) || mb_strlen($item['serial_no']) > 22) {
-                throw new PayException("trans_data 索引为{$key}的数据，流水号不能为空，并且长度不能超过22个字符");
-            }
-
-            // 检查收款方账号
-            if (empty($item['user_account']) || mb_strlen($item['user_account']) > 50) {
-                throw new PayException("trans_data 索引为{$key}的数据，收款方账号不能为空，并且长度不能超过50个字符");
-            }
-
-            // 检查付款金额
-            if (bccomp($item['trans_fee'], '0.01', 2) === -1) {
-                throw new PayException("trans_data 索引为{$key}的数据，交易金额小于0.01");
-            }
-
-            // 检查收款方姓名
-            if (empty($item['user_name'])) {
-                throw new PayException("trans_data 索引为{$key}的数据，收款方姓名不能为空");
-            }
-
-            $batchNum++;// 付款总笔数
-            $amount = bcadd($amount, $item['trans_fee'], 2);// 总金额
-            $transData .= "{$item['serial_no']}^{$item['user_account']}^{$item['user_name']}^{$item['trans_fee']}^{$desc}|";
+        if (empty($payeeAccount)) {
+            throw new PayException('请传入转账帐号');
         }
 
-        // 移除最后一个 |号
-        $transData = trim($transData, '|');
-
-        if (empty($batchNum) || empty($amount) || empty($transData) || $batchNum > 1000) {
-            throw new PayException('提供的付款数据异常，可能数据为空，或交易笔数单次大于1000');
+        if (empty($amount) || bccomp($amount, 0, 2) !== 1) {
+            throw new PayException('请输入转账金额，且大于0');
         }
 
-        $this->batch_num = $batchNum;
-        $this->amount = $amount;
-        $this->trans_data = $transData;
+        if (bccomp($amount, Config::TRANS_FEE, 2) !== -1 && empty($remark)) {
+            throw new PayException('转账金额大于等于' . Config::TRANS_FEE , '必须设置 remark');
+        }
+    }
+
+    /**
+     * 业务请求参数的集合，最大长度不限，除公共参数外所有请求参数都必须放在这个参数中传递
+     *
+     * @return string
+     */
+    protected function getBizContent()
+    {
+        $content = [
+            'out_biz_no'    => $this->trans_no,// 商户转账唯一订单号
+            'payee_type'        => strtoupper($this->payee_type),// 收款方账户类型
+            'payee_account'     => $this->payee_account,// 收款方账户
+            'amount'     => $this->amount,
+            'payer_show_name'       => $this->payer_show_name,
+            'payer_real_name'    => $this->payer_real_name,
+            'payee_real_name'          => $this->payee_real_name,
+            'remark'       => $this->remark,
+        ];
+
+        return $content;
     }
 }

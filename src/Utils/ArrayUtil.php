@@ -1,15 +1,13 @@
 <?php
+namespace Payment\Utils;
+
 /**
  * @author: helei
  * @createTime: 2016-06-07 21:01
  * @description:  常用的数组处理工具
- * @link      https://github.com/helei112g/payment/tree/paymentv2
+ * @link      https://www.gitbook.com/book/helei112g1/payment-sdk/details
  * @link      https://helei112g.github.io/
  */
-
-namespace Payment\Utils;
-
-
 class ArrayUtil
 {
     /**
@@ -20,20 +18,20 @@ class ArrayUtil
      */
     public static function paraFilter($para)
     {
-        $para_filter = array();
-        while (list ($key, $val) = each ($para)) {
-            if ($val == "") {
+        $paraFilter = [];
+        while (list($key, $val) = each($para)) {
+            if ($val === '' || $val === null) {
                 continue;
             } else {
                 if (! is_array($para[$key])) {
                     $para[$key] = is_bool($para[$key]) ? $para[$key] : trim($para[$key]);
                 }
 
-                $para_filter[$key] = $para[$key];
+                $paraFilter[$key] = $para[$key];
             }
         }
 
-        return $para_filter;
+        return $paraFilter;
     }
 
     /**
@@ -48,17 +46,23 @@ class ArrayUtil
             $keys = explode(',', $keys);
         }
 
-        if (empty($keys) || ! is_array($keys)) return $inputs;
+        if (empty($keys) || ! is_array($keys)) {
+            return $inputs;
+        }
 
         $flag = true;
         foreach ($keys as $key) {
             if (array_key_exists($key, $inputs)) {
-                if (is_int($key)) $flag = false;
+                if (is_int($key)) {
+                    $flag = false;
+                }
                 unset($inputs[$key]);
             }
         }
 
-        if (! $flag) $inputs = array_values($inputs);
+        if (! $flag) {
+            $inputs = array_values($inputs);
+        }
         return $inputs;
     }
 
@@ -89,16 +93,16 @@ class ArrayUtil
         }
 
         reset($para);
-        $arg  = "";
-        while (list ($key, $val) = each ($para)) {
+        $arg = '';
+        while (list($key, $val) = each($para)) {
             if (is_array($val)) {
                 continue;
             }
 
-            $arg.=$key."=".$val."&";
+            $arg.=$key.'='.urldecode($val).'&';
         }
         //去掉最后一个&字符
-        $arg = substr($arg, 0, count($arg) - 2);
+        $arg && $arg = substr($arg, 0, -1);
 
         //如果存在转义字符，那么去掉转义
         if (get_magic_quotes_gpc()) {
@@ -106,5 +110,22 @@ class ArrayUtil
         }
 
         return $arg;
+    }
+
+    /**
+     * 获取一个数组中某个key的值，如果key为不存在，返回默认值
+     * @param array $arr
+     * @param $key
+     * @param string $default
+     *
+     * @return string
+     */
+    public static function get(array $arr, $key, $default = '')
+    {
+        if (isset($arr[$key]) && ! empty($arr[$key])) {
+            return $arr[$key];
+        }
+
+        return $default;
     }
 }

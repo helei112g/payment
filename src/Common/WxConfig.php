@@ -1,23 +1,19 @@
 <?php
+namespace Payment\Common;
+
+use Payment\Common\Weixin\WechatHelper;
+use Payment\Utils\ArrayUtil;
+use Payment\Utils\StrUtil;
+
 /**
  * @author: helei
  * @createTime: 2016-07-15 14:56
  * @description: 微信配置文件
- * @link      https://github.com/helei112g/payment/tree/paymentv2
+ * @link      https://www.gitbook.com/book/helei112g1/payment-sdk/details
  * @link      https://helei112g.github.io/
  */
-
-namespace Payment\Common;
-
-
-use Payment\Utils\ArrayUtil;
-use Payment\Utils\StrUtil;
-
 final class WxConfig extends ConfigInterface
 {
-    // 微信支付的网关
-    public $getewayUrl = 'https://api.mch.weixin.qq.com/';
-
     // 微信分配的公众账号ID
     public $appId;
 
@@ -30,14 +26,8 @@ final class WxConfig extends ConfigInterface
     // 符合ISO 4217标准的三位字母代码
     public $feeType = 'CNY';
 
-    // 用于异步通知的地址
-    public $notifyUrl;
-
     // 交易开始时间 格式为yyyyMMddHHmmss
     public $timeStart;
-
-    // 订单在微信服务器过期的时间，过期后无法支付
-    public $timeExpire;
 
     // 用于加密的md5Key
     public $md5Key;
@@ -45,64 +35,42 @@ final class WxConfig extends ConfigInterface
     // 安全证书的路径
     public $cacertPath;
 
-    // cert证书路径
-    public $certPath;
+    // cert证书路径或者内容
+    public $appCertPem;
 
-    // key文件路径
-    public $keyPath;
+    // key文件路径或者内容
+    public $appKeyPem;
 
-    // 加密方式 默认使用MD5  微信当前仅支持该方式
-    public $signType = 'MD5';
+    // 	支付类型
+    public $tradeType;
 
-    // 统一下单url
-    const UNIFIED_URL = 'https://api.mch.weixin.qq.com/pay/unifiedorder';
-
-    // 查询url
-    const ORDER_QUERY_URL = 'https://api.mch.weixin.qq.com/pay/orderquery';
-
-    // 申请退款url
-    const REFUND_URL = 'https://api.mch.weixin.qq.com/secapi/pay/refund';
-
-    // 查询退款url
-    const REFUDN_QUERY_URL = 'https://api.mch.weixin.qq.com/pay/refundquery';
-
-    // 企业付款
-    const TRANSFERS_URL = 'https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers';
-
-    // 企业付款的查询
-    const TRANS_QUERY_URL = 'https://api.mch.weixin.qq.com/mmpaymkttransfers/gettransferinfo';
+    // 指定回调页面
+    public $returnUrl;
 
     // 关闭订单url  尚未接入
-    const CLOSE_URL = 'https://api.mch.weixin.qq.com/pay/closeorder';
+    const CLOSE_URL = 'https://api.mch.weixin.qq.com/{debug}/pay/closeorder';
 
     // 短连接转化url  尚未接入
-    const SHORT_URL = 'https://api.mch.weixin.qq.com/tools/shorturl';
+    const SHORT_URL = 'https://api.mch.weixin.qq.com/{debug}/tools/shorturl';
 
-    /**
-     * 初始化微信配置文件
-     * WxConfig constructor.
-     * @param array $config
-     * @throws PayException
-     */
-    public function __construct(array $config)
-    {
-        try {
-            $this->initConfig($config);
-        } catch (PayException $e) {
-            throw $e;
-        }
+    // 退款账户
+    const REFUND_UNSETTLED = 'REFUND_SOURCE_UNSETTLED_FUNDS';// 未结算资金退款（默认使用未结算资金退款）
+    const REFUND_RECHARGE = 'REFUND_SOURCE_RECHARGE_FUNDS';// 可用余额退款(限非当日交易订单的退款）
 
-        $basePath = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'Weixin' . DIRECTORY_SEPARATOR;
-        $this->cacertPath = "{$basePath}/rootca.pem";
-    }
+    // 沙箱测试相关
+    const SANDBOX_PRE = 'sandboxnew';
 
     /**
      * 初始化配置文件参数
      * @param array $config
      * @throws PayException
      */
-    private function initConfig(array $config)
+    protected function initConfig(array $config)
     {
+        $basePath = dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'CacertFile' . DIRECTORY_SEPARATOR;
+        $this->cacertPath = "{$basePath}wx_cacert.pem";
+
+
         $config = ArrayUtil::paraFilter($config);
 
         // 检查 微信分配的公众账号ID
@@ -119,9 +87,6 @@ final class WxConfig extends ConfigInterface
             throw new PayException('必须提供微信支付分配的商户号');
         }
 
-        // 生成随机字符串
-        $this->nonceStr = StrUtil::getNonceStr();
-
         // 检查 异步通知的url
         if (key_exists('notify_url', $config) && !empty($config['notify_url'])) {
             $this->notifyUrl = trim($config['notify_url']);
@@ -133,18 +98,6 @@ final class WxConfig extends ConfigInterface
         $startTime = time();
         $this->timeStart = date('YmdHis', $startTime);
 
-        // 初始 微信订单过期时间，最短失效时间间隔必须大于5分钟
-        if (key_exists('time_expire', $config) && !empty($config['time_expire']) && $config['time_expire'] >= 5) {
-            $this->timeExpire = date('YmdHis', $startTime + ($config['time_expire'] * 60));
-        } else {
-            throw new PayException('必须设置订单过期时间,且需要大于5分钟.如果不正确请检查是否正确设置时区');
-        }
-
-        // 初始 支付宝网关地址
-        if (key_exists('geteway_url', $config) && !empty($config['geteway_url'])) {
-            $this->getewayUrl = $config['geteway_url'];
-        }
-
         // 初始 MD5 key
         if (key_exists('md5_key', $config) && !empty($config['md5_key'])) {
             $this->md5Key = $config['md5_key'];
@@ -152,15 +105,49 @@ final class WxConfig extends ConfigInterface
             throw new PayException('MD5 Key 不能为空，再微信商户后台可查看');
         }
 
-        // 以下两个文件，如果是调用资金流向接口，必须提供
-        if (! empty($config['cert_path'])) {
-            $this->certPath = $config['cert_path'];
+        // 设置支付的货币类型
+        if (key_exists('fee_type', $config) && in_array($config['fee_type'], ['CNY'])) {
+            $this->feeType = $config['fee_type'];
         }
 
-        if (! empty($config['key_path'])) {
-            $this->keyPath = $config['key_path'];
+        // 设置禁止使用的支付方式
+        if (key_exists('limit_pay', $config) && !empty($config['limit_pay']) && $config['limit_pay'][0] === 'no_credit') {
+            $this->limitPay = $config['limit_pay'][0];
+        }
+
+        if (key_exists('return_raw', $config)) {
+            $this->returnRaw = filter_var($config['return_raw'], FILTER_VALIDATE_BOOLEAN);
+        }
+
+        if (key_exists('redirect_url', $config)) {
+            $this->returnUrl = $config['redirect_url'];
+        }
+
+        // 以下两个文件，如果是调用资金流向接口，必须提供
+        if (! empty($config['app_cert_pem'])) {
+            $this->appCertPem = $config['app_cert_pem'];
+        }
+        if (! empty($config['app_key_pem'])) {
+            $this->appKeyPem = $config['app_key_pem'];
+        }
+
+        if (key_exists('sign_type', $config) && in_array($config['sign_type'], ['MD5', 'HMAC-SHA256'])) {
+            $this->signType = $config['sign_type'];
+        } else {
+            $this->signType = 'MD5';
+        }
+
+        // 生成随机字符串
+        $this->nonceStr = StrUtil::getNonceStr();
+
+        if (isset($config['use_sandbox']) && $config['use_sandbox'] === true) {
+            $this->useSandbox = true;// 是沙箱模式  重新获取key
+            $this->signType = 'MD5';// 沙箱模式只能使用 md5 。沙箱下，微信部分接口不支持 HMAC-SHA256
+
+            $helper = new WechatHelper($this, []);
+            $this->md5Key = $helper->getSandboxSignKey();
+        } else {
+            $this->useSandbox = false;// 不是沙箱模式
         }
     }
-
-
 }

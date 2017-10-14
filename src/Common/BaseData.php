@@ -1,19 +1,25 @@
 <?php
+namespace Payment\Common;
+
+use Payment\Config;
+use Payment\Utils\ArrayUtil;
+
 /**
  * @author: helei
  * @createTime: 2016-07-28 18:05
  * @description: 支付相关接口的数据基类
- */
-
-namespace Payment\Common;
-
-use Payment\Common\PayException;
-use Payment\Utils\ArrayUtil;
-
-/**
+ * @link      https://www.gitbook.com/book/helei112g1/payment-sdk/details
+ * @link      https://helei112g.github.io/
+ *
  * Class BaseData
  * 支付相关接口的数据基类
  * @package Payment\Common\Weixin\Dataa
+ *
+ * @property string $limitPay   用户不可用指定渠道支付
+ * @property boolean $returnRaw  是否返回原始数据，只进行签名检查
+ * @property string $useSandbox 是否使用的测试模式
+ * @property string $signType  签名算法
+ *
  */
 abstract class BaseData
 {
@@ -31,6 +37,12 @@ abstract class BaseData
     protected $retData;
 
     /**
+     * 配置类型
+     * @var string $configType
+     */
+    protected $channel;
+
+    /**
      * BaseData constructor.
      * @param ConfigInterface $config
      * @param array $reqData
@@ -38,6 +50,14 @@ abstract class BaseData
      */
     public function __construct(ConfigInterface $config, array $reqData)
     {
+        if ($config instanceof WxConfig) {
+            $this->channel = Config::WECHAT_PAY;
+        } elseif ($config instanceof AliConfig) {
+            $this->channel = Config::ALI_PAY;
+        } elseif ($config instanceof CmbConfig) {
+            $this->channel = Config::CMB_PAY;
+        }
+
         $this->data = array_merge($config->toArray(), $reqData);
 
         try {
@@ -81,14 +101,12 @@ abstract class BaseData
     {
         $this->buildData();
 
-        $version = $this->version;// 支付宝新版本的签名，不需要移出  sign_type
-
-        if (empty($version)) {
-            $values = ArrayUtil::removeKeys($this->retData, ['sign', 'sign_type']);
+        if ($this->channel === Config::CMB_PAY) {
+            $data = $this->retData['reqData'];
         } else {
-            $values = ArrayUtil::removeKeys($this->retData, ['sign']);
+            $data = $this->retData;
         }
-
+        $values = ArrayUtil::removeKeys($data, ['sign']);
 
         $values = ArrayUtil::arraySort($values);
 

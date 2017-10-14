@@ -6,53 +6,49 @@
  */
 
 namespace Payment\Common\Weixin\Data;
+
 use Payment\Common\PayException;
 use Payment\Utils\ArrayUtil;
-
 
 /**
  * Class TransferData
  *
  * 微信当前也仅支持单笔付款，不支持批量
  *
- * @property string $trans_no  转账单号
- * @property string $trans_fee  等于   $trans_data['trans_fee'] 的值
- * @property string $openid 等于   $trans_data['user_account'] 的值
- * @property string $user_name 等于 $trans_data['user_name'] 的值
- * @property string $desc 等于 $trans_data['desc'] 的值
- * @property array $trans_data  付款详细数据
- *  $trans_data[] = [
- *      'user_account'   => '收款账号',
- *      'user_name'     => '收款人姓名',
- *      'trans_fee'       => '付款金额',  // 传入时单位为元
- *      'desc'      => '付款备注说明',
- *  ];
+ * @property string $trans_no  商户转账唯一订单号
+ * @property string $openid 商户appid下，某用户的openid
+ * @property string $check_name
+ *  - NO_CHECK：不校验真实姓名
+ *  - FORCE_CHECK：强校验真实姓名（未实名认证的用户会校验失败，无法转账）
+ *  - OPTION_CHECK：针对已实名认证的用户才校验真实姓名（未实名认证用户不校验，可以转账成功）
+ *
+ * @property string $payer_real_name  收款用户真实姓名。
+ * @property string $amount  转账金额，单位：元。 只支持2位小数，小数点前最大支持13位，金额必须大于0。
+ * @property string $desc 企业付款操作说明信息。必填。
+ * @property string $client_ip 调用接口的机器Ip地址
  *
  * @package Payment\Common\Weixin\Data
  * anthor helei
  */
 class TransferData extends WxBaseData
 {
-
     protected function buildData()
     {
         $this->retData = [
             'mch_appid' => $this->appId,
             'mchid'    => $this->mchId,
+            'device_info' => $this->terminal_id,
             'nonce_str' => $this->nonceStr,
             'partner_trade_no'    => $this->trans_no,
             'openid'    => $this->openid,
 
-            // NO_CHECK：不校验真实姓名
-            // FORCE_CHECK：强校验真实姓名（未实名认证的用户会校验失败，无法转账)
-            // OPTION_CHECK：针对已实名认证的用户才校验真实姓名（未实名认证用户不校验，可以转账成功）
-            'check_name'    => 'FORCE_CHECK',
-            're_user_name'  => $this->user_name,
-            'amount'    => $this->trans_fee,// 此处需要处理单位为分
+            'check_name'    => $this->check_name,
+            're_user_name'  => $this->payer_real_name,
+            'amount'    => $this->amount,// 此处需要处理单位为分
             'desc'  => $this->desc,
 
             // $_SERVER["REMOTE_ADDR"]  获取客户端接口。此处获取php所在机器的ip  如果无法获取，则使用该ip
-            'spbill_create_ip'  => isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '127.0.0.1',
+            'spbill_create_ip'  => $this->client_ip,
         ];
 
         $this->retData = ArrayUtil::paraFilter($this->retData);
@@ -64,42 +60,33 @@ class TransferData extends WxBaseData
      */
     protected function checkDataParam()
     {
-        $data = $this->trans_data;
-        $transNo = $this->trans_no;// 付款交易号，商户系统内唯一
+        $openId = $this->openid;
+        $transNo = $this->trans_no;
+        $checkName = $this->check_name;
+        $realName = $this->payer_real_name;
+        $amount = $this->amount;
+        $clientIp = $this->client_ip;
 
-        // 当前微信转款仅支持单笔
-        if (sizeof($data) != 1) {
-            throw new PayException('当前版本，不支持微信批量退款。目前仅支持1笔');
+        if (empty($openId)) {
+            throw new PayException('商户appid下，某用户的openid 必须传入');
         }
 
-        // 检查付款单号是否设置
-        if (empty($transNo) || mb_strlen($transNo) < 11 || mb_strlen($transNo) > 32) {
-            throw new PayException('转账单号，不能为空，长度在11~32位之间');
+        if (empty($transNo)) {
+            throw new PayException('商户订单号，需保持唯一性');
         }
 
-        foreach ($data as $key => $item) {
+        if ($checkName !== 'NO_CHECK' && empty($realName)) {
+            throw new PayException('请传入收款人真实姓名');
+        }
 
-            if (empty($item['user_account'])) {
-                throw new PayException('该值必须设置，为关注者的openid');
-            }
-            $this->openid = $item['user_account'];
+        // 微信使用的单位位分.此处进行转化
+        $this->amount = bcmul($amount, 100, 0);
+        if (empty($amount) || $amount < 0) {
+            throw new PayException('转账金额错误');
+        }
 
-            // 检查付款金额  微信转款，最小金额为1元
-            if (bccomp($item['trans_fee'], '1', 2) === -1) {
-                throw new PayException("交易金额不能小于 1 元");
-            }
-            $this->trans_fee = bcmul($item['trans_fee'], 100, 0);// 微信以分为单位
-
-            // 检查收款方姓名
-            if (empty($item['user_name'])) {
-                throw new PayException("收款方姓名不能为空，且需要真实姓名");
-            }
-            $this->user_name = trim($item['user_name']);
-
-            if (empty($item['desc']) || mb_strlen($item['desc']) > 50) {
-                throw new PayException("备注说明不能为空，并且不能超过50个字符");
-            }
-            $this->desc = $item['desc'];
+        if (empty($clientIp)) {
+            $this->client_ip = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '127.0.0.1';
         }
     }
 }

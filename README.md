@@ -1,93 +1,161 @@
-# 版本介绍
+[![Software license][ico-license]](LICENSE)
+[![Latest development][ico-version-dev]][link-packagist]
+[![Monthly installs][ico-downloads-monthly]][link-downloads]
 
-支付宝当前提供了沙箱模式，很赞，这里我将自己的沙箱信息提供出来。供大家测试。要使用沙箱，需要[下载android版本](https://openhome.alipay.com/platform/appDaily.htm?tab=tool) 
+-----
 
-* 沙箱账号信息
+## 提醒：发现有人将我提供的支付宝测试账号乱修改资料，打广告。请大家不要加上面的任何联系方式。如果再发现，我就把测试账号注销了（怕大家被骗）
+
+- [Payment使用文档](https://helei112g1.gitbooks.io/payment-sdk/content/)
+- [Payment使用常见问题汇总](https://helei112g1.gitbooks.io/payment-sdk/content/faq.html)
+
+
+----
+
+>
+Payment 需要 PHP &gt;= 5.6以上的版本，并且同时需要PHP安装以下扩展
+
 ```
-买家账号aaqlmq0729@sandbox.com
-账号名称沙箱买家测试账号
-登录密码111111
-支付密码111111
+- cUR extension
+
+- mbstring
+
+- BC Math
+
+- Guzzle
 ```
-* 2016-12-27 开发完成支付宝新版wap支付。文档后续更新
-* 2016-12-27 开发完成支付宝新版app支付。文档后续更新
-* 2016-12-29 开发完成支付宝新版当面付的扫码支付。文档后续更新
-* 2016-12-31 开发完成支付宝新版退款接口。 文档后续更新
+guzzle 是一个开源的php http请求lib，[项目地址](https://github.com/guzzle/guzzle)
 
-# 使用说明
+<p align="center">
+    <b>成都本地内推微信公众号，有需要的拿走:</b>
+    <br><br>
+</p>
+<p align="center">
+    <img src="http://ol59nqr1i.bkt.clouddn.com/neituisologan.jpeg" width=350>
+    <img src="http://ol59nqr1i.bkt.clouddn.com/neituiqr.jpeg" width="200" >
+</p>
 
-> [使用文档地址](https://helei112g.github.io/2016/07/18/%E6%94%AF%E4%BB%98%E5%AE%9D%E3%80%81%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98%E6%8E%A5%E5%85%A5%E9%9B%86%E6%88%90/)
+# Payment是什么？
 
-为了便于大家开发，本次2.x以博客的形式，完成完整的文档。文档中还包含了部分代码构建的介绍。
+Payment是一个集成了 **支付宝支付**、**微信支付**、**招商支付**的PHP SDK。服务端开发者将它集成到自己的项目中，可以方便的通过相同的操作方式进行各项支付操作。不在需要开发者去单独了解支付宝、微信、招商的接口文档。以发起支付举例，开发者只需要通过：
+
+```
+try {
+    $str = Charge::run(支付类型, 配置文件, 支付数据);
+} catch (PayException $e) {
+    echo $e->errorMessage();
+    exit;
+}
+```
+
+就可以得到支付结果返回数据。关心的核心只需要正确了解如何组装**支付数据**，以及如何正确处理返回后的数据即可。
+
+Payment支持所有的PHP项目，只要求PHP版本大于等于5.6即可。同时支持composer与手动引入两种安装方式。
+
+# 当前支持的接口
+
+当前sdk仅接入了支付宝支付、微信支付、招商支付（支付、退款）。中国现在电子支付的公司巨多，无法一一接入，欢迎各位发扬自己动手、丰衣足食的光荣传统，提交**PR**给我，代码贡献指南 [看这里](CONTRIBUTING.md)
+
+## 支付宝接口
+
+* **APP支付**（接入支付宝SDK，用户支付时唤起支付宝完成支付）
+* **手机网站支付**（移动端唤起支付宝钱包或网页收银台完成支付）
+* **电脑网站支付**（用户通过支付宝完成支付，交易款项即时到账）-原即时到账
+* **当面付**（商户扫码首款或用户扫码付款）
+* **单笔转账到支付宝**（支付宝商户向其它支付宝账户单笔转账）
+* **交易支付、转账、退款查询接口**
+* **交易退款接口**
+* 对账单下载（待开发）
+* 交易结算接口（待开发）
+* 交易关闭接口（待开发）
+
+## 微信支付接口
+
+* **刷卡支付**（用户打开微信钱包的刷卡界面，商户扫码后提交完成交易）
+* **公众号支付**（用户在微信内进入商家的H5页面，页面内调用JSSDK完成支付）
+* **扫码支付**（用户打开扫一扫，扫码商户二维码完成支付）
+* **APP支付**（商户APP中集成微信SDK，用户点击后跳转到微信完成支付）
+* **H5支付**（用户在微信以外的浏览器请求微信支付的场景唤起微信支付）
+* **小程序支付**（用户在微信小程序中使用微信支付）
+* **企业付款**（企业向用户付款）
+* **交易支付、转账、退款查询接口**
+* **交易退款接口**
+* 对账单下载（待开发）
+* 现金红包（待开发）
+* 代金券或立减优惠券（待开发）
+
+## 招商支付
+
+* **用户签约**（首次使用招商支付的用户完成绑卡操作）
+* **招商一网通支付**（发起支付请求，招商支付仅此一个接口）
+* **交易退款**
+* **查询招商公钥**
+* **交易支付、退款查询**
+* 查询入账明细（待开发）
+* 查询协议（待开发）
+* 取消协议（待开发）
 
 ## 安装
 
-* 方式一
-
-通过composer，这是推荐的方式，可以使用composer.json 声明依赖，或者运行下面的命令。SDK 包已经放到这里 riverslei/payment
+通过composer，这是推荐的方式，可以使用composer.json 声明依赖，或者直接运行下面的命令。
 
 ```php
-    composer require "riverslei/payment:~2.0"
+    composer require "riverslei/payment:~4.0.0"
 ```
 
 放入composer.json文件中
 
 ```php
     "require": {
-        "riverslei/payment": "~2.0"
+        "riverslei/payment": "~4.0.0"
     }
 ```
 
-* 方式二
-直接下载安装，SDK 没有依赖其他第三方库，但需要参照 composer的autoloader，增加一个自己的autoloader程序。代码中以提供一个默认autolaod.php  可直接使用.
+然后运行
 
-## 运行环境
+```
+composer update
+```
 
-Payment SDK | PHP版本
----|---
-2.x | cURL extension, mbstring, 5.5 ~ 7.0
-1.x | cURL extension, 5.3 ~ 5.6
+# Change Log #
+- 接入支付宝电脑网站支付、微信服务商模式支持(from v4.0.0)
+- 加入招商一网通支付，加入详细的demo(from v3.1.0)
+- 支付宝密钥支持字符串、文件两种方式配置，微信支持HMAC-SHA256加密（from v3.0.1）
+- 支持支付宝rsa2签名 加入支付宝当面付-条码支付(条码与声波两种模式)   微信加入刷卡支付、小程序支付、H5支付  提供客户端静态调用类 不再兼容支付宝老版本接口（from v3.0.0）
+- 支持支付宝新版本支付接口（from v2.7.0）
+- 配置文件控制权限由使用者控制（from v2.0.0）
 
-具体使用规则可参考 `examples/*` 中的示例.本SDK可直接运行.进行测试
-
-# 说明
-
-在开发1.0版本的时候，主要是考虑到自己项目的使用。因此很多朋友说他们有多个账户，配置文件该怎么写？
-
-有的配置文件以前在redis中，或者db中，又该如何完成？
-
-本次2.0版本解决了以上问题，并且提供了更加简单的调用接口。
-
-1.0发出后，虽然配备了示例代码，还是有很多朋友无法灵活运用于代码中。
-
-本次开发过程中将配置完善的文档，会介绍使用，以及此SDK开发思路，便于大家自己根据情况修改或者增加新功能。
-
-若需要技术支持，可添加微信： helei543345  (此服务不免费哦！)
-
-# 赞助说明
-
-非常感谢以下企业、朋友的赞赏，感谢你们的认可与支持。
-
-名字 | 金额 | 说明 | 时间
----|---|---|---
-凡额 | 50.00 | 帮助调试，谢谢了 | 2017-01-18
-Thans秦 | 66.66 | 商业使用 | 2017-01-08
-John | 10.00 | 设计很棒 | 2017-01-06
-Davidw | 699.00 | 支持开发2.0 | 2016-12-15
-宁静致远 | 10.00 | 鼓励你，加油额 | 2016-12-13
-k7 | 8.00 | 批量付款，一次成功 | 2016-11-24
-洋 | 50.00 | 资助开源 | 2016-11-23
-张仲东 | 50.00 | 接口封装的不错 | 2016-11-17
-放下...快乐 | 1000.00 | 支付宝即时到帐处理 | 2016-11-15
-Robin Core Animation | 50.00 | 解决微信支付问题 | 2016-11-04
-5Z4 | 20.00 | 解决回调问题 | 2016-10-31
-哈罗Joe | 1.00 | 加油~~ | 2016-8-23
-小兵~招UI前端 | 50.00 | 继续努力,喝杯水吧:-) | 2016-8-14
-尊称韦爵爷 | 1.00 | 赶紧出个yii的扩展 | 2016-7-22
-[一米市集](http://yimishiji.com/) | 1000.00 | 希望提供技术长期合作 | 2016-7-20
-张松 | 15.00 | 不错，已用到项目中 | 2016-6-17
+----
 
 
+# 联系&打赏 #
+
+感谢朋友们的支持：[支持名单](SUPPORT.md)
+
+<p align="center">
+    <img src="http://ol59nqr1i.bkt.clouddn.com/mp-qr.jpg">
+    <p align="center">个人公众号：icanfo</p>
+    <p align="center">联系邮箱：dayugog@gmail.com</p>
+</p>
+
+----
+
+<p align="center">
+    <img src="http://ol59nqr1i.bkt.clouddn.com/pay-qr.jpg?imageView2/2/w/500/h/400">
+    <p align="center">打赏扫这里，请留下尊姓大名</p>
+</p>
+
+# Contribution #
+[Contribution Guide](CONTRIBUTING.md)
+
+# License #
+
+The code for Payment is distributed under the terms of the MIT license (see [LICENSE](LICENSE)).
 
 
+[ico-license]: https://img.shields.io/github/license/helei112g/payment.svg
+[ico-version-dev]: https://img.shields.io/packagist/vpre/riverslei/payment.svg
+[ico-downloads-monthly]: https://img.shields.io/packagist/dm/riverslei/payment.svg?style=flat-square
 
+[link-packagist]: https://packagist.org/packages/riverslei/payment
+[link-downloads]: https://packagist.org/packages/riverslei/payment/stats

@@ -1,19 +1,9 @@
 <?php
-/**
- * @author: helei
- * @createTime: 2016-07-27 10:51
- * @description:
- */
-
 namespace Payment\Refund;
 
-
-use Payment\Common\PayException;
 use Payment\Common\Weixin\Data\RefundData;
 use Payment\Common\Weixin\WxBaseStrategy;
-use Payment\Common\WxConfig;
-use Payment\Utils\Curl;
-use Payment\Utils\DataParser;
+use Payment\Config;
 
 /**
  * Class WxRefund
@@ -23,32 +13,11 @@ use Payment\Utils\DataParser;
  */
 class WxRefund extends WxBaseStrategy
 {
+    protected $reqUrl = 'https://api.mch.weixin.qq.com/{debug}/secapi/pay/refund';
 
-    protected function getBuildDataClass()
+    public function getBuildDataClass()
     {
         return RefundData::class;
-    }
-
-    /**
-     * 微信退款接口，需要用到相关加密文件及证书，需要重新进行curl的设置
-     * @param string $xml
-     * @param string $url
-     * @return array
-     * @author helei
-     */
-    protected function curlPost($xml, $url)
-    {
-        $curl = new Curl();
-        $responseTxt = $curl->set([
-            'CURLOPT_HEADER'    => 0,
-            'CURLOPT_SSL_VERIFYHOST'    => false,
-            'CURLOPT_SSLCERTTYPE'   => 'PEM', //默认支持的证书的类型，可以注释
-            'CURLOPT_SSLCERT'   => $this->config->certPath,
-            'CURLOPT_SSLKEY'    => $this->config->keyPath,
-            'CURLOPT_CAINFO'    => $this->config->cacertPath,
-        ])->post($xml)->submit($url);
-
-        return $responseTxt;
     }
 
     /**
@@ -59,6 +28,11 @@ class WxRefund extends WxBaseStrategy
      */
     protected function retData(array $ret)
     {
+        if ($this->config->returnRaw) {
+            $ret['channel'] = Config::WX_REFUND;
+            return $ret;
+        }
+
         // 请求失败，可能是网络
         if ($ret['return_code'] != 'SUCCESS') {
             return $retData = [
@@ -99,20 +73,17 @@ class WxRefund extends WxBaseStrategy
                 'refund_no' => $data['out_refund_no'],
                 'refund_id' => $data['refund_id'],
                 'refund_fee'    => $refund_fee,
+                'refund_channel' => $data['refund_channel'],
                 'amount'   => $total_fee,
+                'channel'   => Config::WX_REFUND,
+
+                'coupon_refund_fee' => bcdiv($data['coupon_refund_fee'], 100, 2),
+                'coupon_refund_count' => $data['coupon_refund_count'],
+                'cash_fee' => bcdiv($data['cash_fee'], 100, 2),
+                'cash_refund_fee' => bcdiv($data['cash_refund_fee'], 100, 2),
             ],
         ];
 
         return $retData;
-    }
-
-    /**
-     * 返回退款的url
-     * @return null|string
-     * @author helei
-     */
-    protected function getReqUrl()
-    {
-        return WxConfig::REFUND_URL;
     }
 }

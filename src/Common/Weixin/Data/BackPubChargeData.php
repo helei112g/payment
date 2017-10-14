@@ -6,12 +6,11 @@
  */
 
 namespace Payment\Common\Weixin\Data;
-use Payment\Common\PayException;
 
 
 /**
  * Class BackPubChargeData
- *
+ *  小程序数据也在这里处理
  * @property string $device_info   设备号
  * @property string $trade_type  交易类型
  * @property string $prepay_id   预支付交易会话标识
@@ -21,15 +20,14 @@ use Payment\Common\PayException;
  */
 class BackPubChargeData extends WxBaseData
 {
-
     protected function buildData()
     {
         $this->retData = [
             'appId' => $this->appId,
-            'package'   => 'prepay_id=' . $this->prepay_id,
-            'nonceStr'  => $this->nonceStr,
             'timeStamp' => time() . '',
-            'signType'  => 'MD5',
+            'nonceStr'  => $this->nonceStr,
+            'package'   => 'prepay_id=' . $this->prepay_id,
+            'signType'  => 'MD5',// 签名算法，暂支持MD5
         ];
     }
 

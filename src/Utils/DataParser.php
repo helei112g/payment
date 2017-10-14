@@ -1,15 +1,13 @@
 <?php
+namespace Payment\Utils;
+
 /**
  * @author: helei
  * @createTime: 2016-06-08 13:02
  * @description: 数据解析的工具类，主要处理，xml到数组  数组到xml的转化
- * @link      https://github.com/helei112g/payment/tree/paymentv2
+ * @link      https://www.gitbook.com/book/helei112g1/payment-sdk/details
  * @link      https://helei112g.github.io/
  */
-
-namespace Payment\Utils;
-
-
 class DataParser
 {
     /**
@@ -24,7 +22,7 @@ class DataParser
         }
 
         $xml = "<xml>";
-        foreach ($values as $key=>$val) {
+        foreach ($values as $key => $val) {
             if (is_numeric($val)) {
                 $xml.="<".$key.">".$val."</".$key.">";
             } else {
@@ -76,11 +74,10 @@ class DataParser
      *
      * @return string
      */
-    public static function toQRimg($text, $widthHeight ='150', $ecLevel='L', $margin='0')
+    public static function toQRimg($text, $widthHeight = '150', $ecLevel = 'L', $margin = '0')
     {
         $chl = urlencode($text);
 
         return "http://chart.apis.google.com/chart?chs={$widthHeight}x{$widthHeight}&cht=qr&chld={$ecLevel}|{$margin}&chl={$chl}";
     }
-
 }

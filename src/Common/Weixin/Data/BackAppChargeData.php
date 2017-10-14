@@ -1,12 +1,7 @@
 <?php
-/**
- * @author: helei
- * @createTime: 2016-08-02 09:41
- * @description:
- */
-
 namespace Payment\Common\Weixin\Data;
-use Payment\Common\PayException;
+
+use Payment\Utils\StrUtil;
 
 
 /**
@@ -18,10 +13,12 @@ use Payment\Common\PayException;
  *
  * @package Payment\Common\Weixin\Data
  * anthor helei
+ *
+ * @link      https://www.gitbook.com/book/helei112g1/payment-sdk/details
+ * @link      https://helei112g.github.io/
  */
 class BackAppChargeData extends WxBaseData
 {
-
     protected function buildData()
     {
         $this->retData = [
@@ -29,7 +26,7 @@ class BackAppChargeData extends WxBaseData
             'partnerid' => $this->mchId,
             'prepayid'  => $this->prepay_id,
             'package'   => 'Sign=WXPay',
-            'noncestr'  => $this->nonceStr,
+            'noncestr'  => StrUtil::getNonceStr(),
             'timestamp' => time(),
         ];
     }

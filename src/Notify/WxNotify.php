@@ -1,12 +1,5 @@
 <?php
-/**
- * @author: helei
- * @createTime: 2016-07-20 16:46
- * @description:
- */
-
 namespace Payment\Notify;
-
 
 use Payment\Common\PayException;
 use Payment\Common\WxConfig;
@@ -19,6 +12,9 @@ use Payment\Utils\DataParser;
  * 微信回调处理
  * @package Payment\Notify
  * anthor helei
+ * @link      https://www.gitbook.com/book/helei112g1/payment-sdk/details
+ * @link      https://helei112g.github.io/
+ *
  */
 class WxNotify extends NotifyStrategy
 {
@@ -30,8 +26,6 @@ class WxNotify extends NotifyStrategy
      */
     public function __construct(array $config)
     {
-        parent::__construct($config);
-
         try {
             $this->config = new WxConfig($config);
         } catch (PayException $e) {
@@ -44,7 +38,7 @@ class WxNotify extends NotifyStrategy
      * @return array|bool
      * @author helei
      */
-    protected function getNotifyData()
+    public function getNotifyData()
     {
         // php://input 带来的内存压力更小
         $data = @file_get_contents('php://input');// 等同于微信提供的：$GLOBALS['HTTP_RAW_POST_DATA']
@@ -67,7 +61,7 @@ class WxNotify extends NotifyStrategy
      * @author helei
      * @return boolean
      */
-    protected function checkNotifyData(array $data)
+    public function checkNotifyData(array $data)
     {
         if ($data['return_code'] != 'SUCCESS' || $data['result_code'] != 'SUCCESS') {
             // $arrData['return_msg']  返回信息，如非空，为错误原因
@@ -96,9 +90,17 @@ class WxNotify extends NotifyStrategy
 
         $signStr = ArrayUtil::createLinkstring($values);
 
-        $signStr .= "&key=" . $this->config->md5Key;
-
-        $sign = md5($signStr);
+        $signStr .= '&key=' . $this->config->md5Key;
+        switch ($this->config->signType) {
+            case 'MD5':
+                $sign = md5($signStr);
+                break;
+            case 'HMAC-SHA256':
+                $sign = hash_hmac('sha256', $signStr, $this->config->md5Key);
+                break;
+            default:
+                $sign = '';
+        }
 
         return strtoupper($sign) === $retSign;
     }
@@ -107,51 +109,39 @@ class WxNotify extends NotifyStrategy
      * 获取向客户端返回的数据
      * @param array $data
      *
-     * ```php
-     *  $data = [
-     *      'appid' => '', // 公众账号ID
-     *      'bank_type' => 'CFT',// 付款银行
-     *      'cash_fee' => '1',// 现金支付金额
-     *      'fee_type' => 'CNY',// 货币种类
-     *      'is_subscribe' => 'N', // 是否关注公众账号  Y-关注，N-未关注
-     *      'mch_id' => '',// 商户号
-     *      'nonce_str' => '', // 随机字符串
-     *      'openid' => '', // 用户标识
-     *      'out_trade_no' => '',// 商户订单号
-     *      'result_code' => 'SUCCESS',// 业务结果
-     *      'return_code' => 'SUCCESS',// 返回状态码
-     *      'sign' => '', // 签名
-     *      'time_end' => '20160802104424',// 支付完成时间 格式为yyyyMMddHHmmss
-     *      'total_fee' => '1',// 订单金额
-     *      'trade_type' => 'APP', // 交易类型  JSAPI、NATIVE、APP
-     *      'transaction_id' => '',// 微信支付订单号
-     *      'attach'    => '',//商家数据包  商户自定义数据，原样返回
-     *  ];
-     * ```
-     *
      * @return array
      * @author helei
      */
     protected function getRetData(array $data)
     {
+        if ($this->config->returnRaw) {
+            $data['channel'] = Config::WX_CHARGE;
+            return $data;
+        }
+
         // 将金额处理为元
-        $data['total_fee'] = bcdiv($data['total_fee'], 100, 2);
+        $totalFee = bcdiv($data['total_fee'], 100, 2);
+        $cashFee = bcdiv($data['cash_fee'], 100, 2);
 
         $retData = [
-            'amount'   => $data['total_fee'],
-            'channel'   => Config::WEIXIN,
-            'order_no'   => $data['out_trade_no'],
+            'bank_type' => $data['bank_type'],
+            'cash_fee' => $cashFee,
+            'device_info' => $data['device_info'],
+            'fee_type' => $data['fee_type'],
+            'is_subscribe' => $data['is_subscribe'],
             'buyer_id'   => $data['openid'],
-            'trade_state'   => Config::TRADE_STATUS_SUCC,
+            'order_no'   => $data['out_trade_no'],
+            'pay_time'   => date('Y-m-d H:i:s', strtotime($data['time_end'])),// 支付完成时间
+            'amount'   => $totalFee,
+            'trade_type' => $data['trade_type'],
             'transaction_id'   => $data['transaction_id'],
-            'time_end'   => date('Y-m-d H:i:s', strtotime($data['time_end'])),
-            'notify_time'   => date('Y-m-d H:i:s', time()),
-            'notify_type'   => Config::TRADE_NOTIFY,// 通知类型为 支付行为
+            'trade_state'   => strtolower($data['return_code']),
+            'channel'   => Config::WX_CHARGE,
         ];
 
         // 检查是否存在用户自定义参数
         if (isset($data['attach']) && ! empty($data['attach'])) {
-            $retData['extra_param'] = $data['attach'];
+            $retData['return_param'] = $data['attach'];
         }
 
         return $retData;

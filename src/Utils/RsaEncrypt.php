@@ -1,15 +1,13 @@
 <?php
+namespace Payment\Utils;
+
 /**
  * @author: helei
  * @createTime: 2016-06-08 16:29
  * @description: rsa加密算法
- * @link      https://github.com/helei112g/payment/tree/paymentv2
+ * @link      https://www.gitbook.com/book/helei112g1/payment-sdk/details
  * @link      https://helei112g.github.io/
  */
-
-namespace Payment\Utils;
-
-
 class RsaEncrypt
 {
     protected $key;
@@ -77,7 +75,7 @@ class RsaEncrypt
         $content = base64_decode($content);
         //把需要解密的内容，按128位拆开解密
         $result  = '';
-        for($i = 0; $i < strlen($content)/128; $i++  ) {
+        for ($i = 0; $i < strlen($content)/128; $i++) {
             $data = substr($content, $i * 128, 128);
             openssl_private_decrypt($data, $decrypt, $res);
             $result .= $decrypt;
