@@ -43,8 +43,8 @@ class AliTransfer extends AliBaseStrategy
     protected function createBackData(array $data)
     {
         if ($this->config->returnRaw) {
-            $retData['channel'] = Config::ALI_TRANSFER;
-            return $retData;
+            $data['channel'] = Config::ALI_TRANSFER;
+            return $data;
         }
 
         if ($data['code'] !== '10000') {
