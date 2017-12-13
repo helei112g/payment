@@ -4,6 +4,7 @@ namespace Payment\Trans;
 use Payment\Common\Weixin\Data\TransferData;
 use Payment\Common\Weixin\WxBaseStrategy;
 use Payment\Config;
+use Payment\Utils\ArrayUtil;
 
 /**
  * 微信企业付款接口
@@ -66,7 +67,7 @@ class WxTransfer extends WxBaseStrategy
                 'trans_no'   => $data['partner_trade_no'],
                 'transaction_id'  => $data['payment_no'],
                 'pay_date' => $data['payment_time'],// 企业付款成功时间  2015-05-19 15:26:59
-                'device_info' => $data['device_info']??'WEB',
+                'device_info' => ArrayUtil::get($data, 'device_info', 'WEB'),
                 'channel'   => Config::WX_TRANSFER,
             ],
         ];
