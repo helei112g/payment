@@ -19,11 +19,11 @@ class ArrayUtil
     public static function paraFilter($para)
     {
         $paraFilter = [];
-        while (list($key, $val) = each($para)) {
+        foreach ($para as $key => $val) {
             if ($val === '' || $val === null) {
                 continue;
             } else {
-                if (! is_array($para[$key])) {
+                if (!is_array($para[$key])) {
                     $para[$key] = is_bool($para[$key]) ? $para[$key] : trim($para[$key]);
                 }
 
@@ -94,12 +94,12 @@ class ArrayUtil
 
         reset($para);
         $arg = '';
-        while (list($key, $val) = each($para)) {
+        foreach ($para as $key => $val) {
             if (is_array($val)) {
                 continue;
             }
 
-            $arg.=$key.'='.urldecode($val).'&';
+            $arg .= $key . '=' . urldecode($val) . '&';
         }
         //去掉最后一个&字符
         $arg && $arg = substr($arg, 0, -1);
