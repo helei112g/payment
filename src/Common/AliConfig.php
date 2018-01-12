@@ -92,7 +92,7 @@ final class AliConfig extends ConfigInterface
         }
 
         // 初始 RSA私钥文件 需要检查该文件是否存在
-        if (key_exists('rsa_private_key', $config) && (file_exists($config['rsa_private_key']) || ! empty($config['ali_public_key']))) {
+        if (key_exists('rsa_private_key', $config) && (file_exists($config['rsa_private_key']) || ! empty($config['rsa_private_key']))) {
             $this->rsaPrivateKey = StrUtil::getRsaKeyValue($config['rsa_private_key'], 'private');
         } else {
             throw new PayException('请提供商户的rsa私钥文件');
