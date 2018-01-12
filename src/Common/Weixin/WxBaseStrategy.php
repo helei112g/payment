@@ -67,7 +67,7 @@ abstract class WxBaseStrategy implements BaseStrategy
         }
 
         if ($this->config->useSandbox) {
-            $url = str_ireplace('{debug}',WxConfig::SANDBOX_PRE, $url);
+            $url = str_ireplace('{debug}', WxConfig::SANDBOX_PRE, $url);
         } else {
             $url = str_ireplace('{debug}/', '', $url);
         }

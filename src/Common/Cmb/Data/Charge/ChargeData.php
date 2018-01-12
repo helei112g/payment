@@ -6,7 +6,6 @@ use Payment\Common\CmbConfig;
 use Payment\Common\PayException;
 use Payment\Config;
 
-
 /**
  * Created by PhpStorm.
  * User: helei

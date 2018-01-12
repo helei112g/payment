@@ -17,7 +17,6 @@ use Payment\Common\CmbConfig;
  */
 class PubKeyData extends CmbBaseData
 {
-
     protected function getReqData()
     {
         $reqData = [

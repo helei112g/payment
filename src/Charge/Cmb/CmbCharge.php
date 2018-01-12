@@ -16,7 +16,6 @@ use Payment\Common\Cmb\Data\Charge\ChargeData;
  */
 class CmbCharge extends CmbBaseStrategy
 {
-
     public function getBuildDataClass()
     {
         $this->config->getewayUrl = 'https://netpay.cmbchina.com/netpayment/BaseHttp.dll?MB_EUserPay';

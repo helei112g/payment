@@ -3,7 +3,6 @@ namespace Payment\Common\Weixin\Data;
 
 use Payment\Utils\StrUtil;
 
-
 /**
  * Class BackAppChargeData
  *

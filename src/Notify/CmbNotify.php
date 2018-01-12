@@ -1,7 +1,6 @@
 <?php
 namespace Payment\Notify;
 
-
 use Payment\Common\CmbConfig;
 use Payment\Common\PayException;
 use Payment\Config;

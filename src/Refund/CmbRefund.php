@@ -13,7 +13,6 @@ use Payment\Config;
  */
 class CmbRefund extends CmbBaseStrategy
 {
-
     public function getBuildDataClass()
     {
         $this->config->getewayUrl = 'https://payment.ebank.cmbchina.com/NetPayment/BaseHttp.dll?DoRefund';

@@ -8,7 +8,6 @@
 
 namespace Payment\Common\Cmb\Data;
 
-
 use Payment\Common\BaseData;
 use Payment\Common\PayException;
 use Payment\Utils\ArrayUtil;

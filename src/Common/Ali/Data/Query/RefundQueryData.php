@@ -16,7 +16,6 @@ use Payment\Common\PayException;
  */
 class RefundQueryData extends AliBaseData
 {
-
     protected function getBizContent()
     {
         $content = [

@@ -53,7 +53,7 @@ class TransData extends AliBaseData
         }
 
         if (bccomp($amount, Config::TRANS_FEE, 2) !== -1 && empty($remark)) {
-            throw new PayException('转账金额大于等于' . Config::TRANS_FEE , '必须设置 remark');
+            throw new PayException('转账金额大于等于' . Config::TRANS_FEE, '必须设置 remark');
         }
     }
 

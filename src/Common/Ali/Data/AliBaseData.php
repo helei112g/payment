@@ -29,7 +29,6 @@ use Payment\Utils\RsaEncrypt;
  */
 abstract class AliBaseData extends BaseData
 {
-
     public function getData()
     {
         $data = parent::getData();
