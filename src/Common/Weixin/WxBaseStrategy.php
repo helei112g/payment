@@ -122,7 +122,11 @@ abstract class WxBaseStrategy implements BaseStrategy
         $this->reqData->setSign();
 
         $xml = DataParser::toXml($this->reqData->getData());
-        $ret = $this->sendReq($xml);
+        try {
+            $ret = $this->sendReq($xml);
+        } catch (PayException $e) {
+            throw $e;
+        }
 
         // 检查返回的数据是否被篡改
         $flag = $this->verifySign($ret);

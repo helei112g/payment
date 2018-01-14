@@ -105,7 +105,12 @@ class WxTransferQuery extends WxBaseStrategy
         $this->reqData->setSign();
 
         $xml = DataParser::toXml($this->reqData->getData());
-        $ret = $this->sendReq($xml);
+
+        try {
+            $ret = $this->sendReq($xml);
+        } catch (PayException $e) {
+            throw $e;
+        }
 
         return $this->retData($ret);
     }
