@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: helei
- * Date: 2017/4/28
- * Time: 下午3:14
- */
-
 namespace Payment\Refund;
 
 use Payment\Common\Cmb\CmbBaseStrategy;
@@ -20,7 +13,6 @@ use Payment\Config;
  */
 class CmbRefund extends CmbBaseStrategy
 {
-
     public function getBuildDataClass()
     {
         $this->config->getewayUrl = 'https://payment.ebank.cmbchina.com/NetPayment/BaseHttp.dll?DoRefund';

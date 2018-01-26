@@ -7,7 +7,6 @@
  */
 namespace Payment\Common\Weixin\Data\Query;
 
-
 use Payment\Common\PayException;
 use Payment\Common\Weixin\Data\WxBaseData;
 use Payment\Utils\ArrayUtil;
@@ -23,7 +22,6 @@ use Payment\Utils\ArrayUtil;
  */
 class ChargeQueryData extends WxBaseData
 {
-
     protected function buildData()
     {
         $this->retData = [
@@ -34,6 +32,10 @@ class ChargeQueryData extends WxBaseData
 
             'transaction_id'    => $this->transaction_id,
             'out_trade_no'  => $this->out_trade_no,
+
+            // 服务商
+            'sub_appid' => $this->sub_appid,
+            'sub_mch_id' => $this->sub_mch_id,
         ];
 
         $this->retData = ArrayUtil::paraFilter($this->retData);

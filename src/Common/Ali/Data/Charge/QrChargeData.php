@@ -1,22 +1,15 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: helei  <dayugog@gmail.com>
- * Date: 2016/12/28
- * Time: 20:24
- */
-
 namespace Payment\Common\Ali\Data\Charge;
 
 /**
  * 支付宝 扫码支付
  * Class QrChargeData
+ * @link      https://www.gitbook.com/book/helei112g1/payment-sdk/details
+ * @link      https://helei112g.github.io/
  *
  * @property string $operator_id  商户操作员编号
- * @property string $terminal_id 商户机具终端编号
- * @property string $alipay_store_id 支付宝店铺的门店ID
+ * @property string $terminal_id 商户机具终端编号=
  *
- * @package Payment\Common\Ali\Data\Charge
  */
 class QrChargeData extends ChargeBaseData
 {
@@ -28,24 +21,29 @@ class QrChargeData extends ChargeBaseData
     protected function getBizContent()
     {
         $content = [
-            'body'          => strval($this->body),
-            'subject'       => strval($this->subject),
             'out_trade_no'  => strval($this->order_no),
+            // TODO 卖家支付宝id
+            // 'seller_id' => '',
             'total_amount'  => strval($this->amount),
-            'seller_id' => $this->partner,
+            // TODO 折扣金额
+            // 'discountable_amount' => '',
+            // TODO  业务扩展参数 订单商品列表信息，待支持
+            // 'extend_params => '',
+            // 'goods_detail' => '',
+            'subject'       => strval($this->subject),
+            'body'          => strval($this->body),
 
-            'store_id' => $this->store_id,
             'operator_id' => $this->operator_id,
+            'store_id' => $this->store_id,
             'terminal_id' => $this->terminal_id,
-            'alipay_store_id' => $this->alipay_store_id,
         ];
 
         $timeExpire = $this->timeout_express;
         if (! empty($timeExpire)) {
             $express = floor(($timeExpire - strtotime($this->timestamp)) / 60);
-            $express && $content['timeout_express'] = $express . 'm';// 超时时间 统一使用分钟计算
+            ($express > 0) && $content['timeout_express'] = $express . 'm';// 超时时间 统一使用分钟计算
         }
 
-        return json_encode($content, JSON_UNESCAPED_UNICODE);
+        return $content;
     }
 }

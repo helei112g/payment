@@ -8,7 +8,6 @@
 
 namespace Payment\Common\Cmb\Data;
 
-
 use Payment\Common\PayException;
 
 /**
@@ -22,7 +21,6 @@ use Payment\Common\PayException;
  */
 class BindCardData extends CmbBaseData
 {
-
     protected function checkDataParam()
     {
         parent::checkDataParam();

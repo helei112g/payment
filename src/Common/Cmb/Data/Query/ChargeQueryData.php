@@ -19,7 +19,6 @@ use Payment\Common\PayException;
  */
 class ChargeQueryData extends CmbBaseData
 {
-
     protected function checkDataParam()
     {
         parent::checkDataParam();

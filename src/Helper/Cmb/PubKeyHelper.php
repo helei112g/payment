@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: helei
- * Date: 2017/4/29
- * Time: 上午9:50
- */
-
 namespace Payment\Helper\Cmb;
 
 use Payment\Common\Cmb\CmbBaseStrategy;
@@ -20,7 +13,6 @@ use Payment\Config;
  */
 class PubKeyHelper extends CmbBaseStrategy
 {
-
     public function getBuildDataClass()
     {
         $this->config->getewayUrl = 'https://b2b.cmbchina.com/CmbBank_B2B/UI/NetPay/DoBusiness.ashx';

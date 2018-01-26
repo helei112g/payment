@@ -1,10 +1,4 @@
 <?php
-/**
- * @author: helei
- * @createTime: 2016-08-02 17:55
- * @description:
- */
-
 namespace Payment\Query\Wx;
 
 use Payment\Common\Weixin\Data\Query\RefundQueryData;
@@ -21,14 +15,11 @@ use Payment\Config;
  */
 class WxRefundQuery extends WxBaseStrategy
 {
+    protected $reqUrl = 'https://api.mch.weixin.qq.com/{debug}/pay/refundquery';
+
     public function getBuildDataClass()
     {
         return RefundQueryData::class;
-    }
-
-    protected function getReqUrl()
-    {
-        return WxConfig::REFUDN_QUERY_URL;// 查询退款url
     }
 
     /**

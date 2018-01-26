@@ -1,10 +1,4 @@
 <?php
-/**
- * @author: helei
- * @createTime: 2016-07-27 15:40
- * @description:
- */
-
 namespace Payment;
 
 use Payment\Common\BaseStrategy;
@@ -12,6 +6,13 @@ use Payment\Common\PayException;
 use Payment\Trans\AliTransfer;
 use Payment\Trans\WxTransfer;
 
+/**
+ * 转账上下文
+ * @link      https://www.gitbook.com/book/helei112g1/payment-sdk/details
+ * @link      https://helei112g.github.io/
+ * Class TransferContext
+ * @package Payment
+ */
 class TransferContext
 {
     /**

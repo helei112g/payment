@@ -1,14 +1,13 @@
 <?php
+namespace Payment\Utils;
+
 /**
  * @author: helei
  * @createTime: 2017-03-07 09:29
  * @description: rsa2加密算法
- * @link      https://github.com/helei112g/payment/tree/paymentv2
+ * @link      https://www.gitbook.com/book/helei112g1/payment-sdk/details
  * @link      https://helei112g.github.io/
  */
-
-namespace Payment\Utils;
-
 class Rsa2Encrypt
 {
     protected $key;

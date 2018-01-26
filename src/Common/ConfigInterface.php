@@ -1,15 +1,13 @@
 <?php
+namespace Payment\Common;
+
 /**
  * @author: helei
  * @createTime: 2016-07-15 17:42
  * @description: 配置文件接口，主要提供返回属性数组的功能
- * @link      https://github.com/helei112g/payment/tree/paymentv2
+ * @link      https://www.gitbook.com/book/helei112g1/payment-sdk/details
  * @link      https://helei112g.github.io/
  */
-
-namespace Payment\Common;
-
-
 abstract class ConfigInterface
 {
     // 是否返回原始数据
@@ -33,4 +31,25 @@ abstract class ConfigInterface
     {
         return get_object_vars($this);
     }
+
+    /**
+     * 初始化配置文件
+     * WxConfig constructor.
+     * @param array $config
+     * @throws PayException
+     */
+    final public function __construct(array $config)
+    {
+        try {
+            $this->initConfig($config);
+        } catch (PayException $e) {
+            throw $e;
+        }
+    }
+
+    /**
+     * 配置文件初始化具体实现
+     * @param array $config
+     */
+    abstract protected function initConfig(array $config);
 }

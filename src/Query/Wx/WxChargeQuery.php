@@ -1,10 +1,4 @@
 <?php
-/**
- * @author: helei
- * @createTime: 2016-07-28 17:25
- * @description:
- */
-
 namespace Payment\Query\Wx;
 
 use Payment\Common\Weixin\Data\Query\ChargeQueryData;
@@ -13,8 +7,17 @@ use Payment\Common\WxConfig;
 use Payment\Config;
 use Payment\Utils\ArrayUtil;
 
+/**
+ * 微信支付订单信息查询
+ * Class WxChargeQuery
+ * @package Payment\Query\Wx
+ *
+ * @link      https://www.gitbook.com/book/helei112g1/payment-sdk/details
+ * @link      https://helei112g.github.io/
+ */
 class WxChargeQuery extends WxBaseStrategy
 {
+    protected $reqUrl = 'https://api.mch.weixin.qq.com/{debug}/pay/orderquery';
 
     /**
      * 返回查询订单的数据
@@ -23,16 +26,6 @@ class WxChargeQuery extends WxBaseStrategy
     public function getBuildDataClass()
     {
         return ChargeQueryData::class;
-    }
-
-    /**
-     * 返回微信查询的url
-     * @return string
-     * @author helei
-     */
-    protected function getReqUrl()
-    {
-        return WxConfig::CHARGE_QUERY_URL;
     }
 
     /**

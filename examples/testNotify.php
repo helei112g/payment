@@ -2,6 +2,7 @@
 
 use Payment\Notify\PayNotifyInterface;
 use Payment\Config;
+
 /**
  * @author: helei
  * @createTime: 2016-07-20 18:31
@@ -19,13 +20,9 @@ class TestNotify implements PayNotifyInterface
     {
         $channel = $data['channel'];
         if ($channel === Config::ALI_CHARGE) {// 支付宝支付
-
         } elseif ($channel === Config::WX_CHARGE) {// 微信支付
-
         } elseif ($channel === Config::CMB_CHARGE) {// 招商支付
-
         } elseif ($channel === Config::CMB_BIND) {// 招商签约
-
         } else {
             // 其它类型的通知
         }

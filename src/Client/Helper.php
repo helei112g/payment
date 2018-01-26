@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: helei
- * Date: 2017/4/28
- * Time: 上午10:44
- */
-
 namespace Payment\Client;
 
 use Payment\Common\PayException;
@@ -13,7 +6,12 @@ use Payment\Config;
 use Payment\HelperContext;
 
 /**
- * 提供给客户端的辅助类
+ * @author: helei
+ * @createTime: 2017-09-02 18:20
+ * @description: 招商银行的辅助类
+ * @link      https://www.gitbook.com/book/helei112g1/payment-sdk/details
+ * @link      https://helei112g.github.io/
+ *
  * Class Helper
  * @package Payment\Client
  */
@@ -25,13 +23,16 @@ class Helper
     ];
 
     /**
-     * 异步通知类
+     * 辅助类实例
      * @var HelperContext
      */
     protected static $instance;
 
     protected static function getInstance($channel, $config)
     {
+        /* 设置内部字符编码为 UTF-8 */
+        mb_internal_encoding("UTF-8");
+
         if (is_null(self::$instance)) {
             static::$instance = new HelperContext();
         }

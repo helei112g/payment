@@ -1,16 +1,15 @@
 <?php
-/**
- * @author: helei
- * @createTime: 2016-07-14 17:51
- * @description: 支付回调的策略接口
- * @link      https://github.com/helei112g/payment/tree/paymentv2
- * @link      https://helei112g.github.io/
- */
-
 namespace Payment\Notify;
 
 use Payment\Common\ConfigInterface;
 
+/**
+ * @author: helei
+ * @createTime: 2016-07-14 17:51
+ * @description: 支付回调的策略接口
+ * @link      https://www.gitbook.com/book/helei112g1/payment-sdk/details
+ * @link      https://helei112g.github.io/
+ */
 abstract class NotifyStrategy
 {
 
@@ -19,16 +18,6 @@ abstract class NotifyStrategy
      * @var ConfigInterface $config
      */
     protected $config;
-
-    /**
-     * NotifyStrategy constructor.
-     * @param array $config
-     */
-    public function __construct(array $config)
-    {
-        /* 设置内部字符编码为 UTF-8 */
-        mb_internal_encoding("UTF-8");
-    }
 
     /**
      * 主要任务，验证返回的数据是否正确

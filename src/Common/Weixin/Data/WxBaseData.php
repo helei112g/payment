@@ -1,16 +1,14 @@
 <?php
-/**
- * @author: helei
- * @createTime: 2016-07-28 18:05
- * @description: 微信支付相关接口的数据基类
- */
-
 namespace Payment\Common\Weixin\Data;
 
 use Payment\Common\BaseData;
 
 /**
  * Class BaseData
+ *
+ * @author: helei
+ * @createTime: 2016-07-28 18:05
+ * @description: 微信支付相关接口的数据基类
  *
  * @property string $appId   微信分配的公众账号ID
  * @property string $mchId  微信支付分配的商户号
@@ -24,7 +22,14 @@ use Payment\Common\BaseData;
  * @property string $tradeType   支付类型
  * @property string $terminal_id 终端设备号(门店号或收银设备ID)，默认请传"WEB"
  *
+ * @note 服务商信息
+ * @property string $sub_appid 微信分配的子商户公众账号ID
+ * @property string $sub_mch_id 	微信支付分配的子商户号
+ *
  * @package Payment\Common\Weixin\Dataa
+ *
+ * @link      https://www.gitbook.com/book/helei112g1/payment-sdk/details
+ * @link      https://helei112g.github.io/
  */
 abstract class WxBaseData extends BaseData
 {
@@ -43,7 +48,6 @@ abstract class WxBaseData extends BaseData
                 break;
             case 'HMAC-SHA256':
                 $sign = base64_encode(hash_hmac('sha256', $signStr, $this->md5Key));
-
                 break;
             default:
                 $sign = '';

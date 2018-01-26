@@ -8,7 +8,6 @@
 
 namespace Payment\Common\Weixin\Data\Query;
 
-
 use Payment\Common\PayException;
 use Payment\Common\Weixin\Data\WxBaseData;
 use Payment\Utils\ArrayUtil;
@@ -23,7 +22,6 @@ use Payment\Utils\ArrayUtil;
  */
 class TransferQueryData extends WxBaseData
 {
-
     protected function buildData()
     {
         $this->retData = [

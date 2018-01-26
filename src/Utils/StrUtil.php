@@ -1,17 +1,12 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: helei
- * Date: 16/7/31
- * Time: 上午8:12
- */
-
 namespace Payment\Utils;
 
 /**
  * Class StrUtil
  * @dec 字符串处理类
  * @package Payment\Utils
+ * @link      https://www.gitbook.com/book/helei112g1/payment-sdk/details
+ * @link      https://helei112g.github.io/
  */
 class StrUtil
 {
@@ -78,19 +73,21 @@ class StrUtil
         } else {
             $keyStr = $key;
         }
+        if (empty($keyStr)) {
+            return null;
+        }
+
         $keyStr = str_replace(PHP_EOL, '', $keyStr);
         // 为了解决用户传入的密钥格式，这里进行统一处理
         if ($type === 'private') {
-            $beginStr = ['-----BEGIN RSA PRIVATE KEY-----', '-----BEGIN PRIVATE KEY-----'];
-            $endStr = ['-----END RSA PRIVATE KEY-----', '-----END PRIVATE KEY-----'];
+            $beginStr = '-----BEGIN RSA PRIVATE KEY-----';
+            $endStr = '-----END RSA PRIVATE KEY-----';
         } else {
-            $beginStr = ['-----BEGIN PUBLIC KEY-----', ''];
-            $endStr = ['-----END PUBLIC KEY-----', ''];
+            $beginStr = '-----BEGIN PUBLIC KEY-----';
+            $endStr = '-----END PUBLIC KEY-----';
         }
-        $keyStr = str_replace($beginStr, ['', ''], $keyStr);
-        $keyStr = str_replace($endStr, ['', ''], $keyStr);
-
-        $rsaKey = $beginStr[0] . PHP_EOL . wordwrap($keyStr, 64, PHP_EOL, true) . PHP_EOL . $endStr[0];
+        $rsaKey = chunk_split(base64_encode($keyStr), 64, "\n");
+        $rsaKey = $beginStr . PHP_EOL . $keyStr . PHP_EOL . $endStr;
 
         return $rsaKey;
     }

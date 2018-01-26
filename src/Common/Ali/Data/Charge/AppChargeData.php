@@ -1,14 +1,13 @@
 <?php
+namespace Payment\Common\Ali\Data\Charge;
+
 /**
  * @author: helei
  * @createTime: 2016-07-25 14:49
- * @description:
+ * @description: 生成支付宝app 支付所需的请求数据
+ * @link      https://www.gitbook.com/book/helei112g1/payment-sdk/details
+ * @link      https://helei112g.github.io/
  */
-
-namespace Payment\Common\Ali\Data\Charge;
-
-use Payment\Utils\ArrayUtil;
-
 class AppChargeData extends ChargeBaseData
 {
 
@@ -24,12 +23,14 @@ class AppChargeData extends ChargeBaseData
             'subject'       => strval($this->subject),
             'out_trade_no'  => strval($this->order_no),
             'total_amount'  => strval($this->amount),
-            'seller_id' => $this->partner,
 
             // 销售产品码，商家和支付宝签约的产品码，为固定值QUICK_MSECURITY_PAY
             'product_code'  => 'QUICK_MSECURITY_PAY',
             'goods_type'    => $this->goods_type,
             'passback_params' => $this->return_param,
+            // TODO 优惠信息待支持  业务扩展参数，待支持
+            // 'promo_params' => '',
+            // 'extend_params => '',
             'disable_pay_channels' => $this->limitPay,
             'store_id' => $this->store_id,
         ];
@@ -37,10 +38,9 @@ class AppChargeData extends ChargeBaseData
         $timeExpire = $this->timeout_express;
         if (! empty($timeExpire)) {
             $express = floor(($timeExpire - strtotime($this->timestamp)) / 60);
-            $express && $content['timeout_express'] = $express . 'm';// 超时时间 统一使用分钟计算
+            ($express > 0) && $content['timeout_express'] = $express . 'm';// 超时时间 统一使用分钟计算
         }
 
-        $content = ArrayUtil::paraFilter($content);// 过滤掉空值，下面不用在检查是否为空
-        return json_encode($content, JSON_UNESCAPED_UNICODE);
+        return $content;
     }
 }

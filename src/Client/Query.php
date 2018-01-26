@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: helei
- * Date: 2017/3/6
- * Time: 下午9:08
- */
-
 namespace Payment\Client;
 
 use Payment\Common\PayException;
@@ -13,7 +6,12 @@ use Payment\Config;
 use Payment\QueryContext;
 
 /**
- * 查询的客户端类
+ * @author: helei
+ * @createTime: 2017-09-02 18:20
+ * @description: 查询的客户端类
+ * @link      https://www.gitbook.com/book/helei112g1/payment-sdk/details
+ * @link      https://helei112g.github.io/
+ *
  * Class Query
  * @package Payment\Client
  */
@@ -35,13 +33,16 @@ class Query
     ];
 
     /**
-     * 异步通知类
+     * 查询实例
      * @var QueryContext
      */
     protected static $instance;
 
     protected static function getInstance($queryType, $config)
     {
+        /* 设置内部字符编码为 UTF-8 */
+        mb_internal_encoding("UTF-8");
+
         if (is_null(self::$instance)) {
             static::$instance = new QueryContext();
         }

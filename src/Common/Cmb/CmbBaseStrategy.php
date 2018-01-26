@@ -2,12 +2,12 @@
 
 namespace Payment\Common\Cmb;
 
+use GuzzleHttp\Client;
 use Payment\Common\BaseData;
 use Payment\Common\BaseStrategy;
 use Payment\Common\CmbConfig;
 use Payment\Common\PayException;
 use Payment\Config;
-use Payment\Utils\Curl;
 
 /**
  * Created by PhpStorm.
@@ -36,9 +36,6 @@ abstract class CmbBaseStrategy implements BaseStrategy
      */
     public function __construct(array $config)
     {
-        /* 设置内部字符编码为 UTF-8 */
-        mb_internal_encoding("UTF-8");
-
         try {
             $this->config = new CmbConfig($config);
         } catch (PayException $e) {
@@ -96,34 +93,33 @@ abstract class CmbBaseStrategy implements BaseStrategy
      */
     protected function sendReq($json)
     {
-        $responseTxt = $this->curlPost($json, $this->config->getewayUrl);
-        if ($responseTxt['error']) {
-            throw new PayException('网络发生错误，请稍后再试curl返回码：' . $responseTxt['message']);
+        $client = new Client([
+            'timeout' => '10.0'
+        ]);
+        // @note: 微信部分接口并不需要证书支持。这里为了统一，全部携带证书进行请求
+        $options = [
+            'body' => $json,
+            'http_errors' => false
+        ];
+        $response = $client->request('POST', $this->config->getewayUrl, $options);
+        if ($response->getStatusCode() != '200') {
+            throw new PayException('网络发生错误，请稍后再试curl返回码：' . $response->getReasonPhrase());
         }
 
-        $body = json_decode($responseTxt['body'], true);
-        $rspData = $body['rspData'];
+        $body = $response->getBody()->getContents();
+        $data = json_decode($body, true);
+        // TODO 检查返回的数据是否被篡改
+        $flag = $this->verifySign($data);
+        if (!$flag) {
+            throw new PayException('微信返回数据被篡改。请检查网络是否安全！');
+        }
 
+        $rspData = $data['rspData'];
         if ($rspData['rspCode'] !== CmbConfig::SUCC_TAG) {
             throw new PayException('招商返回错误提示：' . $rspData['rspMsg']);
         }
 
         return $rspData;
-    }
-
-    /**
-     * 父类仅提供基础的post请求，子类可根据需要进行重写
-     * @param string $json
-     * @param string $url
-     * @return array
-     * @author helei
-     */
-    protected function curlPost($json, $url)
-    {
-        $curl = new Curl();
-        return $curl->set([
-            'CURLOPT_HEADER'    => 0,
-        ])->post($json)->submit($url);
     }
 
     /**
@@ -145,5 +141,16 @@ abstract class CmbBaseStrategy implements BaseStrategy
             default:
                 return Config::TRADE_STATUS_FAILD;// 以上状态全部设置为失败
         }
+    }
+
+    /**
+     * 检查返回的数据是否正确
+     * @param array $retData
+     * @return bool
+     */
+    protected function verifySign(array $retData)
+    {
+        // todo
+        return true;
     }
 }

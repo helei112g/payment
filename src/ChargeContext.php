@@ -1,12 +1,4 @@
 <?php
-/**
- * @author: helei
- * @createTime: 2016-07-14 17:42
- * @description: 暴露给客户端调用的接口
- * @link      https://github.com/helei112g/payment/tree/paymentv2
- * @link      https://helei112g.github.io/
- */
-
 namespace Payment;
 
 use Payment\Charge\Ali\AliAppCharge;
@@ -24,12 +16,17 @@ use Payment\Common\BaseStrategy;
 use Payment\Common\PayException;
 
 /**
+ * @author: helei
+ * @createTime: 2016-07-14 17:42
+ * @description: 支付上下文
+ * @link      https://www.gitbook.com/book/helei112g1/payment-sdk/details
+ * @link      https://helei112g.github.io/
+ *
  * Class ChargeContext
  *
  * 支付的上下文类
  *
  * @package Payment
- * anthor helei
  */
 class ChargeContext
 {

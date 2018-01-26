@@ -1,18 +1,12 @@
 <?php
-/**
- * @author: helei
- * @createTime: 2016-07-28 18:04
- * @description: 微信的策略基类
- */
-
 namespace Payment\Common\Weixin;
 
+use GuzzleHttp\Client;
 use Payment\Common\BaseData;
 use Payment\Common\BaseStrategy;
 use Payment\Common\PayException;
 use Payment\Common\WxConfig;
 use Payment\Utils\ArrayUtil;
-use Payment\Utils\Curl;
 use Payment\Utils\DataParser;
 
 /**
@@ -20,13 +14,20 @@ use Payment\Utils\DataParser;
  * 微信策略基类
  *
  * @package Payment\Common\Weixin
- * anthor helei
+ * @anthor helei
+ * @link      https://www.gitbook.com/book/helei112g1/payment-sdk/details
+ * @link      https://helei112g.github.io/
  */
 abstract class WxBaseStrategy implements BaseStrategy
 {
+    /**
+     * 需要像微信请求的url。默认是统一下单url
+     * @var string $reqUrl
+     */
+    protected $reqUrl = 'https://api.mch.weixin.qq.com/{debug}/pay/unifiedorder';
 
     /**
-     * 支付宝的配置文件
+     * 微信的配置文件
      * @var WxConfig $config
      */
     protected $config;
@@ -44,9 +45,6 @@ abstract class WxBaseStrategy implements BaseStrategy
      */
     public function __construct(array $config)
     {
-        /* 设置内部字符编码为 UTF-8 */
-        mb_internal_encoding("UTF-8");
-
         try {
             $this->config = new WxConfig($config);
         } catch (PayException $e) {
@@ -63,57 +61,46 @@ abstract class WxBaseStrategy implements BaseStrategy
      */
     protected function sendReq($xml)
     {
-        $url = $this->getReqUrl();
+        $url = $this->reqUrl;
         if (is_null($url)) {
             throw new PayException('目前不支持该接口。请联系开发者添加');
         }
 
         if ($this->config->useSandbox) {
-            $url = str_ireplace('{debug}',WxConfig::SANDBOX_PRE, $url);
+            $url = str_ireplace('{debug}', WxConfig::SANDBOX_PRE, $url);
         } else {
             $url = str_ireplace('{debug}/', '', $url);
         }
 
-        $responseTxt = $this->curlPost($xml, $url);
-        if ($responseTxt['error']) {
-            throw new PayException('网络发生错误，请稍后再试curl返回码：' . $responseTxt['message']);
+        $client = new Client([
+            'timeout' => '10.0'
+        ]);
+        // @note: 微信部分接口并不需要证书支持。这里为了统一，全部携带证书进行请求
+        $options = [
+            'body' => $xml,
+            'cert' => $this->config->appCertPem,
+            'ssl_key' => $this->config->appKeyPem,
+            'verify' => $this->config->cacertPath,
+            'http_errors' => false
+        ];
+        $response = $client->request('POST', $url, $options);
+        if ($response->getStatusCode() != '200') {
+            throw new PayException('网络发生错误，请稍后再试curl返回码：' . $response->getReasonPhrase());
         }
+
+        $body = $response->getBody()->getContents();
+
         // 格式化为数组
-        $retData = DataParser::toArray($responseTxt['body']);
-        if ($retData['return_code'] != 'SUCCESS') {
-            throw new PayException('微信返回错误提示:' . $retData['return_msg']);
+        $retData = DataParser::toArray($body);
+        if (strtoupper($retData['return_code']) != 'SUCCESS') {
+            throw new PayException('微信返回错误提示：' . $retData['return_msg']);
         }
-        if ($retData['result_code'] != 'SUCCESS') {
+        if (strtoupper($retData['result_code']) != 'SUCCESS') {
             $msg = $retData['err_code_des'] ? $retData['err_code_des'] : $retData['err_msg'];
-            throw new PayException('微信返回错误提示:' . $msg);
+            throw new PayException('微信返回错误提示：' . $msg);
         }
 
         return $retData;
-    }
-
-    /**
-     * 父类仅提供基础的post请求，子类可根据需要进行重写
-     * @param string $xml
-     * @param string $url
-     * @return array
-     * @author helei
-     */
-    protected function curlPost($xml, $url)
-    {
-        $curl = new Curl();
-        return $curl->set([
-            'CURLOPT_HEADER'    => 0
-        ])->post($xml)->submit($url);
-    }
-
-    /**
-     * 获取需要的url  默认返回下单的url
-     * @author helei
-     * @return string|null
-     */
-    protected function getReqUrl()
-    {
-        return WxConfig::UNIFIED_URL;
     }
 
     /**
@@ -135,7 +122,11 @@ abstract class WxBaseStrategy implements BaseStrategy
         $this->reqData->setSign();
 
         $xml = DataParser::toXml($this->reqData->getData());
-        $ret = $this->sendReq($xml);
+        try {
+            $ret = $this->sendReq($xml);
+        } catch (PayException $e) {
+            throw $e;
+        }
 
         // 检查返回的数据是否被篡改
         $flag = $this->verifySign($ret);

@@ -1,26 +1,27 @@
 <?php
-
 namespace Payment\Charge\Ali;
 
 use Payment\Common\Ali\AliBaseStrategy;
 use Payment\Common\Ali\Data\Charge\BarChargeData;
-use Payment\Common\AliConfig;
 use Payment\Common\PayException;
 
 /**
  * 商户扫用户的二维码
  *
  * Class AliBarCharge
- * @package Payment\Charge\Weixin
+ * @package Payment\Charge\Ali
  *
- * @link      https://github.com/helei112g/payment/tree/paymentv2
+ * @link      https://www.gitbook.com/book/helei112g1/payment-sdk/details
  * @link      https://helei112g.github.io/
  */
 class AliBarCharge extends AliBaseStrategy
 {
+    // app 支付接口名称
+    protected $method = 'alipay.trade.pay';
+
     public function getBuildDataClass()
     {
-        $this->config->method = AliConfig::BAR_PAY_METHOD;
+        $this->config->method = $this->method;
         return BarChargeData::class;
     }
 
@@ -51,13 +52,18 @@ class AliBarCharge extends AliBaseStrategy
      */
     protected function retData(array $ret)
     {
-        $url = parent::retData($ret);
+        $reqData = parent::retData($ret);
 
         // 发起网络请求
         try {
-            $data = $this->sendReq($url);
+            $data = $this->sendReq($reqData);
         } catch (PayException $e) {
             throw $e;
+        }
+
+        // 检查是否报错
+        if ($data['code'] !== '10000') {
+            new PayException($data['sub_msg']);
         }
 
         return $data;

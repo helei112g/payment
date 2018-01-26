@@ -7,7 +7,7 @@
  * Time: 上午11:55
  */
 
-require_once __DIR__ . '/../../autoload.php';
+require_once __DIR__ . '/../../vendor/autoload.php';
 
 use Payment\Common\PayException;
 use Payment\Client\Charge;
@@ -19,9 +19,7 @@ $cmbConfig = require_once __DIR__ . '/../cmbconfig.php';
 $orderNo = time() . rand(1000, 9999);
 // 订单信息
 $payData = [
-    'body'    => 'test body',
-    'subject'    => 'test subject',
-    'order_no'    => substr($orderNo, 2, 10),
+    'order_no'    => $orderNo,// 招行订单位数变更为32位
     'timeout_express' => time() + 600,// 表示必须 600s 内付款
     'amount'    => '0.01',// 单位为元 ,最小为0.01
     'return_param' => 'tatata',

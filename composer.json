@@ -15,10 +15,12 @@
     "require": {
         "php": ">=5.6",
         "ext-bcmath": "*",
-        "ext-mbstring": "*"
+        "ext-mbstring": "*",
+        "guzzlehttp/guzzle": "~6.0"
     },
     "require-dev": {
-        "endroid/qrcode": "~1.9"
+        "endroid/qrcode": "~1.9",
+        "codeception/codeception": "*"
     },
     "autoload": {
         "psr-4": {"Payment\\": "src/"}

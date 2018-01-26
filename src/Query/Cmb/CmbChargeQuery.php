@@ -1,7 +1,6 @@
 <?php
 namespace Payment\Query\Cmb;
 
-
 use Payment\Common\Cmb\CmbBaseStrategy;
 use Payment\Common\Cmb\Data\Query\ChargeQueryData;
 use Payment\Common\CmbConfig;
@@ -15,7 +14,6 @@ use Payment\Config;
  */
 class CmbChargeQuery extends CmbBaseStrategy
 {
-
     public function getBuildDataClass()
     {
         $this->config->getewayUrl = 'https://payment.ebank.cmbchina.com/NetPayment/BaseHttp.dll?QuerySingleOrder';

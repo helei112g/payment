@@ -1,16 +1,8 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: helei
- * Date: 2017/3/7
- * Time: 下午3:59
- */
-
 namespace Payment\Common\Ali\Data\Query;
 
-
+use Payment\Common\Ali\Data\AliBaseData;
 use Payment\Common\PayException;
-use Payment\Utils\ArrayUtil;
 
 /**
  * 构建查询转账情况的数据
@@ -21,9 +13,8 @@ use Payment\Utils\ArrayUtil;
  * Class TransferQueryData
  * @package Payment\Common\Ali\Data\Query
  */
-class TransferQueryData extends QueryBaseData
+class TransferQueryData extends AliBaseData
 {
-
     protected function getBizContent()
     {
         $content = [
@@ -31,8 +22,7 @@ class TransferQueryData extends QueryBaseData
             'order_id'        => $this->transaction_id,
         ];
 
-        $content = ArrayUtil::paraFilter($content);// 过滤掉空值，下面不用在检查是否为空
-        return json_encode($content, JSON_UNESCAPED_UNICODE);
+        return $content;
     }
 
     protected function checkDataParam()

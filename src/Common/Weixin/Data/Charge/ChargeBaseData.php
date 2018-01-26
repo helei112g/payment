@@ -1,13 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: helei
- * Date: 16/7/30
- * Time: 下午11:08
- * @link      https://github.com/helei112g/payment/tree/paymentv2
- * @link      https://helei112g.github.io/
- */
-
 namespace Payment\Common\Weixin\Data\Charge;
 
 use Payment\Common\PayException;
@@ -26,8 +17,12 @@ use Payment\Config;
  * @property string $body
  * @property string $return_param  附加数据，在查询API和支付通知中原样返回
  * @property integer $timeout_express  订单失效时间   格式为yyyyMMddHHmmss
+ * @property array $scene_info 该字段用于上报支付的场景信息
  *
  * @package Payment\Common\Weixin\Data\Charge
+ *
+ * @link      https://www.gitbook.com/book/helei112g1/payment-sdk/details
+ * @link      https://helei112g.github.io/
  */
 abstract class ChargeBaseData extends WxBaseData
 {

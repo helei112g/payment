@@ -1,16 +1,8 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: helei
- * Date: 2017/3/7
- * Time: 下午1:45
- */
-
 namespace Payment\Common\Ali\Data\Query;
 
-
+use Payment\Common\Ali\Data\AliBaseData;
 use Payment\Common\PayException;
-use Payment\Utils\ArrayUtil;
 
 /**
  * 支付宝退款查询
@@ -22,9 +14,8 @@ use Payment\Utils\ArrayUtil;
  *
  * @package Payment\Common\Ali\Data\Query
  */
-class RefundQueryData extends QueryBaseData
+class RefundQueryData extends AliBaseData
 {
-
     protected function getBizContent()
     {
         $content = [
@@ -33,8 +24,7 @@ class RefundQueryData extends QueryBaseData
             'out_request_no'    => $this->refund_no,
         ];
 
-        $content = ArrayUtil::paraFilter($content);// 过滤掉空值，下面不用在检查是否为空
-        return json_encode($content, JSON_UNESCAPED_UNICODE);
+        return $content;
     }
 
     protected function checkDataParam()

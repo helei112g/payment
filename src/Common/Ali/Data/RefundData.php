@@ -1,14 +1,7 @@
 <?php
-/**
- * @author: helei
- * @createTime: 2016-07-26 18:18
- * @description:
- */
-
 namespace Payment\Common\Ali\Data;
 
 use Payment\Common\PayException;
-use Payment\Utils\ArrayUtil;
 
 /**
  * Class RefundData
@@ -48,32 +41,12 @@ class RefundData extends AliBaseData
         }
     }
 
-    protected function buildData()
-    {
-        $signData = [
-            // 公共参数
-            'app_id'        => $this->appId,
-            'method'        => $this->method,
-            'format'        => $this->format,
-            'charset'       => $this->charset,
-            'sign_type'     => $this->signType,
-            'timestamp'     => $this->timestamp,
-            'version'       => $this->version,
-
-            // 业务参数
-            'biz_content'   => $this->getBizContent(),
-        ];
-
-        // 移除数组中的空值
-        $this->retData = ArrayUtil::paraFilter($signData);
-    }
-
     /**
      * 业务请求参数的集合，最大长度不限，除公共参数外所有请求参数都必须放在这个参数中传递
      *
      * @return string
      */
-    private function getBizContent()
+    protected function getBizContent()
     {
         $content = [
             'out_trade_no'    => $this->out_trade_no,
@@ -86,7 +59,6 @@ class RefundData extends AliBaseData
             'terminal_id'       => $this->terminal_id,
         ];
 
-        $content = ArrayUtil::paraFilter($content);// 过滤掉空值，下面不用在检查是否为空
-        return json_encode($content, JSON_UNESCAPED_UNICODE);
+        return $content;
     }
 }

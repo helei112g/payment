@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: helei
- * Date: 16/7/31
- * Time: 上午9:20
- */
-
 namespace Payment\Common\Weixin\Data\Charge;
 
 use Payment\Common\PayException;
@@ -16,9 +9,13 @@ use Payment\Utils\ArrayUtil;
  * 微信公众号支付
  *
  * @property string $openid  trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识
+ * @property string $sub_openid 用户在子商户appid下的唯一标识
  *
  * @package Payment\Common\Weixin\Data\Charge
  * anthor helei
+ *
+ * @link      https://www.gitbook.com/book/helei112g1/payment-sdk/details
+ * @link      https://helei112g.github.io/
  */
 class PubChargeData extends ChargeBaseData
 {
@@ -31,32 +28,50 @@ class PubChargeData extends ChargeBaseData
         if (empty($openid)) {
             throw new PayException('用户在商户appid下的唯一标识,公众号支付,必须设置该参数.');
         }
+
+        $subMchId = $this->sub_mch_id;// 如果是服务商模式，则 sub_openid 必须提供
+        $subOpenid = $this->sub_openid;
+        if ($subMchId && empty($subOpenid)) {
+            throw new PayException('公众号的服务商模式，必须提供 sub_openid 参数.');
+        }
     }
 
     protected function buildData()
     {
+        $info = $this->scene_info;
+        $sceneInfo = [];
+        if ($info && is_array($info)) {
+            $sceneInfo['store_info'] = $info;
+        }
+
         $signData = [
-            // 基本数据
             'appid' => trim($this->appId),
             'mch_id'    => trim($this->mchId),
+            'device_info'   => $this->terminal_id,
             'nonce_str' => $this->nonceStr,
             'sign_type' => $this->signType,
-            'fee_type'  => $this->feeType,
-            'notify_url'    => $this->notifyUrl,
-            'trade_type'    => $this->tradeType, //设置APP支付
-            'limit_pay' => $this->limitPay,  // 指定不使用信用卡
-
-            // 业务数据
-            'device_info'   => $this->terminal_id,
             'body'  => trim($this->subject),
-            //'detail' => json_encode($this->body, JSON_UNESCAPED_UNICODE);
+            //'detail' => json_encode($this->body, JSON_UNESCAPED_UNICODE),
             'attach'    => trim($this->return_param),
             'out_trade_no'  => trim($this->order_no),
+            'fee_type'  => $this->feeType,
             'total_fee' => $this->amount,
             'spbill_create_ip'  => trim($this->client_ip),
             'time_start'    => $this->timeStart,
             'time_expire'   => $this->timeout_express,
+            //'goods_tag' => '订单优惠标记',
+            'notify_url'    => $this->notifyUrl,
+            'trade_type'    => $this->tradeType, //设置APP支付
+            //'product_id' => '商品id',
+            'limit_pay' => $this->limitPay,  // 指定不使用信用卡
+            // 业务数据
             'openid' => $this->openid,
+            'scene_info' => $sceneInfo ? json_encode($sceneInfo, JSON_UNESCAPED_UNICODE) : '',
+
+            // 服务商
+            'sub_appid' => $this->sub_appid,
+            'sub_mch_id' => $this->sub_mch_id,
+            'sub_openid' => $this->sub_openid,
         ];
 
         // 移除数组中的空值

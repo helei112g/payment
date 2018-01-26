@@ -1,10 +1,4 @@
 <?php
-/**
- * @author: helei
- * @createTime: 2016-07-20 16:46
- * @description:
- */
-
 namespace Payment\Notify;
 
 use Payment\Common\PayException;
@@ -18,6 +12,9 @@ use Payment\Utils\DataParser;
  * 微信回调处理
  * @package Payment\Notify
  * anthor helei
+ * @link      https://www.gitbook.com/book/helei112g1/payment-sdk/details
+ * @link      https://helei112g.github.io/
+ *
  */
 class WxNotify extends NotifyStrategy
 {
@@ -29,8 +26,6 @@ class WxNotify extends NotifyStrategy
      */
     public function __construct(array $config)
     {
-        parent::__construct($config);
-
         try {
             $this->config = new WxConfig($config);
         } catch (PayException $e) {

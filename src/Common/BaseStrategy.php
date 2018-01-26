@@ -1,12 +1,13 @@
 <?php
+namespace Payment\Common;
+
 /**
  * @author: helei
  * @createTime: 2016-07-28 16:45
  * @description: 所有的策略类接口
+ * @link      https://www.gitbook.com/book/helei112g1/payment-sdk/details
+ * @link      https://helei112g.github.io/
  */
-
-namespace Payment\Common;
-
 interface BaseStrategy
 {
     /**

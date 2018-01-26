@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: helei
- * Date: 2017/3/7
- * Time: 上午10:50
- */
-
 namespace Payment\Client;
 
 use Payment\Common\PayException;
@@ -13,7 +6,12 @@ use Payment\Config;
 use Payment\RefundContext;
 
 /**
- * 退款操作客户端接口
+ * @author: helei
+ * @createTime: 2017-09-02 18:20
+ * @description: 退款操作客户端接口
+ * @link      https://www.gitbook.com/book/helei112g1/payment-sdk/details
+ * @link      https://helei112g.github.io/
+ *
  * Class Refund
  * @package Payment\Client
  */
@@ -30,13 +28,16 @@ class Refund
     ];
 
     /**
-     * 异步通知类
+     * 退款实例
      * @var RefundContext
      */
     protected static $instance;
 
     protected static function getInstance($channel, $config)
     {
+        /* 设置内部字符编码为 UTF-8 */
+        mb_internal_encoding("UTF-8");
+
         if (is_null(self::$instance)) {
             static::$instance = new RefundContext();
         }

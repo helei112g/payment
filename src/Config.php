@@ -1,19 +1,18 @@
 <?php
+namespace Payment;
+
 /**
  * @author: helei
  * @createTime: 2016-07-14 17:47
  * @description: 支付相关的基础配置  无法被继承
- * @link      https://github.com/helei112g/payment/tree/paymentv2
+ * @link      https://www.gitbook.com/book/helei112g1/payment-sdk/details
  * @link      https://helei112g.github.io/
  *
- * @version 2.6.1
+ * @version 4.1.0
  */
-
-namespace Payment;
-
 final class Config
 {
-    const VERSION = '3.1.1-dev';
+    const VERSION = '4.1.5';
 
     //========================= ali相关接口 =======================//
     // 支付相关常量

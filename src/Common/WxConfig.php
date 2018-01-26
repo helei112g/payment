@@ -1,18 +1,17 @@
 <?php
-/**
- * @author: helei
- * @createTime: 2016-07-15 14:56
- * @description: 微信配置文件
- * @link      https://github.com/helei112g/payment/tree/paymentv2
- * @link      https://helei112g.github.io/
- */
-
 namespace Payment\Common;
 
 use Payment\Common\Weixin\WechatHelper;
 use Payment\Utils\ArrayUtil;
 use Payment\Utils\StrUtil;
 
+/**
+ * @author: helei
+ * @createTime: 2016-07-15 14:56
+ * @description: 微信配置文件
+ * @link      https://www.gitbook.com/book/helei112g1/payment-sdk/details
+ * @link      https://helei112g.github.io/
+ */
 final class WxConfig extends ConfigInterface
 {
     // 微信分配的公众账号ID
@@ -48,30 +47,6 @@ final class WxConfig extends ConfigInterface
     // 指定回调页面
     public $returnUrl;
 
-    // 统一下单url
-    const UNIFIED_URL = 'https://api.mch.weixin.qq.com/{debug}/pay/unifiedorder';
-
-    // 提交刷卡支付url
-    const MICROPAY_URL = 'https://api.mch.weixin.qq.com/{debug}/pay/micropay';
-
-
-    // 支付查询url
-    const CHARGE_QUERY_URL = 'https://api.mch.weixin.qq.com/{debug}/pay/orderquery';
-
-    // 查询退款url
-    const REFUDN_QUERY_URL = 'https://api.mch.weixin.qq.com/{debug}/pay/refundquery';
-
-    // 企业付款的查询
-    const TRANS_QUERY_URL = 'https://api.mch.weixin.qq.com/{debug}/mmpaymkttransfers/gettransferinfo';
-
-
-    // 申请退款url
-    const REFUND_URL = 'https://api.mch.weixin.qq.com/{debug}/secapi/pay/refund';
-
-    // 企业付款
-    const TRANSFERS_URL = 'https://api.mch.weixin.qq.com/{debug}/mmpaymkttransfers/promotion/transfers';
-
-
     // 关闭订单url  尚未接入
     const CLOSE_URL = 'https://api.mch.weixin.qq.com/{debug}/pay/closeorder';
 
@@ -84,33 +59,18 @@ final class WxConfig extends ConfigInterface
 
     // 沙箱测试相关
     const SANDBOX_PRE = 'sandboxnew';
-    const SANDBOX_URL = 'https://api.mch.weixin.qq.com/sandboxnew/pay/getsignkey';
-
-    /**
-     * 初始化微信配置文件
-     * WxConfig constructor.
-     * @param array $config
-     * @throws PayException
-     */
-    public function __construct(array $config)
-    {
-        try {
-            $this->initConfig($config);
-        } catch (PayException $e) {
-            throw $e;
-        }
-
-        $basePath = dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'CacertFile' . DIRECTORY_SEPARATOR;
-        $this->cacertPath = "{$basePath}wx_cacert.pem";
-    }
 
     /**
      * 初始化配置文件参数
      * @param array $config
      * @throws PayException
      */
-    private function initConfig(array $config)
+    protected function initConfig(array $config)
     {
+        $basePath = dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'CacertFile' . DIRECTORY_SEPARATOR;
+        $this->cacertPath = "{$basePath}wx_cacert.pem";
+
+
         $config = ArrayUtil::paraFilter($config);
 
         // 检查 微信分配的公众账号ID
@@ -182,6 +142,7 @@ final class WxConfig extends ConfigInterface
 
         if (isset($config['use_sandbox']) && $config['use_sandbox'] === true) {
             $this->useSandbox = true;// 是沙箱模式  重新获取key
+            $this->signType = 'MD5';// 沙箱模式只能使用 md5 。沙箱下，微信部分接口不支持 HMAC-SHA256
 
             $helper = new WechatHelper($this, []);
             $this->md5Key = $helper->getSandboxSignKey();

@@ -1,15 +1,14 @@
 <?php
+namespace Payment\Notify;
+
 /**
  * @author: helei
  * @createTime: 2016-07-20 16:12
  * @description: 提供给客户端实现的 支付异步回调 接口
  *
- * @link      https://github.com/helei112g/payment/tree/paymentv2
+ * @link      https://www.gitbook.com/book/helei112g1/payment-sdk/details
  * @link      https://helei112g.github.io/
  */
-
-namespace Payment\Notify;
-
 interface PayNotifyInterface
 {
     /**

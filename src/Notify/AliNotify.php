@@ -1,13 +1,4 @@
 <?php
-/**
- * @author: helei
- * @createTime: 2016-07-20 16:21
- * @description: 支付宝回调通知
- *
- * @link      https://github.com/helei112g/payment/tree/paymentv2
- * @link      https://helei112g.github.io/
- */
-
 namespace Payment\Notify;
 
 use Payment\Common\AliConfig;
@@ -17,6 +8,14 @@ use Payment\Utils\ArrayUtil;
 use Payment\Utils\Rsa2Encrypt;
 use Payment\Utils\RsaEncrypt;
 
+/**
+ * @author: helei
+ * @createTime: 2016-07-20 16:21
+ * @description: 支付宝回调通知
+ *
+ * @link      https://www.gitbook.com/book/helei112g1/payment-sdk/details
+ * @link      https://helei112g.github.io/
+ */
 class AliNotify extends NotifyStrategy
 {
     /**
@@ -26,20 +25,11 @@ class AliNotify extends NotifyStrategy
      */
     public function __construct(array $config)
     {
-        parent::__construct($config);
-
         try {
             $this->config = new AliConfig($config);
         } catch (PayException $e) {
             throw $e;
         }
-    }
-
-    protected function getOldAliPublicKey()
-    {
-        $filePath = dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR .'CacertFile/old_alipay_public_key.pem';
-
-        return @file_get_contents($filePath);
     }
 
     /**
@@ -77,11 +67,6 @@ class AliNotify extends NotifyStrategy
             return false;
         }
 
-        // 主要是为了即时到账的签名
-        if (! isset($data['version'])) {
-            $this->config->rsaAliPubKey = $this->getOldAliPublicKey();
-        }
-
         // 检查签名
         $flag = $this->verifySign($data);
 
@@ -101,55 +86,45 @@ class AliNotify extends NotifyStrategy
             return $data;
         }
 
-        if (! isset($data['version'])) {// 即时到账
-            $retData = [
-                'order_no'   => $data['out_trade_no'],
-                'subject'   => $data['subject'],
-                'transaction_id'   => $data['trade_no'],
-                'trade_state'   => $this->getTradeStatus($data['trade_status']),
-                'trade_create_time' => $data['gmt_create'],// 交易创建时间
-                'pay_time'   => $data['gmt_payment'],// 交易付款时间
-                'seller_id' => $data['seller_id'],
-                'seller_email' => $data['seller_email'],
-                'buyer_id'   => $data['buyer_id'],
-                'amount'   => $data['total_fee'],
-                'channel'   => Config::ALI_CHARGE,
-                'body'   => $data['body'],
-                'discount' => $data['discount'],
-                'return_param' => $data['extra_common_param'],
-                'notify_time'   => $data['notify_time'],
-                'notify_type' => $data['notify_type'],
-            ];
-        } else {
-            $retData = [
-                'amount'   => $data['total_amount'],
-                'buyer_id'   => $data['buyer_id'],
-                'transaction_id'   => $data['trade_no'],
-                'body'   => $data['body'],
-                'notify_time'   => $data['notify_time'],
-                'subject'   => $data['subject'],
-                'buyer_account' => $data['buyer_logon_id'],
-                'auth_app_id' => $data['auth_app_id'],
-                'notify_type' => $data['notify_type'],
-                'invoice_amount' => $data['invoice_amount'],
-                'order_no'   => $data['out_trade_no'],
-                'trade_state'   => $this->getTradeStatus($data['trade_status']),
-                'pay_time'   => $data['gmt_payment'],// 交易付款时间
-                'point_amount' => $data['point_amount'],// 使用集分宝支付的金额
-                'trade_create_time' => $data['gmt_create'],// 交易创建时间
-                'pay_amount' => $data['buyer_pay_amount'],// 用户在交易中支付的金额
-                'receipt_amount' => $data['receipt_amount'],// 商家在交易中实际收到的款项，单位为元
-                'fund_bill_list' => $data['fund_bill_list'],// 支付成功的各个渠道金额信息
-                'app_id' => $data['app_id'],
-                'seller_id' => $data['seller_id'],
-                'seller_email' => $data['seller_email'],
-                'channel'   => Config::ALI_CHARGE,
-            ];
-        }
+        $retData = [
+            'notify_time'   => ArrayUtil::get($data, 'notify_time'),
+            'notify_type' => ArrayUtil::get($data, 'notify_type'),
+            'notify_id' => ArrayUtil::get($data, 'notify_id'),
+            'app_id' => ArrayUtil::get($data, 'app_id'),
+            'transaction_id'   => ArrayUtil::get($data, 'trade_no'),
+            'order_no'   => ArrayUtil::get($data, 'out_trade_no'),
+            'out_biz_no' => ArrayUtil::get($data, 'out_biz_no'),
+            'buyer_id'   => ArrayUtil::get($data, 'buyer_id'),
+            'buyer_account' => ArrayUtil::get($data, 'buyer_logon_id'),
+            'seller_id' => ArrayUtil::get($data, 'seller_id'),
+            'seller_email' => ArrayUtil::get($data, 'seller_email'),
+            'trade_state'   => $this->getTradeStatus($data['trade_status']),
+            'amount'   => ArrayUtil::get($data, 'total_amount'),
+            'receipt_amount' => ArrayUtil::get($data, 'receipt_amount'),// 商家在交易中实际收到的款项，单位为元
+            'invoice_amount' => ArrayUtil::get($data, 'invoice_amount'),// 用户在交易中支付的可开发票的金额
+            'pay_amount' => ArrayUtil::get($data, 'buyer_pay_amount'),// 用户在交易中支付的金额
+            'point_amount' => ArrayUtil::get($data, 'point_amount'),// 使用集分宝支付的金额
+            'refund_fee' => ArrayUtil::get($data, 'refund_fee'), // 总退款金额
+            'subject'   => ArrayUtil::get($data, 'subject'),
+            'body'   => ArrayUtil::get($data, 'body'),
+            'trade_create_time' => ArrayUtil::get($data, 'gmt_create'),// 交易创建时间
+            'pay_time'   => ArrayUtil::get($data, 'gmt_payment'),// 交易付款时间
+            'trade_refund_time' => ArrayUtil::get($data, 'gmt_refund'), // 交易退款时间
+            'trade_close_time' => ArrayUtil::get($data, 'gmt_close'), // 交易关闭时间
+            'channel'   => Config::ALI_CHARGE,
+        ];
 
         // 检查是否存在用户自定义参数
         if (isset($data['passback_params']) && ! empty($data['passback_params'])) {
             $retData['return_param'] = $data['passback_params'];
+        }
+        // 支付成功的各个渠道金额信息
+        if (isset($data['fund_bill_list']) && ! empty($data['fund_bill_list'])) {
+            $retData['fund_bill_list'] = \GuzzleHttp\json_decode($data['fund_bill_list'], true);
+        }
+        // 优惠券信息
+        if (isset($data['voucher_detail_list']) && ! empty($data['voucher_detail_list'])) {
+            $retData['voucher_detail_list'] = \GuzzleHttp\json_decode($data['voucher_detail_list'], true);
         }
 
         return $retData;

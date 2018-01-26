@@ -8,7 +8,6 @@
 
 namespace Payment\Common\Weixin\Data\Query;
 
-
 use Payment\Common\PayException;
 use Payment\Common\Weixin\Data\WxBaseData;
 use Payment\Utils\ArrayUtil;
@@ -26,7 +25,6 @@ use Payment\Utils\ArrayUtil;
  */
 class RefundQueryData extends WxBaseData
 {
-
     protected function buildData()
     {
         $this->retData = [
@@ -40,6 +38,10 @@ class RefundQueryData extends WxBaseData
             'out_trade_no'  => $this->out_trade_no,
             'out_refund_no' => $this->refund_no,
             'refund_id' => $this->refund_id,
+
+            // 服务商
+            'sub_appid' => $this->sub_appid,
+            'sub_mch_id' => $this->sub_mch_id,
         ];
 
         $this->retData = ArrayUtil::paraFilter($this->retData);

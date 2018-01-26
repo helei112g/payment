@@ -1,16 +1,16 @@
 <?php
-/**
- * @author: helei
- * @createTime: 2016-07-28 18:05
- * @description: 支付相关接口的数据基类
- */
-
 namespace Payment\Common;
 
 use Payment\Config;
 use Payment\Utils\ArrayUtil;
 
 /**
+ * @author: helei
+ * @createTime: 2016-07-28 18:05
+ * @description: 支付相关接口的数据基类
+ * @link      https://www.gitbook.com/book/helei112g1/payment-sdk/details
+ * @link      https://helei112g.github.io/
+ *
  * Class BaseData
  * 支付相关接口的数据基类
  * @package Payment\Common\Weixin\Dataa

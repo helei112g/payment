@@ -1,17 +1,16 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: helei
- * Date: 2017/4/27
- * Time: 上午11:28
- */
-
 namespace Payment\Common;
-
 
 use Payment\Utils\ArrayUtil;
 use Payment\Utils\StrUtil;
 
+/**
+ * Class CmbConfig
+ * @package Payment\Common
+ * @desc: 招商一网通支付的配置文件
+ * @link      https://www.gitbook.com/book/helei112g1/payment-sdk/details
+ * @link      https://helei112g.github.io/
+ */
 class CmbConfig extends ConfigInterface
 {
     // 调用的接口版本，固定为：1.0
@@ -58,21 +57,6 @@ class CmbConfig extends ConfigInterface
     const NOTICE_PAY = 'BKPAYRTN';// 支付成功回调
 
     const NOTICE_SIGN = 'BKQY';// 签约成功回调
-
-    /**
-     * 初始化微信配置文件
-     * WxConfig constructor.
-     * @param array $config
-     * @throws PayException
-     */
-    public function __construct(array $config)
-    {
-        try {
-            $this->initConfig($config);
-        } catch (PayException $e) {
-            throw $e;
-        }
-    }
 
     /**
      * 初始化配置文件
@@ -158,7 +142,7 @@ class CmbConfig extends ConfigInterface
             throw new PayException('请提供招商对应的rsa公钥，可通过Helper接口获取');
         }
 
-        // 初始 支付宝 同步通知地址，可为空
+        // 初始 招商一网通 同步通知地址，可为空
         if (key_exists('return_url', $config)) {
             $this->returnUrl = $config['return_url'];
         }

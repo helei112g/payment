@@ -1,18 +1,20 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: helei
- * Date: 2017/3/4
- * Time: 下午5:40
- */
-
 namespace Payment\Client;
-
 
 use Payment\ChargeContext;
 use Payment\Common\PayException;
 use Payment\Config;
 
+/**
+ * @author: helei
+ * @createTime: 2017-09-02 18:20
+ * @description: 支付的客户端类
+ * @link      https://www.gitbook.com/book/helei112g1/payment-sdk/details
+ * @link      https://helei112g.github.io/
+ * Class Charge
+ * @package Payment\Client
+ *
+ */
 class Charge
 {
     private static $supportChannel = [
@@ -34,13 +36,16 @@ class Charge
     ];
 
     /**
-     * 异步通知类
+     * 支付实例
      * @var ChargeContext
      */
     protected static $instance;
 
     protected static function getInstance($channel, $config)
     {
+        /* 设置内部字符编码为 UTF-8 */
+        mb_internal_encoding("UTF-8");
+        
         if (is_null(self::$instance)) {
             static::$instance = new ChargeContext();
         }

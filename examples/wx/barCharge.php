@@ -7,7 +7,7 @@
  * Time: 下午3:12
  */
 
-require_once __DIR__ . '/../../autoload.php';
+require_once __DIR__ . '/../../vendor/autoload.php';
 
 use Payment\Common\PayException;
 use Payment\Client\Charge;
@@ -27,10 +27,12 @@ $payData = [
     'amount'    => '0.01',// 微信沙箱模式，需要金额固定为0.01
     'return_param' => '123',
     'client_ip' => isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '127.0.0.1',// 客户地址
-    'openid' => '',
-    'product_id' => '123',
     'terminal_id' => 'web',// 终端设备号(门店号或收银设备ID) 默认值 web
     'auth_code' => '1231212232323123123',
+
+    // 如果是服务商，请提供以下参数
+    'sub_appid' => '',//微信分配的子商户公众账号ID
+    'sub_mch_id' => '',// 微信支付分配的子商户号
 ];
 
 try {

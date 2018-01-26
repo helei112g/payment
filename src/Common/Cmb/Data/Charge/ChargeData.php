@@ -6,7 +6,6 @@ use Payment\Common\CmbConfig;
 use Payment\Common\PayException;
 use Payment\Config;
 
-
 /**
  * Created by PhpStorm.
  * User: helei
@@ -30,6 +29,8 @@ class ChargeData extends CmbBaseData
     {
         parent::checkDataParam();
         $amount = $this->amount;
+      
+        // 订单号交给支付系统自己检查
 
         // 检查金额不能低于0.01
         if (bccomp($amount, Config::PAY_MIN_FEE, 2) === -1) {

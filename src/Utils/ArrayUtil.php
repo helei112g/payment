@@ -1,14 +1,13 @@
 <?php
+namespace Payment\Utils;
+
 /**
  * @author: helei
  * @createTime: 2016-06-07 21:01
  * @description:  常用的数组处理工具
- * @link      https://github.com/helei112g/payment/tree/paymentv2
+ * @link      https://www.gitbook.com/book/helei112g1/payment-sdk/details
  * @link      https://helei112g.github.io/
  */
-
-namespace Payment\Utils;
-
 class ArrayUtil
 {
     /**
@@ -20,11 +19,11 @@ class ArrayUtil
     public static function paraFilter($para)
     {
         $paraFilter = [];
-        while (list($key, $val) = each($para)) {
+        foreach ($para as $key => $val) {
             if ($val === '' || $val === null) {
                 continue;
             } else {
-                if (! is_array($para[$key])) {
+                if (!is_array($para[$key])) {
                     $para[$key] = is_bool($para[$key]) ? $para[$key] : trim($para[$key]);
                 }
 
@@ -95,12 +94,12 @@ class ArrayUtil
 
         reset($para);
         $arg = '';
-        while (list($key, $val) = each($para)) {
+        foreach ($para as $key => $val) {
             if (is_array($val)) {
                 continue;
             }
 
-            $arg.=$key.'='.urldecode($val).'&';
+            $arg .= $key . '=' . urldecode($val) . '&';
         }
         //去掉最后一个&字符
         $arg && $arg = substr($arg, 0, -1);
@@ -111,5 +110,22 @@ class ArrayUtil
         }
 
         return $arg;
+    }
+
+    /**
+     * 获取一个数组中某个key的值，如果key为不存在，返回默认值
+     * @param array $arr
+     * @param $key
+     * @param string $default
+     *
+     * @return string
+     */
+    public static function get(array $arr, $key, $default = '')
+    {
+        if (isset($arr[$key]) && ! empty($arr[$key])) {
+            return $arr[$key];
+        }
+
+        return $default;
     }
 }

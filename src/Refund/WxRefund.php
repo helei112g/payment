@@ -1,17 +1,9 @@
 <?php
-/**
- * @author: helei
- * @createTime: 2016-07-27 10:51
- * @description:
- */
-
 namespace Payment\Refund;
 
 use Payment\Common\Weixin\Data\RefundData;
 use Payment\Common\Weixin\WxBaseStrategy;
-use Payment\Common\WxConfig;
 use Payment\Config;
-use Payment\Utils\Curl;
 
 /**
  * Class WxRefund
@@ -21,31 +13,11 @@ use Payment\Utils\Curl;
  */
 class WxRefund extends WxBaseStrategy
 {
+    protected $reqUrl = 'https://api.mch.weixin.qq.com/{debug}/secapi/pay/refund';
+
     public function getBuildDataClass()
     {
         return RefundData::class;
-    }
-
-    /**
-     * 微信退款接口，需要用到相关加密文件及证书，需要重新进行curl的设置
-     * @param string $xml
-     * @param string $url
-     * @return array
-     * @author helei
-     */
-    protected function curlPost($xml, $url)
-    {
-        $curl = new Curl();
-        $responseTxt = $curl->set([
-            'CURLOPT_HEADER'    => 0,
-            'CURLOPT_SSL_VERIFYHOST'    => false,
-            'CURLOPT_SSLCERTTYPE'   => 'PEM', //默认支持的证书的类型，可以注释
-            'CURLOPT_SSLCERT'   => $this->config->appCertPem,
-            'CURLOPT_SSLKEY'    => $this->config->appKeyPem,
-            'CURLOPT_CAINFO'    => $this->config->cacertPath,
-        ])->post($xml)->submit($url);
-
-        return $responseTxt;
     }
 
     /**
@@ -113,15 +85,5 @@ class WxRefund extends WxBaseStrategy
         ];
 
         return $retData;
-    }
-
-    /**
-     * 返回退款的url
-     * @return null|string
-     * @author helei
-     */
-    protected function getReqUrl()
-    {
-        return WxConfig::REFUND_URL;
     }
 }
