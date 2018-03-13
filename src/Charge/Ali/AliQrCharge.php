@@ -44,6 +44,11 @@ class AliQrCharge extends AliBaseStrategy
             throw $e;
         }
 
+        // 检查是否报错
+        if ($data['code'] !== '10000') {
+            new PayException($data['sub_msg']);
+        }
+
         return $data['qr_code'];
     }
 }

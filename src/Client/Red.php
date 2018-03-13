@@ -1,34 +1,29 @@
 <?php
 namespace Payment\Client;
 
+use Payment\RedContext;
 use Payment\Common\PayException;
 use Payment\Config;
-use Payment\TransferContext;
 
 /**
- * @author: helei
- * @createTime: 2017-09-02 18:20
- * @description: 转账操作客户端接口
- * @link      https://www.gitbook.com/book/helei112g1/payment-sdk/details
- * @link      https://helei112g.github.io/
- *
- * Class Transfer
+ * @author: IT
+ * @createTime: 2018-03-07 18:20
+ * @description: 红包
+ * Class Red
  * @package Payment\Client
+ *
  */
-class Transfer
+class Red
 {
     private static $supportChannel = [
-        Config::ALI_TRANSFER,// 支付宝
+        Config::ALI_RED,// 支付宝红包
 
-        Config::WX_TRANSFER,// 微信
-
-        'cmb_wallet',// 招行一网通
-        'applepay_upacp',// Apple Pay
+        Config::WX_RED,// 微信红包
     ];
 
     /**
-     * 转账实例
-     * @var TransferContext
+     * 支付实例
+     * @var RedContext
      */
     protected static $instance;
 
@@ -36,13 +31,13 @@ class Transfer
     {
         /* 设置内部字符编码为 UTF-8 */
         mb_internal_encoding("UTF-8");
-
+        
         if (is_null(self::$instance)) {
-            static::$instance = new TransferContext();
+            static::$instance = new RedContext();
         }
 
         try {
-            static::$instance->initTransfer($channel, $config);
+            static::$instance->initRed($channel, $config);
         } catch (PayException $e) {
             throw $e;
         }
@@ -51,23 +46,23 @@ class Transfer
     }
 
     /**
-     * @param $channel
-     * @param $config
-     * @param $metadata
+     * @param string $channel
+     * @param array $config
+     * @param array $metadata
      *
-     * @return array
+     * @return mixed
      * @throws PayException
      */
     public static function run($channel, $config, $metadata)
     {
         if (! in_array($channel, self::$supportChannel)) {
-            throw new PayException('sdk当前不支持该退款渠道，当前仅支持：' . implode(',', self::$supportChannel));
+            throw new PayException('sdk当前不支持该支付渠道，当前仅支持：' . implode(',', self::$supportChannel));
         }
 
         try {
             $instance = self::getInstance($channel, $config);
 
-            $ret = $instance->transfer($metadata);
+            $ret = $instance->red($metadata);
         } catch (PayException $e) {
             throw $e;
         }

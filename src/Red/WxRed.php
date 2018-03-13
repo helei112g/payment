@@ -1,35 +1,35 @@
 <?php
-namespace Payment\Trans;
+namespace Payment\Red;
 
-use Payment\Common\Weixin\Data\TransferData;
+use Payment\Common\Weixin\Data\RedData;
 use Payment\Common\Weixin\WxBaseStrategy;
 use Payment\Config;
 use Payment\Utils\ArrayUtil;
 
 /**
- * 微信企业付款接口
- * Class WxTransfer
+ * 微信红包接口
+ * Class WxRed
  * @package Payment\Trans
- * anthor helei
+ * anthor jingzhou
  */
-class WxTransfer extends WxBaseStrategy
+class WxRed extends WxBaseStrategy
 {
-    protected $reqUrl = 'https://api.mch.weixin.qq.com/{debug}/mmpaymkttransfers/promotion/transfers';
+	protected $reqUrl = 'https://api.mch.weixin.qq.com/mmpaymkttransfers/sendredpack';
 
     public function getBuildDataClass()
     {
-        return TransferData::class;
+        return RedData::class;
     }
 
     /**
-     * 转款的返回数据
+     * 普通红包的返回数据
      * @param array $ret
      * @return mixed
      */
     protected function retData(array $ret)
     {
         if ($this->config->returnRaw) {
-            $ret['channel'] = Config::WX_TRANSFER;
+            $ret['channel'] = Config::WX_RED;
             return $ret;
         }
 
@@ -38,7 +38,7 @@ class WxTransfer extends WxBaseStrategy
             return $retData = [
                 'is_success'    => 'F',
                 'error' => $ret['return_msg'],
-                'channel'   => Config::WX_TRANSFER,
+                'channel'   => Config::WX_RED,
             ];
         }
 
@@ -47,7 +47,7 @@ class WxTransfer extends WxBaseStrategy
             return $retData = [
                 'is_success'    => 'F',
                 'error' => $ret['err_code_des'],
-                'channel'   => Config::WX_TRANSFER,
+                'channel'   => Config::WX_RED,
             ];
         }
 
@@ -64,11 +64,13 @@ class WxTransfer extends WxBaseStrategy
         $retData = [
             'is_success'    => 'T',
             'response'  => [
-                'trans_no'   => $data['partner_trade_no'],
-                'transaction_id'  => $data['payment_no'],
-                'pay_date' => $data['payment_time'],// 企业付款成功时间  2015-05-19 15:26:59
-                'device_info' => ArrayUtil::get($data, 'device_info', 'WEB'),
-                'channel'   => Config::WX_TRANSFER,
+                'mch_billno'   => $data['mch_billno'],
+                'send_listid'  => $data['send_listid'],
+                'total_amount' => $data['total_amount'],
+                're_openid'    => $data['re_openid'],
+                'wxappid'      => $data['wxappid'],
+                'mch_id'       => $data['mch_id'],
+                'channel'   => Config::WX_RED,
             ],
         ];
 

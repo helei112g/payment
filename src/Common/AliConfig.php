@@ -85,17 +85,23 @@ final class AliConfig extends ConfigInterface
         }
 
         // 新版本，需要提供独立的支付宝公钥信息。每一个应用，公钥都不相同
-        if (key_exists('ali_public_key', $config) && (file_exists($config['ali_public_key']) || ! empty($config['ali_public_key']))) {
+        if (key_exists('ali_public_key', $config) && ! empty($config['ali_public_key'])) {
             $this->rsaAliPubKey = StrUtil::getRsaKeyValue($config['ali_public_key'], 'public');
         } else {
             throw new PayException('请提供支付宝对应的rsa公钥');
         }
+        if (empty($this->rsaAliPubKey)) {
+            throw new PayException('支付宝公钥生成错误，如果你使用的是文件方式配置，建议修改为字符串配置');
+        }
 
         // 初始 RSA私钥文件 需要检查该文件是否存在
-        if (key_exists('rsa_private_key', $config) && (file_exists($config['rsa_private_key']) || ! empty($config['ali_public_key']))) {
+        if (key_exists('rsa_private_key', $config) && ! empty($config['rsa_private_key'])) {
             $this->rsaPrivateKey = StrUtil::getRsaKeyValue($config['rsa_private_key'], 'private');
         } else {
             throw new PayException('请提供商户的rsa私钥文件');
+        }
+        if (empty($this->rsaPrivateKey)) {
+            throw new PayException('支付宝rsa私钥生成错误，如果你使用的是文件方式配置，建议修改为字符串配置');
         }
 
         // 	发送请求的时间，格式"yyyy-MM-dd HH:mm:ss"  需要正确设置时区

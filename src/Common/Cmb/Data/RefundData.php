@@ -26,7 +26,6 @@ use Payment\Utils\Rc4Encrypt;
  */
 class RefundData extends CmbBaseData
 {
-
     protected function checkDataParam()
     {
         parent::checkDataParam();

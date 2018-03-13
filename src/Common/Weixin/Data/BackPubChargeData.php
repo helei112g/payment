@@ -7,7 +7,6 @@
 
 namespace Payment\Common\Weixin\Data;
 
-
 /**
  * Class BackPubChargeData
  *  小程序数据也在这里处理

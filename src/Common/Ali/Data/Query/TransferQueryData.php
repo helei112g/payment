@@ -15,7 +15,6 @@ use Payment\Common\PayException;
  */
 class TransferQueryData extends AliBaseData
 {
-
     protected function getBizContent()
     {
         $content = [

@@ -67,7 +67,7 @@ abstract class WxBaseStrategy implements BaseStrategy
         }
 
         if ($this->config->useSandbox) {
-            $url = str_ireplace('{debug}',WxConfig::SANDBOX_PRE, $url);
+            $url = str_ireplace('{debug}', WxConfig::SANDBOX_PRE, $url);
         } else {
             $url = str_ireplace('{debug}/', '', $url);
         }
@@ -82,14 +82,14 @@ abstract class WxBaseStrategy implements BaseStrategy
             'ssl_key' => $this->config->appKeyPem,
             'verify' => $this->config->cacertPath,
             'http_errors' => false
-        ];
+        ];//dump($options);
         $response = $client->request('POST', $url, $options);
+        //dump($options);dump($response);
         if ($response->getStatusCode() != '200') {
             throw new PayException('网络发生错误，请稍后再试curl返回码：' . $response->getReasonPhrase());
         }
 
-        $body = $response->getBody()->getContents();
-
+        $body = $response->getBody()->getContents();//dump($body);
         // 格式化为数组
         $retData = DataParser::toArray($body);
         if (strtoupper($retData['return_code']) != 'SUCCESS') {
@@ -122,7 +122,11 @@ abstract class WxBaseStrategy implements BaseStrategy
         $this->reqData->setSign();
 
         $xml = DataParser::toXml($this->reqData->getData());
-        $ret = $this->sendReq($xml);
+        try {
+            $ret = $this->sendReq($xml);
+        } catch (PayException $e) {
+            throw $e;
+        }
 
         // 检查返回的数据是否被篡改
         $flag = $this->verifySign($ret);

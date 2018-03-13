@@ -12,7 +12,6 @@ use Payment\Common\Cmb\Data\BindCardData;
  */
 class BindCardHelper extends CmbBaseStrategy
 {
-
     public function getBuildDataClass()
     {
         $this->config->getewayUrl = 'https://mobile.cmbchina.com/mobilehtml/DebitCard/M_NetPay/OneNetRegister/NP_BindCard.aspx';

@@ -8,7 +8,6 @@
 
 namespace Payment\Common\Cmb\Data\Query;
 
-
 use Payment\Common\Cmb\Data\CmbBaseData;
 use Payment\Common\PayException;
 
@@ -25,7 +24,6 @@ use Payment\Common\PayException;
  */
 class RefundQueryData extends CmbBaseData
 {
-
     protected function checkDataParam()
     {
         parent::checkDataParam();

@@ -2,23 +2,23 @@
 namespace Payment\Query\Wx;
 
 use Payment\Common\PayException;
-use Payment\Common\Weixin\Data\Query\TransferQueryData;
+use Payment\Common\Weixin\Data\Query\RedQueryData;
 use Payment\Common\Weixin\WxBaseStrategy;
 use Payment\Config;
 use Payment\Utils\DataParser;
 
 /**
- * Class WxTransferQuery
+ * Class WxRedQuery
  * @package Payment\Query
  * anthor helei
  */
-class WxTransferQuery extends WxBaseStrategy
+class WxRedQuery extends WxBaseStrategy
 {
-    protected $reqUrl = 'https://api.mch.weixin.qq.com/{debug}/mmpaymkttransfers/gettransferinfo';
+    protected $reqUrl = 'https://api.mch.weixin.qq.com/mmpaymkttransfers/gethbinfo';
 
     public function getBuildDataClass()
     {
-        return TransferQueryData::class;
+        return RedQueryData::class;
     }
 
     /**
@@ -30,7 +30,7 @@ class WxTransferQuery extends WxBaseStrategy
     protected function retData(array $data)
     {
         if ($this->config->returnRaw) {
-            $data['channel'] = Config::WX_TRANSFER;
+            $data['channel'] = Config::WX_RED;
             return $data;
         }
 
@@ -39,7 +39,7 @@ class WxTransferQuery extends WxBaseStrategy
             return $retData = [
                 'is_success'    => 'F',
                 'error' => $data['return_msg'],
-                'channel' => Config::WX_TRANSFER,
+                'channel' => Config::WX_RED,
             ];
         }
 
@@ -48,7 +48,7 @@ class WxTransferQuery extends WxBaseStrategy
             return $retData = [
                 'is_success'    => 'F',
                 'error' => $data['err_code_des'],
-                'channel' => Config::WX_TRANSFER,
+                'channel' => Config::WX_RED,
             ];
         }
 
@@ -79,7 +79,7 @@ class WxTransferQuery extends WxBaseStrategy
                 'amount'   => $amount,
                 'pay_date'   => $data['transfer_time'],
                 'desc'   => $data['desc'],// 付款描述
-                'channel' => Config::WX_TRANSFER,
+                'channel' => Config::WX_RED,
             ],
         ];
 
