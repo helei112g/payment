@@ -8,7 +8,6 @@
 namespace Payment\Common\Weixin\Data;
 
 use Payment\Common\PayException;
-use Payment\Common\WxConfig;
 use Payment\Utils\ArrayUtil;
 
 /**
@@ -18,6 +17,7 @@ use Payment\Utils\ArrayUtil;
  * @property string $mch_billno  商户系统内部的单号，商户系统内部唯一,接口根据商户订单号支持重入，如出现超时可再调用。
  * @property string $transaction_id  微信生成的订单号，在支付通知中有返回
  * @property string $out_trade_no  商户侧传给微信的订单号
+ * @property string $re_openid 接受红包的用户用户在wxappid下的openid，服务商模式下可填入msgappid下的openid
  * @property int $total_amount 红包总金额，单位为分
  * 
  * @property string $msgappid 服务商模式下触达用户时的appid(可填服务商自己的appid或子商户的appid)，服务商模式下必填，服务商模式下填入的子商户appid必须在微信支付商户平台中先录入，否则会校验不过。
@@ -31,26 +31,25 @@ class RedData extends WxBaseData
     protected function buildData()
     {
         $this->retData = [
-            'wxappid' => $this->appId,
-
-            'mch_id'    => $this->mchId,
-            'nonce_str' => $this->nonceStr,
-            
-            'mch_billno'=> $this->mch_billno,
-            'send_name' => $this->send_name,//红包发送者名称
-            're_openid' => $this->re_openid,//接受红包的用户用户在wxappid下的openid，服务商模式下可填入msgappid下的openid
-            'total_amount' => $this->total_amount,//红包金额
-            'total_num'    => $this->total_num ? $this->total_num : 1,//红包人数
-            'wishing'      => $this->wishing,//祝福语
-            'act_name'     =>  $this->act_name,//活动名称
-
-            'remark' => $this->remark,//备注信息
-            'scene_id'=> $this->scene_id,//场景ID 
-            'client_ip'=>$this->client_ip,
+            'act_name'     =>   $this->act_name,//活动名称
+            'client_ip'    =>   $this->client_ip,
+            'mch_billno'   =>   $this->mch_billno,
+            'mch_id'       =>   $this->mchId,
+            'msgappid'     =>   $this->sub_appid,
+            'nonce_str'    =>   $this->nonceStr,
+            're_openid'    =>   $this->re_openid,
+            'remark'       =>   $this->remark,//备注信息
+            'scene_id'     =>   $this->scene_id,//场景ID 
+            'send_name'    =>   $this->send_name,//红包发送者名称
+            'sub_mch_id'   =>   $this->sub_mch_id,
+            'total_amount' =>   $this->total_amount,//红包金额
+            'total_num'    =>   $this->total_num ? $this->total_num : 1,//红包人数
+            'wishing'      =>   $this->wishing,//祝福语
+            'wxappid'      =>   $this->appId,
 
             // 服务商
-            'msgappid'  => $this->sub_appid,
-            'sub_mch_id' => $this->sub_mch_id,
+            
+            
         ];
         $this->retData = ArrayUtil::paraFilter($this->retData);
     }
@@ -82,7 +81,7 @@ class RedData extends WxBaseData
         if (empty($wishing)) {
             throw new PayException("请设置祝福语"); 
         }
-        if (empty($wishing)) {
+        if (empty($actName)) {
             throw new PayException("请设置活动名称"); 
         }
         if (empty($remark)) {

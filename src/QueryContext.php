@@ -11,7 +11,7 @@ use Payment\Query\Cmb\CmbRefundQuery;
 use Payment\Query\Wx\WxChargeQuery;
 use Payment\Query\Wx\WxRefundQuery;
 use Payment\Query\Wx\WxTransferQuery;
-
+use Payment\Query\Wx\WxRedQuery;
 /**
  * 查询上下文
  * @link      https://www.gitbook.com/book/helei112g1/payment-sdk/details
@@ -60,7 +60,9 @@ class QueryContext
                 case Config::WX_TRANSFER:// 微信转款订单查询
                     $this->query = new WxTransferQuery($config);
                     break;
-
+                case Config::WX_RED:// 微信红包查询 zj
+                    $this->query = new WxRedQuery($config);
+                    break;
                 case Config::CMB_CHARGE:// 招商支付查询
                     $this->query = new CmbChargeQuery($config);
                     break;
@@ -68,7 +70,7 @@ class QueryContext
                     $this->query = new CmbRefundQuery($config);
                     break;
                 default:
-                    throw new PayException('当前仅支持：ALI_CHARGE ALI_REFUND WX_CHARGE WX_REFUND WX_TRANSFER CMB_CHARGE CMB_REFUND');
+                    throw new PayException('当前仅支持：ALI_CHARGE ALI_REFUND WX_CHARGE WX_REFUND WX_TRANSFER WX_RED CMB_CHARGE CMB_REFUND');
             }
         } catch (PayException $e) {
             throw $e;
