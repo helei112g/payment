@@ -29,6 +29,7 @@ class ChargeData extends CmbBaseData
     {
         parent::checkDataParam();
         $amount = $this->amount;
+      
         // 订单号交给支付系统自己检查
 
         // 检查金额不能低于0.01
