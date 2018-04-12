@@ -35,7 +35,7 @@ class RedContext
                     $this->red = new AliRed($config);
                     break;
                 case Config::WX_RED:
-                    $this->red = new WxRed($config);//dump($this->red);
+                    $this->red = new WxRed($config);
                     break;
                 default:
                     throw new PayException('当前仅支持：ALI WEIXIN两个常量');

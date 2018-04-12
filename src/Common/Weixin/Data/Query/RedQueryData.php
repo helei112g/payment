@@ -34,13 +34,14 @@ class RedQueryData extends WxBaseData
             $appid = $this->appId;
             $mchid = $this->mchId;
         }
+        $appid = $this->appId;
+        $mchid = $this->mchId;
         $this->retData = [
             'appid'     => $appid,
             'mch_id'    => $mchid,
             'nonce_str' => $this->nonceStr,
-            'sign_type' => $this->signType,
-
-            'mch_billno'  => $this->out_trade_no,
+            //'sign_type' => $this->signType,
+            'mch_billno'=> $this->mch_billno,
             'bill_type' => $this->bill_type,
         ];
 
@@ -49,7 +50,7 @@ class RedQueryData extends WxBaseData
 
     protected function checkDataParam()
     {
-        $orderNo = $this->out_trade_no;// 商户订单号，查询效率低，不建议使用
+        $orderNo = $this->mch_billno;// 商户订单号，查询效率低，不建议使用
         $billType = $this->bill_type;// 商户的退款单号
 
         // 必须条件校验

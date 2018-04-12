@@ -46,6 +46,9 @@ final class WxConfig extends ConfigInterface
 
     // 指定回调页面
     public $returnUrl;
+    
+    // 是否开启服务商模式
+    public $submch;
 
     // 关闭订单url  尚未接入
     const CLOSE_URL = 'https://api.mch.weixin.qq.com/{debug}/pay/closeorder';
@@ -149,5 +152,12 @@ final class WxConfig extends ConfigInterface
         } else {
             $this->useSandbox = false;// 不是沙箱模式
         }
+        //2018-04-10 zj
+        if(isset($config['submch']) && $config['submch'] === true){
+            $this->submch = true;
+        }else{
+            $this->submch = false;
+        }
+        
     }
 }

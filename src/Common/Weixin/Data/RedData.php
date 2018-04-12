@@ -35,21 +35,19 @@ class RedData extends WxBaseData
             'client_ip'    =>   $this->client_ip,
             'mch_billno'   =>   $this->mch_billno,
             'mch_id'       =>   $this->mchId,
-            'msgappid'     =>   $this->sub_appid,
             'nonce_str'    =>   $this->nonceStr,
             're_openid'    =>   $this->re_openid,
             'remark'       =>   $this->remark,//备注信息
             'scene_id'     =>   $this->scene_id,//场景ID 
             'send_name'    =>   $this->send_name,//红包发送者名称
-            'sub_mch_id'   =>   $this->sub_mch_id,
             'total_amount' =>   $this->total_amount,//红包金额
             'total_num'    =>   $this->total_num ? $this->total_num : 1,//红包人数
             'wishing'      =>   $this->wishing,//祝福语
             'wxappid'      =>   $this->appId,
 
             // 服务商
-            
-            
+            'msgappid'     =>   $this->sub_appid,
+            'sub_mch_id'   =>   $this->sub_mch_id,
         ];
         $this->retData = ArrayUtil::paraFilter($this->retData);
     }
@@ -66,7 +64,7 @@ class RedData extends WxBaseData
         $wishing = $this->wishing;
         $actName = $this->act_name;
         $remark = $this->remark;
- 
+        $total_amount = $this->total_amount;
         $sendListid = $this->send_listid;//红包订单的微信单号
 
         if (empty($mch_billno)) {
@@ -87,7 +85,11 @@ class RedData extends WxBaseData
         if (empty($remark)) {
             throw new PayException("请设置备注信息"); 
         }
-
+        // 微信使用的单位位分.此处进行转化
+        $this->total_amount = bcmul($total_amount, 100, 0);
+        if (empty($total_amount) || $total_amount < 1) {
+            throw new PayException('转账金额错误');
+        }
         // 二者不能同时为空
         if (empty($sendListid) && empty($mch_billno)) {
             throw new PayException('必须提供微信交易号或商户网站唯一订单号。建议使用微信交易号');

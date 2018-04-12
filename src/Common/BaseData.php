@@ -112,7 +112,6 @@ abstract class BaseData
         $signStr = ArrayUtil::createLinkstring($values);
 
         $this->retData['sign'] = $this->makeSign($signStr);
-        //dump($this->retData);
     }
 
     /**

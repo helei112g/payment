@@ -76,4 +76,13 @@ class WxRed extends WxBaseStrategy
 
         return $retData;
     }
+    /**
+     * 企业转账，不需要签名，使用返回true
+     * @param array $retData
+     * @return bool
+     */
+    protected function verifySign(array $retData)
+    {
+        return true;
+    }
 }

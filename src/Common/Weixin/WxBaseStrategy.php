@@ -45,8 +45,8 @@ abstract class WxBaseStrategy implements BaseStrategy
      */
     public function __construct(array $config)
     {
-        try {//dump($config);
-            $this->config = new WxConfig($config);dump($this->config);
+        try {
+            $this->config = new WxConfig($config);
         } catch (PayException $e) {
             throw $e;
         }
@@ -82,14 +82,13 @@ abstract class WxBaseStrategy implements BaseStrategy
             'ssl_key' => $this->config->appKeyPem,
             'verify' => $this->config->cacertPath,
             'http_errors' => false
-        ];//dump($options);
+        ];
         $response = $client->request('POST', $url, $options);
-        dump($options);//dump($response);
         if ($response->getStatusCode() != '200') {
             throw new PayException('网络发生错误，请稍后再试curl返回码：' . $response->getReasonPhrase());
         }
 
-        $body = $response->getBody()->getContents();dump($body);
+        $body = $response->getBody()->getContents();
         // 格式化为数组
         $retData = DataParser::toArray($body);
         if (strtoupper($retData['return_code']) != 'SUCCESS') {
