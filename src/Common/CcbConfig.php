@@ -43,7 +43,7 @@ class CcbConfig extends ConfigInterface
     // 招商请求的网关
     public $getewayUrl;
 
-    // 招商的公钥
+    // 建行的公钥
     public $rsaPubKey;
 
     const MAX_EXPIRE_TIME = 30;// 过期时间最大 30分钟
