@@ -76,6 +76,22 @@ final class Config
     const CMB_REFUND = 'cmb_refund';// 招商退款
 
 
+
+
+    //========================= 建设银行相关接口 =======================//
+    // 支付常量
+    const CCB_CHANNEL_WEB = 'ccb_web';//pc 支付
+    
+    const CCB_BIND = 'ccb_bind';// 签约API
+
+    const CCB_PUB_KEY = 'ccb_pub_key';// 查询招商公钥
+
+    const CCB_CHARGE = 'ccb_charge';// 建行支付
+
+    const CCB_REFUND = 'ccb_refund';// 建行退款
+
+
+
     //========================= 金额问题设置 =======================//
     const PAY_MIN_FEE = '0.01';// 支付的最小金额
 
@@ -92,4 +108,5 @@ final class Config
     const WECHAT_PAY = 'wechat';
     const ALI_PAY = 'ali';
     const CMB_PAY = 'cmb';
+    const CCB_PAY = 'ccb';
 }

@@ -56,6 +56,8 @@ abstract class BaseData
             $this->channel = Config::ALI_PAY;
         } elseif ($config instanceof CmbConfig) {
             $this->channel = Config::CMB_PAY;
+        } elseif ($config instanceof CcbConfig) {
+            $this->channel = Config::CCB_PAY;
         }
         $this->data = array_merge($config->toArray(), $reqData);
 
