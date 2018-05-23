@@ -7,6 +7,11 @@
 ## 提醒：微信CA证书进行了更新，请更新项目到最新版本。否则5月29日后，将无法支付
 > 官方公告： https://pay.weixin.qq.com/index.php/public/cms/content_detail?lang=zh&id=56602
 
+- 当前如果使用的4.x版本，请跟新到: **4.1.7**
+- 当前如果使用的x.x版本，请跟新到: **3.1.5**
+
+
+
 - [Payment使用文档](https://helei112g1.gitbooks.io/payment-sdk/content/)
 - [Payment使用常见问题汇总](https://helei112g1.gitbooks.io/payment-sdk/content/faq.html)
 
