@@ -4,7 +4,8 @@
 
 -----
 
-## 提醒：发现有人将我提供的支付宝测试账号乱修改资料，打广告。请大家不要加上面的任何联系方式。如果再发现，我就把测试账号注销了（怕大家被骗）
+## 提醒：微信CA证书进行了更新，请更新项目到最新版本。否则5月29日后，将无法支付
+> 官方公告： https://pay.weixin.qq.com/index.php/public/cms/content_detail?lang=zh&id=56602
 
 - [Payment使用文档](https://helei112g1.gitbooks.io/payment-sdk/content/)
 - [Payment使用常见问题汇总](https://helei112g1.gitbooks.io/payment-sdk/content/faq.html)
