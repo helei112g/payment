@@ -3,6 +3,7 @@ namespace Payment;
 
 use Payment\Charge\Ali\AliAppCharge;
 use Payment\Charge\Ali\AliBarCharge;
+use Payment\Charge\Ali\AliDirectCharge;
 use Payment\Charge\Ali\AliWapCharge;
 use Payment\Charge\Ali\AliWebCharge;
 use Payment\Charge\Ali\AliQrCharge;
@@ -58,6 +59,9 @@ class ChargeContext
                     break;
                 case Config::ALI_CHANNEL_WEB:
                     $this->channel = new AliWebCharge($config);
+                    break;
+                case Config::ALI_CHANNEL_DIRECT:
+                    $this->channel = new AliDirectCharge($config);
                     break;
                 case Config::ALI_CHANNEL_QR:
                     $this->channel = new AliQrCharge($config);

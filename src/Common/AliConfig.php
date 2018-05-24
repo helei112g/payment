@@ -78,7 +78,7 @@ final class AliConfig extends ConfigInterface
         }
 
         // 初始 支付宝 签名方式，默认为：RSA
-        if (key_exists('sign_type', $config) && in_array($config['sign_type'], ['RSA', 'RSA2'])) {
+        if (key_exists('sign_type', $config) && in_array($config['sign_type'], ['RSA', 'RSA2', 'Md5'])) {
             $this->signType = $config['sign_type'];
         } else {
             throw new PayException('目前支付宝仅支持RSA2和RSA，推荐使用RSA2');
