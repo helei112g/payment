@@ -48,7 +48,7 @@ class WechatHelper extends WxBaseData
         // 格式化为数组
         $retData = DataParser::toArray($response->getBody()->getContents());
         if (strtoupper($retData['return_code']) != 'SUCCESS') {
-            throw new PayException('微信返回错误提示:' . $retData['return_msg']);
+            throw new PayException('微信返回错误提示:' . $retData['retmsg']);
         }
 
         return $retData['sandbox_signkey'];
