@@ -17,6 +17,12 @@ use Payment\Utils\ArrayUtil;
 
 class AliDirectCharge extends AliBaseStrategy
 {
+    /**
+     * AliDirectCharge constructor.
+     * @param array $config
+     * @throws \Exception
+     * @throws \Payment\Common\PayException
+     */
     public function __construct(array $config)
     {
         try {
@@ -39,6 +45,7 @@ class AliDirectCharge extends AliBaseStrategy
         $data = ArrayUtil::removeKeys($data, ['sign_type', 'sign']);
         $data = ArrayUtil::arraySort($data);
 
+        //sign与singType放在最后
         $data['sign'] = $sign;
         $data['sign_type'] = $signType;
 

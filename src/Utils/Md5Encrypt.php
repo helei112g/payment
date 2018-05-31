@@ -4,6 +4,7 @@
  * User: Bing
  * Date: 2018/5/24
  * Time: 11:07
+ * Description: Md5数据加密
  */
 
 namespace Payment\Utils;

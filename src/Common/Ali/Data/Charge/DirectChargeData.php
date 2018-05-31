@@ -4,6 +4,7 @@
  * User: Bing
  * Date: 2018/5/24
  * Time: 13:55
+ * Discropton:组装数据
  */
 
 namespace Payment\Common\Ali\Data\Charge;
@@ -25,6 +26,14 @@ use Payment\Utils\Md5Encrypt;
  */
 class DirectChargeData extends ChargeBaseData
 {
+    /**
+     * 配置channel为ALI_PAY
+     * DirectChargeData constructor.
+     * @param ConfigInterface $config
+     * @param array $reqData
+     * @throws \Exception
+     * @throws \Payment\Common\PayException
+     */
     public function __construct(ConfigInterface $config, array $reqData)
     {
         $this->channel = Config::ALI_PAY;
@@ -65,7 +74,7 @@ class DirectChargeData extends ChargeBaseData
     }
 
     /**
-     * 签名算法实现(此种支付方式只支持MD5)
+     * 签名算法实现(此种支付方式暂只支持MD5)
      * @param string $signStr
      * @return string
      */
@@ -75,6 +84,10 @@ class DirectChargeData extends ChargeBaseData
         return $rsa->encrypt($signStr);
     }
 
+    /**
+     * 数据签名
+     * @throws \Exception
+     */
     public function setSign()
     {
         $this->buildData();
@@ -87,6 +100,10 @@ class DirectChargeData extends ChargeBaseData
         $this->retData['sign'] = $this->makeSign($signStr);
     }
 
+    /**
+     * 数据组装
+     * @return array|void
+     */
     protected function buildData()
     {
         $content = $this->getBizContent();

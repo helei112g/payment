@@ -4,6 +4,7 @@
  * User: Bing
  * Date: 2018/5/24
  * Time: 11:39
+ * Description:检查配置信息
  */
 
 namespace Payment\Common;
