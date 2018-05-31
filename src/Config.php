@@ -76,8 +76,6 @@ final class Config
     const CMB_REFUND = 'cmb_refund';// 招商退款
 
 
-
-
     //========================= 建设银行相关接口 =======================//
     // 支付常量
     const CCB_CHANNEL_WEB = 'ccb_web';//pc 支付
@@ -89,7 +87,6 @@ final class Config
     const CCB_CHARGE = 'ccb_charge';// 建行支付
 
     const CCB_REFUND = 'ccb_refund';// 建行退款
-
 
 
     //========================= 金额问题设置 =======================//

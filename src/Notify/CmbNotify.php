@@ -84,7 +84,7 @@ class CmbNotify extends NotifyStrategy
             $channel = 'other';
         }
 
-        if (!$this->config->returnRaw) {
+        if ($this->config->returnRaw) {
             $data['channel'] = $channel;
             return $data;
         } elseif ($noticeType === CmbConfig::NOTICE_PAY) {

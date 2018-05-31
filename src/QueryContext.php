@@ -12,6 +12,7 @@ use Payment\Query\Wx\WxChargeQuery;
 use Payment\Query\Wx\WxRefundQuery;
 use Payment\Query\Wx\WxTransferQuery;
 use Payment\Query\Wx\WxRedQuery;
+
 /**
  * 查询上下文
  * @link      https://www.gitbook.com/book/helei112g1/payment-sdk/details
@@ -50,7 +51,6 @@ class QueryContext
                 case Config::ALI_TRANSFER:
                     $this->query = new AliTransferQuery($config);
                     break;
-
                 case Config::WX_CHARGE:// 微信支付订单查询
                     $this->query = new WxChargeQuery($config);
                     break;

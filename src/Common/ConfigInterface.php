@@ -39,7 +39,7 @@ abstract class ConfigInterface
      * @throws PayException
      */
     final public function __construct(array $config)
-    {   
+    {
         try {
             $this->initConfig($config);
         } catch (PayException $e) {

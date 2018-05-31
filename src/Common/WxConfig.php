@@ -152,6 +152,7 @@ final class WxConfig extends ConfigInterface
         } else {
             $this->useSandbox = false;// 不是沙箱模式
         }
+
         //2018-04-10 zj
         if(isset($config['submch']) && $config['submch'] === true){
             $this->submch = true;
