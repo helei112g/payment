@@ -1,6 +1,7 @@
 <?php
 namespace Payment;
 
+use Payment\Notify\AliDirectNotify;
 use Payment\Notify\AliNotify;
 use Payment\Notify\CmbNotify;
 use Payment\Notify\NotifyStrategy;
@@ -47,6 +48,8 @@ class NotifyContext
                 case Config::CMB_CHARGE:
                     $this->notify = new CmbNotify($config);
                     break;
+                case Config::ALI_CHARGE_DIRECT:
+                    $this->notify = new AliDirectNotify($config);
                 default:
                     throw new PayException('当前仅支持：ALI_CHARGE WX_CHARGE CMB_CHARGE 常量');
             }

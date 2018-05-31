@@ -22,12 +22,16 @@ final class Config
 
     const ALI_CHANNEL_WEB = 'ali_web';// 支付宝 PC 网页支付
 
+    const ALI_CHANNEL_DIRECT = 'ali_direct';// 支付宝老接口 PC 即时到帐
+
     const ALI_CHANNEL_QR = 'ali_qr';// 支付宝 扫码支付
 
     const ALI_CHANNEL_BAR = 'ali_bar';// 支付宝 条码支付
 
     // 其他操作常量
     const ALI_CHARGE = 'ali_charge';// 支付
+
+    const ALI_CHARGE_DIRECT = 'ali_charge_direct';// 老接口支付
 
     const ALI_REFUND = 'ali_refund';// 退款
 
