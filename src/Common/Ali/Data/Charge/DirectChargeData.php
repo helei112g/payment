@@ -64,6 +64,11 @@ class DirectChargeData extends ChargeBaseData
         return $content;
     }
 
+    /**
+     * 签名算法实现(此种支付方式只支持MD5)
+     * @param string $signStr
+     * @return string
+     */
     protected function makeSign($signStr)
     {
         $rsa = new Md5Encrypt($this->key);
@@ -73,13 +78,10 @@ class DirectChargeData extends ChargeBaseData
     public function setSign()
     {
         $this->buildData();
-
         $data = $this->retData;
 
         $values = ArrayUtil::removeKeys($data, ['sign_type']);
-
         $values = ArrayUtil::arraySort($values);
-
         $signStr = ArrayUtil::createLinkstring($values);
 
         $this->retData['sign'] = $this->makeSign($signStr);

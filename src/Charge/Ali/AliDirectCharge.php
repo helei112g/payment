@@ -17,7 +17,6 @@ use Payment\Utils\ArrayUtil;
 
 class AliDirectCharge extends AliBaseStrategy
 {
-
     public function __construct(array $config)
     {
         try {
@@ -38,7 +37,6 @@ class AliDirectCharge extends AliBaseStrategy
         $sign = $data['sign'];
 
         $data = ArrayUtil::removeKeys($data, ['sign_type', 'sign']);
-
         $data = ArrayUtil::arraySort($data);
 
         $data['sign'] = $sign;
