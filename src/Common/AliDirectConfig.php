@@ -23,7 +23,6 @@ class AliDirectConfig extends ConfigInterface
 
     public $charset = 'utf-8';
 
-//    public $extend_param = '0my^ju8l';
     public $extend_param = '0tv^eh8a';
 
     public $key;
