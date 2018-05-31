@@ -87,8 +87,11 @@ class ChargeContext
                 case Config::CMB_CHANNEL_APP:
                     $this->channel = new CmbCharge($config);
                     break;
+                case Config::CCB_CHANNEL_WEB:
+                    $this->channel = new CcbWebCharge($config);
+                    break;
                 default:
-                    throw new PayException('当前仅支持：支付宝  微信 招商一网通');
+                    throw new PayException('当前仅支持：支付宝  微信 招商一网通 建设银行');
             }
         } catch (PayException $e) {
             throw $e;

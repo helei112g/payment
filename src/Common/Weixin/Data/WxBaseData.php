@@ -52,7 +52,6 @@ abstract class WxBaseData extends BaseData
             default:
                 $sign = '';
         }
-
         return strtoupper($sign);
     }
 }

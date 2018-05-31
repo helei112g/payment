@@ -49,15 +49,16 @@ abstract class BaseData
      * @throws PayException
      */
     public function __construct(ConfigInterface $config, array $reqData)
-    {
+    {   
         if ($config instanceof WxConfig) {
             $this->channel = Config::WECHAT_PAY;
         } elseif ($config instanceof AliConfig) {
             $this->channel = Config::ALI_PAY;
         } elseif ($config instanceof CmbConfig) {
             $this->channel = Config::CMB_PAY;
+        } elseif ($config instanceof CcbConfig) {
+            $this->channel = Config::CCB_PAY;
         }
-
         $this->data = array_merge($config->toArray(), $reqData);
 
         try {
