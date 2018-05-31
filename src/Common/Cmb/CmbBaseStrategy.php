@@ -98,6 +98,9 @@ abstract class CmbBaseStrategy implements BaseStrategy
         ]);
         // @note: 微信部分接口并不需要证书支持。这里为了统一，全部携带证书进行请求
         $options = [
+            'headers' => [
+                'content-type' => 'multipart/form-data',
+            ],
             'body' => $json,
             'http_errors' => false
         ];
