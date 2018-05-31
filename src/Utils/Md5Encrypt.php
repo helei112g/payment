@@ -29,5 +29,10 @@ class Md5Encrypt
         return md5($data.$this->key);
     }
 
+    public function rsaVerify($data, $md5)
+    {
+        return $this->encrypt($data) == $md5;
+    }
+
 
 }

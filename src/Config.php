@@ -31,6 +31,8 @@ final class Config
     // 其他操作常量
     const ALI_CHARGE = 'ali_charge';// 支付
 
+    const ALI_CHARGE_DIRECT = 'ali_charge_direct';// 老接口支付
+
     const ALI_REFUND = 'ali_refund';// 退款
 
     const ALI_RED = 'ali_red';// 红包

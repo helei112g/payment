@@ -14,6 +14,8 @@ use Payment\Utils\ArrayUtil;
 
 class AliDirectConfig extends ConfigInterface
 {
+    protected $returnRaw = false;
+
     public $signType = 'MD5';
 
     public $useSandbox = false;
