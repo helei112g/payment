@@ -31,6 +31,8 @@ final class Config
 
     const ALI_REFUND = 'ali_refund';// 退款
 
+    const ALI_CANCEL= 'ali_cancel';// 取消订单
+
     const ALI_RED = 'ali_red';// 红包
 
     const ALI_TRANSFER = 'ali_transfer';// 转账
