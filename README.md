@@ -120,7 +120,7 @@ composer update
 感谢朋友们的支持：[支持名单](SUPPORT.md)
 
 <p align="center">
-    <img src="http://ol59nqr1i.bkt.clouddn.com/mp-qr.jpg">
+    <img src="https://dayutalk.cn/img/mp-qrcode.jpg">
     <p align="center">个人公众号：dayuTalk</p>
     <p align="center">联系邮箱：dayugog@gmail.com</p>
 </p>
