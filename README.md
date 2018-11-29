@@ -121,7 +121,7 @@ composer update
 
 <p align="center">
     <img src="http://ol59nqr1i.bkt.clouddn.com/mp-qr.jpg">
-    <p align="center">个人公众号：icanfo</p>
+    <p align="center">个人公众号：dayuTalk</p>
     <p align="center">联系邮箱：dayugog@gmail.com</p>
 </p>
 
