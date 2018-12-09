@@ -121,15 +121,14 @@ composer update
 
 <p align="center">
     <img src="https://dayutalk.cn/img/mp-qrcode.jpg">
-    <p align="center">个人公众号：dayuTalk</p>
+    <p align="center">个人公众号：<b>dayuTalk</b></p>
     <p align="center">联系邮箱：dayugog@gmail.com</p>
+	<p align="center">GitHub：<a href="https://github.com/helei112g">https://github.com/helei112g</a></p>
 </p>
-
-----
-
 <p align="center">
-    <img src="http://ol59nqr1i.bkt.clouddn.com/pay-qr.jpg?imageView2/2/w/500/h/400">
-    <p align="center">打赏扫这里，请留下尊姓大名</p>
+    <img width="500" src="https://dayutalk.cn/img/pay-qr.jpeg">
+    <br/>
+    <b>我写我的，你赏你的</b>
 </p>
 
 # Contribution #
