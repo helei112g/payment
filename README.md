@@ -8,8 +8,8 @@
 > 官方公告： https://pay.weixin.qq.com/index.php/public/cms/content_detail?lang=zh&id=56602
 
 ## 你们需要干什么：
-- 当前如果使用的4.x版本，请跟新到: **4.1.7**
-- 当前如果使用的x.x版本，请跟新到: **3.1.5**
+- 当前如果使用的4.x版本，请更新到: **4.1.7**
+- 当前如果使用的x.x版本，请更新到: **3.1.5**
 
 
 ## 相关文档
@@ -22,13 +22,13 @@
 Payment 需要 PHP &gt;= 5.6以上的版本，并且同时需要PHP安装以下扩展
 
 ```
-- cUR extension
+- ext-curl
 
-- mbstring
+- ext-mbstring
 
-- BC Math
+- ext-bcmath
 
-- Guzzle
+- package-Guzzle
 ```
 guzzle 是一个开源的php http请求lib，[项目地址](https://github.com/guzzle/guzzle)
 
