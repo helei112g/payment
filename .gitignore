@@ -3,8 +3,6 @@
 /codecept.phar
 /examples/test.php
 /examples/wx/pem
-/vendor/
-/examples_bak/
-/composer.lock
-/examples/wxconfig-bak.php
 /examples/wx/pem/
+/vendor/
+/composer.lock
