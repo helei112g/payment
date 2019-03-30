@@ -1,15 +1,15 @@
 <?php
 
 /*
- * This file is part of the overtrue/easy-sms.
+ * The file is part of the payment lib.
  *
- * (c) overtrue <i@overtrue.me>
+ * (c) Leo <dayugog@gmail.com>
  *
  * This source file is subject to the MIT license that is bundled
  * with this source code in the file LICENSE.
  */
 
-namespace Payment\Helpers;
+namespace Payment\Supports;
 
 use GuzzleHttp\Client;
 use Psr\Http\Message\ResponseInterface;
@@ -32,7 +32,7 @@ trait HasHttpRequest
     {
         return $this->request('get', $endpoint, [
             'headers' => $headers,
-            'query' => $query,
+            'query'   => $query,
         ]);
     }
 
@@ -48,7 +48,7 @@ trait HasHttpRequest
     protected function post($endpoint, $params = [], $headers = [])
     {
         return $this->request('post', $endpoint, [
-            'headers' => $headers,
+            'headers'     => $headers,
             'form_params' => $params,
         ]);
     }
@@ -66,7 +66,7 @@ trait HasHttpRequest
     {
         return $this->request('post', $endpoint, [
             'headers' => $headers,
-            'json' => $params,
+            'json'    => $params,
         ]);
     }
 
@@ -93,7 +93,7 @@ trait HasHttpRequest
     {
         $options = [
             'base_uri' => method_exists($this, 'getBaseUri') ? $this->getBaseUri() : '',
-            'timeout' => method_exists($this, 'getTimeout') ? $this->getTimeout() : 5.0,
+            'timeout'  => method_exists($this, 'getTimeout') ? $this->getTimeout() : 5.0,
         ];
 
         return $options;
@@ -123,7 +123,7 @@ trait HasHttpRequest
     protected function unwrapResponse(ResponseInterface $response)
     {
         $contentType = $response->getHeaderLine('Content-Type');
-        $contents = $response->getBody()->getContents();
+        $contents    = $response->getBody()->getContents();
 
         if (false !== stripos($contentType, 'json') || stripos($contentType, 'javascript')) {
             return json_decode($contents, true);

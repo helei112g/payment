@@ -1,16 +1,18 @@
 <?php
-/**
- * 查询支付的订单
- * Created by PhpStorm.
- * User: helei
- * Date: 2017/4/30
- * Time: 下午3:43
+
+/*
+ * The file is part of the payment lib.
+ *
+ * (c) Leo <dayugog@gmail.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 
-use Payment\Common\PayException;
 use Payment\Client\Query;
+use Payment\Common\PayException;
 use Payment\Config;
 
 date_default_timezone_set('Asia/Shanghai');
@@ -18,7 +20,7 @@ date_default_timezone_set('Asia/Shanghai');
 $wxConfig = require_once __DIR__ . '/../wxconfig.php';
 
 $data = [
-    'out_trade_no' => '14935505602169',
+    'out_trade_no'   => '14935505602169',
     'transaction_id' => '20170430190922203640695',
 ];
 

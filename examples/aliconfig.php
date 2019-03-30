@@ -1,8 +1,12 @@
 <?php
-/**
- * @author: helei
- * @createTime: 2016-07-15 17:19
- * @description:
+
+/*
+ * The file is part of the payment lib.
+ *
+ * (c) Leo <dayugog@gmail.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 
 // 以下配置均为本人的沙箱环境，贡献出来，大家测试
@@ -21,18 +25,17 @@
  */
 
 return [
-    'use_sandbox'               => true,// 是否使用沙盒模式
+    'use_sandbox' => true, // 是否使用沙盒模式
 
-    'app_id'                    => '2016073100130857',
-    'sign_type'                 => 'RSA2',// RSA  RSA2
+    'app_id'    => '2016073100130857',
+    'sign_type' => 'RSA2', // RSA  RSA2
 
 
-    // ！！！注意：如果是文件方式，文件中只保留字符串，不要留下 -----BEGIN PUBLIC KEY----- 这种标记
-    // 可以填写文件路径，或者密钥字符串  当前字符串是 rsa2 的支付宝公钥(开放平台获取)
-    'ali_public_key'            => 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAmBjJu2eA5HVSeHb7jZsuKKbPp3w0sKEsLTVvBKQOtyb7bjQRWMWBI7FrcwEekM1nIL+rDv71uFtgv7apMMJdQQyF7g6Lnn9niG8bT1ttB8Fp0eud5L97eRjFTOa9NhxUVFjGDqQ3b88o6u20HNJ3PRckZhNaFJJQzlahCpxaiIRX2umAWFkaeQu1fcjmoS3l3BLj8Ly2zRZAnczv8Jnkp7qsVYeYt01EPsAxd6dRZRw3uqsv9pxSvyEYA7GV7XL6da+JdvXECalQeyvUFzn9u1K5ivGID7LPUakdTBUDzlYIhbpU1VS8xO1BU3GYXkAaumdWQt7f+khoFoSw+x8yqQIDAQAB',
+    // 支付宝公钥字符串
+    'ali_public_key' => 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAmBjJu2eA5HVSeHb7jZsuKKbPp3w0sKEsLTVvBKQOtyb7bjQRWMWBI7FrcwEekM1nIL+rDv71uFtgv7apMMJdQQyF7g6Lnn9niG8bT1ttB8Fp0eud5L97eRjFTOa9NhxUVFjGDqQ3b88o6u20HNJ3PRckZhNaFJJQzlahCpxaiIRX2umAWFkaeQu1fcjmoS3l3BLj8Ly2zRZAnczv8Jnkp7qsVYeYt01EPsAxd6dRZRw3uqsv9pxSvyEYA7GV7XL6da+JdvXECalQeyvUFzn9u1K5ivGID7LPUakdTBUDzlYIhbpU1VS8xO1BU3GYXkAaumdWQt7f+khoFoSw+x8yqQIDAQAB',
 
-    // 可以填写文件路径，或者密钥字符串  我的沙箱模式，rsa与rsa2的私钥相同，为了方便测试
-    'rsa_private_key'           => 'MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC/z+Ue/oS0GjO2
+    // 自己生成的密钥字符串
+    'rsa_private_key' => 'MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC/z+Ue/oS0GjO2
 myYrkdopw5qq6Ih/xlHBx0HBE0xA2dRinpMuZeI0LUUtN54UAUZbDz8rcaOCb0je
 loeYolw54tadcIw4Q2hbdeJPplldJZyi1BDYtBJZvAveeRSidHdmBSUtOtCBXUBl
 JUP3I8/R4c34Ii4Pm/K4vmhwLf/zqZAedKGhYP6m5q+p8sfBHRPy97/KluLPiSTR
@@ -59,7 +62,7 @@ lj0S/flDaSEulGclDmvYinoGwX+aAyLy0VQIlUqj5wKBgHEUEf7YDnvw/IBnF1E4
 di70YoMynX3gjK3LTXhzISheZgcNRKTqiJgVunPokJxQRyYcAfaQeuIm9O8cCPE1
 rZpNAzCdd4NSj83UZRm3YOmC',
 
-    'limit_pay'                 => [
+    'limit_pay' => [
         //'balance',// 余额
         //'moneyFund',// 余额宝
         //'debitCardExpress',// 	借记卡快捷
@@ -67,11 +70,11 @@ rZpNAzCdd4NSj83UZRm3YOmC',
         //'creditCardExpress',// 信用卡快捷
         //'creditCardCartoon',//信用卡卡通
         //'credit_group',// 信用支付类型（包含信用卡卡通、信用卡快捷、花呗、花呗分期）
-    ],// 用户不可用指定渠道支付当有多个渠道时用“,”分隔
+    ], // 用户不可用指定渠道支付当有多个渠道时用“,”分隔
 
     // 与业务相关参数
-    'notify_url'                => 'https://helei112g.github.io/v1/notify/ali',
-    'return_url'                => 'https://helei112g.github.io/',
+    'notify_url' => 'https://dayutalk.cn/notify/ali',
+    'return_url' => 'https://dayutalk.cn',
 
-    'return_raw'                => false,// 在处理回调时，是否直接返回原始数据，默认为 true
+    'return_raw' => false, // 在处理回调时，是否直接返回原始数据，默认为 true
 ];

@@ -1,17 +1,18 @@
 <?php
-/**
- * 招商一网通支付
- * Created by PhpStorm.
- * User: helei
- * Date: 2017/4/30
- * Time: 上午11:55
+
+/*
+ * The file is part of the payment lib.
+ *
+ * (c) Leo <dayugog@gmail.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 
 use Payment\Common\PayException;
 use Payment\Config;
-use Payment\Client\Helper;
 
 date_default_timezone_set('Asia/Shanghai');
 $cmbConfig = require_once __DIR__ . '/../cmbconfig.php';

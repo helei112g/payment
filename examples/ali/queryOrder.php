@@ -1,16 +1,18 @@
 <?php
-/**
- * 查询订单
- * Created by PhpStorm.
- * User: helei
- * Date: 2017/4/30
- * Time: 下午5:35
+
+/*
+ * The file is part of the payment lib.
+ *
+ * (c) Leo <dayugog@gmail.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 
-use Payment\Common\PayException;
 use Payment\Client\Query;
+use Payment\Common\PayException;
 use Payment\Config;
 
 date_default_timezone_set('Asia/Shanghai');

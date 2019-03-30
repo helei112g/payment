@@ -2,27 +2,27 @@
 /**
  * 招商绑卡操作 签约
  * Created by PhpStorm.
- * User: helei
+ * User: Leo
  * Date: 2017/4/30
  * Time: 下午1:39
  */
 require_once __DIR__ . '/../../vendor/autoload.php';
 
+use Payment\Client\Helper;
 use Payment\Common\PayException;
 use Payment\Config;
-use Payment\Client\Helper;
 
 date_default_timezone_set('Asia/Shanghai');
 $cmbConfig = require_once __DIR__ . '/../cmbconfig.php';
 
 $signData = [
-    'date' => date('Ymd'),
-    'agr_no' => '430802198004014374',
+    'date'      => date('Ymd'),
+    'agr_no'    => '430802198004014374',
     'serial_no' => time() . rand(1000, 9999),
-    'mobile' => '13500007108',
-    'user_id' => '100',
-    'lon' => '',
-    'lat' => '',
+    'mobile'    => '13500007108',
+    'user_id'   => '100',
+    'lon'       => '',
+    'lat'       => '',
     'riskLevel' => '1',
 ];
 

@@ -3,19 +3,20 @@
     "type": "library",
     "description": "支付宝支付、微信支付、招商一网通支付php SDK。方便快速接入，最完整的开源支付 php sdk",
     "keywords": ["alipay", "weixin", "支付宝支付", "微信支付", "集成支付接口SDK", "招商一网通", "一网通"],
-    "homepage": "https://helei112g.github.io/categories/payment-3/",
+    "homepage": "https://dayutalk.cn",
     "license": "MIT",
     "authors": [
         {
-            "name": "helei",
+            "name": "Leo",
             "email": "dayugog@gmail.com",
-            "homepage": "https://helei112g.github.io/categories/payment-3/"
+            "homepage": "https://dayutalk.cn"
         }
     ],
     "require": {
         "php": ">=7.0",
         "ext-bcmath": "*",
         "ext-mbstring": "*",
+        "ext-json": "*",
         "guzzlehttp/guzzle": "~6.0"
     },
     "require-dev": {

@@ -1,17 +1,58 @@
 <?php
 
-namespace Payment\Contracts;
+/*
+ * The file is part of the payment lib.
+ *
+ * (c) Leo <dayugog@gmail.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 
+namespace Payment\Contracts;
 
 /**
  * @package Payment\Contracts
- * @author  : helei
+ * @author  : Leo
  * @email   : dayugog@gmail.com
  * @date    : 2019/3/28 10:27 PM
  * @version : 1.0.0
- * @desc    :
+ * @desc    : 支付接口
  **/
 interface IPayProxy
 {
+    /**
+     * 支付操作
+     * @param string $channel
+     * @param array $requestParams
+     * @return mixed
+     */
+    public function pay(string $channel, array $requestParams);
 
+    /**
+     * 退款操作
+     * @param array $requestParams
+     * @return mixed
+     */
+    public function refund(array $requestParams);
+
+    /**
+     * 同步通知
+     * @return mixed
+     */
+    public function callback();
+
+
+    /**
+     * 异步通知
+     * @return mixed
+     */
+    public function notify();
+
+    /**
+     * 异步通知的返回
+     * @param bool $flag
+     * @return mixed
+     */
+    public function notifyRely(bool $flag);
 }

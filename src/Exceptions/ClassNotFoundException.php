@@ -12,38 +12,22 @@
 namespace Payment\Exceptions;
 
 /**
- * @package Payment\Exception
+ * @package Payment\Exceptions
  * @author  : Leo
  * @email   : dayugog@gmail.com
- * @date    : 2019/3/28 10:13 PM
+ * @date    : 2019/3/30 3:30 PM
  * @version : 1.0.0
  * @desc    :
  **/
-class GatewayException extends \Exception
+class ClassNotFoundException extends \RuntimeException
 {
-    /**
-     * @var array
-     */
-    private $raw = [];
-
     /**
      * GatewayErrorException constructor.
      * @param string $message
      * @param int $code
-     * @param array $raw
      */
-    public function __construct(string $message, int $code, array $raw = [])
+    public function __construct(string $message, int $code)
     {
         parent::__construct($message, $code);
-
-        $this->raw = $raw;
-    }
-
-    /**
-     * @return array
-     */
-    public function getRaw()
-    {
-        return $this->raw;
     }
 }

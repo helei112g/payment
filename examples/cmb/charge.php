@@ -2,15 +2,15 @@
 /**
  * 招商一网通支付
  * Created by PhpStorm.
- * User: helei
+ * User: Leo
  * Date: 2017/4/30
  * Time: 上午11:55
  */
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 
-use Payment\Common\PayException;
 use Payment\Client\Charge;
+use Payment\Common\PayException;
 use Payment\Config;
 
 date_default_timezone_set('Asia/Shanghai');
@@ -19,19 +19,19 @@ $cmbConfig = require_once __DIR__ . '/../cmbconfig.php';
 $orderNo = time() . rand(1000, 9999);
 // 订单信息
 $payData = [
-    'order_no'    => $orderNo,// 招行订单位数变更为32位
-    'timeout_express' => time() + 600,// 表示必须 600s 内付款
-    'amount'    => '0.01',// 单位为元 ,最小为0.01
-    'return_param' => 'tatata',
-    'client_ip' => isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '127.0.0.1',// 客户地址
-    'date' => date('Ymd'),
-    'agr_no' => '430802198004014358',// 建议用身份证
-    'serial_no' => time() . rand(1000, 9999),// 协议开通请求流水号，开通协议时必填
-    'user_id' => '888',
-    'mobile' => '13500007107',
-    'lon' => '',
-    'lat' => '',
-    'risk_level' => '3',
+    'order_no'        => $orderNo, // 招行订单位数变更为32位
+    'timeout_express' => time() + 600, // 表示必须 600s 内付款
+    'amount'          => '0.01', // 单位为元 ,最小为0.01
+    'return_param'    => 'tatata',
+    'client_ip'       => isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '127.0.0.1', // 客户地址
+    'date'            => date('Ymd'),
+    'agr_no'          => '430802198004014358', // 建议用身份证
+    'serial_no'       => time() . rand(1000, 9999), // 协议开通请求流水号，开通协议时必填
+    'user_id'         => '888',
+    'mobile'          => '13500007107',
+    'lon'             => '',
+    'lat'             => '',
+    'risk_level'      => '3',
 ];
 
 try {

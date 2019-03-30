@@ -1,27 +1,29 @@
 <?php
-/**
- * 支付转账操作
- * Created by PhpStorm.
- * User: helei
- * Date: 2017/4/30
- * Time: 下午5:57
+
+/*
+ * The file is part of the payment lib.
+ *
+ * (c) Leo <dayugog@gmail.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 
-use Payment\Common\PayException;
 use Payment\Client\Transfer;
+use Payment\Common\PayException;
 use Payment\Config;
 
 date_default_timezone_set('Asia/Shanghai');
 $aliConfig = require_once __DIR__ . '/../aliconfig.php';
 
 $data = [
-    'trans_no' => time(),
-    'payee_type' => 'ALIPAY_LOGONID',
-    'payee_account' => 'aaqlmq0729@sandbox.com',// ALIPAY_USERID: 2088102169940354      ALIPAY_LOGONID：aaqlmq0729@sandbox.com
-    'amount' => '1000',
-    'remark' => '转账拉，有钱了',
+    'trans_no'        => time(),
+    'payee_type'      => 'ALIPAY_LOGONID',
+    'payee_account'   => 'aaqlmq0729@sandbox.com', // ALIPAY_USERID: 2088102169940354      ALIPAY_LOGONID：aaqlmq0729@sandbox.com
+    'amount'          => '1000',
+    'remark'          => '转账拉，有钱了',
     'payer_show_name' => '一个未来的富豪',
 ];
 

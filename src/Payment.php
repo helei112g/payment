@@ -9,16 +9,22 @@
  * with this source code in the file LICENSE.
  */
 
-namespace Payment\Gateways\CMBank;
+namespace Payment;
 
 /**
- * @package Payment\Gateways\Alipay
+ * @package Payment
  * @author  : Leo
  * @email   : dayugog@gmail.com
- * @date    : 2019/3/28 10:21 PM
+ * @date    : 2019/3/30 3:32 PM
  * @version : 1.0.0
- * @desc    :
+ * @desc    : 系统常量
  **/
-class Charge
+final class Payment
 {
+    const SUC = 0;
+
+    // 相关操作错误
+    const CLASS_NOT_EXIST = 1000;
+    const PARAMS_ERR      = 1001;
+    const SIGN_ERR        = 2001;
 }
