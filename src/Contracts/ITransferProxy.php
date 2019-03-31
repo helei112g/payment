@@ -21,4 +21,11 @@ namespace Payment\Contracts;
  **/
 interface ITransferProxy
 {
+
+    /**
+     * 支付宝到支付宝转账
+     * @param array $requestParams
+     * @return mixed
+     */
+    public function transfer(array $requestParams);
 }

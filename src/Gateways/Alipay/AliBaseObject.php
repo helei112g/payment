@@ -18,6 +18,7 @@ use Payment\Helpers\RsaEncrypt;
 use Payment\Helpers\StrUtil;
 use Payment\Payment;
 use Payment\Supports\BaseObject;
+use Payment\Supports\HttpRequest;
 
 /**
  * @package Payment\Gateways\Alipay
@@ -29,6 +30,10 @@ use Payment\Supports\BaseObject;
  **/
 abstract class AliBaseObject extends BaseObject
 {
+    use HttpRequest;
+
+    const REQ_SUC = '10000';
+
     /**
      * @var string
      */
@@ -96,6 +101,7 @@ abstract class AliBaseObject extends BaseObject
      */
     protected function makeSign(string $signType, string $signStr)
     {
+        $signType = strtoupper($signType);
         try {
             switch ($signType) {
                 case 'RSA':
@@ -109,7 +115,7 @@ abstract class AliBaseObject extends BaseObject
                     $sign = $rsa->encrypt($signStr);
                     break;
                 default:
-                    throw new GatewayException('ali pay sign type empty', Payment::PARAMS_ERR);
+                    throw new GatewayException(sprintf('[%s] sign type not support', $signType), Payment::PARAMS_ERR);
             }
         } catch (GatewayException $e) {
             throw $e;
@@ -121,12 +127,68 @@ abstract class AliBaseObject extends BaseObject
     }
 
     /**
+     * @param array $data
+     * @param string $sign
+     * @return bool
+     * @throws GatewayException
+     */
+    protected function verifySign(array $data, string $sign)
+    {
+        $signType = strtoupper(self::$config->get('sign_type', ''));
+        $preStr   = json_encode($data, JSON_UNESCAPED_UNICODE);
+
+        try {
+            if ($signType === 'RSA') {// 使用RSA
+                $rsa = new RsaEncrypt($this->publicKey);
+                return $rsa->rsaVerify($preStr, $sign);
+            } elseif ($signType === 'RSA2') {// 使用rsa2方式
+                $rsa = new Rsa2Encrypt($this->publicKey);
+                return $rsa->rsaVerify($preStr, $sign);
+            }
+            throw new GatewayException(sprintf('[%s] sign type not support', $signType), Payment::PARAMS_ERR);
+        } catch (\Exception $e) {
+            throw new GatewayException(sprintf('check ali pay sign failed, sign type is [%s]', $signType), Payment::SIGN_ERR, $data);
+        }
+    }
+
+    /**
+     * @param string $method
+     * @param array $requestParams
+     * @return array
+     * @throws GatewayException
+     */
+    protected function buildParams(string $method, array $requestParams)
+    {
+        $bizContent = $this->getBizContent($requestParams);
+        $params     = $this->getBaseData($method, $bizContent);
+
+        $params = ArrayUtil::arraySort($params);
+
+        try {
+            $signStr = ArrayUtil::createLinkString($params);
+
+            $signType       = self::$config->get('sign_type', '');
+            $params['sign'] = $this->makeSign($signType, $signStr);
+        } catch (GatewayException $e) {
+            throw $e;
+        } catch (\Exception $e) {
+            throw new GatewayException($e->getMessage(), Payment::PARAMS_ERR);
+        }
+
+        // 支付宝新版本  需要转码
+        foreach ($params as &$value) {
+            $value = StrUtil::characet($value, 'UTF-8');
+        }
+        return $params;
+    }
+
+    /**
      * 获取基础数据
      * @param string $method
      * @param array $bizContent
      * @return array
      */
-    protected function getBaseData(string $method, array $bizContent)
+    private function getBaseData(string $method, array $bizContent)
     {
         $requestData = [
             'app_id'     => self::$config->get('app_id', ''),
@@ -144,4 +206,10 @@ abstract class AliBaseObject extends BaseObject
         ];
         return ArrayUtil::arraySort($requestData);
     }
+
+    /**
+     * @param array $requestParams
+     * @return mixed
+     */
+    abstract protected function getBizContent(array $requestParams);
 }

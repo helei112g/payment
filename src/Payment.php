@@ -24,7 +24,10 @@ final class Payment
     const SUC = 0;
 
     // 相关操作错误
-    const CLASS_NOT_EXIST = 1000;
-    const PARAMS_ERR      = 1001;
+    const CLASS_NOT_EXIST    = 1000;
+    const PARAMS_ERR         = 1001;
+    const NOT_SUPPORT_METHOD = 1002;
+
     const SIGN_ERR        = 2001;
+    const FORMAT_DATA_ERR = 2002;
 }

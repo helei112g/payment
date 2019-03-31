@@ -14,8 +14,6 @@ namespace Payment\Gateways\Alipay;
 use Payment\Contracts\IGatewayRequest;
 use Payment\Exceptions\GatewayException;
 use Payment\Helpers\ArrayUtil;
-use Payment\Helpers\StrUtil;
-use Payment\Payment;
 
 /**
  * @package Payment\Gateways\Alipay
@@ -27,7 +25,7 @@ use Payment\Payment;
  **/
 class WebCharge extends AliBaseObject implements IGatewayRequest
 {
-    const WEB_METHOD = 'alipay.trade.page.pay';
+    const METHOD = 'alipay.trade.page.pay';
 
     /**
      * 获取第三方返回结果
@@ -37,26 +35,13 @@ class WebCharge extends AliBaseObject implements IGatewayRequest
      */
     public function request(array $requestParams)
     {
-        $params = $this->buildParams($requestParams);
-
-        $params = ArrayUtil::arraySort($params);
-
         try {
-            $signStr = ArrayUtil::createLinkString($params);
+            $params = $this->buildParams(self::METHOD, $requestParams);
 
-            $signType       = self::$config->get('sign_type', '');
-            $params['sign'] = $this->makeSign($signType, $signStr);
+            return sprintf('%s?%s', $this->gatewayUrl, http_build_query($params));
         } catch (GatewayException $e) {
             throw $e;
-        } catch (\Exception $e) {
-            throw new GatewayException($e->getMessage(), Payment::PARAMS_ERR);
         }
-        // 支付宝新版本  需要转码
-        foreach ($params as &$value) {
-            $value = StrUtil::characet($value, 'UTF-8');
-        }
-
-        return sprintf('%s?%s', $this->gatewayUrl, http_build_query($params));
     }
 
     /**
@@ -64,7 +49,7 @@ class WebCharge extends AliBaseObject implements IGatewayRequest
      * @param array $requestParams
      * @return mixed
      */
-    public function buildParams(array $requestParams)
+    protected function getBizContent(array $requestParams)
     {
         $timeoutExp = '';
         $timeExpire = intval($requestParams['time_expire']);
@@ -79,7 +64,7 @@ class WebCharge extends AliBaseObject implements IGatewayRequest
             'total_amount'    => $requestParams['amount'] ?? '',
             'subject'         => $requestParams['subject'] ?? '',
             'body'            => $requestParams['body'] ?? '',
-            'time_expire'     => $timeExpire ? date('Y-m-d H:i', $timeExpire) : '',
+            'time_expire'     => $timeExpire ? date('Y-m-d H:i:s', $timeExpire) : '',
             'goods_detail'    => $requestParams['goods_detail'] ?? '',
             'passback_params' => $requestParams['return_params'] ?? '',
             'extend_params'   => $requestParams['extend_params'] ?? '',
@@ -104,7 +89,6 @@ class WebCharge extends AliBaseObject implements IGatewayRequest
         ];
         $bizContent = ArrayUtil::paraFilter($bizContent);
 
-        $requestData = $this->getBaseData(self::WEB_METHOD, $bizContent);
-        return ArrayUtil::paraFilter($requestData);
+        return $bizContent;
     }
 }

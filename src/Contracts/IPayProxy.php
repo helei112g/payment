@@ -55,4 +55,18 @@ interface IPayProxy
      * @return mixed
      */
     public function notifyRely(bool $flag);
+
+    /**
+     * 取消交易
+     * @param array $requestParams
+     * @return mixed
+     */
+    public function cancel(array $requestParams);
+
+    /**
+     * 关闭交易
+     * @param array $requestParams
+     * @return mixed
+     */
+    public function close(array $requestParams);
 }

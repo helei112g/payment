@@ -14,7 +14,17 @@ namespace Payment\Proxies;
 use InvalidArgumentException;
 use Payment\Contracts\IGatewayRequest;
 use Payment\Contracts\IPayProxy;
+use Payment\Contracts\IQueryProxy;
+use Payment\Contracts\ITransferProxy;
 use Payment\Exceptions\GatewayException;
+use Payment\Gateways\Alipay\Bill;
+use Payment\Gateways\Alipay\CancelTrade;
+use Payment\Gateways\Alipay\CloseTrade;
+use Payment\Gateways\Alipay\Refund;
+use Payment\Gateways\Alipay\RefundQuery;
+use Payment\Gateways\Alipay\TradeQuery;
+use Payment\Gateways\Alipay\Transfer;
+use Payment\Gateways\Alipay\TransferQuery;
 use Payment\Payment;
 use Payment\Supports\BaseObject;
 
@@ -26,7 +36,7 @@ use Payment\Supports\BaseObject;
  * @version : 1.0.0
  * @desc    :
  **/
-class AlipayProxy extends BaseObject implements IPayProxy
+class AlipayProxy extends BaseObject implements IPayProxy, IQueryProxy, ITransferProxy
 {
     /**
      * 支付操作
@@ -69,10 +79,16 @@ class AlipayProxy extends BaseObject implements IPayProxy
      * 退款操作
      * @param array $requestParams
      * @return mixed
+     * @throws GatewayException
      */
     public function refund(array $requestParams)
     {
-        // TODO: Implement refund() method.
+        try {
+            $obj = new Refund();
+            return $obj->request($requestParams);
+        } catch (GatewayException $e) {
+            throw $e;
+        }
     }
 
     /**
@@ -101,5 +117,128 @@ class AlipayProxy extends BaseObject implements IPayProxy
     public function notifyRely(bool $flag)
     {
         // TODO: Implement notifyRely() method.
+    }
+
+    /**
+     * 取消交易
+     * @param array $requestParams
+     * @return mixed
+     * @throws GatewayException
+     */
+    public function cancel(array $requestParams)
+    {
+        try {
+            $obj = new CancelTrade();
+            return $obj->request($requestParams);
+        } catch (GatewayException $e) {
+            throw $e;
+        }
+    }
+
+    /**
+     * 关闭交易
+     * @param array $requestParams
+     * @return mixed
+     * @throws GatewayException
+     */
+    public function close(array $requestParams)
+    {
+        try {
+            $obj = new CloseTrade();
+            return $obj->request($requestParams);
+        } catch (GatewayException $e) {
+            throw $e;
+        }
+    }
+
+    /**
+     * 交易查询
+     * @param array $requestParams
+     * @return mixed
+     * @throws GatewayException
+     */
+    public function tradeQuery(array $requestParams)
+    {
+        try {
+            $obj = new TradeQuery();
+            return $obj->request($requestParams);
+        } catch (GatewayException $e) {
+            throw $e;
+        }
+    }
+
+    /**
+     * 退款查询
+     * @param array $requestParams
+     * @return mixed
+     * @throws GatewayException
+     */
+    public function refundQuery(array $requestParams)
+    {
+        try {
+            $obj = new RefundQuery();
+            return $obj->request($requestParams);
+        } catch (GatewayException $e) {
+            throw $e;
+        }
+    }
+
+    /**
+     * 账单查询
+     * @param array $requestParams
+     * @return mixed
+     * @throws GatewayException
+     */
+    public function billDownload(array $requestParams)
+    {
+        try {
+            $obj = new Bill();
+            return $obj->request($requestParams);
+        } catch (GatewayException $e) {
+            throw $e;
+        }
+    }
+
+    /**
+     * 打款结算查询
+     * @param array $requestParams
+     * @return mixed
+     * @throws GatewayException
+     */
+    public function settleDownload(array $requestParams)
+    {
+        throw new GatewayException('ali not support the method.', Payment::NOT_SUPPORT_METHOD);
+    }
+
+    /**
+     * 支付宝到支付宝转账
+     * @param array $requestParams
+     * @return mixed
+     * @throws GatewayException
+     */
+    public function transfer(array $requestParams)
+    {
+        try {
+            $obj = new Transfer();
+            return $obj->request($requestParams);
+        } catch (GatewayException $e) {
+            throw $e;
+        }
+    }
+
+    /**
+     * 转账查询
+     * @param array $requestParams
+     * @return mixed
+     * @throws GatewayException
+     */
+    public function transferQuery(array $requestParams)
+    {
+        try {
+            $obj = new TransferQuery();
+            return $obj->request($requestParams);
+        } catch (GatewayException $e) {
+            throw $e;
+        }
     }
 }

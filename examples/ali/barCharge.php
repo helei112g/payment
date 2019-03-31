@@ -11,10 +11,6 @@
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 
-use Payment\Client\Charge;
-use Payment\Common\PayException;
-use Payment\Config;
-
 date_default_timezone_set('Asia/Shanghai');
 $aliConfig = require_once __DIR__ . '/../aliconfig.php';
 
@@ -24,7 +20,7 @@ $payData = [
     'body'            => 'ali bar pay',
     'subject'         => '测试支付宝条码支付',
     'order_no'        => $orderNo,
-    'timeout_express' => time() + 600, // 表示必须 600s 内付款
+    'time_expire' => time() + 600, // 表示必须 600s 内付款
     'amount'          => '0.01', // 单位为元 ,最小为0.01
     'return_param'    => '123123',
     // 'client_ip' => isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '127.0.0.1',// 客户地址
@@ -34,14 +30,22 @@ $payData = [
     'operator_id' => '',
     'terminal_id' => '', // 终端设备号(门店号或收银设备ID) 默认值 web
     'scene'       => 'bar_code', // 条码支付：bar_code 声波支付：wave_code
-    'auth_code'   => '12312313123',
+    'auth_code'   => '123213',
 ];
 
+// 使用
 try {
-    $ret = Charge::run(Config::ALI_CHANNEL_BAR, $aliConfig, $payData);
-} catch (PayException $e) {
-    echo $e->errorMessage();
+    $client = new \Payment\Client(\Payment\Client::ALIPAY, $aliConfig);
+    $res    = $client->pay(\Payment\Client::ALI_CHANNEL_BAR, $payData);
+} catch (InvalidArgumentException $e) {
+    echo $e->getMessage();
+    exit;
+} catch (\Payment\Exceptions\GatewayException $e) {
+    echo $e->getMessage();
+    exit;
+} catch (\Payment\Exceptions\ClassNotFoundException $e) {
+    echo $e->getMessage();
     exit;
 }
 
-var_dump($ret);
+var_dump($res);

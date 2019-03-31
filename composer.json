@@ -17,6 +17,7 @@
         "ext-bcmath": "*",
         "ext-mbstring": "*",
         "ext-json": "*",
+        "ext-simplexml": "*",
         "guzzlehttp/guzzle": "~6.0"
     },
     "require-dev": {
