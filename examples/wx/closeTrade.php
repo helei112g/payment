@@ -11,24 +11,19 @@
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 
-
 date_default_timezone_set('Asia/Shanghai');
 $wxConfig = require_once __DIR__ . '/../wxconfig.php';
 
-$refundNo = time() . rand(1000, 9999);
-$data     = [
-    'out_trade_no'   => '15546387228443',
-    'transaction_id' => '4557984565220190407200528457633',
-    'total_fee'      => '3.01',
-    'refund_fee'     => '3.01',
-    'refund_no'      => $refundNo,
-    'refund_account' => 'REFUND_SOURCE_REC', // REFUND_RECHARGE:可用余额退款  REFUND_UNSETTLED:未结算资金退款（默认）
+// 订单信息
+$params  = [
+    'out_trade_no' => '15546387228443',
+    'transaction_id' => '',
 ];
 
 // 使用
 try {
     $client = new \Payment\Client(\Payment\Client::WECHAT, $wxConfig);
-    $res    = $client->refund($data);
+    $res    = $client->close($params);
 } catch (InvalidArgumentException $e) {
     echo $e->getMessage();
     exit;

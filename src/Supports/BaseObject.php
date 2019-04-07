@@ -55,4 +55,13 @@ abstract class BaseObject
     {
         self::$config = new Config($config);
     }
+
+    /**
+     * 项目根路径
+     */
+    public function getBasePath()
+    {
+        $path = realpath(dirname(dirname(__FILE__)));
+        return $path;
+    }
 }

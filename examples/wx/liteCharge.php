@@ -11,12 +11,8 @@
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 
-use Payment\Client\Charge;
-use Payment\Common\PayException;
-use Payment\Config;
 
 date_default_timezone_set('Asia/Shanghai');
-
 $wxConfig = require_once __DIR__ . '/../wxconfig.php';
 
 $orderNo = time() . rand(1000, 9999);
@@ -33,11 +29,19 @@ $payData = [
     'product_id'      => '123',
 ];
 
+// 使用
 try {
-    $ret = Charge::run(Config::WX_CHANNEL_LITE, $wxConfig, $payData);
-} catch (PayException $e) {
-    echo $e->errorMessage();
+    $client = new \Payment\Client(\Payment\Client::WECHAT, $wxConfig);
+    $res    = $client->pay(\Payment\Client::WX_CHANNEL_LITE, $payData);
+} catch (InvalidArgumentException $e) {
+    echo $e->getMessage();
+    exit;
+} catch (\Payment\Exceptions\GatewayException $e) {
+    echo $e->getMessage();
+    exit;
+} catch (\Payment\Exceptions\ClassNotFoundException $e) {
+    echo $e->getMessage();
     exit;
 }
 
-echo json_encode($ret, JSON_UNESCAPED_UNICODE);
+var_dump($res);

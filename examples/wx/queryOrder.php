@@ -11,24 +11,28 @@
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 
-use Payment\Client\Query;
-use Payment\Common\PayException;
-use Payment\Config;
 
 date_default_timezone_set('Asia/Shanghai');
-
 $wxConfig = require_once __DIR__ . '/../wxconfig.php';
 
 $data = [
-    'out_trade_no'   => '14935505602169',
-    'transaction_id' => '20170430190922203640695',
+    'out_trade_no'   => '15546387228443',
+    'transaction_id' => '4557984565220190407200528457633',
 ];
 
+// 使用
 try {
-    $ret = Query::run(Config::WX_CHARGE, $wxConfig, $data);
-} catch (PayException $e) {
-    echo $e->errorMessage();
+    $client = new \Payment\Client(\Payment\Client::WECHAT, $wxConfig);
+    $res    = $client->tradeQuery($data);
+} catch (InvalidArgumentException $e) {
+    echo $e->getMessage();
+    exit;
+} catch (\Payment\Exceptions\GatewayException $e) {
+    echo $e->getMessage();
+    exit;
+} catch (\Payment\Exceptions\ClassNotFoundException $e) {
+    echo $e->getMessage();
     exit;
 }
 
-echo json_encode($ret, JSON_UNESCAPED_UNICODE);
+var_dump($res);

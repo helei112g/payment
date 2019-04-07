@@ -11,10 +11,6 @@
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 
-use Payment\Client\Transfer;
-use Payment\Common\PayException;
-use Payment\Config;
-
 date_default_timezone_set('Asia/Shanghai');
 $wxConfig = require_once __DIR__ . '/../wxconfig.php';
 

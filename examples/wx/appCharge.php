@@ -11,10 +11,6 @@
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 
-use Payment\Client\Charge;
-use Payment\Common\PayException;
-use Payment\Config;
-
 date_default_timezone_set('Asia/Shanghai');
 $wxConfig = require_once __DIR__ . '/../wxconfig.php';
 
@@ -30,11 +26,19 @@ $payData = [
     'client_ip'       => isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '127.0.0.1', // 客户地址
 ];
 
+// 使用
 try {
-    $ret = Charge::run(Config::WX_CHANNEL_APP, $wxConfig, $payData);
-} catch (PayException $e) {
-    echo $e->errorMessage();
+    $client = new \Payment\Client(\Payment\Client::WECHAT, $wxConfig);
+    $res    = $client->pay(\Payment\Client::WX_CHANNEL_APP, $payData);
+} catch (InvalidArgumentException $e) {
+    echo $e->getMessage();
+    exit;
+} catch (\Payment\Exceptions\GatewayException $e) {
+    echo $e->getMessage();
+    exit;
+} catch (\Payment\Exceptions\ClassNotFoundException $e) {
+    echo $e->getMessage();
     exit;
 }
 
-echo json_encode($ret, JSON_UNESCAPED_UNICODE);
+var_dump($res);

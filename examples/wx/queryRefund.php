@@ -11,12 +11,7 @@
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 
-use Payment\Client\Query;
-use Payment\Common\PayException;
-use Payment\Config;
-
 date_default_timezone_set('Asia/Shanghai');
-
 $wxConfig = require_once __DIR__ . '/../wxconfig.php';
 
 $data = [
@@ -26,11 +21,19 @@ $data = [
     'refund_id'      => '1234567892017043019102412333',
 ];
 
+// 使用
 try {
-    $ret = Query::run(Config::WX_REFUND, $wxConfig, $data);
-} catch (PayException $e) {
-    echo $e->errorMessage();
+    $client = new \Payment\Client(\Payment\Client::WECHAT, $wxConfig);
+    $res    = $client->refundQuery($data);
+} catch (InvalidArgumentException $e) {
+    echo $e->getMessage();
+    exit;
+} catch (\Payment\Exceptions\GatewayException $e) {
+    echo $e->getMessage();
+    exit;
+} catch (\Payment\Exceptions\ClassNotFoundException $e) {
+    echo $e->getMessage();
     exit;
 }
 
-echo json_encode($ret, JSON_UNESCAPED_UNICODE);
+var_dump($res);

@@ -20,6 +20,12 @@ use Psr\Http\Message\ResponseInterface;
 trait HttpRequest
 {
     /**
+     * 设置请求选项
+     * @var array
+     */
+    private $options = [];
+
+    /**
      * @param string $url
      * @param array $query
      * @param array $headers
@@ -65,6 +71,21 @@ trait HttpRequest
     }
 
     /**
+     * @param string $url
+     * @param string $xmlData
+     * @param array $headers
+     * @return mixed|string
+     */
+    protected function postXML(string $url, string $xmlData, array $headers = [])
+    {
+        return $this->sendRequest('post', $url, [
+            'headers'     => $headers,
+            'body'        => $xmlData,
+            'http_errors' => false,
+        ]);
+    }
+
+    /**
      * @param string $method
      * @param string $url
      * @param array $options
@@ -76,15 +97,24 @@ trait HttpRequest
     }
 
     /**
+     * @param array $options
+     */
+    protected function setHttpOptions(array $options = [])
+    {
+        $this->options = $options;
+    }
+
+    /**
      * @return array
      */
     private function getBaseOptions()
     {
         $options = [
             'base_uri' => method_exists($this, 'getBaseUri') ? $this->getBaseUri() : '',
-            'timeout'  => method_exists($this, 'getTimeout') ? $this->getTimeout() : 5.0,
+            'timeout'  => method_exists($this, 'getTimeout') ? $this->getTimeout() : 10.0,
         ];
 
+        $options = array_merge($options, $this->options);
         return $options;
     }
 

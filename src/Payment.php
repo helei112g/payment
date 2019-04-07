@@ -30,4 +30,6 @@ final class Payment
 
     const SIGN_ERR        = 2001;
     const FORMAT_DATA_ERR = 2002;
+
+    const GATEWAY_REFUSE = 3001;
 }

@@ -69,7 +69,7 @@ class AlipayProxy extends BaseObject implements IPayProxy, IQueryProxy, ITransfe
      * @param string $channel
      * @return string
      */
-    protected function getChargeClass(string $channel)
+    private function getChargeClass(string $channel)
     {
         $name = ucfirst(str_replace(['-', '_', ''], '', $channel));
         return "Payment\\Gateways\\Alipay\\{$name}Charge";
