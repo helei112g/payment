@@ -35,6 +35,8 @@ final class Config
 
     const ALI_TRANSFER = 'ali_transfer';// 转账
 
+    const ALI_CLOSE = 'ali_close';//关闭订单
+
 
     //========================= 微信相关接口 =======================//
     // 支付常量
@@ -59,6 +61,8 @@ final class Config
 
     const WX_TRANSFER = 'wx_transfer';// 转账
 
+    const WX_CLOSE = 'wx_close';//关闭订单
+
 
 
     //========================= 招商相关接口 =======================//
@@ -74,6 +78,8 @@ final class Config
     const CMB_CHARGE = 'cmb_charge';// 招商支付
 
     const CMB_REFUND = 'cmb_refund';// 招商退款
+
+    const CMB_CLOSE = 'cmn_close';//招商关闭订单
 
 
     //========================= 建设银行相关接口 =======================//
