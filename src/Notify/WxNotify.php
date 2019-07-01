@@ -50,7 +50,14 @@ class WxNotify extends NotifyStrategy
 
         // 移除值中的空格  xml转化为数组时，CDATA 数据会被带入额外的空格。
         $arrData = ArrayUtil::paraFilter($arrData);
-
+        // 支持微信退款回调  req_info（解密）
+        if(isset($arrData['req_info'])){
+            // 解密返回信息
+            $decryptReqInfo = base64_decode($arrData['req_info']);
+            $decryptReqInfo = openssl_decrypt($decryptReqInfo,'aes-256-ecb',md5($this->config->md5Key),OPENSSL_RAW_DATA);
+            $decryptReqInfo = DataParser::toArray($decryptReqInfo);
+            $arrData = array_merge($decryptReqInfo,$arrData);
+        }
         return $arrData;
     }
 
@@ -63,14 +70,20 @@ class WxNotify extends NotifyStrategy
      */
     public function checkNotifyData(array $data)
     {
-        if ($data['return_code'] != 'SUCCESS' || $data['result_code'] != 'SUCCESS') {
+        if ($data['return_code'] != 'SUCCESS') {
             // $arrData['return_msg']  返回信息，如非空，为错误原因
             // $data['result_code'] != 'SUCCESS'  表示业务失败
             return false;
+        }else if(isset($data['result_code']) && $data['result_code'] != 'SUCCESS'){ // 退款回调不存在  result_code
+            return false;
         }
 
-        // 检查返回数据签名是否正确
-        return $this->verifySign($data);
+        // 检查返回数据签名是否正确  退款回调不存在  sign
+        if(isset($data['sign'])){
+            return $this->verifySign($data);
+        }else{
+            return true;
+        }
     }
 
     /**
@@ -114,37 +127,42 @@ class WxNotify extends NotifyStrategy
      */
     protected function getRetData(array $data)
     {
-        if ($this->config->returnRaw) {
-            $data['channel'] = Config::WX_CHARGE;
+        if (isset($data['refund_id'])) {
+            // 返回退款原始信息
             return $data;
+        } else {
+            // 支付信息
+            if ($this->config->returnRaw) {
+                $data['channel'] = Config::WX_CHARGE;
+                return $data;
+            }
+
+            // 将金额处理为元
+            $totalFee = bcdiv($data['total_fee'], 100, 2);
+            $cashFee = bcdiv($data['cash_fee'], 100, 2);
+
+            $retData = [
+                'bank_type' => $data['bank_type'],
+                'cash_fee' => $cashFee,
+                'device_info' => $data['device_info'],
+                'fee_type' => $data['fee_type'],
+                'is_subscribe' => $data['is_subscribe'],
+                'buyer_id' => $data['openid'],
+                'order_no' => $data['out_trade_no'],
+                'pay_time' => date('Y-m-d H:i:s', strtotime($data['time_end'])),// 支付完成时间
+                'amount' => $totalFee,
+                'trade_type' => $data['trade_type'],
+                'transaction_id' => $data['transaction_id'],
+                'trade_state' => strtolower($data['return_code']),
+                'channel' => Config::WX_CHARGE,
+            ];
+
+            // 检查是否存在用户自定义参数
+            if (isset($data['attach']) && !empty($data['attach'])) {
+                $retData['return_param'] = $data['attach'];
+            }
+            return $retData;
         }
-
-        // 将金额处理为元
-        $totalFee = bcdiv($data['total_fee'], 100, 2);
-        $cashFee = bcdiv($data['cash_fee'], 100, 2);
-
-        $retData = [
-            'bank_type' => $data['bank_type'],
-            'cash_fee' => $cashFee,
-            'device_info' => $data['device_info'],
-            'fee_type' => $data['fee_type'],
-            'is_subscribe' => $data['is_subscribe'],
-            'buyer_id'   => $data['openid'],
-            'order_no'   => $data['out_trade_no'],
-            'pay_time'   => date('Y-m-d H:i:s', strtotime($data['time_end'])),// 支付完成时间
-            'amount'   => $totalFee,
-            'trade_type' => $data['trade_type'],
-            'transaction_id'   => $data['transaction_id'],
-            'trade_state'   => strtolower($data['return_code']),
-            'channel'   => Config::WX_CHARGE,
-        ];
-
-        // 检查是否存在用户自定义参数
-        if (isset($data['attach']) && ! empty($data['attach'])) {
-            $retData['return_param'] = $data['attach'];
-        }
-
-        return $retData;
     }
 
     /**
