@@ -1,7 +1,4 @@
-<p align="center">
-    <h1>Payment使用文档</h1>
-</p>
-
+<h1 align="center">Payment使用文档</h1>
 
 <p align="center">
 
@@ -9,11 +6,11 @@
 [![Latest development][ico-version-dev]][link-packagist]
 [![Monthly installs][ico-downloads-monthly]][link-downloads]
 
+</p>
+
 ## Stargazers over time
 
 [![Stargazers over time][starchart-cc]](https://starchart.cc/helei112g/payment)
-
-</p>
 
 -----
 
