@@ -17,7 +17,7 @@ namespace Payment\Supports;
  * @email   : dayugog@gmail.com
  * @date    : 2019/3/30 10:50 AM
  * @version : 1.0.0
- * @desc    :
+ * @desc    : 配置文件处理类
  **/
 class Config implements \ArrayAccess
 {

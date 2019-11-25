@@ -34,7 +34,7 @@ use Payment\Supports\BaseObject;
  * @email   : dayugog@gmail.com
  * @date    : 2019/3/28 10:25 PM
  * @version : 1.0.0
- * @desc    :
+ * @desc    : 支付宝的代理类
  **/
 class AlipayProxy extends BaseObject implements IPayProxy, IQueryProxy, ITransferProxy
 {

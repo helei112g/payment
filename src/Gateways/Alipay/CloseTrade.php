@@ -63,7 +63,7 @@ class CloseTrade extends AliBaseObject implements IGatewayRequest
 
             $content = $retArr['alipay_trade_close_response'];
             if ($content['code'] !== self::REQ_SUC) {
-                throw new GatewayException(sprintf('request get failed, msg[%s], sub_msg[%s]', $content['msg'], $content['sub_msg']), Payment::SIGN_ERR, $content);
+                throw new GatewayException(sprintf('request get failed, msg[%s], sub_msg[%s]', $content['msg'] ?? '', $content['sub_msg'] ?? ''), Payment::SIGN_ERR, $content);
             }
 
             $signFlag = $this->verifySign($content, $retArr['sign']);

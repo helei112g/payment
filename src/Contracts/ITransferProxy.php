@@ -17,13 +17,13 @@ namespace Payment\Contracts;
  * @email   : dayugog@gmail.com
  * @date    : 2019/3/28 10:32 PM
  * @version : 1.0.0
- * @desc    :
+ * @desc    : 转账交易接口
  **/
 interface ITransferProxy
 {
 
     /**
-     * 支付宝到支付宝转账
+     * 转账
      * @param array $requestParams
      * @return mixed
      */

@@ -20,13 +20,14 @@ use Payment\Payment;
  * @package Payment\Gateways\Alipay
  * @author  : Leo
  * @email   : dayugog@gmail.com
- * @date    : 2019/3/31 3:23 PM
+ * @date    : 2019/11/25 6:58 PM
  * @version : 1.0.0
- * @desc    : 商户可通过该接口查询转账订单的状态、支付时间等相关信息，主要应用于B2C转账订单查询的场景
+ * @desc    : 用于在线下场景交易支付后，进行卖家与第三方（如供应商或平台商）基于交易金额的结算
  **/
-class TransferQuery extends AliBaseObject implements IGatewayRequest
+class TradeSettle extends AliBaseObject implements IGatewayRequest
 {
-    const METHOD = 'alipay.fund.trans.order.query';
+
+    const METHOD = 'alipay.trade.order.settle';
 
     /**
      * @param array $requestParams
@@ -35,8 +36,10 @@ class TransferQuery extends AliBaseObject implements IGatewayRequest
     protected function getBizContent(array $requestParams)
     {
         $bizContent = [
-            'out_biz_no' => $requestParams['transfer_no'] ?? '',
-            'order_id'   => $requestParams['transaction_id'] ?? '',
+            'out_request_no'     => $requestParams['out_request_no'] ?? '',
+            'trade_no'           => $requestParams['trade_no'] ?? '',
+            'royalty_parameters' => $requestParams['royalty_parameters'] ?? '',
+            'operator_id'        => $requestParams['operator_id'] ?? '',
         ];
         $bizContent = ArrayUtil::paraFilter($bizContent);
 
@@ -56,10 +59,10 @@ class TransferQuery extends AliBaseObject implements IGatewayRequest
             $ret    = $this->post($this->gatewayUrl, $params);
             $retArr = json_decode($ret, true);
             if (json_last_error() !== JSON_ERROR_NONE) {
-                throw new GatewayException(sprintf('format transfer query data get error, [%s]', json_last_error_msg()), Payment::FORMAT_DATA_ERR, ['raw' => $ret]);
+                throw new GatewayException(sprintf('format trade settle data get error, [%s]', json_last_error_msg()), Payment::FORMAT_DATA_ERR, ['raw' => $ret]);
             }
 
-            $content = $retArr['alipay_fund_trans_order_query_response'];
+            $content = $retArr['alipay_trade_order_settle_response'];
             if ($content['code'] !== self::REQ_SUC) {
                 throw new GatewayException(sprintf('request get failed, msg[%s], sub_msg[%s]', $content['msg'], $content['sub_msg']), Payment::SIGN_ERR, $content);
             }

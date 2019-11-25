@@ -22,7 +22,7 @@ use Payment\Payment;
  * @email   : dayugog@gmail.com
  * @date    : 2019/3/31 2:56 PM
  * @version : 1.0.0
- * @desc    :
+ * @desc    : 单笔转账到支付宝账户
  **/
 class Transfer extends AliBaseObject implements IGatewayRequest
 {
@@ -61,7 +61,7 @@ class Transfer extends AliBaseObject implements IGatewayRequest
             $ret    = $this->get($this->gatewayUrl, $params);
             $retArr = json_decode($ret, true);
             if (json_last_error() !== JSON_ERROR_NONE) {
-                throw new GatewayException(sprintf('format bar data get error, [%s]', json_last_error_msg()), Payment::FORMAT_DATA_ERR, ['raw' => $ret]);
+                throw new GatewayException(sprintf('format transfer data get error, [%s]', json_last_error_msg()), Payment::FORMAT_DATA_ERR, ['raw' => $ret]);
             }
 
             $content = $retArr['alipay_fund_trans_toaccount_transfer_response'];

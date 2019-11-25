@@ -22,7 +22,7 @@ use Payment\Payment;
  * @email   : dayugog@gmail.com
  * @date    : 2019/3/31 9:12 AM
  * @version : 1.0.0
- * @desc    :
+ * @desc    : 统一收单交易退款查询
  **/
 class RefundQuery extends AliBaseObject implements IGatewayRequest
 {

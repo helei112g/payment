@@ -1,10 +1,10 @@
 <h1 align="center">Payment使用文档</h1>
 
-
 [![Software license][ico-license]](LICENSE)
 [![Latest development][ico-version-dev]][link-packagist]
 [![Monthly installs][ico-downloads-monthly]][link-downloads]
 
+文档：http://helei112g.github.io/payment
 
 ## Stargazers over time
 

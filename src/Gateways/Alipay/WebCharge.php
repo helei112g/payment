@@ -21,7 +21,7 @@ use Payment\Helpers\ArrayUtil;
  * @email   : dayugog@gmail.com
  * @date    : 2019/3/30 3:12 PM
  * @version : 1.0.0
- * @desc    :
+ * @desc    : PC场景下单并支付 / 统一收单下单并支付页面接口
  **/
 class WebCharge extends AliBaseObject implements IGatewayRequest
 {

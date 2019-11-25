@@ -92,16 +92,27 @@ class StrUtil
         $keyStr = str_replace(PHP_EOL, '', $keyStr);
         // 为了解决用户传入的密钥格式，这里进行统一处理
         if ($type === 'private') {
-            $beginStr = '-----BEGIN RSA PRIVATE KEY-----';
-            $endStr   = '-----END RSA PRIVATE KEY-----';
+            $beginStr = '-----BEGIN RSA PRIVATE KEY-----' . PHP_EOL;
+            $endStr   = PHP_EOL . '-----END RSA PRIVATE KEY-----';
         } else {
-            $beginStr = '-----BEGIN PUBLIC KEY-----';
-            $endStr   = '-----END PUBLIC KEY-----';
+            $beginStr = '-----BEGIN PUBLIC KEY-----' . PHP_EOL;
+            $endStr   = PHP_EOL . '-----END PUBLIC KEY-----';
         }
 
-        $rsaKey = chunk_split(base64_encode($keyStr), 64, "\n");
-        $rsaKey = $beginStr . PHP_EOL . $keyStr . PHP_EOL . $endStr;
+        $rsaKey = $beginStr . wordwrap($keyStr, 64, "\n", true) . $endStr;
 
         return $rsaKey;
+    }
+
+    /**
+     * 生成测试使用的二维码
+     * @param $text
+     * @return string
+     */
+    public static function toQRImg($text)
+    {
+        $chl = urlencode($text);
+
+        return "https://cli.im/api/qrcode/code?text={$chl}&mhid=tBHED17pz8shMHcmKdxROK4";
     }
 }

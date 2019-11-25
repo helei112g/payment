@@ -21,7 +21,7 @@ use Payment\Helpers\ArrayUtil;
  * @email   : dayugog@gmail.com
  * @date    : 2019/3/30 3:12 PM
  * @version : 1.0.0
- * @desc    :
+ * @desc    : 手机网站支付接口2.0
  **/
 class WapCharge extends AliBaseObject implements IGatewayRequest
 {

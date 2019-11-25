@@ -22,7 +22,7 @@ use Payment\Payment;
  * @email   : dayugog@gmail.com
  * @date    : 2019/3/30 3:12 PM
  * @version : 1.0.0
- * @desc    :
+ * @desc    : 收银员通过收银台或商户后台调用支付宝接口，生成二维码后，展示给用户，由用户扫描二维码完成订单支付。
  **/
 class QrCharge extends AliBaseObject implements IGatewayRequest
 {

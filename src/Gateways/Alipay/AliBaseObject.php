@@ -26,7 +26,7 @@ use Payment\Supports\HttpRequest;
  * @email   : dayugog@gmail.com
  * @date    : 2019/3/30 8:44 PM
  * @version : 1.0.0
- * @desc    :
+ * @desc    : 支付宝业务的基础类
  **/
 abstract class AliBaseObject extends BaseObject
 {
@@ -120,7 +120,7 @@ abstract class AliBaseObject extends BaseObject
         } catch (GatewayException $e) {
             throw $e;
         } catch (\Exception $e) {
-            throw new GatewayException(sprintf('sign error, sign type is [%s].', $signType), Payment::SIGN_ERR);
+            throw new GatewayException(sprintf('sign error, sign type is [%s]. msg: [%s]', $signType, $e->getMessage()), Payment::SIGN_ERR);
         }
 
         return $sign;

@@ -94,7 +94,7 @@ class Client
     }
 
     /**
-     * 访问静态方法
+     * 访问方法
      * @param string $name
      * @param $arguments
      * @return mixed

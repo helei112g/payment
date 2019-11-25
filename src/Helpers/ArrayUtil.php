@@ -17,7 +17,7 @@ namespace Payment\Helpers;
  * @author  : Leo
  * @date    : 2019/3/30 8:11 PM
  * @version : 1.0.0
- * @desc    :
+ * @desc    : 处理数组的工具类
  *
  */
 class ArrayUtil

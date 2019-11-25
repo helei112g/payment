@@ -20,13 +20,14 @@ use Payment\Payment;
  * @package Payment\Gateways\Alipay
  * @author  : Leo
  * @email   : dayugog@gmail.com
- * @date    : 2019/3/31 3:23 PM
+ * @date    : 2019/11/25 6:20 PM
  * @version : 1.0.0
- * @desc    : 商户可通过该接口查询转账订单的状态、支付时间等相关信息，主要应用于B2C转账订单查询的场景
+ * @desc    : 支付宝的信用退款
  **/
-class TransferQuery extends AliBaseObject implements IGatewayRequest
+class RefundCredit extends AliBaseObject implements IGatewayRequest
 {
-    const METHOD = 'alipay.fund.trans.order.query';
+
+    const METHOD = 'alipay.trade.page.refund';
 
     /**
      * @param array $requestParams
@@ -35,8 +36,16 @@ class TransferQuery extends AliBaseObject implements IGatewayRequest
     protected function getBizContent(array $requestParams)
     {
         $bizContent = [
-            'out_biz_no' => $requestParams['transfer_no'] ?? '',
-            'order_id'   => $requestParams['transaction_id'] ?? '',
+            'trade_no'       => $requestParams['trade_no'] ?? '',
+            'out_trade_no'   => $requestParams['out_trade_no'] ?? '',
+            'out_request_no' => $requestParams['out_request_no'] ?? '',
+            'refund_amount'  => $requestParams['refund_amount'] ?? '',
+            'biz_type'       => $requestParams['biz_type'] ?? '',
+            'refund_reason'  => $requestParams['refund_reason'] ?? '',
+            'operator_id'    => $requestParams['operator_id'] ?? '',
+            'store_id'       => $requestParams['store_id'] ?? '',
+            'terminal_id'    => $requestParams['terminal_id'] ?? '',
+            'extend_params'  => $requestParams['extend_params'] ?? '',
         ];
         $bizContent = ArrayUtil::paraFilter($bizContent);
 
@@ -56,10 +65,10 @@ class TransferQuery extends AliBaseObject implements IGatewayRequest
             $ret    = $this->post($this->gatewayUrl, $params);
             $retArr = json_decode($ret, true);
             if (json_last_error() !== JSON_ERROR_NONE) {
-                throw new GatewayException(sprintf('format transfer query data get error, [%s]', json_last_error_msg()), Payment::FORMAT_DATA_ERR, ['raw' => $ret]);
+                throw new GatewayException(sprintf('format refund credit data get error, [%s]', json_last_error_msg()), Payment::FORMAT_DATA_ERR, ['raw' => $ret]);
             }
 
-            $content = $retArr['alipay_fund_trans_order_query_response'];
+            $content = $retArr['alipay_trade_page_refund_response'];
             if ($content['code'] !== self::REQ_SUC) {
                 throw new GatewayException(sprintf('request get failed, msg[%s], sub_msg[%s]', $content['msg'], $content['sub_msg']), Payment::SIGN_ERR, $content);
             }

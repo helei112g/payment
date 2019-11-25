@@ -21,7 +21,7 @@ use Payment\Helpers\ArrayUtil;
  * @email   : dayugog@gmail.com
  * @date    : 2019/3/28 10:21 PM
  * @version : 1.0.0
- * @desc    :
+ * @desc    : app 支付
  **/
 class AppCharge extends AliBaseObject implements IGatewayRequest
 {
