@@ -37,18 +37,7 @@ class CloseTrade extends WechatBaseObject implements IGatewayRequest
     public function request(array $requestParams)
     {
         try {
-            $xmlData = $this->buildParams($requestParams);
-            $url     = sprintf($this->gatewayUrl, self::METHOD);
-
-            $this->setHttpOptions($this->getCertOptions());
-            $resXml = $this->postXML($url, $xmlData);
-
-            $resArr = DataParser::toArray($resXml);
-            if (!is_array($resArr) || $resArr['return_code'] !== self::REQ_SUC) {
-                throw new GatewayException($resArr['return_msg'], Payment::GATEWAY_REFUSE, $resArr);
-            }
-
-            return $resArr;
+            return $this->requestWXApi(self::METHOD, $requestParams);
         } catch (GatewayException $e) {
             throw $e;
         }
@@ -61,7 +50,6 @@ class CloseTrade extends WechatBaseObject implements IGatewayRequest
     protected function getSelfParams(array $requestParams)
     {
         $selfParams = [
-            'transaction_id' => $requestParams['transaction_id'] ?? '',
             'out_trade_no'   => $requestParams['out_trade_no'] ?? '',
         ];
 

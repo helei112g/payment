@@ -37,7 +37,7 @@ class LiteCharge extends WechatBaseObject implements IGatewayRequest
     public function request(array $requestParams)
     {
         try {
-            return $this->requestPayApi(self::METHOD, $requestParams);
+            return $this->requestWXApi(self::METHOD, $requestParams);
         } catch (GatewayException $e) {
             throw $e;
         }
@@ -71,6 +71,7 @@ class LiteCharge extends WechatBaseObject implements IGatewayRequest
         } else {
             $sceneInfo = '';
         }
+
 
         $selfParams = [
             'device_info'      => $requestParams['device_info'] ?? '',

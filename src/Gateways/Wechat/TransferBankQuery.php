@@ -1,15 +1,7 @@
 <?php
 
-/*
- * The file is part of the payment lib.
- *
- * (c) Leo <dayugog@gmail.com>
- *
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.
- */
-
 namespace Payment\Gateways\Wechat;
+
 
 use Payment\Contracts\IGatewayRequest;
 use Payment\Exceptions\GatewayException;
@@ -18,14 +10,14 @@ use Payment\Exceptions\GatewayException;
  * @package Payment\Gateways\Wechat
  * @author  : Leo
  * @email   : dayugog@gmail.com
- * @date    : 2019/4/1 8:29 PM
+ * @date    : 2019/11/26 8:48 PM
  * @version : 1.0.0
- * @desc    : 查询企业付款
+ * @desc    : 查询企业付款银行卡
  **/
-class TransferQuery extends WechatBaseObject implements IGatewayRequest
+class TransferBankQuery extends WechatBaseObject implements IGatewayRequest
 {
 
-    const METHOD = 'mmpaymkttransfers/gettransferinfo';
+    const METHOD = 'mmpaysptrans/query_bank';
 
     /**
      * 获取第三方返回结果
@@ -51,6 +43,7 @@ class TransferQuery extends WechatBaseObject implements IGatewayRequest
         $selfParams = [
             'partner_trade_no' => $requestParams['order_no'] ?? '',
         ];
+
         return $selfParams;
     }
 }

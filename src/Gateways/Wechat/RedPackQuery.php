@@ -20,10 +20,13 @@ use Payment\Exceptions\GatewayException;
  * @email   : dayugog@gmail.com
  * @date    : 2019/4/1 8:30 PM
  * @version : 1.0.0
- * @desc    :
+ * @desc    : 查询红包记录
  **/
 class RedPackQuery extends WechatBaseObject implements IGatewayRequest
 {
+
+    const METHOD = 'mmpaymkttransfers/gethbinfo';
+
     /**
      * 获取第三方返回结果
      * @param array $requestParams
@@ -32,7 +35,11 @@ class RedPackQuery extends WechatBaseObject implements IGatewayRequest
      */
     public function request(array $requestParams)
     {
-        // TODO: Implement request() method.
+        try {
+            return $this->requestWXApi(self::METHOD, $requestParams);
+        } catch (GatewayException $e) {
+            throw $e;
+        }
     }
 
     /**
@@ -41,15 +48,11 @@ class RedPackQuery extends WechatBaseObject implements IGatewayRequest
      */
     protected function getSelfParams(array $requestParams)
     {
-        $params = [
-            'appid'     => '',
-            'mch_id'    => '',
-            'nonce_str' => '',
-            'sign'      => '',
-            'sign_type' => '', // 资金单仅支持：HMAC-SHA256
-
-            'mch_billno' => '',
-            'bill_type'  => '',
+        $selfParams = [
+            'mch_billno' => $requestParams['order_no'] ?? '',
+            'bill_type'  => $requestParams['bill_type'] ?? '',
         ];
+
+        return $selfParams;
     }
 }

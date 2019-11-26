@@ -37,7 +37,7 @@ class PubCharge extends WechatBaseObject implements IGatewayRequest
     public function request(array $requestParams)
     {
         try {
-            return $this->requestPayApi(self::METHOD, $requestParams);
+            return $this->requestWXApi(self::METHOD, $requestParams);
         } catch (GatewayException $e) {
             throw $e;
         }

@@ -20,10 +20,13 @@ use Payment\Exceptions\GatewayException;
  * @email   : dayugog@gmail.com
  * @date    : 2019/4/7 9:38 AM
  * @version : 1.0.0
- * @desc    :
+ * @desc    : 查询openid
  **/
 class OpenIDQuery extends WechatBaseObject implements IGatewayRequest
 {
+
+    const METHOD = 'tools/authcodetoopenid';
+
     /**
      * 获取第三方返回结果
      * @param array $requestParams
@@ -32,7 +35,11 @@ class OpenIDQuery extends WechatBaseObject implements IGatewayRequest
      */
     public function request(array $requestParams)
     {
-        // TODO: Implement request() method.
+        try {
+            return $this->requestWXApi(self::METHOD, $requestParams);
+        } catch (GatewayException $e) {
+            throw $e;
+        }
     }
 
     /**
@@ -41,8 +48,10 @@ class OpenIDQuery extends WechatBaseObject implements IGatewayRequest
      */
     protected function getSelfParams(array $requestParams)
     {
-        $params = [
-            'auth_code' => '',
+        $selfParams = [
+            'auth_code' => $requestParams['auth_code'] ?? '', // 扫码支付授权码，设备读取用户微信中的条码或者二维码信息
         ];
+
+        return $selfParams;
     }
 }

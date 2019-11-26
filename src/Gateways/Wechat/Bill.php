@@ -21,7 +21,7 @@ use Payment\Payment;
  * @email   : dayugog@gmail.com
  * @date    : 2019/4/1 8:28 PM
  * @version : 1.0.0
- * @desc    :
+ * @desc    : 下载账单
  **/
 class Bill extends WechatBaseObject implements IGatewayRequest
 {
@@ -36,14 +36,8 @@ class Bill extends WechatBaseObject implements IGatewayRequest
     public function request(array $requestParams)
     {
         try {
-            $xmlData = $this->buildParams($requestParams);
-            $url     = sprintf($this->gatewayUrl, self::METHOD);
+            $data = $this->requestWXApi(self::METHOD, $requestParams);
 
-            $this->setHttpOptions($this->getCertOptions());
-            $data = $this->postXML($url, $xmlData);
-            if (strlen($data) === 0) {
-                throw new GatewayException('not found bill', Payment::GATEWAY_REFUSE);
-            }
             return $this->formatBill($data);
         } catch (GatewayException $e) {
             throw $e;

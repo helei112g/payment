@@ -37,18 +37,7 @@ class Refund extends WechatBaseObject implements IGatewayRequest
     public function request(array $requestParams)
     {
         try {
-            $xmlData = $this->buildParams($requestParams);
-            $url     = sprintf($this->gatewayUrl, self::METHOD);
-
-            $this->setHttpOptions($this->getCertOptions());
-            $resXml = $this->postXML($url, $xmlData);
-
-            $resArr = DataParser::toArray($resXml);
-            if ($resArr['return_code'] !== self::REQ_SUC) {
-                throw new GatewayException($resArr['retmsg'], Payment::GATEWAY_REFUSE, $resArr);
-            }
-
-            return $resArr;
+            return $this->requestWXApi(self::METHOD, $requestParams);
         } catch (GatewayException $e) {
             throw $e;
         }
@@ -61,14 +50,14 @@ class Refund extends WechatBaseObject implements IGatewayRequest
     protected function getSelfParams(array $requestParams)
     {
         $selfParams = [
-            'out_trade_no'    => $requestParams['out_trade_no'] ?? '',
             'transaction_id'  => $requestParams['transaction_id'] ?? '',
+            'out_trade_no'    => $requestParams['out_trade_no'] ?? '',
             'out_refund_no'   => $requestParams['out_refund_no'] ?? '',
             'total_fee'       => $requestParams['total_fee'] ?? '',
             'refund_fee'      => $requestParams['refund_fee'] ?? '',
-            'refund_fee_type' => $requestParams['refund_fee_type'] ?? 'CNY',
+            'refund_fee_type' => self::$config->get('fee_type', 'CNY'),
             'refund_desc'     => $requestParams['refund_desc'] ?? '',
-            'refund_account'  => $requestParams['refund_account'] ?? 'REFUND_SOURCE_REC',
+            'refund_account'  => $requestParams['refund_account'] ?? 'REFUND_SOURCE_RECHARGE_FUNDS', // REFUND_SOURCE_UNSETTLED_FUNDS
             'notify_url'      => self::$config->get('notify_url', ''),
         ];
 

@@ -20,10 +20,13 @@ use Payment\Exceptions\GatewayException;
  * @email   : dayugog@gmail.com
  * @date    : 2019/4/7 9:36 AM
  * @version : 1.0.0
- * @desc    :
+ * @desc    : 交易保障，上报时间
  **/
 class Report extends WechatBaseObject implements IGatewayRequest
 {
+
+    const METHOD = 'payitil/report';
+
     /**
      * 获取第三方返回结果
      * @param array $requestParams
@@ -32,7 +35,11 @@ class Report extends WechatBaseObject implements IGatewayRequest
      */
     public function request(array $requestParams)
     {
-        // TODO: Implement request() method.
+        try {
+            return $this->requestWXApi(self::METHOD, $requestParams);
+        } catch (GatewayException $e) {
+            throw $e;
+        }
     }
 
     /**
@@ -41,17 +48,13 @@ class Report extends WechatBaseObject implements IGatewayRequest
      */
     protected function getSelfParams(array $requestParams)
     {
-        $params = [
-            'appid'     => '',
-            'mch_id'    => '',
-            'nonce_str' => '',
-            'sign'      => '',
-            'sign_type' => '', // 资金单仅支持：HMAC-SHA256
-
-            'device_info'   => '',
-            'interface_url' => '',
-            'user_ip'       => '',
-            'trades'        => '',
+        $selfParams = [
+            'device_info'   => $requestParams['device_info'] ?? '',
+            'interface_url' => $requestParams['interface_url'] ?? '',
+            'user_ip'       => $requestParams['user_ip'] ?? '',
+            'trades'        => $requestParams['trades'] ?? '',
         ];
+
+        return $selfParams;
     }
 }

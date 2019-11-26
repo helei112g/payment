@@ -20,10 +20,13 @@ use Payment\Exceptions\GatewayException;
  * @email   : dayugog@gmail.com
  * @date    : 2019/4/7 10:01 AM
  * @version : 1.0.0
- * @desc    :
+ * @desc    : 查询代金券信息
  **/
 class CouponStockQuery extends WechatBaseObject implements IGatewayRequest
 {
+
+    const METHOD = 'mmpaymkttransfers/query_coupon_stock';
+
     /**
      * 获取第三方返回结果
      * @param array $requestParams
@@ -32,7 +35,11 @@ class CouponStockQuery extends WechatBaseObject implements IGatewayRequest
      */
     public function request(array $requestParams)
     {
-        // TODO: Implement request() method.
+        try {
+            return $this->requestWXApi(self::METHOD, $requestParams);
+        } catch (GatewayException $e) {
+            throw $e;
+        }
     }
 
     /**
@@ -41,18 +48,13 @@ class CouponStockQuery extends WechatBaseObject implements IGatewayRequest
      */
     protected function getSelfParams(array $requestParams)
     {
-        $params = [
-            'appid'       => '',
-            'mch_id'      => '',
-            'device_info' => '',
-            'nonce_str'   => '',
-            'sign'        => '',
-            'sign_type'   => '',
-
-            'coupon_stock_id' => '',
-            'op_user_id'      => '',
-            'version'         => '',
-            'type'            => '',
+        $selfParams = [
+            'coupon_stock_id' => $requestParams['coupon_stock_id'] ?? '',
+            'op_user_id'      => $requestParams['op_user_id'] ?? '',
+            'version'         => '1.0',
+            'type'            => 'XML',
         ];
+
+        return $selfParams;
     }
 }

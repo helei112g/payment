@@ -22,7 +22,7 @@ use Payment\Payment;
  * @email   : dayugog@gmail.com
  * @date    : 2019/4/1 8:27 PM
  * @version : 1.0.0
- * @desc    :
+ * @desc    : 该接口提供所有微信支付订单的查询
  **/
 class TradeQuery extends WechatBaseObject implements IGatewayRequest
 {
@@ -38,18 +38,7 @@ class TradeQuery extends WechatBaseObject implements IGatewayRequest
     public function request(array $requestParams)
     {
         try {
-            $xmlData = $this->buildParams($requestParams);
-            $url     = sprintf($this->gatewayUrl, self::METHOD);
-
-            $this->setHttpOptions($this->getCertOptions());
-            $resXml = $this->postXML($url, $xmlData);
-
-            $resArr = DataParser::toArray($resXml);
-            if ($resArr['return_code'] !== self::REQ_SUC) {
-                throw new GatewayException($resArr['return_msg'], Payment::GATEWAY_REFUSE, $resArr);
-            }
-
-            return $resArr;
+            return $this->requestWXApi(self::METHOD, $requestParams);
         } catch (GatewayException $e) {
             throw $e;
         }

@@ -20,10 +20,12 @@ use Payment\Exceptions\GatewayException;
  * @email   : dayugog@gmail.com
  * @date    : 2019/4/1 8:29 PM
  * @version : 1.0.0
- * @desc    :
+ * @desc    : 企业付款到零钱
  **/
 class Transfer extends WechatBaseObject implements IGatewayRequest
 {
+    const METHOD = 'mmpaymkttransfers/promotion/transfers';
+
     /**
      * 获取第三方返回结果
      * @param array $requestParams
@@ -32,7 +34,11 @@ class Transfer extends WechatBaseObject implements IGatewayRequest
      */
     public function request(array $requestParams)
     {
-        // TODO: Implement request() method.
+        try {
+            return $this->requestWXApi(self::METHOD, $requestParams);
+        } catch (GatewayException $e) {
+            throw $e;
+        }
     }
 
     /**
@@ -41,26 +47,19 @@ class Transfer extends WechatBaseObject implements IGatewayRequest
      */
     protected function getSelfParams(array $requestParams)
     {
-        $params = [
-            'appid'     => '',
-            'mch_id'    => '',
-            'nonce_str' => '',
-            'sign'      => '',
-            'sign_type' => '',
+        $totalFee = bcmul($requestParams['amount'], 100, 0);
 
-            'device_info'      => '',
-            'partner_trade_no' => '',
-            'openid'           => '',
-            'check_name'       => '',
-            're_user_name'     => '',
-            'spbill_create_ip' => '',
-
-            'amount' => '',
-            'desc'   => '',
-
-            'enc_bank_no'   => '',
-            'enc_true_name' => '',
-            'bank_code'     => '',
+        $selfParams = [
+            'device_info'      => $requestParams['device_info'] ?? '',
+            'partner_trade_no' => $requestParams['order_no'] ?? '',
+            'openid'           => $requestParams['openid'] ?? '',
+            'check_name'       => $requestParams['check_name'] ?? '',
+            're_user_name'     => $requestParams['re_user_name'] ?? '',
+            'amount'           => $totalFee,
+            'desc'             => $requestParams['desc'] ?? '',
+            'spbill_create_ip' => $requestParams['spbill_create_ip'] ?? '',
         ];
+
+        return $selfParams;
     }
 }

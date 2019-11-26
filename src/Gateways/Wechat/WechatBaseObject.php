@@ -71,6 +71,21 @@ abstract class WechatBaseObject extends BaseObject
     protected $useBackup = false;
 
     /**
+     * 请求方法的名称
+     * @var string
+     */
+    protected $methodName = '';
+
+    /**
+     * 用来处理不同key的问题
+     * @var array
+     */
+    protected $appIDKeyMap = [
+        'mmpaymkttransfers/sendredpack'      => 'wxappid',
+        'mmpaymkttransfers/sendgroupredpack' => 'wxappid',
+    ];
+
+    /**
      * WechatBaseObject constructor.
      * @throws GatewayException
      */
@@ -110,12 +125,17 @@ abstract class WechatBaseObject extends BaseObject
     protected function buildParams(array $requestParams = [])
     {
         $signType = self::$config->get('sign_type', '');
-        $params   = [
+        if ($this instanceof Settlement) {// 资金结算单只支持该方式
+            $signType = 'HMAC-SHA256';
+        }
+
+        $params = [
             'appid'     => self::$config->get('app_id', ''),
             'mch_id'    => self::$config->get('mch_id', ''),
             'nonce_str' => $this->nonceStr,
             'sign_type' => $signType,
         ];
+        $params = $this->changeKeyName($params);
 
         if (!empty($requestParams)) {
             $selfParams = $this->getSelfParams($requestParams);
@@ -235,17 +255,9 @@ abstract class WechatBaseObject extends BaseObject
      */
     protected function getSignKey()
     {
+        $method = 'pay/getsignkey';
         try {
-            $xmlData = $this->buildParams();
-            $url     = sprintf($this->gatewayUrl, 'pay/getsignkey');
-
-            $this->setHttpOptions($this->getCertOptions());
-            $resXml = $this->postXML($url, $xmlData);
-
-            $resArr = DataParser::toArray($resXml);
-            if (!is_array($resArr) || $resArr['return_code'] !== self::REQ_SUC) {
-                throw new GatewayException($this->getErrorMsg($resArr), Payment::GATEWAY_REFUSE, $resArr);
-            }
+            $resArr = $this->requestWXApi($method, []);
 
             return $resArr['sandbox_signkey'];
         } catch (GatewayException $e) {
@@ -264,5 +276,75 @@ abstract class WechatBaseObject extends BaseObject
             return 'not array';
         }
         return isset($resArr['retmsg']) ? $resArr['retmsg'] : (isset($resArr['return_msg']) ? $resArr['return_msg'] : 'error');
+    }
+
+    /**
+     * 请求微信支付的api
+     * @param string $method
+     * @param array $requestParams
+     * @return array|false
+     * @throws GatewayException
+     */
+    protected function requestWXApi(string $method, array $requestParams)
+    {
+        $this->methodName = $method;
+        try {
+            $xmlData = $this->buildParams($requestParams);
+            $url     = sprintf($this->gatewayUrl, $method);
+
+            $this->setHttpOptions($this->getCertOptions());
+            $resXml = $this->postXML($url, $xmlData);
+
+            $resArr = DataParser::toArray($resXml);
+            if (!is_array($resArr) || $resArr['return_code'] !== self::REQ_SUC) {
+                throw new GatewayException($this->getErrorMsg($resArr), Payment::GATEWAY_REFUSE, $resArr);
+            } elseif (isset($resArr['result_code']) && $resArr['result_code'] !== self::REQ_SUC) {
+                throw new GatewayException($resArr['err_code_des'], Payment::GATEWAY_CHECK_FAILED, $resArr);
+            }
+
+            if (isset($requestParams['sign']) && $this->verifySign($resArr)) {
+                throw new GatewayException('check return data sign failed', Payment::SIGN_ERR, $resArr);
+            }
+
+            return $resArr;
+        } catch (GatewayException $e) {
+            throw $e;
+        }
+    }
+
+    /**
+     * 修改关键key的名字
+     * @param array $params
+     * @return array
+     */
+    protected function changeKeyName(array $params)
+    {
+        $changeMap = [
+            'mmpaymkttransfers/promotion/transfers',
+            'mmpaymkttransfers/sendredpack',
+        ];
+
+        if (!in_array($this->methodName, $changeMap)) {
+            return $params;
+        }
+
+        if ($this->methodName === 'mmpaymkttransfers/promotion/transfers') {
+            $params['mch_appid'] = $params['appid'];
+            $params['mchid']     = $params['mch_id'];
+            unset($params['appid']);
+        } elseif ($this->methodName === 'mmpaymkttransfers/sendredpack') {
+            unset($params['appid']);
+            $params['wxappid'] = self::$config->get('app_id', '');
+        }
+
+        return $params;
+    }
+
+    /**
+     * @param string $gatewayUrl
+     */
+    public function setGatewayUrl(string $gatewayUrl)
+    {
+        $this->gatewayUrl = $gatewayUrl;
     }
 }

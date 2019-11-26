@@ -20,10 +20,12 @@ use Payment\Exceptions\GatewayException;
  * @email   : dayugog@gmail.com
  * @date    : 2019/4/7 9:59 AM
  * @version : 1.0.0
- * @desc    :
+ * @desc    : 发放代金券
  **/
 class Coupon extends WechatBaseObject implements IGatewayRequest
 {
+    const METHOD = 'mmpaymkttransfers/send_coupon';
+
     /**
      * 获取第三方返回结果
      * @param array $requestParams
@@ -32,7 +34,11 @@ class Coupon extends WechatBaseObject implements IGatewayRequest
      */
     public function request(array $requestParams)
     {
-        // TODO: Implement request() method.
+        try {
+            return $this->requestWXApi(self::METHOD, $requestParams);
+        } catch (GatewayException $e) {
+            throw $e;
+        }
     }
 
     /**
@@ -41,21 +47,17 @@ class Coupon extends WechatBaseObject implements IGatewayRequest
      */
     protected function getSelfParams(array $requestParams)
     {
-        $params = [
-            'appid'       => '',
-            'mch_id'      => '',
-            'device_info' => '',
-            'nonce_str'   => '',
-            'sign'        => '',
-            'sign_type'   => '',
-
-            'coupon_stock_id'  => '',
-            'openid_count'     => '',
-            'partner_trade_no' => '',
-            'openid'           => '',
-            'op_user_id'       => '',
-            'version'          => '',
-            'type'             => '',
+        $selfParams = [
+            'coupon_stock_id'  => $requestParams['coupon_stock_id'] ?? '',
+            'openid_count'     => '1', // openid记录数（目前支持num=1）
+            'partner_trade_no' => $requestParams['partner_trade_no'] ?? '',
+            'openid'           => $requestParams['openid'] ?? '',
+            'op_user_id'       => $requestParams['op_user_id'] ?? '',
+            'device_info'      => $requestParams['device_info'] ?? '',
+            'version'          => '1.0',
+            'type'             => 'XML',
         ];
+
+        return $selfParams;
     }
 }

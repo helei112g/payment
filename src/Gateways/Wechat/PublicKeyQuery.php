@@ -24,6 +24,9 @@ use Payment\Exceptions\GatewayException;
  **/
 class PublicKeyQuery extends WechatBaseObject implements IGatewayRequest
 {
+
+    const METHOD = 'risk/getpublickey';
+
     /**
      * 获取第三方返回结果
      * @param array $requestParams
@@ -32,7 +35,13 @@ class PublicKeyQuery extends WechatBaseObject implements IGatewayRequest
      */
     public function request(array $requestParams)
     {
-        // TODO: Implement request() method.
+        $this->setGatewayUrl('https://fraud.mch.weixin.qq.com/%s');
+
+        try {
+            return $this->requestWXApi(self::METHOD, $requestParams);
+        } catch (GatewayException $e) {
+            throw $e;
+        }
     }
 
     /**
@@ -41,14 +50,6 @@ class PublicKeyQuery extends WechatBaseObject implements IGatewayRequest
      */
     protected function getSelfParams(array $requestParams)
     {
-        $params = [
-            'appid'     => '',
-            'mch_id'    => '',
-            'nonce_str' => '',
-            'sign'      => '',
-            'sign_type' => '',
-
-            'partner_trade_no' => '',
-        ];
+        return [];
     }
 }
