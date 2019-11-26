@@ -33,5 +33,6 @@ final class Payment
     const FORMAT_DATA_ERR = 2002;
 
     // 第三方错误
-    const GATEWAY_REFUSE = 3001;
+    const GATEWAY_REFUSE       = 3001;
+    const GATEWAY_CHECK_FAILED = 3002;
 }

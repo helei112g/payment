@@ -37,18 +37,7 @@ class AppCharge extends WechatBaseObject implements IGatewayRequest
     public function request(array $requestParams)
     {
         try {
-            $xmlData = $this->buildParams($requestParams);
-            $url     = sprintf($this->gatewayUrl, self::METHOD);
-
-            $this->setHttpOptions($this->getCertOptions());
-            $resXml = $this->postXML($url, $xmlData);
-
-            $resArr = DataParser::toArray($resXml);
-            if (!is_array($resArr) || $resArr['return_code'] !== self::REQ_SUC) {
-                throw new GatewayException($this->getErrorMsg($resArr), Payment::GATEWAY_REFUSE, $resArr);
-            }
-
-            return $resArr;
+            return $this->requestPayApi(self::METHOD, $requestParams);
         } catch (GatewayException $e) {
             throw $e;
         }
@@ -67,9 +56,21 @@ class AppCharge extends WechatBaseObject implements IGatewayRequest
             $limitPay = '';
         }
         $nowTime    = time();
-        $expireTime = $nowTime + self::$config->get('timeout_express', '');
+        $timeExpire = intval($requestParams['time_expire']);
+        if (!empty($timeExpire)) {
+            $timeExpire = date('YmdHis', $timeExpire);
+        } else {
+            $timeExpire = date('YmdHis', $nowTime + 1800); // 默认半小时过期
+        }
+
         $receipt    = $requestParams['receipt'] ?? false;
         $totalFee   = bcmul($requestParams['amount'], 100, 0);
+        $sceneInfo  = $requestParams['scene_info'] ?? '';
+        if ($sceneInfo) {
+            $sceneInfo = json_encode(['store_info' => $sceneInfo]);
+        } else {
+            $sceneInfo = '';
+        }
 
         $selfParams = [
             'device_info'      => $requestParams['device_info'] ?? '',
@@ -81,7 +82,7 @@ class AppCharge extends WechatBaseObject implements IGatewayRequest
             'total_fee'        => $totalFee,
             'spbill_create_ip' => $requestParams['client_ip'] ?? '',
             'time_start'       => date('YmdHis', $nowTime),
-            'time_expire'      => date('YmdHis', $expireTime),
+            'time_expire'      => $timeExpire,
             'goods_tag'        => $requestParams['goods_tag'] ?? '',
             'notify_url'       => self::$config->get('notify_url', ''),
             'trade_type'       => 'APP',

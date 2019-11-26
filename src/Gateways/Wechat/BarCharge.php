@@ -37,18 +37,7 @@ class BarCharge extends WechatBaseObject implements IGatewayRequest
     public function request(array $requestParams)
     {
         try {
-            $xmlData = $this->buildParams($requestParams);
-            $url     = sprintf($this->gatewayUrl, self::METHOD);
-
-            $this->setHttpOptions($this->getCertOptions());
-            $resXml = $this->postXML($url, $xmlData);
-
-            $resArr = DataParser::toArray($resXml);
-            if (!is_array($resArr) || $resArr['return_code'] !== self::REQ_SUC) {
-                throw new GatewayException($this->getErrorMsg($resArr), Payment::GATEWAY_REFUSE, $resArr);
-            }
-
-            return $resArr;
+            return $this->requestPayApi(self::METHOD, $requestParams);
         } catch (GatewayException $e) {
             throw $e;
         }
@@ -67,7 +56,13 @@ class BarCharge extends WechatBaseObject implements IGatewayRequest
             $limitPay = '';
         }
         $nowTime    = time();
-        $expireTime = self::$config->get('timeout_express', '');
+        $timeExpire = intval($requestParams['time_expire']);
+        if (!empty($timeExpire)) {
+            $timeExpire = date('YmdHis', $timeExpire);
+        } else {
+            $timeExpire = date('YmdHis', $nowTime + 1800); // 默认半小时过期
+        }
+
         $receipt    = $requestParams['receipt'] ?? false;
         $totalFee   = bcmul($requestParams['amount'], 100, 0);
         $sceneInfo  = $requestParams['scene_info'] ?? '';
@@ -89,7 +84,7 @@ class BarCharge extends WechatBaseObject implements IGatewayRequest
             'goods_tag'        => $requestParams['goods_tag'] ?? '',
             'limit_pay'        => $limitPay,
             'time_start'       => date('YmdHis', $nowTime),
-            'time_expire'      => $expireTime,
+            'time_expire'      => $timeExpire,
             'receipt'          => $receipt === true ? 'Y' : '',
             'auth_code'        => $requestParams['auth_code'] ?? '',
             'scene_info'       => $sceneInfo,

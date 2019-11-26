@@ -18,15 +18,15 @@ $wxConfig = require_once __DIR__ . '/../wxconfig.php';
 $orderNo = time() . rand(1000, 9999);
 // 订单信息
 $payData = [
-    'body'            => 'test body',
-    'subject'         => 'test subject',
-    'order_no'        => $orderNo,
-    'timeout_express' => time() + 600, // 表示必须 600s 内付款
-    'amount'          => '3.01', // 微信沙箱模式，需要金额固定为3.01
-    'return_param'    => '123',
-    'client_ip'       => isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '127.0.0.1', // 客户地址
-    'openid'          => 'ottkCuO1PW1Dnh6PWFffNk-2MPbY',
-    'product_id'      => '123',
+    'body'         => 'test body',
+    'subject'      => 'test subject',
+    'order_no'     => $orderNo,
+    'time_expire'  => time() + 600, // 表示必须 600s 内付款
+    'amount'       => '3.01', // 微信沙箱模式，需要金额固定为3.01
+    'return_param' => '123',
+    'client_ip'    => isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '127.0.0.1', // 客户地址
+    'openid'       => 'ottkCuO1PW1Dnh6PWFffNk-2MPbY',
+    'product_id'   => '123',
 ];
 
 // 使用
