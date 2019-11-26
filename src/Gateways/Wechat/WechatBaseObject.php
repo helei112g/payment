@@ -31,7 +31,7 @@ abstract class WechatBaseObject extends BaseObject
 {
     use HttpRequest;
 
-    const NONCE_LEN = 16;// 随机字符串长度
+    const NONCE_LEN = 32;// 随机字符串长度
 
     const REQ_SUC = 'SUCCESS';
 
@@ -66,12 +66,18 @@ abstract class WechatBaseObject extends BaseObject
     protected $nonceStr = '';
 
     /**
+     * @var bool
+     */
+    protected $useBackup = false;
+
+    /**
      * WechatBaseObject constructor.
      * @throws GatewayException
      */
     public function __construct()
     {
         $this->isSandbox = self::$config->get('use_sandbox', false);
+        $this->useBackup = self::$config->get('use_backup', false);
         $this->returnRaw = self::$config->get('return_raw', false);
         $this->md5Key    = self::$config->get('md5_key', '');
         $this->nonceStr  = StrUtil::getNonceStr(self::NONCE_LEN);
@@ -79,7 +85,9 @@ abstract class WechatBaseObject extends BaseObject
         // 初始 微信网关地址
         $this->gatewayUrl = 'https://api.mch.weixin.qq.com/%s';
         if ($this->isSandbox) {
-            $this->gatewayUrl = 'https://api.mch.weixin.qq.com/sandboxnew/%s';
+            $this->gatewayUrl = 'https://apitest.mch.weixin.qq.com/sandboxnew/%s';
+        } elseif ($this->useBackup) {
+            $this->gatewayUrl = 'https://api2.mch.weixin.qq.com/%s'; // 灾备地址
         }
 
         // 如果是沙盒模式，更换密钥
@@ -99,18 +107,22 @@ abstract class WechatBaseObject extends BaseObject
      * @return string
      * @throws GatewayException
      */
-    protected function buildParams(array $requestParams)
+    protected function buildParams(array $requestParams = [])
     {
         $signType = self::$config->get('sign_type', '');
         $params   = [
-            'appid'     => self::$config->get('app_id', ''),
+            //'appid'     => self::$config->get('app_id', ''),
             'mch_id'    => self::$config->get('mch_id', ''),
             'nonce_str' => $this->nonceStr,
             'sign_type' => $signType,
         ];
 
         if (!empty($requestParams)) {
-            $params = $this->getSelfParams($params, $requestParams);
+            $selfParams = $this->getSelfParams($requestParams);
+
+            if (is_array($selfParams) && !empty($selfParams)) {
+                $params = array_merge($params, $selfParams);
+            }
         }
 
         $params = ArrayUtil::paraFilter($params);
@@ -132,11 +144,10 @@ abstract class WechatBaseObject extends BaseObject
     }
 
     /**
-     * @param array $params
      * @param array $requestParams
      * @return mixed
      */
-    abstract protected function getSelfParams(array $params, array $requestParams);
+    abstract protected function getSelfParams(array $requestParams);
 
     /**
      * 签名算法实现  便于后期扩展微信不同的加密方式
@@ -176,6 +187,7 @@ abstract class WechatBaseObject extends BaseObject
      */
     protected function verifySign(array $retData)
     {
+        $signType = strtoupper(self::$config->get('sign_type', ''));
         if ($this instanceof Settlement) {// 资金结算单只支持该方式
             $signType = 'HMAC-SHA256';
         }
@@ -191,7 +203,7 @@ abstract class WechatBaseObject extends BaseObject
         }
 
         $signStr .= '&key=' . $this->md5Key;
-        switch ($this->signType) {
+        switch ($signType) {
             case 'MD5':
                 $sign = md5($signStr);
                 break;
@@ -224,20 +236,33 @@ abstract class WechatBaseObject extends BaseObject
     protected function getSignKey()
     {
         try {
-            $xmlData = $this->buildParams([]);
+            $xmlData = $this->buildParams();
             $url     = sprintf($this->gatewayUrl, 'pay/getsignkey');
 
             $this->setHttpOptions($this->getCertOptions());
             $resXml = $this->postXML($url, $xmlData);
 
             $resArr = DataParser::toArray($resXml);
-            if ($resArr['return_code'] !== self::REQ_SUC) {
-                throw new GatewayException($resArr['return_msg'], Payment::GATEWAY_REFUSE, $resArr);
+            if (!is_array($resArr) || $resArr['return_code'] !== self::REQ_SUC) {
+                throw new GatewayException($this->getErrorMsg($resArr), Payment::GATEWAY_REFUSE, $resArr);
             }
 
             return $resArr['sandbox_signkey'];
         } catch (GatewayException $e) {
             throw $e;
         }
+    }
+
+    /**
+     * 获取微信的错误信息，微信自己垃圾没有兼容好字段
+     * @param mixed $resArr
+     * @return string
+     */
+    protected function getErrorMsg($resArr)
+    {
+        if (!is_array($resArr)) {
+            return 'not array';
+        }
+        return isset($resArr['retmsg']) ? $resArr['retmsg'] : (isset($resArr['return_msg']) ? $resArr['return_msg'] : 'error');
     }
 }

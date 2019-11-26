@@ -30,9 +30,9 @@ class GatewayException extends \Exception
      * GatewayErrorException constructor.
      * @param string $message
      * @param int $code
-     * @param array $raw
+     * @param mixed $raw
      */
-    public function __construct(string $message, int $code, array $raw = [])
+    public function __construct(string $message, int $code, $raw = [])
     {
         parent::__construct($message, $code);
 

@@ -55,11 +55,10 @@ class Refund extends WechatBaseObject implements IGatewayRequest
     }
 
     /**
-     * @param array $params
      * @param array $requestParams
      * @return mixed
      */
-    protected function getSelfParams(array $params, array $requestParams)
+    protected function getSelfParams(array $requestParams)
     {
         $selfParams = [
             'out_trade_no'    => $requestParams['out_trade_no'] ?? '',
@@ -72,7 +71,7 @@ class Refund extends WechatBaseObject implements IGatewayRequest
             'refund_account'  => $requestParams['refund_account'] ?? 'REFUND_SOURCE_REC',
             'notify_url'      => self::$config->get('notify_url', ''),
         ];
-        $params = array_merge($params, $selfParams);
-        return $params;
+
+        return $selfParams;
     }
 }

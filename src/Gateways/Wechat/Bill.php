@@ -42,8 +42,7 @@ class Bill extends WechatBaseObject implements IGatewayRequest
             $this->setHttpOptions($this->getCertOptions());
             $data = $this->postXML($url, $xmlData);
             if (strlen($data) === 0) {
-                throw new GatewayException('not found bill',
-                    Payment::GATEWAY_REFUSE);
+                throw new GatewayException('not found bill', Payment::GATEWAY_REFUSE);
             }
             return $this->formatBill($data);
         } catch (GatewayException $e) {
@@ -87,18 +86,17 @@ class Bill extends WechatBaseObject implements IGatewayRequest
     }
 
     /**
-     * @param array $params
      * @param array $requestParams
      * @return mixed
      */
-    protected function getSelfParams(array $params, array $requestParams)
+    protected function getSelfParams(array $requestParams)
     {
         $selfParams = [
             'bill_date' => $requestParams['bill_date'] ?? '',
             'bill_type' => $requestParams['bill_type'] ?? 'ALL',
             'tar_type'  => $requestParams['tar_type'] ?? '',
         ];
-        $params = array_merge($params, $selfParams);
-        return $params;
+
+        return $selfParams;
     }
 }

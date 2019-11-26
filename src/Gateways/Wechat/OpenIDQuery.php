@@ -36,11 +36,10 @@ class OpenIDQuery extends WechatBaseObject implements IGatewayRequest
     }
 
     /**
-     * @param array $params
      * @param array $requestParams
      * @return mixed
      */
-    protected function getSelfParams(array $params, array $requestParams)
+    protected function getSelfParams(array $requestParams)
     {
         $params = [
             'auth_code' => '',

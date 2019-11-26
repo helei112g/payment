@@ -55,11 +55,10 @@ class RefundQuery extends WechatBaseObject implements IGatewayRequest
     }
 
     /**
-     * @param array $params
      * @param array $requestParams
      * @return mixed
      */
-    protected function getSelfParams(array $params, array $requestParams)
+    protected function getSelfParams(array $requestParams)
     {
         $selfParams = [
             'transaction_id' => $requestParams['transaction_id'] ?? '',
@@ -68,7 +67,7 @@ class RefundQuery extends WechatBaseObject implements IGatewayRequest
             'refund_id'      => $requestParams['refund_id'] ?? '',
             'offset'         => $requestParams['offset'] ?? '',
         ];
-        $params = array_merge($params, $selfParams);
-        return $params;
+
+        return $selfParams;
     }
 }

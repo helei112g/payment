@@ -36,17 +36,11 @@ class Transfer extends WechatBaseObject implements IGatewayRequest
     }
 
     /**
-     * @param array $params
      * @param array $requestParams
      * @return mixed
      */
-    protected function getSelfParams(array $params, array $requestParams)
+    protected function getSelfParams(array $requestParams)
     {
-        $params['mch_appid'] = $params['appid'];
-        $params['mchid']     = $params['mch_id'];
-        unset($params['appid'], $params['mch_id']);
-
-
         $params = [
             'appid'     => '',
             'mch_id'    => '',

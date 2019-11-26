@@ -36,17 +36,12 @@ class RedPack extends WechatBaseObject implements IGatewayRequest
     }
 
     /**
-     * @param array $params
      * @param array $requestParams
      * @return mixed
      */
-    protected function getSelfParams(array $params, array $requestParams)
+    protected function getSelfParams(array $requestParams)
     {
-        $params['wxappid'] = $params['appid'];
-        unset($params['appid']);
-
-
-        $params = [
+        $selfParams = [
             'appid'     => '',
             'mch_id'    => '',
             'nonce_str' => '',

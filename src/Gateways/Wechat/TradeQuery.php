@@ -56,18 +56,16 @@ class TradeQuery extends WechatBaseObject implements IGatewayRequest
     }
 
     /**
-     * @param array $params
      * @param array $requestParams
      * @return mixed
      */
-    protected function getSelfParams(array $params, array $requestParams)
+    protected function getSelfParams(array $requestParams)
     {
         $selfParams = [
             'transaction_id' => $requestParams['transaction_id'] ?? '',
             'out_trade_no'   => $requestParams['out_trade_no'] ?? '',
         ];
 
-        $params = array_merge($params, $selfParams);
-        return $params;
+        return $selfParams;
     }
 }

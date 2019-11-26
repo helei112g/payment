@@ -84,18 +84,17 @@ class Settlement extends WechatBaseObject implements IGatewayRequest
     }
 
     /**
-     * @param array $params
      * @param array $requestParams
      * @return mixed
      */
-    protected function getSelfParams(array $params, array $requestParams)
+    protected function getSelfParams(array $requestParams)
     {
         $selfParams = [
             'bill_date'    => $requestParams['bill_date'] ?? '',
             'account_type' => $requestParams['bill_type'] ?? 'Operation',
             'tar_type'     => $requestParams['tar_type'] ?? '',
         ];
-        $params = array_merge($params, $selfParams);
-        return $params;
+
+        return $selfParams;
     }
 }

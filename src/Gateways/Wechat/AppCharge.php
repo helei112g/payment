@@ -44,7 +44,7 @@ class AppCharge extends WechatBaseObject implements IGatewayRequest
             $resXml = $this->postXML($url, $xmlData);
 
             $resArr = DataParser::toArray($resXml);
-            if ($resArr['return_code'] !== self::REQ_SUC) {
+            if (!is_array($resArr) || $resArr['return_code'] !== self::REQ_SUC) {
                 throw new GatewayException($resArr['return_msg'], Payment::GATEWAY_REFUSE, $resArr);
             }
 
@@ -55,11 +55,10 @@ class AppCharge extends WechatBaseObject implements IGatewayRequest
     }
 
     /**
-     * @param array $params
      * @param array $requestParams
      * @return mixed
      */
-    protected function getSelfParams(array $params, array $requestParams)
+    protected function getSelfParams(array $requestParams)
     {
         $limitPay = self::$config->get('limit_pay', '');
         if ($limitPay) {
@@ -89,7 +88,7 @@ class AppCharge extends WechatBaseObject implements IGatewayRequest
             'limit_pay'        => $limitPay,
             'receipt'          => $receipt === true ? 'Y' : '',
         ];
-        $params = array_merge($params, $selfParams);
-        return $params;
+
+        return $selfParams;
     }
 }

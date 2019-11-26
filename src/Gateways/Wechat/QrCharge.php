@@ -55,11 +55,10 @@ class QrCharge extends WechatBaseObject implements IGatewayRequest
     }
 
     /**
-     * @param array $params
      * @param array $requestParams
      * @return mixed
      */
-    protected function getSelfParams(array $params, array $requestParams)
+    protected function getSelfParams(array $requestParams)
     {
         $limitPay = self::$config->get('limit_pay', '');
         if ($limitPay) {
@@ -98,7 +97,7 @@ class QrCharge extends WechatBaseObject implements IGatewayRequest
             'receipt'          => $receipt === true ? 'Y' : '',
             'scene_info'       => $sceneInfo,
         ];
-        $params = array_merge($params, $selfParams);
-        return $params;
+
+        return $selfParams;
     }
 }
