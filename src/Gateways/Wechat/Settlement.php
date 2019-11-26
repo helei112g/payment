@@ -35,6 +35,7 @@ class Settlement extends WechatBaseObject implements IGatewayRequest
      */
     public function request(array $requestParams)
     {
+        $this->setSignType(self::SIGN_TYPE_SHA);
         try {
             $data = $this->requestWXApi(self::METHOD, $requestParams);
 

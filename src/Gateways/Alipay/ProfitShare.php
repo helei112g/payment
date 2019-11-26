@@ -24,7 +24,7 @@ use Payment\Payment;
  * @version : 1.0.0
  * @desc    : 用于在线下场景交易支付后，进行卖家与第三方（如供应商或平台商）基于交易金额的结算
  **/
-class TradeSettle extends AliBaseObject implements IGatewayRequest
+class ProfitShare extends AliBaseObject implements IGatewayRequest
 {
 
     const METHOD = 'alipay.trade.order.settle';

@@ -35,6 +35,10 @@ abstract class WechatBaseObject extends BaseObject
 
     const REQ_SUC = 'SUCCESS';
 
+    const SIGN_TYPE_MD5 = 'MD5';
+
+    const SIGN_TYPE_SHA ='HMAC-SHA256';
+
     /**
      * @var string
      */
@@ -71,19 +75,16 @@ abstract class WechatBaseObject extends BaseObject
     protected $useBackup = false;
 
     /**
+     * 设置加密方式
+     * @var string
+     */
+    protected $signType = '';
+
+    /**
      * 请求方法的名称
      * @var string
      */
     protected $methodName = '';
-
-    /**
-     * 用来处理不同key的问题
-     * @var array
-     */
-    protected $appIDKeyMap = [
-        'mmpaymkttransfers/sendredpack'      => 'wxappid',
-        'mmpaymkttransfers/sendgroupredpack' => 'wxappid',
-    ];
 
     /**
      * WechatBaseObject constructor.
@@ -95,6 +96,7 @@ abstract class WechatBaseObject extends BaseObject
         $this->useBackup = self::$config->get('use_backup', false);
         $this->returnRaw = self::$config->get('return_raw', false);
         $this->md5Key    = self::$config->get('md5_key', '');
+        $this->signType  = self::$config->get('sign_type', '');
         $this->nonceStr  = StrUtil::getNonceStr(self::NONCE_LEN);
 
         // 初始 微信网关地址
@@ -110,10 +112,6 @@ abstract class WechatBaseObject extends BaseObject
             $this->sandboxKey = $this->getSignKey();
             $this->md5Key     = $this->sandboxKey;
         }
-
-        if ($this instanceof Settlement) {// 资金结算单只支持该方式
-            self::$config['sign_type'] = 'HMAC-SHA256';
-        }
     }
 
     /**
@@ -124,16 +122,11 @@ abstract class WechatBaseObject extends BaseObject
      */
     protected function buildParams(array $requestParams = [])
     {
-        $signType = self::$config->get('sign_type', '');
-        if ($this instanceof Settlement) {// 资金结算单只支持该方式
-            $signType = 'HMAC-SHA256';
-        }
-
         $params = [
             'appid'     => self::$config->get('app_id', ''),
             'mch_id'    => self::$config->get('mch_id', ''),
             'nonce_str' => $this->nonceStr,
-            'sign_type' => $signType,
+            'sign_type' => $this->signType,
         ];
         $params = $this->changeKeyName($params);
 
@@ -150,7 +143,7 @@ abstract class WechatBaseObject extends BaseObject
 
         try {
             $signStr        = ArrayUtil::createLinkstring($params);
-            $params['sign'] = $this->makeSign($signType, $signStr);
+            $params['sign'] = $this->makeSign($signStr);
         } catch (\Exception $e) {
             throw new GatewayException($e->getMessage(), Payment::PARAMS_ERR);
         }
@@ -171,20 +164,19 @@ abstract class WechatBaseObject extends BaseObject
 
     /**
      * 签名算法实现  便于后期扩展微信不同的加密方式
-     * @param string $signType
      * @param string $signStr
      * @return string
      * @throws GatewayException
      */
-    protected function makeSign(string $signType, string $signStr)
+    protected function makeSign(string $signStr)
     {
         try {
-            switch ($signType) {
-                case 'MD5':
+            switch ($this->signType) {
+                case self::SIGN_TYPE_MD5:
                     $signStr .= '&key=' . $this->md5Key;
                     $sign = md5($signStr);
                     break;
-                case 'HMAC-SHA256':
+                case self::SIGN_TYPE_SHA:
                     $signStr .= '&key=' . $this->md5Key;
                     $sign = strtoupper(hash_hmac('sha256', $signStr, $this->md5Key));
                     break;
@@ -207,11 +199,6 @@ abstract class WechatBaseObject extends BaseObject
      */
     protected function verifySign(array $retData)
     {
-        $signType = strtoupper(self::$config->get('sign_type', ''));
-        if ($this instanceof Settlement) {// 资金结算单只支持该方式
-            $signType = 'HMAC-SHA256';
-        }
-
         try {
             $retSign = $retData['sign'];
             $values  = ArrayUtil::removeKeys($retData, ['sign', 'sign_type']);
@@ -223,11 +210,11 @@ abstract class WechatBaseObject extends BaseObject
         }
 
         $signStr .= '&key=' . $this->md5Key;
-        switch ($signType) {
-            case 'MD5':
+        switch ($this->signType) {
+            case self::SIGN_TYPE_MD5:
                 $sign = md5($signStr);
                 break;
-            case 'HMAC-SHA256':
+            case self::SIGN_TYPE_SHA:
                 $sign = hash_hmac('sha256', $signStr, $this->md5Key);
                 break;
             default:
@@ -343,8 +330,16 @@ abstract class WechatBaseObject extends BaseObject
     /**
      * @param string $gatewayUrl
      */
-    public function setGatewayUrl(string $gatewayUrl)
+    protected function setGatewayUrl(string $gatewayUrl)
     {
         $this->gatewayUrl = $gatewayUrl;
+    }
+
+    /**
+     * @param string $signType
+     */
+    protected function setSignType(string $signType)
+    {
+        $this->signType = $signType;
     }
 }

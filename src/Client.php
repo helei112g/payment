@@ -68,6 +68,10 @@ class Client
 
     const WX_CHANNEL_WAP = 'wap';// 微信wap支付，针对特定用户
 
+    const WX_SETTLE_SINGLE = 'single'; // 单次分账
+
+    const WX_SETTLE_MULTI = 'multi'; // 多次分账
+
     /*----------------招行--------------------*/
     const CMB_CHANNEL_APP = 'app';// 招商 app  ，实际上招商并无该概念
 
