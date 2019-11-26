@@ -24,7 +24,6 @@ use Payment\Exceptions\GatewayException;
  **/
 class OpenIDQuery extends WechatBaseObject implements IGatewayRequest
 {
-
     const METHOD = 'tools/authcodetoopenid';
 
     /**

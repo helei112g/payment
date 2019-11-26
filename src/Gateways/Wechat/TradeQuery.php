@@ -13,7 +13,6 @@ namespace Payment\Gateways\Wechat;
 
 use Payment\Contracts\IGatewayRequest;
 use Payment\Exceptions\GatewayException;
-use Payment\Helpers\DataParser;
 use Payment\Payment;
 
 /**
@@ -26,7 +25,6 @@ use Payment\Payment;
  **/
 class TradeQuery extends WechatBaseObject implements IGatewayRequest
 {
-
     const METHOD = 'pay/orderquery';
 
     /**

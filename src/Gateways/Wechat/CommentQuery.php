@@ -24,7 +24,6 @@ use Payment\Exceptions\GatewayException;
  **/
 class CommentQuery extends WechatBaseObject implements IGatewayRequest
 {
-
     const METHOD = 'billcommentsp/batchquerycomment';
 
     /**
@@ -49,7 +48,7 @@ class CommentQuery extends WechatBaseObject implements IGatewayRequest
     protected function getSelfParams(array $requestParams)
     {
         $selfParams = [
-            'begin_time' => $requestParams['begin_time'] ?? date('YmdHis', strtotime("-1days")),
+            'begin_time' => $requestParams['begin_time'] ?? date('YmdHis', strtotime('-1days')),
             'end_time'   => $requestParams['end_time'] ?? date('YmdHis', time()),
             'offset'     => $requestParams['offset'] ?? 0,
             'limit'      => $requestParams['limit'] ?? 200,

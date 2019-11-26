@@ -24,7 +24,6 @@ use Payment\Exceptions\GatewayException;
  **/
 class RedPackQuery extends WechatBaseObject implements IGatewayRequest
 {
-
     const METHOD = 'mmpaymkttransfers/gethbinfo';
 
     /**

@@ -37,7 +37,7 @@ abstract class WechatBaseObject extends BaseObject
 
     const SIGN_TYPE_MD5 = 'MD5';
 
-    const SIGN_TYPE_SHA ='HMAC-SHA256';
+    const SIGN_TYPE_SHA = 'HMAC-SHA256';
 
     /**
      * @var string

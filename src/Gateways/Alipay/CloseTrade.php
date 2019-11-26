@@ -26,7 +26,6 @@ use Payment\Payment;
  **/
 class CloseTrade extends AliBaseObject implements IGatewayRequest
 {
-
     const METHOD = 'alipay.trade.close';
 
     /**

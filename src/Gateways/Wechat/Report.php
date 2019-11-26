@@ -24,7 +24,6 @@ use Payment\Exceptions\GatewayException;
  **/
 class Report extends WechatBaseObject implements IGatewayRequest
 {
-
     const METHOD = 'payitil/report';
 
     /**

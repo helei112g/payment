@@ -13,7 +13,6 @@ namespace Payment\Gateways\Wechat;
 
 use Payment\Contracts\IGatewayRequest;
 use Payment\Exceptions\GatewayException;
-use Payment\Helpers\DataParser;
 use Payment\Payment;
 
 /**
@@ -63,9 +62,9 @@ class QrCharge extends WechatBaseObject implements IGatewayRequest
             $timeExpire = date('YmdHis', $nowTime + 1800); // 默认半小时过期
         }
 
-        $receipt    = $requestParams['receipt'] ?? false;
-        $totalFee   = bcmul($requestParams['amount'], 100, 0);
-        $sceneInfo  = $requestParams['scene_info'] ?? '';
+        $receipt   = $requestParams['receipt'] ?? false;
+        $totalFee  = bcmul($requestParams['amount'], 100, 0);
+        $sceneInfo = $requestParams['scene_info'] ?? '';
         if ($sceneInfo) {
             $sceneInfo = json_encode(['store_info' => $sceneInfo]);
         } else {

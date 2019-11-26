@@ -24,7 +24,6 @@ use Payment\Exceptions\GatewayException;
  **/
 class ProfitShare extends WechatBaseObject implements IGatewayRequest
 {
-
     // 单词分账
     const METHOD_SIGN = 'secapi/pay/profitsharing';
 

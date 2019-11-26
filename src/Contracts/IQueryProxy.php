@@ -21,7 +21,6 @@ namespace Payment\Contracts;
  **/
 interface IQueryProxy
 {
-
     /**
      * 交易查询
      * @param array $requestParams

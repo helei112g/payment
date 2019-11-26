@@ -1,7 +1,15 @@
 <?php
 
-namespace Payment\Gateways\Wechat;
+/*
+ * The file is part of the payment lib.
+ *
+ * (c) Leo <dayugog@gmail.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 
+namespace Payment\Gateways\Wechat;
 
 use Payment\Contracts\IGatewayRequest;
 use Payment\Exceptions\GatewayException;
@@ -17,7 +25,6 @@ use Payment\Payment;
  **/
 class ProfitShareOP extends WechatBaseObject implements IGatewayRequest
 {
-
     const ADD_METHOD = 'pay/profitsharingaddreceiver';
 
     const DEL_METHOD = 'pay/profitsharingremovereceiver';
@@ -60,7 +67,7 @@ class ProfitShareOP extends WechatBaseObject implements IGatewayRequest
         }
 
         $selfParams = [
-            'receiver'      => $requestParams['receivers'] ?? '',
+            'receiver' => $requestParams['receivers'] ?? '',
         ];
 
         return $selfParams;

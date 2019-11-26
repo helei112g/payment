@@ -13,7 +13,6 @@ namespace Payment\Gateways\Wechat;
 
 use Payment\Contracts\IGatewayRequest;
 use Payment\Exceptions\GatewayException;
-use Payment\Helpers\DataParser;
 use Payment\Payment;
 
 /**
@@ -50,7 +49,7 @@ class CloseTrade extends WechatBaseObject implements IGatewayRequest
     protected function getSelfParams(array $requestParams)
     {
         $selfParams = [
-            'out_trade_no'   => $requestParams['out_trade_no'] ?? '',
+            'out_trade_no' => $requestParams['out_trade_no'] ?? '',
         ];
 
         return $selfParams;

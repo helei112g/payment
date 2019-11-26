@@ -24,7 +24,6 @@ use Payment\Exceptions\GatewayException;
  **/
 class RedPack extends WechatBaseObject implements IGatewayRequest
 {
-
     const METHOD = 'mmpaymkttransfers/sendredpack';
 
     /**
@@ -48,7 +47,7 @@ class RedPack extends WechatBaseObject implements IGatewayRequest
      */
     protected function getSelfParams(array $requestParams)
     {
-        $totalFee   = bcmul($requestParams['amount'], 100, 0);
+        $totalFee = bcmul($requestParams['amount'], 100, 0);
 
         $selfParams = [
             'mch_billno'   => $requestParams['order_no'] ?? '',

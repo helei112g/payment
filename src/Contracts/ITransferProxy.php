@@ -21,7 +21,6 @@ namespace Payment\Contracts;
  **/
 interface ITransferProxy
 {
-
     /**
      * 转账
      * @param array $requestParams

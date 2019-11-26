@@ -26,7 +26,6 @@ use Payment\Payment;
  **/
 class RefundCredit extends AliBaseObject implements IGatewayRequest
 {
-
     const METHOD = 'alipay.trade.page.refund';
 
     /**

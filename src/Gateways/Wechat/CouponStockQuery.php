@@ -24,7 +24,6 @@ use Payment\Exceptions\GatewayException;
  **/
 class CouponStockQuery extends WechatBaseObject implements IGatewayRequest
 {
-
     const METHOD = 'mmpaymkttransfers/query_coupon_stock';
 
     /**

@@ -26,7 +26,6 @@ use Payment\Payment;
  **/
 class CancelTrade extends AliBaseObject implements IGatewayRequest
 {
-
     const METHOD = 'alipay.trade.cancel';
 
     /**

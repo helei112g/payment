@@ -1,7 +1,15 @@
 <?php
 
-namespace Payment\Gateways\Wechat;
+/*
+ * The file is part of the payment lib.
+ *
+ * (c) Leo <dayugog@gmail.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 
+namespace Payment\Gateways\Wechat;
 
 use Payment\Contracts\IGatewayRequest;
 use Payment\Exceptions\GatewayException;
@@ -16,7 +24,6 @@ use Payment\Exceptions\GatewayException;
  **/
 class CancelTrade extends WechatBaseObject implements IGatewayRequest
 {
-
     const METHOD = 'secapi/pay/reverse';
 
     /**

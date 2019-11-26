@@ -24,7 +24,6 @@ use Payment\Exceptions\GatewayException;
  **/
 class PublicKeyQuery extends WechatBaseObject implements IGatewayRequest
 {
-
     const METHOD = 'risk/getpublickey';
 
     /**

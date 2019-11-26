@@ -15,7 +15,7 @@ date_default_timezone_set('Asia/Shanghai');
 $wxConfig = require_once __DIR__ . '/../wxconfig.php';
 
 // 订单信息
-$params  = [
+$params = [
     'bill_date' => '20180501',
     'bill_type' => 'ALL',
 ];

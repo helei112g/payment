@@ -26,7 +26,6 @@ use Payment\Payment;
  **/
 class ProfitShare extends AliBaseObject implements IGatewayRequest
 {
-
     const METHOD = 'alipay.trade.order.settle';
 
     /**
