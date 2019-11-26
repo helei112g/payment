@@ -111,7 +111,7 @@ trait HttpRequest
     {
         $options = [
             'base_uri' => method_exists($this, 'getBaseUri') ? $this->getBaseUri() : '',
-            'timeout'  => method_exists($this, 'getTimeout') ? $this->getTimeout() : 10.0,
+            'timeout'  => method_exists($this, 'getTimeout') ? $this->getTimeout() : 30.0,
         ];
 
         $options = array_merge($options, $this->options);

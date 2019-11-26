@@ -45,7 +45,7 @@ class AppCharge extends WechatBaseObject implements IGatewayRequest
 
             $resArr = DataParser::toArray($resXml);
             if (!is_array($resArr) || $resArr['return_code'] !== self::REQ_SUC) {
-                throw new GatewayException($resArr['return_msg'], Payment::GATEWAY_REFUSE, $resArr);
+                throw new GatewayException($this->getErrorMsg($resArr), Payment::GATEWAY_REFUSE, $resArr);
             }
 
             return $resArr;
@@ -67,7 +67,7 @@ class AppCharge extends WechatBaseObject implements IGatewayRequest
             $limitPay = '';
         }
         $nowTime    = time();
-        $expireTime = self::$config->get('timeout_express', '');
+        $expireTime = $nowTime + self::$config->get('timeout_express', '');
         $receipt    = $requestParams['receipt'] ?? false;
         $totalFee   = bcmul($requestParams['amount'], 100, 0);
 
@@ -81,12 +81,13 @@ class AppCharge extends WechatBaseObject implements IGatewayRequest
             'total_fee'        => $totalFee,
             'spbill_create_ip' => $requestParams['client_ip'] ?? '',
             'time_start'       => date('YmdHis', $nowTime),
-            'time_expire'      => $expireTime,
+            'time_expire'      => date('YmdHis', $expireTime),
             'goods_tag'        => $requestParams['goods_tag'] ?? '',
             'notify_url'       => self::$config->get('notify_url', ''),
             'trade_type'       => 'APP',
             'limit_pay'        => $limitPay,
             'receipt'          => $receipt === true ? 'Y' : '',
+            'scene_info'       => $requestParams['scene_info'] ?? '', // 场景信息
         ];
 
         return $selfParams;

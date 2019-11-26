@@ -85,7 +85,7 @@ abstract class WechatBaseObject extends BaseObject
         // 初始 微信网关地址
         $this->gatewayUrl = 'https://api.mch.weixin.qq.com/%s';
         if ($this->isSandbox) {
-            $this->gatewayUrl = 'https://apitest.mch.weixin.qq.com/sandboxnew/%s';
+            $this->gatewayUrl = 'https://api.mch.weixin.qq.com/sandboxnew/%s';
         } elseif ($this->useBackup) {
             $this->gatewayUrl = 'https://api2.mch.weixin.qq.com/%s'; // 灾备地址
         }
@@ -111,7 +111,7 @@ abstract class WechatBaseObject extends BaseObject
     {
         $signType = self::$config->get('sign_type', '');
         $params   = [
-            //'appid'     => self::$config->get('app_id', ''),
+            'appid'     => self::$config->get('app_id', ''),
             'mch_id'    => self::$config->get('mch_id', ''),
             'nonce_str' => $this->nonceStr,
             'sign_type' => $signType,
