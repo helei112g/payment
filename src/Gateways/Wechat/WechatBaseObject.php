@@ -47,7 +47,7 @@ abstract class WechatBaseObject extends BaseObject
     /**
      * @var string
      */
-    protected $md5Key = '';
+    protected $merKey = '';
 
     /**
      * @var string
@@ -95,7 +95,7 @@ abstract class WechatBaseObject extends BaseObject
         $this->isSandbox = self::$config->get('use_sandbox', false);
         $this->useBackup = self::$config->get('use_backup', false);
         $this->returnRaw = self::$config->get('return_raw', false);
-        $this->md5Key    = self::$config->get('md5_key', '');
+        $this->merKey    = self::$config->get('mer_key', '');
         $this->signType  = self::$config->get('sign_type', '');
         $this->nonceStr  = StrUtil::getNonceStr(self::NONCE_LEN);
 
@@ -173,15 +173,15 @@ abstract class WechatBaseObject extends BaseObject
         try {
             switch ($this->signType) {
                 case self::SIGN_TYPE_MD5:
-                    $signStr .= '&key=' . $this->md5Key;
+                    $signStr .= '&key=' . $this->merKey;
                     $sign = md5($signStr);
                     break;
                 case self::SIGN_TYPE_SHA:
-                    $signStr .= '&key=' . $this->md5Key;
-                    $sign = strtoupper(hash_hmac('sha256', $signStr, $this->md5Key));
+                    $signStr .= '&key=' . $this->merKey;
+                    $sign = strtoupper(hash_hmac('sha256', $signStr, $this->merKey));
                     break;
                 default:
-                    throw new GatewayException(sprintf('[%s] sign type not support', $signType), Payment::PARAMS_ERR);
+                    throw new GatewayException(sprintf('[%s] sign type not support', $this->signType), Payment::PARAMS_ERR);
             }
         } catch (GatewayException $e) {
             throw $e;
@@ -209,13 +209,13 @@ abstract class WechatBaseObject extends BaseObject
             throw new GatewayException('wechat verify sign generate str get error', Payment::SIGN_ERR);
         }
 
-        $signStr .= '&key=' . $this->md5Key;
+        $signStr .= '&key=' . $this->merKey;
         switch ($this->signType) {
             case self::SIGN_TYPE_MD5:
                 $sign = md5($signStr);
                 break;
             case self::SIGN_TYPE_SHA:
-                $sign = hash_hmac('sha256', $signStr, $this->md5Key);
+                $sign = hash_hmac('sha256', $signStr, $this->merKey);
                 break;
             default:
                 $sign = '';

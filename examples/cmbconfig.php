@@ -13,7 +13,7 @@ return [
     'use_sandbox' => true, // 是否使用 招商测试系统
 
     'branch_no'   => 'xxx',  // 商户分行号，4位数字
-    'merchant_no' => 'xxxx', // 商户号，6位数字
+    'mch_id' => 'xxxx', // 商户号，6位数字
     'mer_key'     => 'xxxxxx', // 秘钥16位，包含大小写字母 数字
 
     // 招商的公钥，建议每天凌晨2:15发起查询招行公钥请求更新公钥。
@@ -28,6 +28,7 @@ return [
     'notify_url' => 'http://114.215.86.31/__readme/phpinfo.php', // 支付成功的回调
 
     'sign_notify_url' => 'http://114.215.86.31/__readme/phpinfo.php', // 成功签约结果通知地址
+    'sign_return_url' => 'http://114.215.86.31/__readme/phpinfo.php', // 成功签约结果通知地址
 
     'return_url' => 'https://Leo112g.github.io/', // 如果是h5支付，可以设置该值，返回到指定页面
 

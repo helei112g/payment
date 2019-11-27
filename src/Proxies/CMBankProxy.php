@@ -17,7 +17,7 @@ namespace Payment\Proxies;
  * @email   : dayugog@gmail.com
  * @date    : 2019/3/28 10:25 PM
  * @version : 1.0.0
- * @desc    :
+ * @desc    : http://121.15.180.72/OpenAPI2/DOC/DOCdefault.aspx
  **/
 class CMBankProxy
 {
