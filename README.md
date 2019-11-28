@@ -8,10 +8,11 @@
 
 `payment` had been being developed with PhpStorm under the free JetBrains Open Source license(s) granted by JetBrains s.r.o., hence I would like to express by thanks here.
 
-![jetbrains logo](./jetbrains-variant-4.svg)
+[![Stargazers over time](./jetbrains-variant-4.svg)](https://www.jetbrains.com/?from=ABC)
 
 
 ## 提醒：微信CA证书进行了更新，请更新项目到最新版本。否则5月29日后，将无法支付
+
 > 官方公告： https://pay.weixin.qq.com/index.php/public/cms/content_detail?lang=zh&id=56602
 
 ## 你们需要干什么：
