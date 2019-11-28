@@ -5,7 +5,7 @@
 
 `payment` had been being developed with PhpStorm under the free JetBrains Open Source license(s) granted by JetBrains s.r.o., hence I would like to express by thanks here.
 
-![jetbrains logo](./jetbrains-variant-4.svg)
+[![Stargazers over time](./jetbrains-variant-4.svg)](https://www.jetbrains.com/?from=ABC)
 
 
 [![Software license][ico-license]](LICENSE)
