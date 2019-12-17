@@ -21,7 +21,7 @@ use Payment\Utils\DataParser;
 abstract class WxBaseStrategy implements BaseStrategy
 {
     /**
-     * 需要像微信请求的url。默认是统一下单url
+     * 需要向微信请求的url。默认是统一下单url
      * @var string $reqUrl
      */
     protected $reqUrl = 'https://api.mch.weixin.qq.com/{debug}/pay/unifiedorder';
