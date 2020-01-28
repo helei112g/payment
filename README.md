@@ -4,7 +4,7 @@
 
 -----
 
-# JetBrains OS licenses
+
 
 `payment` had been being developed with PhpStorm under the free JetBrains Open Source license(s) granted by JetBrains s.r.o., hence I would like to express by thanks here.
 
