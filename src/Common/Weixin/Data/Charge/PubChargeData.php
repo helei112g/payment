@@ -31,9 +31,9 @@ class PubChargeData extends ChargeBaseData
 
         $subMchId = $this->sub_mch_id;// 如果是服务商模式，则 sub_openid 必须提供
         $subOpenid = $this->sub_openid;
-        if ($subMchId && empty($subOpenid)) {
-            throw new PayException('公众号的服务商模式，必须提供 sub_openid 参数.');
-        }
+//        if ($subMchId && empty($subOpenid)) {
+//            throw new PayException('公众号的服务商模式，必须提供 sub_openid 参数.');
+//        }
     }
 
     protected function buildData()
