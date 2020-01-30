@@ -25,7 +25,7 @@ use Payment\Supports\HttpRequest;
  * @email   : dayugog@gmail.com
  * @date    : 2019/11/26 9:52 PM
  * @version : 1.0.0
- * @desc    : 招商银行基础类  /  http://121.15.180.72/OpenAPI2/DOC/ToDevelop5.aspx
+ * @desc    : 招商银行基础类  /  http://openhome.cmbchina.com/PayNew/pay/home
  **/
 abstract class CMBaseObject extends BaseObject
 {
