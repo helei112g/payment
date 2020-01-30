@@ -45,6 +45,7 @@
 - [贡献指南](#贡献指南)
     - [代码设计](#代码设计)
     - [接入支付指南](#接入支付指南)
+- [第三方文档](#第三方文档)
 - [License](#License)
 
 # 公告
@@ -115,6 +116,12 @@ composer require "riverslei/payment:*"
 ## 代码设计
 
 ## 接入支付指南
+
+#第三方文档
+
+- [支付宝](https://docs.open.alipay.com/api_1)
+- [微信](https://pay.weixin.qq.com/wiki/doc/api/index.html)
+- [招商银行](http://openhome.cmbchina.com/paynew/pay/Home)
 
 # License
 
