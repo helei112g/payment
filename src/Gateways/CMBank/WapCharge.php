@@ -23,7 +23,7 @@ use Payment\Exceptions\GatewayException;
  * @desc    : 一网通支付: 客户首次一网通支付时，商户必须为客户生成一网通支付协议号，招行系统将引导客户先进行绑卡签约，再完成支付。
  *            非首次支付时，商户传送已签约的客户协议号，客户输入支付密码等信息后完成支付。
  **/
-class Charge extends CMBaseObject implements IGatewayRequest
+class WapCharge extends CMBaseObject implements IGatewayRequest
 {
     const ONLINE_METHOD = 'https://netpay.cmbchina.com/netpayment/BaseHttp.dll?MB_EUserPay';
 
