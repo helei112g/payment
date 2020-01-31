@@ -45,7 +45,6 @@ class WapCharge extends CMBaseObject implements IGatewayRequest
     }
 
     /**
-     * http://121.15.180.72/OpenAPI2/API/PWDPayAPI4.aspx
      * @param array $requestParams
      * @return mixed
      */

@@ -54,7 +54,7 @@ class PublicKeyQuery extends CMBaseObject implements IGatewayRequest
 
         $params = [
             'dateTime'   => date('YmdHis', $nowTime),
-            'txCode'     => $requestParams['txCode'] ?? '',
+            'txCode'     => 'FBPK',
             'branchNo'   => self::$config->get('branch_no', ''),
             'merchantNo' => self::$config->get('mch_id', ''),
         ];

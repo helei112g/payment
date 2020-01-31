@@ -25,9 +25,9 @@ use Payment\Payment;
  **/
 class Refund extends CMBaseObject implements IGatewayRequest
 {
-    const ONLINE_METHOD = 'https://payment.ebank.cmbchina.com/NetPayment/BaseHttp.dll?DoRefund';
+    const ONLINE_METHOD = 'https://payment.ebank.cmbchina.com/NetPayment/BaseHttp.dll?DoRefundV2';
 
-    const SANDBOX_METHOD = 'http://121.15.180.66:801/NetPayment_dl/BaseHttp.dll?DoRefund';
+    const SANDBOX_METHOD = 'http://121.15.180.66:801/NetPayment_dl/BaseHttp.dll?DoRefundV2';
 
     /**
      * 获取第三方返回结果
@@ -69,7 +69,8 @@ class Refund extends CMBaseObject implements IGatewayRequest
             'desc'           => $requestParams['desc'] ?? '',
             'operatorNo'     => $requestParams['operator_id'] ?? '',
             //'encrypType'   => $requestParams['encryp_type'] ?? '', // 暂时只支持不加密，后续实现一下
-            'pwd' => $requestParams['pwd'] ?? '',
+            //'pwd' => $requestParams['pwd'] ?? '',
+            //'refundMode' => $requestParams['refund_mode'] ?? '',// 退款标识字段空/“A”
         ];
 
         return $params;

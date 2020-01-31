@@ -24,23 +24,16 @@ use Payment\Exceptions\GatewayException;
  **/
 class AppCharge extends CMBaseObject implements IGatewayRequest
 {
-    const ONLINE_METHOD = 'https://netpay.cmbchina.com/netpayment/BaseHttp.dll?MB_EUserPay';
-
-    const SANDBOX_METHOD = 'http://121.15.180.66:801/NetPayment/BaseHttp.dll?MB_EUserPay';
 
     /**
-     * 获取第三方返回结果
+     * app支付不需要请求第三方，签名后返回给客户端
      * @param array $requestParams
      * @return mixed
      * @throws GatewayException
      */
     public function request(array $requestParams)
     {
-        // 初始 网关地址
-        $this->setGatewayUrl(self::ONLINE_METHOD);
-        if ($this->isSandbox) {
-            $this->setGatewayUrl(self::SANDBOX_METHOD);
-        }
+
     }
 
     /**

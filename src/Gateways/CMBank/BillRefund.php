@@ -24,9 +24,9 @@ use Payment\Exceptions\GatewayException;
  **/
 class BillRefund extends CMBaseObject implements IGatewayRequest
 {
-    const ONLINE_METHOD = 'https://payment.ebank.cmbchina.com/NetPayment/BaseHttp.dll?QueryRefundByDate';
+    const ONLINE_METHOD = 'https://payment.ebank.cmbchina.com/NetPayment/BaseHttp.dll?QueryRefundByDateV2';
 
-    const SANDBOX_METHOD = 'http://121.15.180.66:801/NetPayment_dl/BaseHttp.dll?QueryRefundByDate';
+    const SANDBOX_METHOD = 'http://121.15.180.66:801/Netpayment_dl/BaseHttp.dll?QueryRefundByDateV2';
 
     /**
      * 获取第三方返回结果

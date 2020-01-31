@@ -18,22 +18,15 @@ use Payment\Exceptions\GatewayException;
  * @package Payment\Gateways\CMBank
  * @author  : Leo
  * @email   : dayugog@gmail.com
- * @date    : 2019/11/27 7:03 PM
+ * @date    : 2019/11/27 7:43 PM
  * @version : 1.0.0
- * @desc    : 按商户or银行订单日期查询已结账订单: 按商户订单日期查询批量订单明细。注意：查询结果不包含退款信息。
+ * @desc    : 查询时间范围内的退款数据
  **/
-class Settlement extends CMBaseObject implements IGatewayRequest
+class RefundSettleQuery extends CMBaseObject implements IGatewayRequest
 {
-    // 按商户时间查询
-    const ONLINE_MCH_METHOD = 'https://payment.ebank.cmbchina.com/NetPayment/BaseHttp.dll?QuerySettledOrderByMerchantDate';
+    const ONLINE_METHOD = 'https://payment.ebank.cmbchina.com/NetPayment/BaseHttp.dll?QueryRefundByDateV2';
 
-    const SANDBOX_MCH_METHOD = 'http://121.15.180.66:801/NetPayment_dl/BaseHttp.dll?QuerySettledOrderByMerchantDate';
-
-
-    // 按银行时间查询
-    const ONLINE_BANK_METHOD = 'https://payment.ebank.cmbchina.com/NetPayment/BaseHttp.dll?QuerySettledOrderByBankDate';
-
-    const SANDBOX_BANK_METHOD = 'http://121.15.180.66:801/NetPayment_dl/BaseHttp.dll?QuerySettledOrderByBankDate';
+    const SANDBOX_METHOD = 'http://121.15.180.66:801/Netpayment_dl/BaseHttp.dll?QueryRefundByDateV2';
 
     /**
      * 获取第三方返回结果
@@ -44,16 +37,9 @@ class Settlement extends CMBaseObject implements IGatewayRequest
     public function request(array $requestParams)
     {
         // 初始 网关地址
-        if (isset($requestParams['mode']) && $requestParams['mode'] === 'bank') {
-            $this->setGatewayUrl(self::ONLINE_BANK_METHOD);
-            if ($this->isSandbox) {
-                $this->setGatewayUrl(self::SANDBOX_BANK_METHOD);
-            }
-        } else {
-            $this->setGatewayUrl(self::ONLINE_MCH_METHOD);
-            if ($this->isSandbox) {
-                $this->setGatewayUrl(self::SANDBOX_MCH_METHOD);
-            }
+        $this->setGatewayUrl(self::ONLINE_METHOD);
+        if ($this->isSandbox) {
+            $this->setGatewayUrl(self::SANDBOX_METHOD);
         }
     }
 

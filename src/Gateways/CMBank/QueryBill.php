@@ -20,13 +20,13 @@ use Payment\Exceptions\GatewayException;
  * @email   : dayugog@gmail.com
  * @date    : 2019/11/27 7:03 PM
  * @version : 1.0.0
- * @desc    : 对账文件下载
+ * @desc    : 查询入账明细: 查询商户入账明细，商户系统应以招行入账明细为准进行对账，对账不平的交易进行退款或请款协商。
  **/
 class Bill extends CMBaseObject implements IGatewayRequest
 {
-    const ONLINE_METHOD = 'https://payment.ebank.cmbchina.com/NetPayment/BaseHttp.dll?GetDownloadURL';
+    const ONLINE_METHOD = 'https://payment.ebank.cmbchina.com/NetPayment/BaseHttp.dll?QueryAccountListV2';
 
-    const SANDBOX_METHOD = 'http://121.15.180.66:801/NetPayment_dl/BaseHttp.dll?GetDownloadURL';
+    const SANDBOX_METHOD = 'http://121.15.180.66:801/NetPayment_dl/BaseHttp.dll?QueryAccountListV2';
 
     /**
      * 获取第三方返回结果
@@ -58,9 +58,8 @@ class Bill extends CMBaseObject implements IGatewayRequest
             'branchNo'     => self::$config->get('branch_no', ''),
             'merchantNo'   => self::$config->get('mch_id', ''),
             'date'         => $billData,
-            'transactType' => '4001',
-            'fileType'     => 'YBL',
-            'messageKey'   => $requestParams['message_key'] ?? '', // 交易流水，合作方内部唯一流水
+            'operatorNo'   => $requestParams['operator_id'] ?? '',
+            'nextKeyValue' => $requestParams['next_key_value'] ?? '', // 首次查询填“空”; 后续查询，按应答报文中返回的nextKeyValue值原样传入.
         ];
 
         return $params;

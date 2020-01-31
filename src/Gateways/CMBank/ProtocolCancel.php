@@ -15,9 +15,9 @@ use Payment\Contracts\IGatewayRequest;
  **/
 class ProtocolCancel extends CMBaseObject implements IGatewayRequest
 {
-    const ONLINE_METHOD = 'https://payment.ebank.cmbchina.com/NetPayment/BaseHttp.dll?QueryAccountList';
+    const ONLINE_METHOD = 'https://b2b.cmbchina.com/CmbBank_B2B/UI/NetPay/DoBusiness.ashx';
 
-    const SANDBOX_METHOD = 'http://121.15.180.66:801/NetPayment_dl/BaseHttp.dll?QueryAccountList';
+    const SANDBOX_METHOD = 'http://121.15.180.72/CmbBank_B2B/UI/NetPay/DoBusiness.ashx';
 
     /**
      * 获取第三方返回结果

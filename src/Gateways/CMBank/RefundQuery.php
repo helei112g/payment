@@ -20,13 +20,13 @@ use Payment\Exceptions\GatewayException;
  * @email   : dayugog@gmail.com
  * @date    : 2019/11/27 7:43 PM
  * @version : 1.0.0
- * @desc    : 查询退款: 该接口可选对接。商户也可登录“网上商户结账处理系统”查询退款信息。
+ * @desc    : 查询具体某笔交易的退款状态
  **/
 class RefundQuery extends CMBaseObject implements IGatewayRequest
 {
-    const ONLINE_METHOD = 'https://payment.ebank.cmbchina.com/NetPayment/BaseHttp.dll?QuerySettledRefund';
+    const ONLINE_METHOD = 'https://payment.ebank.cmbchina.com/NetPayment/BaseHttp.dll?QuerySettledRefundV2';
 
-    const SANDBOX_METHOD = 'http://121.15.180.66:801/netpayment_dl/BaseHttp.dll?QuerySettledRefund';
+    const SANDBOX_METHOD = 'http://121.15.180.66:801/netpayment_dl/BaseHttp.dll?QuerySettledRefundV2';
 
     /**
      * 获取第三方返回结果
