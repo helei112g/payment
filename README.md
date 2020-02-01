@@ -27,7 +27,7 @@
 
 [打赏名单](SUPPORT.md)
 
-请大家使用时根据示例代码来，有bug直接提交 `issue`；为避免不必要的时间成本，提供付费技术支持。
+请大家使用时根据示例代码来，有bug直接提交 `issue`；**提供付费技术支持**。
 
 <div style="margin:0 auto;">
     <p align="center" style="margin:0px;"><img width="60%" src="https://dayutalk.cn/img/pub-qr.jpeg?v=123"></p>
@@ -245,6 +245,8 @@ $config = [
 
 ### 微信
 
+对于每一个微信支持的能力，并不是所有参数都支持了，有些参数绝大多数场景并不需要用到。如果确实需要请自行对源码进行修改。
+
 **配置文件模板**
 
 ```php
@@ -253,7 +255,9 @@ $config = [
     'use_sandbox' => false, // 是否使用 微信支付仿真测试系统
 
     'app_id'       => 'wxxxxxxxx',  // 公众账号ID
+    'sub_appid'    => 'wxxxxxxxx',  // 公众子商户账号ID
     'mch_id'       => '123123123', // 商户id
+    'sub_mch_id'   => '123123123', // 子商户id
     'md5_key'      => '23423423dsaddasdas', // md5 秘钥
     'app_cert_pem' => 'apiclient_cert.pem',
     'app_key_pem'  => 'apiclient_key.pem',
@@ -271,11 +275,26 @@ $config = [
 ];
 ```
 
+#### 支付请求参数
+
+字段 | 解释 | 必须
+---|---|---
+subject | 商品简单描述，该字段须严格按照规范传递，具体请见[参数规定](https://pay.weixin.qq.com/wiki/doc/api/H5.php?chapter=4_2) | Y
+body | 单品优惠字段(暂未上线) | Y
+trade_no | 商户系统内部的订单号,32个字符内、可包含字母, 其他说明见[商户订单号](https://pay.weixin.qq.com/wiki/doc/api/H5.php?chapter=4_2) | Y
+amount | 订单总金额，单位为元 | Y
+client_ip | 必须传正确的用户端IP,支持ipv4、ipv6格式，获取方式详见[获取用户ip指引](https://pay.weixin.qq.com/wiki/doc/api/H5.php?chapter=15_5) | Y
+device_info | 终端设备号(门店号或收银设备ID)，注意：PC网页或公众号内支付请传"WEB" | N
+return_param | 附加数据，在查询API和支付通知中原样返回，该字段主要用于商户携带订单的自定义数据 | N
+time_expire | 订单失效时间，时间戳 | N
+goods_tag | 商品标记，代金券或立减优惠功能的参数，说明详见[代金券或立减优惠](https://pay.weixin.qq.com/wiki/doc/api/tools/sp_coupon.php?chapter=12_1) | N
+scene_info | 该字段用于上报支付的场景信息，具体见微信文档 | N
 
 
-使用的几个注意点：
 
-1. \Payment\Client 定义了支持的所有支付渠道，如：\Payment\Client::WECHAT
+#### 账单请求参数
+
+#### 取消交易请求参数
 
 
 ### 招商银行
