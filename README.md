@@ -297,15 +297,83 @@ scene_info | 该字段用于上报支付的场景信息，具体见微信文档 
 字段 | 解释 | 必须
 ---|---|---
 bill_date | 对账单日期 | Y
-bill_type | ALL（默认值），返回当日所有订单信息（不含充值退款订单） | N
-        SUCCESS，返回当日成功支付的订单（不含充值退款订单）
-                       
-          REFUND，返回当日退款订单（不含充值退款订单）
-                       
-          RECHARGE_REFUND，返回当日充值退款订单 
-tar_type | 非必传参数，固定值：GZIP，返回格式为.gzip的压缩包账单。不传则默认为数据流形式。 | N
+bill_type | ALL（默认值），返回当日所有订单信息（不含充值退款订单）SUCCESS，返回当日成功支付的订单（不含充值退款订单）REFUND，返回当日退款订单（不含充值退款订单） RECHARGE_REFUND，返回当日充值退款订单  | N
 
-#### 取消交易请求参数
+#### 关闭交易请求参数
+
+字段 | 解释 | 必须
+---|---|---
+trade_no | 商户系统内部订单号，要求32个字符内，只能是数字、大小写字母_-|*@ ，且在同一个商户号下唯一。 | Y
+
+#### 退款请求参数
+
+字段 | 解释 | 必须
+---|---|---
+transaction_id | 微信生成的订单号，在支付通知中有返回 | Y
+trade_no | 商户系统内部订单号，要求32个字符内，只能是数字、大小写字母_-|*@ ，且在同一个商户号下唯一。transaction_id、trade_no二选一，如果同时存在优先级：transaction_id> trade_no | Y
+refund_no | 商户系统内部的退款单号，商户系统内部唯一，只能是数字、大小写字母_-|*@ ，同一退款单号多次请求只退一笔。 | Y
+total_fee | 订单总金额，单位为元 | Y
+refund_fee | 退款总金额，订单总金额，单位为元 | Y 
+refund_desc | 若商户传入，会在下发给用户的退款消息中体现退款原因 | N
+refund_account | 仅针对老资金流商户使用 | N
+
+#### 退款查询请求参数
+
+字段 | 解释 | 必须
+---|---|---
+transaction_id | 微信订单号查询的优先级是： refund_id > refund_no > transaction_id > trade_no | Y
+trade_no | 商户系统内部订单号，要求32个字符内，只能是数字、大小写字母_-|*@ ，且在同一个商户号下唯一。 | Y
+refund_no | 商户系统内部的退款单号，商户系统内部唯一，只能是数字、大小写字母_-|*@ ，同一退款单号多次请求只退一笔。 | Y
+refund_id | 微信生成的退款单号，在申请退款接口有返回 | Y
+offset | 偏移量，当部分退款次数超过10次时可使用，表示返回的查询结果从这个偏移量开始取记录 | N
+
+#### 资金账单请求参数
+
+字段 | 解释 | 必须
+---|---|---
+bill_date | 下载对账单的日期，格式：20140603 | Y
+bill_type | 账单的资金来源账户：Basic  基本账户 Operation 运营账户 Fees 手续费账户 | Y
+
+
+#### 交易查询请求参数
+
+字段 | 解释 | 必须
+---|---|---
+transaction_id | 微信的订单号，建议优先使用 | Y
+trade_no | 商户系统内部订单号，要求32个字符内，只能是数字、大小写字母_-|*@ ，且在同一个商户号下唯一 | Y
+
+
+#### 付款到零钱请求参数
+
+字段 | 解释 | 必须
+---|---|---
+channel | 付款的渠道 bank:付款到银行；account:付款到账号 | Y
+device_info | 微信支付分配的终端设备号 | N
+trans_no | 商户订单号，需保持唯一性(只能是字母或者数字，不能包含有其它字符) | Y
+openid | 商户appid下，某用户的openid | Y
+check_name | NO_CHECK：不校验真实姓名;FORCE_CHECK：强校验真实姓名 | Y
+re_user_name | 收款用户真实姓名。如果check_name设置为FORCE_CHECK，则必填用户真实姓名 | O
+amount | 企业付款金额，单位为元 | Y
+desc | 企业付款备注，必填。注意：备注中的敏感词会被转成字符* | Y
+client_ip | 该IP同在商户平台设置的IP白名单中的IP没有关联，该IP可传用户端或者服务端的IP。 | Y
+
+#### 付款到银行请求参数
+
+字段 | 解释 | 必须
+---|---|---
+channel | 付款的渠道 bank:付款到银行；account:付款到账号 | Y
+trans_no | 商户订单号，需保持唯一性(只能是字母或者数字，不能包含有其它字符) | Y
+enc_bank_no | 收款方银行卡号（采用标准RSA算法，公钥由微信侧提供）,详见[获取RSA加密公钥API](https://pay.weixin.qq.com/wiki/doc/api/tools/mch_pay.php?chapter=24_7) | Y
+enc_true_name | 收款方用户名（采用标准RSA算法，公钥由微信侧提供） | Y
+bank_code | 银行卡所在开户行编号,详见[银行编号列表](https://pay.weixin.qq.com/wiki/doc/api/tools/mch_pay.php?chapter=24_4) | Y
+amount | 企业付款金额，单位为元 | Y
+desc | 企业付款到银行卡付款说明,即订单备注 | N
+
+#### 付款到零钱/银行查询请求参数
+
+字段 | 解释 | 必须
+---|---|---
+trans_no | 商户订单号，需保持唯一（只允许数字[0~9]或字母[A~Z]和[a~z]最短8位，最长32位） | Y
 
 
 ### 招商银行
@@ -371,7 +439,7 @@ $config = [
 - [零钱转账查询](https://pay.weixin.qq.com/wiki/doc/api/tools/mch_pay.php?chapter=14_3)
 - [下载对账单](https://pay.weixin.qq.com/wiki/doc/api/H5.php?chapter=9_6&index=6)
 - [下载资金账单](https://pay.weixin.qq.com/wiki/doc/api/H5.php?chapter=9_18&index=7)
-- [企业转账](https://pay.weixin.qq.com/wiki/doc/api/tools/mch_pay.php?chapter=24_2)
+- [企业转账](https://pay.weixin.qq.com/wiki/doc/api/tools/mch_pay.php?chapter=24_2) 该接口还有些问题待处理
 - [零钱转账](https://pay.weixin.qq.com/wiki/doc/api/tools/mch_pay.php?chapter=14_2)
 
 
