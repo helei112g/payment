@@ -14,12 +14,12 @@ require_once __DIR__ . '/../../vendor/autoload.php';
 date_default_timezone_set('Asia/Shanghai');
 $wxConfig = require_once __DIR__ . '/../wxconfig.php';
 
-$orderNo = time() . rand(1000, 9999);
+$tradeNo = time() . rand(1000, 9999);
 // 订单信息
 $payData = [
     'body'         => 'test body',
     'subject'      => 'test subject',
-    'order_no'     => $orderNo,
+    'trade_no'     => $tradeNo,
     'time_expire'  => time() + 600, // 表示必须 600s 内付款
     'amount'       => '5.52', // 微信沙箱模式，需要金额固定为3.01
     'return_param' => '123',
@@ -35,8 +35,12 @@ try {
     exit;
 } catch (\Payment\Exceptions\GatewayException $e) {
     echo $e->getMessage();
+    var_dump($e->getRaw());
     exit;
 } catch (\Payment\Exceptions\ClassNotFoundException $e) {
+    echo $e->getMessage();
+    exit;
+} catch (Exception $e) {
     echo $e->getMessage();
     exit;
 }

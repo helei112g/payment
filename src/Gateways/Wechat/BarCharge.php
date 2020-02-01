@@ -76,7 +76,7 @@ class BarCharge extends WechatBaseObject implements IGatewayRequest
             'body'             => $requestParams['subject'] ?? '',
             'detail'           => $requestParams['body'] ?? '',
             'attach'           => $requestParams['return_param'] ?? '',
-            'out_trade_no'     => $requestParams['order_no'] ?? '',
+            'out_trade_no'     => $requestParams['trade_no'] ?? '',
             'total_fee'        => $totalFee,
             'fee_type'         => self::$config->get('fee_type', 'CNY'),
             'spbill_create_ip' => $requestParams['client_ip'] ?? '',

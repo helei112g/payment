@@ -35,7 +35,7 @@ class GroupRedPack extends WechatBaseObject implements IGatewayRequest
         $totalFee = bcmul($requestParams['amount'], 100, 0);
 
         $selfParams = [
-            'mch_billno'   => $requestParams['order_no'] ?? '',
+            'mch_billno'   => $requestParams['bill_no'] ?? '',
             'send_name'    => $requestParams['send_name'] ?? '',
             're_openid'    => $requestParams['re_openid'] ?? '', // 接受红包的用户openid
             'total_amount' => $totalFee,

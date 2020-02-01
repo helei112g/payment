@@ -48,7 +48,7 @@ class RedPackQuery extends WechatBaseObject implements IGatewayRequest
     protected function getSelfParams(array $requestParams)
     {
         $selfParams = [
-            'mch_billno' => $requestParams['order_no'] ?? '',
+            'mch_billno' => $requestParams['bill_no'] ?? '',
             'bill_type'  => $requestParams['bill_type'] ?? '',
         ];
 

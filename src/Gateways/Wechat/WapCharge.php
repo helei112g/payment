@@ -76,7 +76,7 @@ class WapCharge extends WechatBaseObject implements IGatewayRequest
             'body'             => $requestParams['subject'] ?? '',
             'detail'           => $requestParams['body'] ?? '',
             'attach'           => $requestParams['return_param'] ?? '',
-            'out_trade_no'     => $requestParams['order_no'] ?? '',
+            'out_trade_no'     => $requestParams['trade_no'] ?? '',
             'fee_type'         => self::$config->get('fee_type', 'CNY'),
             'total_fee'        => $totalFee,
             'spbill_create_ip' => $requestParams['client_ip'] ?? '',

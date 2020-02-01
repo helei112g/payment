@@ -145,6 +145,10 @@ class Client
      */
     protected function getProxyInstance(string $proxy)
     {
-        return ProxyFactory::createProxy($proxy);
+        try {
+            return ProxyFactory::createProxy($proxy);
+        } catch (InvalidArgumentException $e) {
+            throw $e;
+        }
     }
 }
