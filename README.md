@@ -469,7 +469,7 @@ $config = [
 
 接入一个新的能力该如何操作
 
-#第三方文档
+# 第三方文档
 
 - [支付宝](https://docs.open.alipay.com/api_1)
 - [微信](https://pay.weixin.qq.com/wiki/doc/api/index.html)
