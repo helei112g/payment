@@ -12,7 +12,9 @@
 [![Latest development][ico-version-dev]][link-packagist]
 [![Monthly installs][ico-downloads-monthly]][link-downloads]
 
-文档：http://helei112g.github.io/payment
+老版本文档：http://helei112g.github.io/payment
+
+新版本文档如下
 
 
 ## Stargazers over time
@@ -61,11 +63,13 @@
 
 重构整个项目，doing... ...
 
+**重构后的项目与 `4.x` 以前的版本不兼容，请使用者注意！**
+
 # Payment解决什么问题
 
 `Payment` 的目的是简化大家在对接主流第三方时需要频繁去阅读第三方文档，还经常遇到各种问题。`Payment` 将所有第三方的接口进行了合理的建模分类，对大家提供统一的接入入口，大家只需要关注自身业务并且支付系统设计上。
 
-目前已经集成：支付宝、微信、招商、建行绝大部分功能。也欢迎各位贡献代码。 [贡献指南](#贡献指南)
+目前已经集成：支付宝、微信、招商绝大部分功能。也欢迎各位贡献代码。 [贡献指南](#贡献指南)
 
 
 # 如何使用
@@ -102,6 +106,7 @@ composer require "riverslei/payment:*"
 
 ## 项目集成
 
+介绍安装该lib后，项目中如何使用，待完成
 
 ## 设计支付系统
 
@@ -111,11 +116,17 @@ composer require "riverslei/payment:*"
 
 ## 支持的接口
 
+对目前已经支持的能力介绍
+
 # 贡献指南
 
 ## 代码设计
 
-## 接入支付指南
+整个代码结构的设计
+
+## 开发指南
+
+接入一个新的能力该如何操作
 
 #第三方文档
 
