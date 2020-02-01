@@ -27,7 +27,7 @@
 
 [打赏名单](SUPPORT.md)
 
-请大家使用时根据示例代码来，有bug直接提交 `issue`；未避免不必要的时间成本，提供付费技术支持。
+请大家使用时根据示例代码来，有bug直接提交 `issue`；为避免不必要的时间成本，提供付费技术支持。
 
 <div style="margin:0 auto;">
     <p align="center" style="margin:0px;"><img width="60%" src="https://dayutalk.cn/img/pub-qr.jpeg?v=123"></p>
