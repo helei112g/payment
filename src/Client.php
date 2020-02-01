@@ -12,6 +12,7 @@
 namespace Payment;
 
 use InvalidArgumentException;
+use Payment\Contracts\IPayNotify;
 use Payment\Exceptions\ClassNotFoundException;
 use Payment\Exceptions\GatewayException;
 use Payment\Supports\ProxyFactory;
@@ -33,12 +34,12 @@ use Payment\Supports\ProxyFactory;
  * @method array transfer(array $requestParams) 转账
  * @method array cancel(array $requestParams) 取消交易
  * @method array close(array $requestParams) 关闭交易
+ * @method array notify(IPayNotify $callback) 异步通知
  **/
 class Client
 {
+    /*----------------支持的渠道-----------------*/
     const ALIPAY = 'Alipay'; // 支付宝
-
-    const CCB = 'CCBank';// 建设银行
 
     const CMB = 'CMBank';// 招商银行
 
@@ -77,8 +78,11 @@ class Client
 
     const CMB_CHANNEL_WAP = 'wap';// 招商h5支付，其实app支付也是使用的h5
 
-    /*----------------建行--------------------*/
-    const CCB_CHANNEL_WEB = 'web';//pc 支付
+    /*----------------其它--------------------*/
+    const TRANSFER_CHANNEL_BANK = 'bank';
+
+    const TRANSFER_CHANNEL_ACCOUNT = 'account';
+
 
     /**
      * @var null|Supports\BaseObject

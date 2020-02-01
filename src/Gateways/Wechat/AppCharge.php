@@ -21,7 +21,7 @@ use Payment\Payment;
  * @email   : dayugog@gmail.com
  * @date    : 2019/4/1 8:24 PM
  * @version : 1.0.0
- * @desc    :
+ * @desc    : app支付
  **/
 class AppCharge extends WechatBaseObject implements IGatewayRequest
 {

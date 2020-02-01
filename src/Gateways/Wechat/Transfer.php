@@ -51,9 +51,9 @@ class Transfer extends WechatBaseObject implements IGatewayRequest
 
         $selfParams = [
             'device_info'      => $requestParams['device_info'] ?? '',
-            'partner_trade_no' => $requestParams['order_no'] ?? '',
+            'partner_trade_no' => $requestParams['trans_no'] ?? '',
             'openid'           => $requestParams['openid'] ?? '',
-            'check_name'       => $requestParams['check_name'] ?? '',
+            'check_name'       => $requestParams['check_name'] ?? 'FORCE_CHECK',
             're_user_name'     => $requestParams['re_user_name'] ?? '',
             'amount'           => $totalFee,
             'desc'             => $requestParams['desc'] ?? '',

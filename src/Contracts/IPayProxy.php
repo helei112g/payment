@@ -45,16 +45,10 @@ interface IPayProxy
 
     /**
      * 异步通知
+     * @param IPayNotify $callback
      * @return mixed
      */
-    public function notify();
-
-    /**
-     * 异步通知的返回
-     * @param bool $flag
-     * @return mixed
-     */
-    public function notifyRely(bool $flag);
+    public function notify(IPayNotify $callback);
 
     /**
      * 取消交易

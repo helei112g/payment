@@ -48,7 +48,7 @@ class TransferBankQuery extends WechatBaseObject implements IGatewayRequest
     protected function getSelfParams(array $requestParams)
     {
         $selfParams = [
-            'partner_trade_no' => $requestParams['order_no'] ?? '',
+            'partner_trade_no' => $requestParams['trans_no'] ?? '',
         ];
 
         return $selfParams;

@@ -35,4 +35,6 @@ final class Payment
     // 第三方错误
     const GATEWAY_REFUSE       = 3001;
     const GATEWAY_CHECK_FAILED = 3002;
+    const NOTIFY_DATA_EMPTY    = 3003;
+    const MCH_INFO_ERR         = 3004;
 }

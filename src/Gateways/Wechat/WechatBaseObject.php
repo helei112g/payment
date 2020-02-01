@@ -95,7 +95,7 @@ abstract class WechatBaseObject extends BaseObject
         $this->isSandbox = self::$config->get('use_sandbox', false);
         $this->useBackup = self::$config->get('use_backup', false);
         $this->returnRaw = self::$config->get('return_raw', false);
-        $this->merKey    = self::$config->get('mer_key', '');
+        $this->merKey    = self::$config->get('md5_key', '');
         $this->signType  = self::$config->get('sign_type', '');
         $this->nonceStr  = StrUtil::getNonceStr(self::NONCE_LEN);
 
@@ -110,7 +110,8 @@ abstract class WechatBaseObject extends BaseObject
         // 如果是沙盒模式，更换密钥
         if ($this->isSandbox && empty($this->sandboxKey)) {
             $this->sandboxKey = $this->getSignKey();
-            $this->md5Key     = $this->sandboxKey;
+            //$this->sandboxKey = 'c15772692e55c8db69b40d1cb8e6f627';
+            $this->merKey = $this->sandboxKey;
         }
     }
 
@@ -123,10 +124,12 @@ abstract class WechatBaseObject extends BaseObject
     protected function buildParams(array $requestParams = [])
     {
         $params = [
-            'appid'     => self::$config->get('app_id', ''),
-            'mch_id'    => self::$config->get('mch_id', ''),
-            'nonce_str' => $this->nonceStr,
-            'sign_type' => $this->signType,
+            'appid'      => self::$config->get('app_id', ''),
+            'sub_appid'  => self::$config->get('sub_appid', ''),
+            'mch_id'     => self::$config->get('mch_id', ''),
+            'sub_mch_id' => self::$config->get('sub_mch_id', ''),
+            'nonce_str'  => $this->nonceStr,
+            'sign_type'  => $this->signType,
         ];
         $params = $this->changeKeyName($params);
 
@@ -281,15 +284,18 @@ abstract class WechatBaseObject extends BaseObject
 
             $this->setHttpOptions($this->getCertOptions());
             $resXml = $this->postXML($url, $xmlData);
+            if (in_array($method, ['pay/downloadbill', 'pay/downloadfundflow'])) {
+                return $resXml;
+            }
 
             $resArr = DataParser::toArray($resXml);
             if (!is_array($resArr) || $resArr['return_code'] !== self::REQ_SUC) {
                 throw new GatewayException($this->getErrorMsg($resArr), Payment::GATEWAY_REFUSE, $resArr);
             } elseif (isset($resArr['result_code']) && $resArr['result_code'] !== self::REQ_SUC) {
-                throw new GatewayException($resArr['err_code_des'], Payment::GATEWAY_CHECK_FAILED, $resArr);
+                throw new GatewayException(sprintf('code:%d, desc:%s', $resArr['err_code'], $resArr['err_code_des']), Payment::GATEWAY_CHECK_FAILED, $resArr);
             }
 
-            if (isset($requestParams['sign']) && $this->verifySign($resArr)) {
+            if (isset($resArr['sign']) && $this->verifySign($resArr) === false) {
                 throw new GatewayException('check return data sign failed', Payment::SIGN_ERR, $resArr);
             }
 

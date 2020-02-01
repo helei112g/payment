@@ -13,16 +13,22 @@ namespace Payment\Proxies;
 
 use InvalidArgumentException;
 use Payment\Contracts\IGatewayRequest;
+use Payment\Contracts\IPayNotify;
 use Payment\Contracts\IPayProxy;
 use Payment\Contracts\IQueryProxy;
+use Payment\Contracts\ITransferProxy;
 use Payment\Exceptions\GatewayException;
-use Payment\Gateways\Alipay\TransferQuery;
 use Payment\Gateways\Wechat\Bill;
 use Payment\Gateways\Wechat\CloseTrade;
+use Payment\Gateways\Wechat\Notify;
 use Payment\Gateways\Wechat\Refund;
 use Payment\Gateways\Wechat\RefundQuery;
 use Payment\Gateways\Wechat\Settlement;
 use Payment\Gateways\Wechat\TradeQuery;
+use Payment\Gateways\Wechat\Transfer;
+use Payment\Gateways\Wechat\TransferBank;
+use Payment\Gateways\Wechat\TransferBankQuery;
+use Payment\Gateways\Wechat\TransferQuery;
 use Payment\Payment;
 use Payment\Supports\BaseObject;
 
@@ -34,7 +40,7 @@ use Payment\Supports\BaseObject;
  * @version : 1.0.0
  * @desc    : 微信对外暴露的方案集合
  **/
-class WechatProxy extends BaseObject implements IPayProxy, IQueryProxy
+class WechatProxy extends BaseObject implements IPayProxy, IQueryProxy, ITransferProxy
 {
     /**
      * 支付操作
@@ -100,21 +106,22 @@ class WechatProxy extends BaseObject implements IPayProxy, IQueryProxy
 
     /**
      * 异步通知
+     * @param IPayNotify $callback
      * @return mixed
+     * @throws GatewayException
      */
-    public function notify()
+    public function notify(IPayNotify $callback)
     {
-        // TODO: Implement notify() method.
-    }
+        try {
+            $n    = new Notify();
+            $data = $n->request(); // 获取数据
+        } catch (GatewayException $e) {
+            throw $e;
+        }
 
-    /**
-     * 异步通知的返回
-     * @param bool $flag
-     * @return mixed
-     */
-    public function notifyRely(bool $flag)
-    {
-        // TODO: Implement notifyRely() method.
+        $flag = $callback->handle('wechat', $data['notify_type'], 'async', $data['notify_data']);
+
+        return $n->response($flag);
     }
 
     /**
@@ -184,8 +191,15 @@ class WechatProxy extends BaseObject implements IPayProxy, IQueryProxy
      */
     public function transferQuery(array $requestParams)
     {
+        $channel = $requestParams['channel'] ?? 'bank';
+
         try {
-            $trade = new TransferQuery();
+            if ($channel === 'bank') {
+                $trade = new TransferBankQuery();
+            } else {
+                $trade = new TransferQuery();
+            }
+
             return $trade->request($requestParams);
         } catch (GatewayException $e) {
             throw $e;
@@ -219,6 +233,29 @@ class WechatProxy extends BaseObject implements IPayProxy, IQueryProxy
         try {
             $trade = new Settlement();
             return $trade->request($requestParams);
+        } catch (GatewayException $e) {
+            throw $e;
+        }
+    }
+
+    /**
+     * 转账
+     * @param array $requestParams
+     * @return mixed
+     * @throws GatewayException
+     */
+    public function transfer(array $requestParams)
+    {
+        $channel = $requestParams['channel'] ?? 'bank';
+
+        try {
+            if ($channel === 'bank') {
+                $trf = new TransferBank();
+            } else {
+                $trf = new Transfer();
+            }
+
+            return $trf->request($requestParams);
         } catch (GatewayException $e) {
             throw $e;
         }

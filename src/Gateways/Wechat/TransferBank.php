@@ -35,7 +35,7 @@ class TransferBank extends WechatBaseObject implements IGatewayRequest
         $totalFee = bcmul($requestParams['amount'], 100, 0);
 
         $selfParams = [
-            'partner_trade_no' => $requestParams['order_no'] ?? '',
+            'partner_trade_no' => $requestParams['trans_no'] ?? '',
             'enc_bank_no'      => $requestParams['enc_bank_no'] ?? '',
             'enc_true_name'    => $requestParams['enc_true_name'] ?? '',
             'bank_code'        => $requestParams['bank_code'] ?? '',
