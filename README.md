@@ -290,9 +290,20 @@ time_expire | 订单失效时间，时间戳 | N
 goods_tag | 商品标记，代金券或立减优惠功能的参数，说明详见[代金券或立减优惠](https://pay.weixin.qq.com/wiki/doc/api/tools/sp_coupon.php?chapter=12_1) | N
 scene_info | 该字段用于上报支付的场景信息，具体见微信文档 | N
 
-
+使用时，自行使用上面的字段构建好一个数组，并传入到 `\Payment\Client` 实例对应的方法中。后面均是相同，不在重复。
 
 #### 账单请求参数
+
+字段 | 解释 | 必须
+---|---|---
+bill_date | 对账单日期 | Y
+bill_type | ALL（默认值），返回当日所有订单信息（不含充值退款订单） | N
+        SUCCESS，返回当日成功支付的订单（不含充值退款订单）
+                       
+          REFUND，返回当日退款订单（不含充值退款订单）
+                       
+          RECHARGE_REFUND，返回当日充值退款订单 
+tar_type | 非必传参数，固定值：GZIP，返回格式为.gzip的压缩包账单。不传则默认为数据流形式。 | N
 
 #### 取消交易请求参数
 
