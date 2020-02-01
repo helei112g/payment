@@ -32,7 +32,7 @@ use Payment\Supports\BaseObject;
  * @email   : dayugog@gmail.com
  * @date    : 2019/3/28 10:25 PM
  * @version : 1.0.0
- * @desc    :
+ * @desc    : 微信对外暴露的方案集合
  **/
 class WechatProxy extends BaseObject implements IPayProxy, IQueryProxy
 {
@@ -89,12 +89,13 @@ class WechatProxy extends BaseObject implements IPayProxy, IQueryProxy
     }
 
     /**
-     * 同步通知
+     * 同步通知，微信没有同步通知机制
      * @return mixed
+     * @throws GatewayException
      */
     public function callback()
     {
-        // TODO: Implement callback() method.
+        throw new GatewayException('wechat do not have callback', Payment::NOT_SUPPORT_METHOD);
     }
 
     /**
