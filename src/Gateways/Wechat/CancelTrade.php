@@ -49,7 +49,7 @@ class CancelTrade extends WechatBaseObject implements IGatewayRequest
     {
         $selfParams = [
             'transaction_id' => $requestParams['transaction_id'] ?? '',
-            'out_trade_no'   => $requestParams['out_trade_no'] ?? '',
+            'out_trade_no'   => $requestParams['trade_no'] ?? '',
         ];
 
         return $selfParams;

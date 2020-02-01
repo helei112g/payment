@@ -19,6 +19,7 @@ use Payment\Contracts\IQueryProxy;
 use Payment\Contracts\ITransferProxy;
 use Payment\Exceptions\GatewayException;
 use Payment\Gateways\Wechat\Bill;
+use Payment\Gateways\Wechat\CancelTrade;
 use Payment\Gateways\Wechat\CloseTrade;
 use Payment\Gateways\Wechat\Notify;
 use Payment\Gateways\Wechat\Refund;
@@ -132,7 +133,12 @@ class WechatProxy extends BaseObject implements IPayProxy, IQueryProxy, ITransfe
      */
     public function cancel(array $requestParams)
     {
-        throw new GatewayException('wechat not support cancel trade, please use close API', Payment::NOT_SUPPORT_METHOD);
+        try {
+            $trade = new CancelTrade();
+            return $trade->request($requestParams);
+        } catch (GatewayException $e) {
+            throw $e;
+        }
     }
 
     /**
