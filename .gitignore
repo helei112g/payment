@@ -1,6 +1,7 @@
 .idea
 .DS_Store
 /codecept.phar
-/examples/test.php
 /vendor/
-/composer.lock
+composer.lock
+/examples/config
+/examples/wx/pem
