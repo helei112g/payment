@@ -305,6 +305,13 @@ bill_type | ALL（默认值），返回当日所有订单信息（不含充值�
 ---|---|---
 trade_no | 商户系统内部订单号，要求32个字符内，只能是数字、大小写字母_-|*@ ，且在同一个商户号下唯一。 | Y
 
+#### 撤销交易请求参数
+
+字段 | 解释 | 必须
+---|---|---
+trade_no | 商户系统内部的订单号,transaction_id、trade_no二选一，如果同时存在优先级：transaction_id> trade_no | Y
+transaction_id | 微信的订单号，优先使用 | Y
+
 #### 退款请求参数
 
 字段 | 解释 | 必须
@@ -433,6 +440,7 @@ $config = [
 - [小程序支付](https://pay.weixin.qq.com/wiki/doc/api/H5.php?chapter=9_20&index=1)
 - [退款](https://pay.weixin.qq.com/wiki/doc/api/H5.php?chapter=9_4&index=4)
 - [关闭交易](https://pay.weixin.qq.com/wiki/doc/api/H5.php?chapter=9_3&index=3)
+- [撤销交易](https://pay.weixin.qq.com/wiki/doc/api/micropay.php?chapter=9_11&index=3)
 - [交易查询](https://pay.weixin.qq.com/wiki/doc/api/H5.php?chapter=9_2&index=2)
 - [退款查询](https://pay.weixin.qq.com/wiki/doc/api/H5.php?chapter=9_5&index=5)
 - [企业转账查询](https://pay.weixin.qq.com/wiki/doc/api/tools/mch_pay.php?chapter=24_3)
