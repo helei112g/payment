@@ -17,10 +17,10 @@ $wxConfig = require_once __DIR__ . '/../wxconfig.php';
 
 $refundNo = time() . rand(1000, 9999);
 $data     = [
-    'out_trade_no'   => '15546387228443',
-    'transaction_id' => '4557984565220190407200528457633',
-    'total_fee'      => '3.01',
-    'refund_fee'     => '3.01',
+    'out_trade_no'   => '15805490027722',
+    'transaction_id' => '4988319909620200201172451651106',
+    'total_fee'      => '5.52',
+    'refund_fee'     => '5.52',
     'refund_no'      => $refundNo,
     'refund_account' => 'REFUND_SOURCE_REC', // REFUND_RECHARGE:可用余额退款  REFUND_UNSETTLED:未结算资金退款（默认）
 ];

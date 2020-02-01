@@ -19,10 +19,18 @@ $data = [
 ];
 
 try {
-    $ret = Query::run(Config::WX_CHARGE, $wxConfig, $data);
-} catch (PayException $e) {
-    echo $e->errorMessage();
+    $client = new \Payment\Client(\Payment\Client::WECHAT, $wxConfig);
+    $client->transferQuery($data);
+} catch (InvalidArgumentException $e) {
+    echo $e->getMessage();
+    exit;
+} catch (\Payment\Exceptions\GatewayException $e) {
+    echo $e->getMessage();
+    exit;
+} catch (\Payment\Exceptions\ClassNotFoundException $e) {
+    echo $e->getMessage();
     exit;
 }
 
-echo json_encode($ret, JSON_UNESCAPED_UNICODE);
+
+var_dump($res);

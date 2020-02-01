@@ -16,7 +16,7 @@ $wxConfig = require_once __DIR__ . '/../wxconfig.php';
 
 // 订单信息
 $params = [
-    'bill_date' => '20190406',
+    'bill_date' => '20200201',
     'bill_type' => 'Basic',
 ];
 

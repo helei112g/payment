@@ -15,10 +15,10 @@ date_default_timezone_set('Asia/Shanghai');
 $wxConfig = require_once __DIR__ . '/../wxconfig.php';
 
 $data = [
-    'out_trade_no'   => '14935385689468',
-    'refund_no'      => '14935506214648',
-    'transaction_id' => '12345678920170430191024123337865',
-    'refund_id'      => '1234567892017043019102412333',
+    'out_trade_no' => '15805490027722',
+    //'refund_no'      => '15805498596435',
+    //'transaction_id' => '4988319909620200201172451651106',
+    //'refund_id'      => '4196711984120200201173913842',
 ];
 
 // 使用

@@ -21,7 +21,7 @@ $payData = [
     'subject'      => 'test subject',
     'order_no'     => $orderNo,
     'time_expire'  => time() + 600, // 表示必须 600s 内付款
-    'amount'       => '3.01', // 微信沙箱模式，需要金额固定为3.01
+    'amount'       => '5.52', // 微信沙箱模式，需要金额固定为3.01
     'return_param' => '123',
     'client_ip'    => isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '127.0.0.1', // 客户地址
 ];
