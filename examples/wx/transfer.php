@@ -25,7 +25,7 @@ $data = [
     'payer_real_name'  => 'dayu',
     'amount'           => '1',
     'desc'             => '测试转账',
-    'spbill_create_ip' => '127.0.0.1',
+    'client_ip'        => '127.0.0.1',
 
     // bank 的参数
     /*'trans_no' => time(),

@@ -21,7 +21,7 @@ use Payment\Payment;
  * @email   : dayugog@gmail.com
  * @date    : 2019/4/1 8:27 PM
  * @version : 1.0.0
- * @desc    :
+ * @desc    : 关闭交易
  **/
 class CloseTrade extends WechatBaseObject implements IGatewayRequest
 {
@@ -49,7 +49,7 @@ class CloseTrade extends WechatBaseObject implements IGatewayRequest
     protected function getSelfParams(array $requestParams)
     {
         $selfParams = [
-            'out_trade_no' => $requestParams['out_trade_no'] ?? '',
+            'out_trade_no' => $requestParams['trade_no'] ?? '',
         ];
 
         return $selfParams;

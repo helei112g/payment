@@ -52,8 +52,8 @@ class Refund extends WechatBaseObject implements IGatewayRequest
         $refundFee  = bcmul($requestParams['refund_fee'], 100, 0);
         $selfParams = [
             'transaction_id'  => $requestParams['transaction_id'] ?? '',
-            'out_trade_no'    => $requestParams['out_trade_no'] ?? '',
-            'out_refund_no'   => $requestParams['out_refund_no'] ?? '',
+            'out_trade_no'    => $requestParams['trade_no'] ?? '',
+            'out_refund_no'   => $requestParams['refund_no'] ?? '',
             'total_fee'       => $totalFee,
             'refund_fee'      => $refundFee,
             'refund_fee_type' => self::$config->get('fee_type', 'CNY'),

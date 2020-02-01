@@ -88,7 +88,7 @@ class Bill extends WechatBaseObject implements IGatewayRequest
         $selfParams = [
             'bill_date' => $requestParams['bill_date'] ?? '',
             'bill_type' => $requestParams['bill_type'] ?? 'ALL',
-            'tar_type'  => $requestParams['tar_type'] ?? '',
+            //'tar_type'  => $requestParams['tar_type'] ?? '',
         ];
 
         return $selfParams;

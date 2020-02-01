@@ -87,7 +87,7 @@ class Settlement extends WechatBaseObject implements IGatewayRequest
         $selfParams = [
             'bill_date'    => $requestParams['bill_date'] ?? '',
             'account_type' => $requestParams['bill_type'] ?? 'Operation',
-            'tar_type'     => $requestParams['tar_type'] ?? '',
+            //'tar_type'     => $requestParams['tar_type'] ?? '',
         ];
 
         return $selfParams;

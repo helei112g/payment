@@ -57,7 +57,7 @@ class Transfer extends WechatBaseObject implements IGatewayRequest
             're_user_name'     => $requestParams['re_user_name'] ?? '',
             'amount'           => $totalFee,
             'desc'             => $requestParams['desc'] ?? '',
-            'spbill_create_ip' => $requestParams['spbill_create_ip'] ?? '',
+            'spbill_create_ip' => $requestParams['client_ip'] ?? '',
         ];
 
         return $selfParams;

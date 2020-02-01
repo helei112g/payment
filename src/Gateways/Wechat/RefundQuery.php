@@ -50,8 +50,8 @@ class RefundQuery extends WechatBaseObject implements IGatewayRequest
     {
         $selfParams = [
             'transaction_id' => $requestParams['transaction_id'] ?? '',
-            'out_trade_no'   => $requestParams['out_trade_no'] ?? '',
-            'out_refund_no'  => $requestParams['out_refund_no'] ?? '',
+            'out_trade_no'   => $requestParams['trade_no'] ?? '',
+            'out_refund_no'  => $requestParams['refund_no'] ?? '',
             'refund_id'      => $requestParams['refund_id'] ?? '',
             'offset'         => $requestParams['offset'] ?? '',
         ];
