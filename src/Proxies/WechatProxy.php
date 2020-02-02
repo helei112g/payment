@@ -96,16 +96,6 @@ class WechatProxy extends BaseObject implements IPayProxy, IQueryProxy, ITransfe
     }
 
     /**
-     * 同步通知，微信没有同步通知机制
-     * @return mixed
-     * @throws GatewayException
-     */
-    public function callback()
-    {
-        throw new GatewayException('wechat do not have callback', Payment::NOT_SUPPORT_METHOD);
-    }
-
-    /**
      * 异步通知
      * @param IPayNotify $callback
      * @return mixed
@@ -120,7 +110,8 @@ class WechatProxy extends BaseObject implements IPayProxy, IQueryProxy, ITransfe
             throw $e;
         }
 
-        $flag = $callback->handle('wechat', $data['notify_type'], 'async', $data['notify_data']);
+        // 异步 async，同步 sync
+        $flag = $callback->handle('Wechat', $data['notify_type'], 'async', $data['notify_data']);
 
         return $n->response($flag);
     }
