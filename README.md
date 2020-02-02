@@ -429,7 +429,28 @@ operator_id | 卖家端自定义的的操作员 ID | N
 trade_no | 订单支付时传入的商户订单号,和支付宝交易号不能同时为空 | Y
 transaction_id | 该交易在支付宝系统中的交易流水号。最短 16 位，最长 64 位。和transaction_id不能同时为空，如果同时传了 transaction_id和 trade_no，则以 transaction_id为准 | Y
 
-> 这个接口与 关闭交易 测试了一下，效果是一样的。具体场景不太清楚
+> 这个接口与 关闭交易 测试了一下，效果是一样的。具体场景不太清楚，但是官方文档描述是在当面付的时候使用
+
+#### 转账到支付宝请求参数
+
+字段 | 解释 | 必须
+---|---|---
+trans_no | 商户转账唯一订单号 | Y
+payee_type | 收款方账户类型。默认：ALIPAY_LOGONID [详见](https://docs.open.alipay.com/api_28/alipay.fund.trans.toaccount.transfer) | Y
+payee_account | 收款方账户。与payee_type配合使用 | Y
+amount | 转账金额，单位：元。 | Y
+payer_show_name | 付款方姓名 | N
+payee_real_name | 收款方真实姓名 | N
+remark | 转账备注 | N
+
+
+#### 查询转账到支付宝请求参数
+
+字段 | 解释 | 必须
+---|---|---
+trans_no | 商户转账唯一订单号 | Y
+transaction_id | 支付宝转账单据号：和商户转账唯一订单号不能同时为空。当和商户转账唯一订单号同时提供时，将用本参数进行查询，忽略商户转账唯一订单号。 | Y
+
 
 ### 微信
 

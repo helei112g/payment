@@ -16,9 +16,9 @@ date_default_timezone_set('Asia/Shanghai');
 $aliConfig = require_once __DIR__ . '/../aliconfig.php';
 
 $data = [
-    'trade_no' => '15806490592761',
-    'transaction_id'     => '2020020222001440351000252550',
-    'refund_no'    => '15806491408385',
+    'trade_no'       => '15806490592761',
+    'transaction_id' => '2020020222001440351000252550',
+    'refund_no'      => '15806491408385',
 ];
 
 // 使用

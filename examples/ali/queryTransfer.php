@@ -16,8 +16,8 @@ $aliConfig = require_once __DIR__ . '/../aliconfig.php';
 
 // 以下参数二选一
 $data = [
-    'transfer_no'    => '15043431341',
-    'transaction_id' => '20190331110070001502680000266688',
+    'trans_no'       => '1580651298',
+    'transaction_id' => '20200202110070001502680000399648',
 ];
 
 // 使用

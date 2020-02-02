@@ -17,11 +17,11 @@ $aliConfig = require_once __DIR__ . '/../aliconfig.php';
 $refundNo = time() . rand(1000, 9999);
 
 $refundData = [
-    'trade_no' => '15806490592761',
-    'transaction_id'     => '', // 支付宝交易号， 与 trade_no 必须二选一
-    'refund_fee'   => '0.01',
-    'reason'       => '我要退款',
-    'refund_no'    => $refundNo,
+    'trade_no'       => '15806490592761',
+    'transaction_id' => '', // 支付宝交易号， 与 trade_no 必须二选一
+    'refund_fee'     => '0.01',
+    'reason'         => '我要退款',
+    'refund_no'      => $refundNo,
 ];
 var_dump($refundData);
 // 使用

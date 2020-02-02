@@ -15,7 +15,7 @@ date_default_timezone_set('Asia/Shanghai');
 $aliConfig = require_once __DIR__ . '/../aliconfig.php';
 
 $params = [
-    'trade_no'     => '15806497739520',
+    'trade_no' => '15806497739520',
     //'transaction_id' => '12312323',
 ];
 

@@ -14,7 +14,6 @@ namespace Payment\Gateways\Alipay;
 use Payment\Contracts\IGatewayRequest;
 use Payment\Exceptions\GatewayException;
 use Payment\Helpers\ArrayUtil;
-use Payment\Helpers\StrUtil;
 use Payment\Payment;
 
 /**
@@ -82,7 +81,7 @@ class BarCharge extends AliBaseObject implements IGatewayRequest
     {
         try {
             $params = $this->buildParams(self::METHOD, $requestParams);
-            $ret = $this->get($this->gatewayUrl, $params);
+            $ret    = $this->get($this->gatewayUrl, $params);
             $retArr = json_decode($ret, true);
             if (json_last_error() !== JSON_ERROR_NONE) {
                 throw new GatewayException(sprintf('format bar data get error, [%s]', json_last_error_msg()), Payment::FORMAT_DATA_ERR, $ret);

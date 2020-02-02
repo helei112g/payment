@@ -36,7 +36,7 @@ class Transfer extends AliBaseObject implements IGatewayRequest
     {
         $bizContent = [
             'out_biz_no'      => $requestParams['trans_no'] ?? '',
-            'payee_type'      => $requestParams['payee_type'] ?? '',
+            'payee_type'      => $requestParams['payee_type'] ?? 'ALIPAY_LOGONID',
             'payee_account'   => $requestParams['payee_account'] ?? '',
             'amount'          => $requestParams['amount'] ?? '',
             'payer_show_name' => $requestParams['payer_show_name'] ?? '',

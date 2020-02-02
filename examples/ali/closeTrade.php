@@ -16,9 +16,9 @@ $aliConfig = require_once __DIR__ . '/../aliconfig.php';
 
 // 订单信息
 $params = [
-    'trade_no'     => '15806495958685',
+    'trade_no' => '15806495958685',
     //'transaction_id' => '12312323',
-    'operator_id'  => '',
+    'operator_id' => '',
 ];
 
 // 使用
