@@ -1,7 +1,15 @@
 <?php
 
-namespace Payment\Gateways\CMBank;
+/*
+ * The file is part of the payment lib.
+ *
+ * (c) Leo <dayugog@gmail.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 
+namespace Payment\Gateways\CMBank;
 
 use Payment\Contracts\IGatewayRequest;
 
@@ -40,7 +48,7 @@ class ProtocolCancel extends CMBaseObject implements IGatewayRequest
      */
     protected function getRequestParams(array $requestParams)
     {
-        $nowTime  = time();
+        $nowTime = time();
 
         $params = [
             'dateTime'         => date('YmdHis', $nowTime),

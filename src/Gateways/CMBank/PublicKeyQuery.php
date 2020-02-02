@@ -24,7 +24,6 @@ use Payment\Exceptions\GatewayException;
  **/
 class PublicKeyQuery extends CMBaseObject implements IGatewayRequest
 {
-
     const ONLINE_METHOD = 'https://b2b.cmbchina.com/CmbBank_B2B/UI/NetPay/DoBusiness.ashx';
 
     const SANDBOX_METHOD = 'http://121.15.180.72/CmbBank_B2B/UI/NetPay/DoBusiness.ashx';

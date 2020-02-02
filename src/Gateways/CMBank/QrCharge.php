@@ -1,7 +1,15 @@
 <?php
 
-namespace Payment\Gateways\CMBank;
+/*
+ * The file is part of the payment lib.
+ *
+ * (c) Leo <dayugog@gmail.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 
+namespace Payment\Gateways\CMBank;
 
 use Payment\Contracts\IGatewayRequest;
 use Payment\Exceptions\GatewayException;
@@ -16,7 +24,6 @@ use Payment\Exceptions\GatewayException;
  **/
 class QrCharge extends CMBaseObject implements IGatewayRequest
 {
-
     const ONLINE_METHOD = 'https://netpay.cmbchina.com/netpayment/BaseHttp.dll?MB_APPQRPay';
 
     const SANDBOX_METHOD = 'http://121.15.180.66:801/netpayment/BaseHttp.dll?MB_APPQRPay';
@@ -50,18 +57,18 @@ class QrCharge extends CMBaseObject implements IGatewayRequest
         }
 
         $params = [
-            'dateTime'         => date('YmdHis', $nowTime),
-            'branchNo'         => self::$config->get('branch_no', ''),
-            'merchantNo'       => self::$config->get('mch_id', ''),
-            'date'             => date('Ymd', $requestParams['date'] ?? $nowTime),
-            'orderNo'          => $requestParams['order_no'] ?? '',
-            'amount'           => $requestParams['amount'] ?? '', // 固定两位小数，最大11位整数
-            'expireTimeSpan'   => $timeExpire,
-            'payNoticeUrl'     => self::$config->get('notify_url', ''),
-            'payNoticePara'    => $requestParams['return_param'] ?? '',
-            'returnUrl'        => self::$config->get('return_url', ''),
-            'clientIP'         => $requestParams['client_ip'] ?? '',
-            'cardType'         => $requestParams['limit_pay'] ?? '', // A:储蓄卡支付，即禁止信用卡支付
+            'dateTime'          => date('YmdHis', $nowTime),
+            'branchNo'          => self::$config->get('branch_no', ''),
+            'merchantNo'        => self::$config->get('mch_id', ''),
+            'date'              => date('Ymd', $requestParams['date'] ?? $nowTime),
+            'orderNo'           => $requestParams['order_no'] ?? '',
+            'amount'            => $requestParams['amount'] ?? '', // 固定两位小数，最大11位整数
+            'expireTimeSpan'    => $timeExpire,
+            'payNoticeUrl'      => self::$config->get('notify_url', ''),
+            'payNoticePara'     => $requestParams['return_param'] ?? '',
+            'returnUrl'         => self::$config->get('return_url', ''),
+            'clientIP'          => $requestParams['client_ip'] ?? '',
+            'cardType'          => $requestParams['limit_pay'] ?? '', // A:储蓄卡支付，即禁止信用卡支付
             'subMerchantNo'     => $requestParams['sub_mch_id'] ?? '', // 二级商户编码
             'subMerchantName'   => $requestParams['sub_mch_name'] ?? '', // 二级商户名称
             'subMerchantTPCode' => $requestParams['sub_mch_tp_code'] ?? '', // 二级商户类别编码

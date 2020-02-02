@@ -51,7 +51,7 @@ class TradeQuery extends CMBaseObject implements IGatewayRequest
      */
     protected function getRequestParams(array $requestParams)
     {
-        $nowTime  = time();
+        $nowTime   = time();
         $orderDate = $requestParams['order_date'] ?? 0;
         if (empty($orderDate)) {
             throw new GatewayException('must have order date, format:[yyyyMMdd]', Payment::PARAMS_ERR);

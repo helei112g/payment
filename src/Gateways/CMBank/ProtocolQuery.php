@@ -48,7 +48,7 @@ class ProtocolQuery extends CMBaseObject implements IGatewayRequest
      */
     protected function getRequestParams(array $requestParams)
     {
-        $nowTime  = time();
+        $nowTime = time();
 
         $params = [
             'dateTime'         => date('YmdHis', $nowTime),

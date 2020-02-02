@@ -66,7 +66,7 @@ abstract class CMBaseObject extends BaseObject
     public function __construct()
     {
         $this->isSandbox = self::$config->get('use_sandbox', false);
-        $this->signType = self::$config->get('sign_type', 'SHA-256');
+        $this->signType  = self::$config->get('sign_type', 'SHA-256');
 
         $rsaPublicKey = self::$config->get('cmb_pub_key', '');
         if ($rsaPublicKey) {
@@ -141,7 +141,7 @@ abstract class CMBaseObject extends BaseObject
             ];
 
             // 签名
-            $params = ArrayUtil::arraySort($params);
+            $params  = ArrayUtil::arraySort($params);
             $signStr = ArrayUtil::createLinkString($params);
 
             $params['sign'] = $this->makeSign($signStr);

@@ -20,10 +20,14 @@ use Payment\Exceptions\GatewayException;
  * @email   : dayugog@gmail.com
  * @date    : 2020/1/30 10:38 下午
  * @version : 1.0.0
- * @desc    : app支付
+ * @desc    : 招行内小程序支付
  **/
-class AppCharge extends CMBaseObject implements IGatewayRequest
+class LiteCharge extends CMBaseObject implements IGatewayRequest
 {
+    const ONLINE_METHOD = 'https://netpay.cmbchina.com/netpayment/BaseHttp.dll?MB_APPPay';
+
+    const SANDBOX_METHOD = 'http://121.15.180.66:801/netpayment/BaseHttp.dll?MB_APPPay';
+
     /**
      * app支付不需要请求第三方，签名后返回给客户端
      * @param array $requestParams
@@ -32,6 +36,11 @@ class AppCharge extends CMBaseObject implements IGatewayRequest
      */
     public function request(array $requestParams)
     {
+        // 初始 网关地址
+        $this->setGatewayUrl(self::ONLINE_METHOD);
+        if ($this->isSandbox) {
+            $this->setGatewayUrl(self::SANDBOX_METHOD);
+        }
     }
 
     /**

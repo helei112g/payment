@@ -1,7 +1,15 @@
 <?php
 
-namespace Payment\Gateways\CMBank;
+/*
+ * The file is part of the payment lib.
+ *
+ * (c) Leo <dayugog@gmail.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 
+namespace Payment\Gateways\CMBank;
 
 use Payment\Contracts\IGatewayRequest;
 use Payment\Exceptions\GatewayException;
@@ -58,7 +66,7 @@ class WebCharge extends CMBaseObject implements IGatewayRequest
             'expireTimeSpan'   => $timeExpire,
             'payNoticeUrl'     => self::$config->get('notify_url', ''),
             'payNoticePara'    => $requestParams['return_param'] ?? '',
-            'productDesc'    => $requestParams['body'] ?? '',
+            'productDesc'      => $requestParams['body'] ?? '',
             'returnUrl'        => self::$config->get('return_url', ''),
             'clientIP'         => $requestParams['client_ip'] ?? '',
             'cardType'         => $requestParams['limit_pay'] ?? '', // A:储蓄卡支付，即禁止信用卡支付
@@ -77,5 +85,4 @@ class WebCharge extends CMBaseObject implements IGatewayRequest
 
         return $params;
     }
-
 }
