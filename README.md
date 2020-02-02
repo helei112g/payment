@@ -241,8 +241,6 @@ $config = [
     // 与业务相关参数
     'notify_url' => 'https://dayutalk.cn/notify/ali',
     'return_url' => 'https://dayutalk.cn',
-
-    'return_raw' => false, // 在处理回调时，是否直接返回原始数据，默认为 true
 ];
 
 
@@ -479,8 +477,6 @@ $config = [
     'notify_url' => 'https://dayutalk.cn/v1/notify/wx',
 
     'redirect_url' => 'https://dayutalk.cn/', // 如果是h5支付，可以设置该值，返回到指定页面
-
-    'return_raw' => false, // 在处理回调时，是否直接返回原始数据，默认为true
 ];
 ```
 
@@ -622,8 +618,6 @@ $config = [
     'sign_return_url' => 'https://dayutalk.cn', // 成功签约结果通知地址
 
     'return_url' => 'https://dayutalk.cn', // 如果是h5支付，可以设置该值，返回到指定页面
-
-    'return_raw' => false, // 在处理回调时，是否直接返回原始数据，默认为true
 ];
 ```
 

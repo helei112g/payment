@@ -51,7 +51,5 @@ return [
     'notify_url' => 'https://dayutalk.cn/notify/ali',
     'return_url' => 'https://dayutalk.cn',
 
-    'return_raw' => false, // 在处理回调时，是否直接返回原始数据，默认为 true
-
     'fee_type' => 'CNY', // 货币类型  当前仅支持该字段
 ];
