@@ -37,7 +37,7 @@ $callback = new TestNotify();
 
 try {
     $client = new \Payment\Client($proxy, $config);
-    $xml = $client->notify($callback);
+    $xml    = $client->notify($callback);
 } catch (InvalidArgumentException $e) {
     echo $e->getMessage();
     exit;

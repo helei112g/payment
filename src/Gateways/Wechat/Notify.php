@@ -98,16 +98,16 @@ class Notify extends WechatBaseObject
 </xml>
         ';*/
 
-// 退款异步通知
-/*        $data = '
-<xml>
-<return_code>SUCCESS</return_code>
-   <appid><![CDATA[wx2421b1c4370ec43b]]></appid>
-   <mch_id><![CDATA[10000100]]></mch_id>
-   <nonce_str><![CDATA[TeqClE3i0mvn3DrK]]></nonce_str>
-   <req_info><![CDATA[T87GAHG17TGAHG1TGHAHAHA1Y1CIOA9UGJH1GAHV871HAGAGQYQQPOOJMXNBCXBVNMNMAJAA]]></req_info>
-</xml>
-        ';*/
+        // 退款异步通知
+        /*        $data = '
+        <xml>
+        <return_code>SUCCESS</return_code>
+           <appid><![CDATA[wx2421b1c4370ec43b]]></appid>
+           <mch_id><![CDATA[10000100]]></mch_id>
+           <nonce_str><![CDATA[TeqClE3i0mvn3DrK]]></nonce_str>
+           <req_info><![CDATA[T87GAHG17TGAHG1TGHAHAHA1Y1CIOA9UGJH1GAHV871HAGAGQYQQPOOJMXNBCXBVNMNMAJAA]]></req_info>
+        </xml>
+                ';*/
         // 将xml数据格式化为数组
         $arrData = DataParser::toArray($data);
         if (empty($arrData)) {

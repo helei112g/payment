@@ -17,7 +17,7 @@ $wxConfig = require_once __DIR__ . '/../wxconfig.php';
 
 $refundNo = time() . rand(1000, 9999);
 $data     = [
-    'trade_no'   => '15805490027722',
+    'trade_no'       => '15805490027722',
     'transaction_id' => '4988319909620200201172451651106',
     'total_fee'      => '5.52',
     'refund_fee'     => '5.52',

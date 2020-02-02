@@ -18,14 +18,14 @@ $data = [
     'channel' => 'account', // account: 转微信，bank：转银行
 
     // account的参数
-    'device_info'      => '',
-    'trans_no'         => time(),
-    'openid'           => 'o-e_mwTXTaxEhBM8xDoj1ui1f950',
-    'check_name'       => 'NO_CHECK', // NO_CHECK：不校验真实姓名  FORCE_CHECK：强校验真实姓名
-    'payer_real_name'  => 'dayu',
-    'amount'           => '1',
-    'desc'             => '测试转账',
-    'client_ip'        => '127.0.0.1',
+    'device_info'     => '',
+    'trans_no'        => time(),
+    'openid'          => 'o-e_mwTXTaxEhBM8xDoj1ui1f950',
+    'check_name'      => 'NO_CHECK', // NO_CHECK：不校验真实姓名  FORCE_CHECK：强校验真实姓名
+    'payer_real_name' => 'dayu',
+    'amount'          => '1',
+    'desc'            => '测试转账',
+    'client_ip'       => '127.0.0.1',
 
     // bank 的参数
     /*'trans_no' => time(),

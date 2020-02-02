@@ -16,7 +16,7 @@ $wxConfig = require_once __DIR__ . '/../wxconfig.php';
 
 // 订单信息
 $params = [
-    'trade_no'   => '15546387228443',
+    'trade_no'       => '15546387228443',
     'transaction_id' => '',
 ];
 
