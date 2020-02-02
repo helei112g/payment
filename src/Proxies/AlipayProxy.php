@@ -21,6 +21,7 @@ use Payment\Exceptions\GatewayException;
 use Payment\Gateways\Alipay\Bill;
 use Payment\Gateways\Alipay\CancelTrade;
 use Payment\Gateways\Alipay\CloseTrade;
+use Payment\Gateways\Alipay\Notify;
 use Payment\Gateways\Alipay\Refund;
 use Payment\Gateways\Alipay\RefundQuery;
 use Payment\Gateways\Alipay\TradeQuery;
@@ -93,32 +94,24 @@ class AlipayProxy extends BaseObject implements IPayProxy, IQueryProxy, ITransfe
     }
 
     /**
-     * 同步通知
-     * @return mixed
-     */
-    public function callback()
-    {
-        // TODO: Implement callback() method.
-    }
-
-    /**
-     * 异步通知
+     * 同步、异步通知
      * @param IPayNotify $callback
      * @return mixed
+     * @throws GatewayException
      */
     public function notify(IPayNotify $callback)
     {
-        // TODO: Implement notify() method.
-    }
+        try {
+            $n    = new Notify();
+            $data = $n->request(); // 获取数据
+        } catch (GatewayException $e) {
+            throw $e;
+        }
 
-    /**
-     * 异步通知的返回
-     * @param bool $flag
-     * @return mixed
-     */
-    public function notifyRely(bool $flag)
-    {
-        // TODO: Implement notifyRely() method.
+        // 异步 async，同步 sync
+        $flag = $callback->handle('Alipay', $data['notify_type'], $data['notify_way'], $data['notify_data']);
+
+        return $n->response($flag);
     }
 
     /**

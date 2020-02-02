@@ -36,12 +36,6 @@ interface IPayProxy
      */
     public function refund(array $requestParams);
 
-    /**
-     * 同步通知
-     * @return mixed
-     */
-    public function callback();
-
 
     /**
      * 异步通知

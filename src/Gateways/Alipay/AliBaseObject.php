@@ -152,6 +152,34 @@ abstract class AliBaseObject extends BaseObject
     }
 
     /**
+     * 针对异步通知的验证签名
+     * @param array $data
+     * @param string $sign
+     * @param string $signType
+     * @return bool
+     * @throws GatewayException
+     */
+    protected function verifySignForASync(array $data, string $sign, string $signType)
+    {
+        $params = ArrayUtil::arraySort($data);
+
+        try {
+            $preStr = ArrayUtil::createLinkString($params);
+
+            if ($signType === 'RSA') {// 使用RSA
+                $rsa = new RsaEncrypt($this->publicKey);
+                return $rsa->rsaVerify($preStr, $sign);
+            } elseif ($signType === 'RSA2') {// 使用rsa2方式
+                $rsa = new Rsa2Encrypt($this->publicKey);
+                return $rsa->rsaVerify($preStr, $sign);
+            }
+            throw new GatewayException(sprintf('[%s] sign type not support', $signType), Payment::PARAMS_ERR);
+        } catch (\Exception $e) {
+            throw new GatewayException(sprintf('check ali pay sign failed, sign type is [%s]', $signType), Payment::SIGN_ERR, $data);
+        }
+    }
+
+    /**
      * @param string $method
      * @param array $requestParams
      * @return array
