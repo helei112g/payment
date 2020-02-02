@@ -38,7 +38,7 @@ class Refund extends AliBaseObject implements IGatewayRequest
             'out_trade_no'              => $requestParams['trade_no'] ?? '',
             'trade_no'                  => $requestParams['transaction_id'] ?? '',
             'refund_amount'             => $requestParams['refund_fee'] ?? '',
-            'refund_currency'           => $requestParams['refund_currency'] ?? '',
+            'refund_currency'           => $requestParams['refund_currency'] ?? 'CNY',
             'refund_reason'             => $requestParams['reason'] ?? '',
             'out_request_no'            => $requestParams['refund_no'] ?? '',
             'operator_id'               => $requestParams['operator_id'] ?? '',
@@ -63,7 +63,7 @@ class Refund extends AliBaseObject implements IGatewayRequest
     {
         try {
             $params = $this->buildParams(self::METHOD, $requestParams);
-            $ret    = $this->post($this->gatewayUrl, $params);
+            $ret    = $this->get($this->gatewayUrl, $params);
             $retArr = json_decode($ret, true);
             if (json_last_error() !== JSON_ERROR_NONE) {
                 throw new GatewayException(sprintf('format refund data get error, [%s]', json_last_error_msg()), Payment::FORMAT_DATA_ERR, ['raw' => $ret]);

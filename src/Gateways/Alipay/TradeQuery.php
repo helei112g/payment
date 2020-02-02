@@ -37,7 +37,7 @@ class TradeQuery extends AliBaseObject implements IGatewayRequest
         $bizContent = [
             'out_trade_no'   => $requestParams['trade_no'] ?? '',
             'trade_no'       => $requestParams['transaction_id'] ?? '',
-            'out_request_no' => $requestParams['refund_no'] ?? '',
+            'query_options' => $requestParams['query_options'] ?? '',
             'org_pid'        => $requestParams['org_pid'] ?? '',
         ];
         $bizContent = ArrayUtil::paraFilter($bizContent);
@@ -55,7 +55,7 @@ class TradeQuery extends AliBaseObject implements IGatewayRequest
     {
         try {
             $params = $this->buildParams(self::METHOD, $requestParams);
-            $ret    = $this->post($this->gatewayUrl, $params);
+            $ret    = $this->get($this->gatewayUrl, $params);
             $retArr = json_decode($ret, true);
             if (json_last_error() !== JSON_ERROR_NONE) {
                 throw new GatewayException(sprintf('format refund data get error, [%s]', json_last_error_msg()), Payment::FORMAT_DATA_ERR, ['raw' => $ret]);

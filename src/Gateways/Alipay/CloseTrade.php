@@ -54,7 +54,7 @@ class CloseTrade extends AliBaseObject implements IGatewayRequest
     {
         try {
             $params = $this->buildParams(self::METHOD, $requestParams);
-            $ret    = $this->post($this->gatewayUrl, $params);
+            $ret    = $this->get($this->gatewayUrl, $params);
             $retArr = json_decode($ret, true);
             if (json_last_error() !== JSON_ERROR_NONE) {
                 throw new GatewayException(sprintf('format close trade data get error, [%s]', json_last_error_msg()), Payment::FORMAT_DATA_ERR, ['raw' => $ret]);

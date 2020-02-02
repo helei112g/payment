@@ -378,7 +378,58 @@ request_from_url | 请求来源地址。如果使用ALIAPP的集成方式，用�
 business_params | 商户传入业务信息，具体值要和支付宝约定，应用于安全，营销等参数直传场景，格式为json格式 | N
 ext_user_info | 外部指定买家 | N
 
+#### 交易查询请求参数
 
+字段 | 解释 | 必须
+---|---|---
+trade_no | 订单支付时传入的商户订单号,和支付宝交易号不能同时为空。trade_no,transaction_id如果同时存在优先取transaction_id | Y
+transaction_id | 支付宝交易号，和商户订单号不能同时为空 | Y
+query_options | 查询选项，商户通过上送该字段来定制查询返回信息 | N
+org_pid | 银行间联模式下有用，其它场景请不要使用 | N
+
+#### 退款请求参数
+
+字段 | 解释 | 必须
+---|---|---
+trade_no | 订单支付时传入的商户订单号,和支付宝交易号不能同时为空。trade_no,transaction_id如果同时存在优先取transaction_id | Y
+transaction_id | 支付宝交易号，和商户订单号不能同时为空 | Y
+refund_fee | 需要退款的金额，该金额不能大于订单金额,单位为元，支持两位小数 | Y
+refund_currency | 订单退款币种信息，默认 CNY | N
+reason | 退款的原因说明 | N
+refund_no | 标识一次退款请求，同一笔交易多次退款需要保证唯一，如需部分退款，则此参数必传。 | Y
+operator_id | 商户的操作员编号 | N
+store_id | 商户的门店编号 | N
+terminal_id | 商户的终端编号 | N
+goods_detail | 退款包含的商品列表信息，Json格式。其它说明详见：“商品明细说明” | N
+refund_royalty_parameters | 退分账明细信息 | N
+org_pid | 银行间联模式下有用，其它场景请不要使用 |N
+
+
+#### 退款查询请求参数
+
+字段 | 解释 | 必须
+---|---|---
+trade_no | 订单支付时传入的商户订单号,和支付宝交易号不能同时为空。trade_no,transaction_id如果同时存在优先取transaction_id | Y
+transaction_id | 支付宝交易号，和商户订单号不能同时为空 | Y
+refund_no | 请求退款接口时，传入的退款请求号，如果在退款请求时未传入，则该值为创建交易时的外部交易号 | Y
+org_pid | 银行间联模式下有用，其它场景请不要使用 | N
+
+#### 关闭交易请求参数
+
+字段 | 解释 | 必须
+---|---|---
+trade_no | 订单支付时传入的商户订单号,和支付宝交易号不能同时为空 | Y
+transaction_id | 该交易在支付宝系统中的交易流水号。最短 16 位，最长 64 位。和transaction_id不能同时为空，如果同时传了 transaction_id和 trade_no，则以 transaction_id为准 | Y
+operator_id | 卖家端自定义的的操作员 ID | N
+
+#### 取消交易请求参数
+
+字段 | 解释 | 必须
+---|---|---
+trade_no | 订单支付时传入的商户订单号,和支付宝交易号不能同时为空 | Y
+transaction_id | 该交易在支付宝系统中的交易流水号。最短 16 位，最长 64 位。和transaction_id不能同时为空，如果同时传了 transaction_id和 trade_no，则以 transaction_id为准 | Y
+
+> 这个接口与 关闭交易 测试了一下，效果是一样的。具体场景不太清楚
 
 ### 微信
 

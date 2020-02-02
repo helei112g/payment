@@ -22,7 +22,7 @@ use Payment\Payment;
  * @email   : dayugog@gmail.com
  * @date    : 2019/3/31 9:13 AM
  * @version : 1.0.0
- * @desc    :
+ * @desc    : 用于交易创建后，用户在一定时间内未进行支付，可调用该接口直接将未付款的交易进行关闭。
  **/
 class CancelTrade extends AliBaseObject implements IGatewayRequest
 {
