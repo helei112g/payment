@@ -25,6 +25,7 @@ use Payment\Helpers\ArrayUtil;
  **/
 class AppCharge extends AliBaseObject implements IGatewayRequest
 {
+    // 这个操作是在客户端发起的，服务端只负责组装参数
     const METHOD = 'alipay.trade.app.pay';
 
     /**
@@ -63,17 +64,17 @@ class AppCharge extends AliBaseObject implements IGatewayRequest
             'product_code'    => $requestParams['product_code'] ?? '',
             'body'            => $requestParams['body'] ?? '',
             'subject'         => $requestParams['subject'] ?? '',
-            'out_trade_no'    => $requestParams['order_no'] ?? '',
+            'out_trade_no'    => $requestParams['trade_no'] ?? '',
             'time_expire'     => $timeExpire ? date('Y-m-d H:i', $timeExpire) : '',
             'goods_type'      => $requestParams['goods_type'] ?? '',
             'promo_params'    => $requestParams['promo_params'] ?? '',
-            'passback_params' => $requestParams['return_params'] ?? '',
+            'passback_params' => urlencode($requestParams['return_params'] ?? ''),
             'extend_params'   => $requestParams['extend_params'] ?? '',
             // 使用禁用列表
             //'enable_pay_channels' => '',
             'store_id'             => $requestParams['store_id'] ?? '',
             'specified_channel'    => 'pcredit',
-            'disable_pay_channels' => $requestParams['limit_pay'] ?? '',
+            'disable_pay_channels' => implode(self::$config->get('limit_pay', ''), ','),
             'ext_user_info'        => $requestParams['ext_user_info'] ?? '',
             'business_params'      => $requestParams['business_params'] ?? '',
         ];

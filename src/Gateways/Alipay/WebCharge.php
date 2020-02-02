@@ -59,8 +59,8 @@ class WebCharge extends AliBaseObject implements IGatewayRequest
         }
 
         $bizContent = [
-            'out_trade_no'    => $requestParams['order_no'] ?? '',
-            'product_code'    => $requestParams['product_code'] ?? 'FAST_INSTANT_TRADE_PAY',
+            'out_trade_no'    => $requestParams['trade_no'] ?? '',
+            'product_code'    => 'FAST_INSTANT_TRADE_PAY',
             'total_amount'    => $requestParams['amount'] ?? '',
             'subject'         => $requestParams['subject'] ?? '',
             'body'            => $requestParams['body'] ?? '',
@@ -76,13 +76,13 @@ class WebCharge extends AliBaseObject implements IGatewayRequest
             // 使用禁用列表
             //'enable_pay_channels' => '',
             'store_id'              => $requestParams['store_id'] ?? '',
-            'disable_pay_channels'  => $requestParams['limit_pay'] ?? '',
-            'qr_pay_mode'           => $requestParams['qr_pay_mode'] ?? '',
+            'disable_pay_channels'  => implode(self::$config->get('limit_pay', ''), ','),
+            'qr_pay_mode'           => $requestParams['qr_pay_mode'] ?? '2',
             'qrcode_width'          => $requestParams['qrcode_width'] ?? '',
             'settle_info'           => $requestParams['settle_info'] ?? '',
             'invoice_info'          => $requestParams['invoice_info'] ?? '',
             'agreement_sign_params' => $requestParams['agreement_sign_params'] ?? '',
-            'integration_type'      => $requestParams['integration_type'] ?? '',
+            'integration_type'      => $requestParams['integration_type'] ?? 'PCWEB',
             'request_from_url'      => $requestParams['request_from_url'] ?? '',
             'business_params'       => $requestParams['business_params'] ?? '',
             'ext_user_info'         => $requestParams['ext_user_info'] ?? '',

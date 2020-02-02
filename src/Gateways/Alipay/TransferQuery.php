@@ -35,7 +35,7 @@ class TransferQuery extends AliBaseObject implements IGatewayRequest
     protected function getBizContent(array $requestParams)
     {
         $bizContent = [
-            'out_biz_no' => $requestParams['transfer_no'] ?? '',
+            'out_biz_no' => $requestParams['trans_no'] ?? '',
             'order_id'   => $requestParams['transaction_id'] ?? '',
         ];
         $bizContent = ArrayUtil::paraFilter($bizContent);

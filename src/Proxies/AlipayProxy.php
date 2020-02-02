@@ -13,6 +13,7 @@ namespace Payment\Proxies;
 
 use InvalidArgumentException;
 use Payment\Contracts\IGatewayRequest;
+use Payment\Contracts\IPayNotify;
 use Payment\Contracts\IPayProxy;
 use Payment\Contracts\IQueryProxy;
 use Payment\Contracts\ITransferProxy;
@@ -102,9 +103,10 @@ class AlipayProxy extends BaseObject implements IPayProxy, IQueryProxy, ITransfe
 
     /**
      * 异步通知
+     * @param IPayNotify $callback
      * @return mixed
      */
-    public function notify()
+    public function notify(IPayNotify $callback)
     {
         // TODO: Implement notify() method.
     }

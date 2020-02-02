@@ -36,7 +36,7 @@ class TradeBankCreate extends AliBaseObject implements IGatewayRequest
     {
         $bizContent = [
             'partner_id'       => $requestParams['partner_id'] ?? '',
-            'out_trade_no'     => $requestParams['out_trade_no'] ?? '',
+            'out_trade_no'     => $requestParams['trade_no'] ?? '',
             'recon_related_no' => $requestParams['recon_related_no'] ?? '',
             'pd_code'          => $requestParams['pd_code'] ?? '',
             'ev_code'          => $requestParams['ev_code'] ?? '',

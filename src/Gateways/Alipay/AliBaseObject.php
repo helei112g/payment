@@ -162,8 +162,12 @@ abstract class AliBaseObject extends BaseObject
         $bizContent = $this->getBizContent($requestParams);
         $params     = $this->getBaseData($method, $bizContent);
 
-        $params = ArrayUtil::arraySort($params);
+        // 支付宝新版本  需要转码
+        foreach ($params as &$value) {
+            $value = StrUtil::characet($value, 'utf-8');
+        }
 
+        $params = ArrayUtil::arraySort($params);
         try {
             $signStr = ArrayUtil::createLinkString($params);
 
@@ -175,10 +179,6 @@ abstract class AliBaseObject extends BaseObject
             throw new GatewayException($e->getMessage(), Payment::PARAMS_ERR);
         }
 
-        // 支付宝新版本  需要转码
-        foreach ($params as &$value) {
-            $value = StrUtil::characet($value, 'UTF-8');
-        }
         return $params;
     }
 
@@ -195,13 +195,12 @@ abstract class AliBaseObject extends BaseObject
             'method'     => $method,
             'format'     => 'JSON',
             'return_url' => self::$config->get('return_url', ''),
-            'charset'    => 'UTF-8',
+            'charset'    => 'utf-8',
             'sign_type'  => self::$config->get('sign_type', ''),
             'timestamp'  => date('Y-m-d H:i:s'),
             'version'    => '1.0',
             'notify_url' => self::$config->get('notify_url', ''),
-            // 暂时不用
-            // 'app_auth_token' => '',
+            // 'app_auth_token' => '', // 暂时不用
             'biz_content' => json_encode($bizContent, JSON_UNESCAPED_UNICODE),
         ];
         return ArrayUtil::arraySort($requestData);

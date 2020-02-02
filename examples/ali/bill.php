@@ -17,7 +17,8 @@ $aliConfig = require_once __DIR__ . '/../aliconfig.php';
 // 订单信息
 $params = [
     'bill_type' => 'trade',
-    'bill_date' => date('Y-m-d', strtotime('-1 days')),
+    //'bill_date' => date('Y-m-d', strtotime('-10 days')),
+    'bill_date' => '2020-01-15'
 ];
 
 // 使用
@@ -31,6 +32,9 @@ try {
     echo $e->getMessage();
     exit;
 } catch (\Payment\Exceptions\ClassNotFoundException $e) {
+    echo $e->getMessage();
+    exit;
+} catch (Exception $e) {
     echo $e->getMessage();
     exit;
 }

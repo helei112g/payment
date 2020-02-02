@@ -32,6 +32,9 @@ try {
 } catch (\Payment\Exceptions\ClassNotFoundException $e) {
     echo $e->getMessage();
     exit;
+} catch (Exception $e) {
+    echo $e->getMessage();
+    exit;
 }
 
 var_dump($res);

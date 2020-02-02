@@ -35,8 +35,8 @@ class Refund extends AliBaseObject implements IGatewayRequest
     protected function getBizContent(array $requestParams)
     {
         $bizContent = [
-            'out_trade_no'              => $requestParams['out_trade_no'] ?? '',
-            'trade_no'                  => $requestParams['trade_no'] ?? '',
+            'out_trade_no'              => $requestParams['trade_no'] ?? '',
+            'trade_no'                  => $requestParams['transaction_id'] ?? '',
             'refund_amount'             => $requestParams['refund_fee'] ?? '',
             'refund_currency'           => $requestParams['refund_currency'] ?? '',
             'refund_reason'             => $requestParams['reason'] ?? '',

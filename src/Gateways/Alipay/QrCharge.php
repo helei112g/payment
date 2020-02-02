@@ -42,7 +42,7 @@ class QrCharge extends AliBaseObject implements IGatewayRequest
         }
 
         $bizContent = [
-            'out_trade_no'         => $requestParams['order_no'] ?? '',
+            'out_trade_no'         => $requestParams['trade_no'] ?? '',
             'seller_id'            => $requestParams['seller_id'] ?? '',
             'total_amount'         => $requestParams['amount'] ?? '',
             'discountable_amount'  => $requestParams['discountable_amount'] ?? '',
@@ -51,7 +51,7 @@ class QrCharge extends AliBaseObject implements IGatewayRequest
             'body'                 => $requestParams['body'] ?? '',
             'operator_id'          => $requestParams['operator_id'] ?? '',
             'store_id'             => $requestParams['store_id'] ?? '',
-            'disable_pay_channels' => $requestParams['limit_pay'] ?? '',
+            'disable_pay_channels' => implode(self::$config->get('limit_pay', ''), ','),
             // 使用禁用列表
             //'enable_pay_channels' => '',
             'terminal_id'             => $requestParams['terminal_id'] ?? '',
@@ -77,7 +77,7 @@ class QrCharge extends AliBaseObject implements IGatewayRequest
     {
         try {
             $params = $this->buildParams(self::METHOD, $requestParams);
-            $ret    = $this->post($this->gatewayUrl, $params);
+            $ret    = $this->get($this->gatewayUrl, $params);
             $retArr = json_decode($ret, true);
             if (json_last_error() !== JSON_ERROR_NONE) {
                 throw new GatewayException(sprintf('format qr data get error, [%s]', json_last_error_msg()), Payment::FORMAT_DATA_ERR, ['raw' => $ret]);

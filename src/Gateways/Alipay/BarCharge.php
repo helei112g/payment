@@ -14,6 +14,7 @@ namespace Payment\Gateways\Alipay;
 use Payment\Contracts\IGatewayRequest;
 use Payment\Exceptions\GatewayException;
 use Payment\Helpers\ArrayUtil;
+use Payment\Helpers\StrUtil;
 use Payment\Payment;
 
 /**
@@ -42,16 +43,16 @@ class BarCharge extends AliBaseObject implements IGatewayRequest
         }
 
         $bizContent = [
-            'out_trade_no'         => $requestParams['order_no'] ?? '',
-            'scene'                => $requestParams['scene'] ?? '',
+            'out_trade_no'         => $requestParams['trade_no'] ?? '',
+            'scene'                => $requestParams['scene'] ?? 'bar_code',
             'auth_code'            => $requestParams['auth_code'] ?? '',
             'product_code'         => $requestParams['product_code'] ?? '',
             'subject'              => $requestParams['subject'] ?? '',
             'buyer_id'             => $requestParams['buyer_id'] ?? '',
             'seller_id'            => $requestParams['seller_id'] ?? '',
             'total_amount'         => $requestParams['amount'] ?? '',
-            'trans_currency'       => $requestParams['trans_currency'] ?? '',
-            'settle_currency'      => $requestParams['settle_currency'] ?? '',
+            'trans_currency'       => self::$config->get('fee_type', 'CNY'),
+            'settle_currency'      => $requestParams['settle_currency'] ?? 'CNY',
             'discountable_amount'  => $requestParams['discountable_amount'] ?? '',
             'body'                 => $requestParams['body'] ?? '',
             'goods_detail'         => $requestParams['goods_detail'] ?? '',
@@ -64,6 +65,7 @@ class BarCharge extends AliBaseObject implements IGatewayRequest
             'terminal_params'      => $requestParams['terminal_params'] ?? '',
             'promo_params'         => $requestParams['promo_params'] ?? '',
             'advance_payment_type' => $requestParams['advance_payment_type'] ?? '',
+            //'is_async_pay'         => $requestParams['is_async_pay'] ?? false,
         ];
         $bizContent = ArrayUtil::paraFilter($bizContent);
 
@@ -80,7 +82,7 @@ class BarCharge extends AliBaseObject implements IGatewayRequest
     {
         try {
             $params = $this->buildParams(self::METHOD, $requestParams);
-            $ret    = $this->post($this->gatewayUrl, $params);
+            $ret = $this->get($this->gatewayUrl, $params);
             $retArr = json_decode($ret, true);
             if (json_last_error() !== JSON_ERROR_NONE) {
                 throw new GatewayException(sprintf('format bar data get error, [%s]', json_last_error_msg()), Payment::FORMAT_DATA_ERR, $ret);

@@ -35,8 +35,8 @@ class TradeQuery extends AliBaseObject implements IGatewayRequest
     protected function getBizContent(array $requestParams)
     {
         $bizContent = [
-            'out_trade_no'   => $requestParams['out_trade_no'] ?? '',
-            'trade_no'       => $requestParams['trade_no'] ?? '',
+            'out_trade_no'   => $requestParams['trade_no'] ?? '',
+            'trade_no'       => $requestParams['transaction_id'] ?? '',
             'out_request_no' => $requestParams['refund_no'] ?? '',
             'org_pid'        => $requestParams['org_pid'] ?? '',
         ];

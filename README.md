@@ -248,6 +248,138 @@ $config = [
 
 ```
 
+#### APP支付请求参数
+
+> 对应channel： \Payment\Client::ALI_CHANNEL_APP
+
+字段 | 解释 | 必须
+---|---|---
+amount | 订单总金额，单位为元，精确到小数点后两位，取值范围[0.01,100000000] | Y
+goods_type | 商品主类型 :0-虚拟类商品,1-实物类商品 | Y
+body | 对一笔交易的具体描述信息。如果是多种商品，请将商品描述字符串累加传给body。 | Y
+subject | 商品的标题/交易标题/订单标题/订单关键字等。 | Y
+product_code | 销售产品码，商家和支付宝签约的产品码 | N
+trade_no | 商户网站唯一订单号 | N
+promo_params | 优惠参数 注：仅与支付宝协商后可用 | N
+return_params | 公用回传参数，如果请求时传递了该参数，则返回给商户时会回传该参数。 | N
+extend_params | 业务扩展参数 | N
+store_id | 商户门店编号 | N
+ext_user_info | 外部指定买家 | N
+business_params | 商户传入业务信息，具体值要和支付宝约定，应用于安全，营销等参数直传场景，格式为json格式 | N
+time_expire | 该笔订单允许的最晚付款时间，逾期将关闭交易。时间戳 | N
+
+#### 条码支付请求参数
+
+> 对应channel： \Payment\Client::ALI_CHANNEL_BAR
+
+字段 | 解释 | 必须
+---|---|---
+trade_no | 商户订单号,64个字符以内、可包含字母、数字、下划线；需保证在商户端不重复 | Y
+auth_code | 支付授权码，25~30开头的长度为16~24位的数字，实际字符串长度以开发者获取的付款码长度为准 | Y
+amount | 订单总金额，单位为元 | Y
+subject | 订单标题 | Y
+body | 订单描述 | Y
+scene | 支付场景 条码支付，取值：bar_code（默认）；声波支付，取值：wave_code | N
+product_code | 销售产品码 | N
+buyer_id | 买家的支付宝用户 id，如果为空，会从传入的码值信息中获取买家 ID | N
+seller_id | 如果该值为空，则默认为商户签约账号对应的支付宝用户ID | N
+settle_currency | 商户指定的结算币种，默认：CNY | N
+discountable_amount | 参与优惠计算的金额，单位为元 | N
+goods_detail | 订单包含的商品列表信息，json格式，其它说明详见商品明细说明 | N
+operator_id | 商户操作员编号 | N
+store_id | 商户门店编号 | N
+terminal_id | 商户机具终端编号 | N
+extend_params | 业务扩展参数 | N
+time_expire | 该笔订单允许的最晚付款时间，逾期将关闭交易 | N
+auth_confirm_mode | 预授权确认模式，授权转交易请求中传入，适用于预授权转交易业务使用，目前只支持PRE_AUTH(预授权产品码) | N
+terminal_params | 商户传入终端设备相关信息，具体值要和支付宝约定 | N
+promo_params | 优惠明细参数，通过此属性补充营销参数 | N
+advance_payment_type | 支付模式类型,若值为ENJOY_PAY_V2表示当前交易允许走先享后付2.0垫资 | N
+
+#### 查询对账单请求参数
+
+字段 | 解释 | 必须
+---|---|---
+bill_type | 账单类型，默认是 trade | N
+bill_date | 账单时间：日账单格式为yyyy-MM-dd | Y
+
+
+#### 扫码支付请求参数
+
+> 对应channel： \Payment\Client::ALI_CHANNEL_QR
+
+字段 | 解释 | 必须
+---|---|---
+trade_no | 商户订单号,64个字符以内、可包含字母、数字、下划线；需保证在商户端不重复 | Y
+seller_id | 如果该值为空，则默认为商户签约账号对应的支付宝用户ID | N
+amount | 订单总金额，单位为元 | Y
+discountable_amount | 参与优惠计算的金额，单位为元 | N
+subject | 订单标题 | Y
+goods_detail | 订单包含的商品列表信息，json格式，其它说明详见商品明细说明 | N
+body | 订单描述 | Y
+operator_id | 商户操作员编号 | N
+store_id | 商户门店编号 | N
+terminal_id | 商户机具终端编号 | N
+extend_params | 业务扩展参数 | N
+time_expire | 该笔订单允许的最晚付款时间，逾期将关闭交易 | N
+settle_info | 描述结算信息，json格式，详见结算参数说明 | N
+merchant_order_no | 商户原始订单号，最大长度限制32位 | N
+business_params | 商户传入业务信息，具体值要和支付宝约定，应用于安全，营销等参数直传场景，格式为json格式 | N
+
+
+#### 手机网站支付请求参数
+
+> 对应channel： \Payment\Client::ALI_CHANNEL_WAP
+
+字段 | 解释 | 必须
+---|---|---
+body | 对一笔交易的具体描述信息。如果是多种商品，请将商品描述字符串累加传给body。 | Y
+subject | 商品的标题/交易标题/订单标题/订单关键字等。 | Y
+trade_no | 商户网站唯一订单号 | Y
+time_expire | 该笔订单允许的最晚付款时间，逾期将关闭交易，时间戳 | N
+amount | 订单总金额，单位为元，精确到小数点后两位，取值范围[0.01,100000000] | N
+auth_token | 针对用户授权接口，获取用户相关数据时，用于标识用户授权关系注：若不属于支付宝业务经理提供签约服务的商户，暂不对外提供该功能，该参数使用无效 | N
+goods_type | 商品主类型：0—虚拟类商品，1—实物类商品 | Y
+return_params | 公用回传参数，如果请求时传递了该参数，则返回给商户时会回传该参数 | N
+quit_url | 添加该参数后在h5支付收银台会出现返回按钮，可用于用户付款中途退出并返回到该参数指定的商户网站地址。 | N
+promo_params | 优惠参数注：仅与支付宝协商后可用 | N
+extend_params | 业务扩展参数，详见下表的“业务扩展参数说明” | N
+store_id | 商户门店编号 | N
+specified_channel | 指定渠道，目前仅支持传入pcredit若由于用户原因渠道不可用，用户可选择是否用其他渠道支付。 | N
+business_params | 商户传入业务信息，具体值要和支付宝约定，应用于安全，营销等参数直传场景，格式为json格式 | N
+ext_user_info | 外部指定买家 | N
+
+#### 电脑网站支付请求参数
+
+> 对应channel： \Payment\Client::ALI_CHANNEL_WEB
+
+字段 | 解释 | 必须
+---|---|---
+trade_no | 商户网站唯一订单号 | Y
+amount | 订单总金额，单位为元，精确到小数点后两位，取值范围[0.01,100000000] | N
+body | 对一笔交易的具体描述信息。如果是多种商品，请将商品描述字符串累加传给body。 | Y
+subject | 商品的标题/交易标题/订单标题/订单关键字等。 | Y
+time_expire | 该笔订单允许的最晚付款时间，逾期将关闭交易，时间戳 | N
+goods_detail
+return_params | 公用回传参数，如果请求时传递了该参数，则返回给商户时会回传该参数 | N
+extend_params | 业务扩展参数，详见下表的“业务扩展参数说明” | N
+goods_type | 商品主类型：0—虚拟类商品，1—实物类商品 | Y
+promo_params | 优惠参数注：仅与支付宝协商后可用 | N
+royalty_info | 描述分账信息，json格式，详见分账参数说明 | N
+sub_merchant | 间连受理商户信息体，当前只对特殊银行机构特定场景下使用此字段 | N
+store_id | 商户门店编号 | N
+qr_pay_mode | PC扫码支付的方式，支持前置模式和，默认是2 | N
+qrcode_width | 商户自定义二维码宽度 | N
+settle_info | 描述结算信息，json格式，详见结算参数说明 | N
+invoice_info | 开票信息 | N
+agreement_sign_params | 签约参数，支付后签约场景使用 | N
+integration_type | 请求后页面的集成方式 | N
+request_from_url | 请求来源地址。如果使用ALIAPP的集成方式，用户中途取消支付会返回该地址。 | N
+business_params | 商户传入业务信息，具体值要和支付宝约定，应用于安全，营销等参数直传场景，格式为json格式 | N
+ext_user_info | 外部指定买家 | N
+
+
+
 ### 微信
 
 对于每一个微信支持的能力，并不是所有参数都支持了，有些参数绝大多数场景并不需要用到。如果确实需要请自行对源码进行修改。
@@ -281,6 +413,8 @@ $config = [
 ```
 
 #### 支付请求参数
+
+> 对应channel： \Payment\Client::WX_CHANNEL_APP、WX_CHANNEL_BAR、WX_CHANNEL_LITE、WX_CHANNEL_PUB、WX_CHANNEL_QR、WX_CHANNEL_WAP
 
 字段 | 解释 | 必须
 ---|---|---
@@ -433,6 +567,21 @@ $config = [
 
 ### 支付宝
 
+- [条码支付](https://docs.open.alipay.com/194/106039/)
+- [扫码支付](https://docs.open.alipay.com/194/106078/)
+- [APP支付](https://docs.open.alipay.com/204/105297/)
+- [H5支付](https://docs.open.alipay.com/203/105285/)
+- [电脑网站支付](https://docs.open.alipay.com/270/105899/)
+- [退款](https://docs.open.alipay.com/api_1/alipay.trade.refund)
+- [关闭交易](https://docs.open.alipay.com/api_1/alipay.trade.close)
+- [撤销交易](https://docs.open.alipay.com/api_1/alipay.trade.cancel) 条码/扫码支付会用到
+- [交易查询](https://docs.open.alipay.com/api_1/alipay.trade.query)
+- [退款查询](https://docs.open.alipay.com/api_1/alipay.trade.fastpay.refund.query)
+- [下载对账单](https://docs.open.alipay.com/api_15/alipay.data.dataservice.bill.downloadurl.query)
+- [转账到支付宝](https://docs.open.alipay.com/api_28/alipay.fund.trans.toaccount.transfer)
+- [支付宝转账查询](https://docs.open.alipay.com/api_28/alipay.fund.trans.order.query/)
+- [交易创建](https://docs.open.alipay.com/api_1/alipay.trade.create) 条码/扫码支付会用到
+
 ### 微信
 
 支持 `普通商户与服务商两个版本`
@@ -448,15 +597,31 @@ $config = [
 - [撤销交易](https://pay.weixin.qq.com/wiki/doc/api/micropay.php?chapter=9_11&index=3)
 - [交易查询](https://pay.weixin.qq.com/wiki/doc/api/H5.php?chapter=9_2&index=2)
 - [退款查询](https://pay.weixin.qq.com/wiki/doc/api/H5.php?chapter=9_5&index=5)
-- [企业转账查询](https://pay.weixin.qq.com/wiki/doc/api/tools/mch_pay.php?chapter=24_3)
-- [零钱转账查询](https://pay.weixin.qq.com/wiki/doc/api/tools/mch_pay.php?chapter=14_3)
 - [下载对账单](https://pay.weixin.qq.com/wiki/doc/api/H5.php?chapter=9_6&index=6)
 - [下载资金账单](https://pay.weixin.qq.com/wiki/doc/api/H5.php?chapter=9_18&index=7)
-- [企业转账](https://pay.weixin.qq.com/wiki/doc/api/tools/mch_pay.php?chapter=24_2) 该接口还有些问题待处理
-- [零钱转账](https://pay.weixin.qq.com/wiki/doc/api/tools/mch_pay.php?chapter=14_2)
+- [转账到银行卡](https://pay.weixin.qq.com/wiki/doc/api/tools/mch_pay.php?chapter=24_2) 该接口还有些问题待处理
+- [转账到微信零钱](https://pay.weixin.qq.com/wiki/doc/api/tools/mch_pay.php?chapter=14_2)
+- [银行转账查询](https://pay.weixin.qq.com/wiki/doc/api/tools/mch_pay.php?chapter=24_3)
+- [微信转账查询](https://pay.weixin.qq.com/wiki/doc/api/tools/mch_pay.php?chapter=14_3)
 
 
 ### 招商
+
+- [APP支付](http://openhome.cmbchina.com/PayNew/pay/doc/cell/app/SDKPayAPI)
+- [H5支付](http://openhome.cmbchina.com/PayNew/pay/doc/cell/H5/OneCardPayAPI)
+- [PC扫码支付](http://openhome.cmbchina.com/PayNew/pay/doc/cell/pc/GeneratePayPageAPI)
+- [二维码支付](http://openhome.cmbchina.com/PayNew/pay/doc/cell/QRcode/QRcodePayAPI)
+- [退款](http://openhome.cmbchina.com/PayNew/pay/doc/cell/QRcode/RefundAPI)
+- [交易查询](http://openhome.cmbchina.com/PayNew/pay/doc/cell/QRcode/QuerySingleOrderAPI)
+- [退款查询](http://openhome.cmbchina.com/PayNew/pay/doc/cell/QRcode/QuerySettledRefund)
+- [查询协议](http://openhome.cmbchina.com/PayNew/pay/doc/cell/app/QueryProtocolAPI)
+- [取消协议](http://openhome.cmbchina.com/PayNew/pay/doc/cell/app/CancelProtocolAPI)
+- [查询入账明细](http://openhome.cmbchina.com/PayNew/pay/doc/cell/app/RecordedDetailsAPI)
+- [下载退款对账单](http://openhome.cmbchina.com/PayNew/pay/doc/cell/QRcode/RefundQueryAPI)
+- [下载已结账单for商户](http://openhome.cmbchina.com/PayNew/pay/doc/cell/QRcode/QuerySettledOrderByMerchantDat)
+- [下载已结账单for银行](http://openhome.cmbchina.com/PayNew/pay/doc/cell/QRcode/QuerySettledOrderByBankDate)
+- [下载对账单](http://openhome.cmbchina.com/PayNew/pay/doc/cell/QRcode/DownloadRecordedDetails)
+- [查询招行公钥](http://openhome.cmbchina.com/PayNew/pay/doc/cell/QRcode/QueryKeyAPI)
 
 # 贡献指南
 

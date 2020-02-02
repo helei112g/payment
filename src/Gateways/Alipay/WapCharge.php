@@ -43,7 +43,7 @@ class WapCharge extends AliBaseObject implements IGatewayRequest
         $bizContent = [
             'body'            => $requestParams['body'] ?? '',
             'subject'         => $requestParams['subject'] ?? '',
-            'out_trade_no'    => $requestParams['order_no'] ?? '',
+            'out_trade_no'    => $requestParams['trade_no'] ?? '',
             'timeout_express' => $timeoutExp,
             'time_expire'     => $timeExpire ? date('Y-m-d H:i', $timeExpire) : '',
             'total_amount'    => $requestParams['amount'] ?? '',
@@ -51,12 +51,12 @@ class WapCharge extends AliBaseObject implements IGatewayRequest
             'goods_type'      => $requestParams['goods_type'] ?? '',
             'passback_params' => $requestParams['return_params'] ?? '',
             'quit_url'        => $requestParams['quit_url'] ?? '',
-            'product_code'    => $requestParams['product_code'] ?? 'QUICK_WAP_WAY',
+            'product_code'    => 'QUICK_WAP_WAY',
             'promo_params'    => $requestParams['promo_params'] ?? '',
             'extend_params'   => $requestParams['extend_params'] ?? '',
             // 使用禁用列表
             //'enable_pay_channels' => '',
-            'disable_pay_channels' => $requestParams['limit_pay'] ?? '',
+            'disable_pay_channels' => implode(self::$config->get('limit_pay', ''), ','),
             'store_id'             => $requestParams['store_id'] ?? '',
             'specified_channel'    => $requestParams['specified_channel'] ?? '',
             'business_params'      => $requestParams['business_params'] ?? '',

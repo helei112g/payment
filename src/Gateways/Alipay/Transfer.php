@@ -35,7 +35,7 @@ class Transfer extends AliBaseObject implements IGatewayRequest
     protected function getBizContent(array $requestParams)
     {
         $bizContent = [
-            'out_biz_no'      => $requestParams['transfer_no'] ?? '',
+            'out_biz_no'      => $requestParams['trans_no'] ?? '',
             'payee_type'      => $requestParams['payee_type'] ?? '',
             'payee_account'   => $requestParams['payee_account'] ?? '',
             'amount'          => $requestParams['amount'] ?? '',

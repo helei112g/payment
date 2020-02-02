@@ -35,7 +35,7 @@ class TradeCreate extends AliBaseObject implements IGatewayRequest
     protected function getBizContent(array $requestParams)
     {
         $bizContent = [
-            'out_trade_no'          => $requestParams['out_trade_no'] ?? '',
+            'out_trade_no'          => $requestParams['trade_no'] ?? '',
             'seller_id'             => $requestParams['seller_id'] ?? '',
             'total_amount'          => $requestParams['total_amount'] ?? '',
             'discountable_amount'   => $requestParams['discountable_amount'] ?? '',
