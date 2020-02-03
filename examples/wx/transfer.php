@@ -15,7 +15,7 @@ date_default_timezone_set('Asia/Shanghai');
 $wxConfig = require_once __DIR__ . '/../wxconfig.php';
 
 $data = [
-    'channel' => 'account', // account: 转微信，bank：转银行
+    'channel' => \Payment\Client::TRANSFER_CHANNEL_ACCOUNT, // account: 转微信，bank：转银行
 
     // account的参数
     'device_info'     => '',
