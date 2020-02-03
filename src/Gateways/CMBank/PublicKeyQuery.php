@@ -35,6 +35,11 @@ class PublicKeyQuery extends CMBaseObject implements IGatewayRequest
      */
     public function request(array $requestParams)
     {
+        $this->gatewayUrl = 'https://b2b.cmbchina.com/%s';
+        if ($this->isSandbox) {
+            $this->gatewayUrl = 'http://121.15.180.72/%s';
+        }
+
         try {
             return $this->requestCMBApi(self::METHOD, $requestParams);
         } catch (GatewayException $e) {

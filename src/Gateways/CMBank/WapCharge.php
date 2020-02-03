@@ -20,14 +20,11 @@ use Payment\Exceptions\GatewayException;
  * @email   : dayugog@gmail.com
  * @date    : 2019/3/28 10:21 PM
  * @version : 1.0.0
- * @desc    : 一网通支付: 客户首次一网通支付时，商户必须为客户生成一网通支付协议号，招行系统将引导客户先进行绑卡签约，再完成支付。
- *            非首次支付时，商户传送已签约的客户协议号，客户输入支付密码等信息后完成支付。
+ * @desc    : wap支付
  **/
 class WapCharge extends CMBaseObject implements IGatewayRequest
 {
-    const ONLINE_METHOD = 'https://netpay.cmbchina.com/netpayment/BaseHttp.dll?MB_EUserPay';
-
-    const SANDBOX_METHOD = 'http://121.15.180.66:801/NetPayment/BaseHttp.dll?MB_EUserPay';
+    const METHOD = 'netpayment/BaseHttp.dll?MB_EUserPay';
 
     /**
      * 获取第三方返回结果
@@ -37,10 +34,15 @@ class WapCharge extends CMBaseObject implements IGatewayRequest
      */
     public function request(array $requestParams)
     {
-        // 初始 网关地址
-        $this->setGatewayUrl(self::ONLINE_METHOD);
+        $this->gatewayUrl = 'https://netpay.cmbchina.com/%s';
         if ($this->isSandbox) {
-            $this->setGatewayUrl(self::SANDBOX_METHOD);
+            $this->gatewayUrl = 'http://121.15.180.66:801/%s';
+        }
+
+        try {
+            return $this->requestCMBApi(self::METHOD, $requestParams);
+        } catch (GatewayException $e) {
+            throw $e;
         }
     }
 
@@ -62,14 +64,14 @@ class WapCharge extends CMBaseObject implements IGatewayRequest
             'branchNo'         => self::$config->get('branch_no', ''),
             'merchantNo'       => self::$config->get('mch_id', ''),
             'date'             => date('Ymd', $requestParams['date'] ?? $nowTime),
-            'orderNo'          => $requestParams['order_no'] ?? '',
+            'orderNo'          => $requestParams['trade_no'] ?? '',
             'amount'           => $requestParams['amount'] ?? '', // 固定两位小数，最大11位整数
             'expireTimeSpan'   => $timeExpire,
             'payNoticeUrl'     => self::$config->get('notify_url', ''),
             'payNoticePara'    => $requestParams['return_param'] ?? '',
             'returnUrl'        => self::$config->get('return_url', ''),
             'clientIP'         => $requestParams['client_ip'] ?? '',
-            'cardType'         => $requestParams['limit_pay'] ?? '', // A:储蓄卡支付，即禁止信用卡支付
+            'cardType'         => self::$config->get('limit_pay', ''), // A:储蓄卡支付，即禁止信用卡支付
             'agrNo'            => $requestParams['agr_no'] ?? '',
             'merchantSerialNo' => $requestParams['merchant_serial_no'] ?? '',
             'userID'           => $requestParams['user_id'] ?? '',
@@ -78,7 +80,7 @@ class WapCharge extends CMBaseObject implements IGatewayRequest
             'lat'              => $requestParams['lat'] ?? '',
             'riskLevel'        => $requestParams['risk_level'] ?? '',
             'signNoticeUrl'    => self::$config->get('sign_notify_url', ''),
-            'signNoticePara'   => self::$config->get('return_param', ''),
+            'signNoticePara'   => $requestParams['return_param'] ?? '',
             //'extendInfo' => '',
             //'extendInfoEncrypType' => '',
         ];

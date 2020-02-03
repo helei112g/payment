@@ -24,9 +24,7 @@ use Payment\Exceptions\GatewayException;
  **/
 class WebCharge extends CMBaseObject implements IGatewayRequest
 {
-    const ONLINE_METHOD = 'https://netpay.cmbchina.com/netpayment/BaseHttp.dll?PC_EUserPay';
-
-    const SANDBOX_METHOD = 'http://121.15.180.66:801/netpayment/BaseHttp.dll?PC_EUserPay';
+    const METHOD = 'netpayment/BaseHttp.dll?PC_EUserPay';
 
     /**
      * 获取第三方返回结果
@@ -36,10 +34,15 @@ class WebCharge extends CMBaseObject implements IGatewayRequest
      */
     public function request(array $requestParams)
     {
-        // 初始 网关地址
-        $this->setGatewayUrl(self::ONLINE_METHOD);
+        $this->gatewayUrl = 'https://netpay.cmbchina.com/%s';
         if ($this->isSandbox) {
-            $this->setGatewayUrl(self::SANDBOX_METHOD);
+            $this->gatewayUrl = 'http://121.15.180.66:801/%s';
+        }
+
+        try {
+            return $this->requestCMBApi(self::METHOD, $requestParams);
+        } catch (GatewayException $e) {
+            throw $e;
         }
     }
 
@@ -61,7 +64,7 @@ class WebCharge extends CMBaseObject implements IGatewayRequest
             'branchNo'         => self::$config->get('branch_no', ''),
             'merchantNo'       => self::$config->get('mch_id', ''),
             'date'             => date('Ymd', $requestParams['date'] ?? $nowTime),
-            'orderNo'          => $requestParams['order_no'] ?? '',
+            'orderNo'          => $requestParams['trade_no'] ?? '',
             'amount'           => $requestParams['amount'] ?? '', // 固定两位小数，最大11位整数
             'expireTimeSpan'   => $timeExpire,
             'payNoticeUrl'     => self::$config->get('notify_url', ''),
@@ -69,7 +72,7 @@ class WebCharge extends CMBaseObject implements IGatewayRequest
             'productDesc'      => $requestParams['body'] ?? '',
             'returnUrl'        => self::$config->get('return_url', ''),
             'clientIP'         => $requestParams['client_ip'] ?? '',
-            'cardType'         => $requestParams['limit_pay'] ?? '', // A:储蓄卡支付，即禁止信用卡支付
+            'cardType'         => self::$config->get('limit_pay', ''), // A:储蓄卡支付，即禁止信用卡支付
             'agrNo'            => $requestParams['agr_no'] ?? '',
             'merchantSerialNo' => $requestParams['merchant_serial_no'] ?? '',
             'userID'           => $requestParams['user_id'] ?? '',
@@ -78,7 +81,7 @@ class WebCharge extends CMBaseObject implements IGatewayRequest
             'lat'              => $requestParams['lat'] ?? '',
             'riskLevel'        => $requestParams['risk_level'] ?? '',
             'signNoticeUrl'    => self::$config->get('sign_notify_url', ''),
-            'signNoticePara'   => self::$config->get('return_param', ''),
+            'signNoticePara'   => $requestParams['return_param'] ?? '',
             //'encrypType' => '',
             //'encrypData' => '',
         ];

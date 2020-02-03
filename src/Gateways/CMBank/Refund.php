@@ -13,7 +13,6 @@ namespace Payment\Gateways\CMBank;
 
 use Payment\Contracts\IGatewayRequest;
 use Payment\Exceptions\GatewayException;
-use Payment\Payment;
 
 /**
  * @package Payment\Gateways\CMBank
@@ -25,9 +24,9 @@ use Payment\Payment;
  **/
 class Refund extends CMBaseObject implements IGatewayRequest
 {
-    const ONLINE_METHOD = 'https://payment.ebank.cmbchina.com/NetPayment/BaseHttp.dll?DoRefundV2';
+    const METHOD = 'NetPayment/BaseHttp.dll?DoRefundV2';
 
-    const SANDBOX_METHOD = 'http://121.15.180.66:801/NetPayment_dl/BaseHttp.dll?DoRefundV2';
+    const SANDBOX_METHOD = 'NetPayment_dl/BaseHttp.dll?DoRefundV2';
 
     /**
      * 获取第三方返回结果
@@ -37,36 +36,37 @@ class Refund extends CMBaseObject implements IGatewayRequest
      */
     public function request(array $requestParams)
     {
-        // 初始 网关地址
-        $this->setGatewayUrl(self::ONLINE_METHOD);
+        $method = self::METHOD;
+        $this->gatewayUrl = 'https://payment.ebank.cmbchina.com/%s';
         if ($this->isSandbox) {
-            $this->setGatewayUrl(self::SANDBOX_METHOD);
+            $method = self::SANDBOX_METHOD;
+            $this->gatewayUrl = 'http://121.15.180.66:801/%s';
+        }
+        try {
+
+            return $this->requestCMBApi($method, $requestParams);
+        } catch (GatewayException $e) {
+            throw $e;
         }
     }
 
     /**
      * @param array $requestParams
      * @return mixed
-     * @throws GatewayException
      */
     protected function getRequestParams(array $requestParams)
     {
         $nowTime   = time();
-        $orderDate = $requestParams['order_date'] ?? 0;
-        if (empty($orderDate)) {
-            throw new GatewayException('must have order date, format:[yyyyMMdd]', Payment::PARAMS_ERR);
-        }
-        $orderDate = date('Ymd', $orderDate);
 
         $params = [
             'dateTime'       => date('YmdHis', $nowTime),
             'branchNo'       => self::$config->get('branch_no', ''),
             'merchantNo'     => self::$config->get('mch_id', ''),
-            'date'           => $orderDate, // 商户订单日期,格式：yyyyMMdd
-            'orderNo'        => $requestParams['order_no'] ?? '',
+            'date'           => date('Ymd', $requestParams['date'] ?? $nowTime), // 商户订单日期,格式：yyyyMMdd
+            'orderNo'        => $requestParams['trade_no'] ?? '',
             'refundSerialNo' => $requestParams['refund_no'] ?? '',
-            'amount'         => $requestParams['amount'] ?? '',
-            'desc'           => $requestParams['desc'] ?? '',
+            'amount'         => $requestParams['refund_fee'] ?? '',
+            'desc'           => $requestParams['reason'] ?? '',
             'operatorNo'     => $requestParams['operator_id'] ?? '',
             //'encrypType'   => $requestParams['encryp_type'] ?? '', // 暂时只支持不加密，后续实现一下
             //'pwd' => $requestParams['pwd'] ?? '',

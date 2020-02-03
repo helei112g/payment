@@ -11,20 +11,21 @@
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 
-
 date_default_timezone_set('Asia/Shanghai');
-$cmbConfig = require_once __DIR__ . '/../cmbconfig.php';
+$wxConfig = require_once __DIR__ . '/../wxconfig.php';
 
-$data = [
-    'trade_no'   => '9336161758',
-    'date'           => time(),
-    'transaction_id' => '17242823500000000010',
+// 订单信息
+$params = [
+    'mode' => 'bank', // bank mch
+    'start_time' => strtotime("-2days"),
+    'end_time' => time(),
+    'operator_id' => '9999'
 ];
 
 // 使用
 try {
-    $client = new \Payment\Client(\Payment\Client::CMB, $cmbConfig);
-    $res    = $client->tradeQuery($data);
+    $client = new \Payment\Client(\Payment\Client::CMB, $wxConfig);
+    $res    = $client->settleDownload($params);
 } catch (InvalidArgumentException $e) {
     echo $e->getMessage();
     exit;
@@ -32,9 +33,6 @@ try {
     echo $e->getMessage();
     exit;
 } catch (\Payment\Exceptions\ClassNotFoundException $e) {
-    echo $e->getMessage();
-    exit;
-} catch (Exception $e) {
     echo $e->getMessage();
     exit;
 }

@@ -24,9 +24,9 @@ use Payment\Exceptions\GatewayException;
  **/
 class BillRefund extends CMBaseObject implements IGatewayRequest
 {
-    const ONLINE_METHOD = 'https://payment.ebank.cmbchina.com/NetPayment/BaseHttp.dll?QueryRefundByDateV2';
+    const METHOD = 'NetPayment/BaseHttp.dll?QueryRefundByDateV2';
 
-    const SANDBOX_METHOD = 'http://121.15.180.66:801/Netpayment_dl/BaseHttp.dll?QueryRefundByDateV2';
+    const SANDBOX_METHOD = 'Netpayment_dl/BaseHttp.dll?QueryRefundByDateV2';
 
     /**
      * 获取第三方返回结果
@@ -36,10 +36,17 @@ class BillRefund extends CMBaseObject implements IGatewayRequest
      */
     public function request(array $requestParams)
     {
-        // 初始 网关地址
-        $this->setGatewayUrl(self::ONLINE_METHOD);
+        $method = self::METHOD;
+        $this->gatewayUrl = 'https://payment.ebank.cmbchina.com/%s';
         if ($this->isSandbox) {
-            $this->setGatewayUrl(self::SANDBOX_METHOD);
+            $method = self::SANDBOX_METHOD;
+            $this->gatewayUrl = 'http://121.15.180.66:801/%s';
+        }
+        try {
+
+            return $this->requestCMBApi($method, $requestParams);
+        } catch (GatewayException $e) {
+            throw $e;
         }
     }
 
@@ -53,7 +60,7 @@ class BillRefund extends CMBaseObject implements IGatewayRequest
         $startTime = $requestParams['start_time'] ?? strtotime('-1 days');
         $startTime = date('Ymd', $startTime);
 
-        $endTime = $requestParams['start_time'] ?? $nowTime;
+        $endTime = $requestParams['end_time'] ?? $nowTime;
         $endTime = date('Ymd', $endTime);
 
         $params = [

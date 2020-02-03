@@ -22,11 +22,11 @@ use Payment\Exceptions\GatewayException;
  * @version : 1.0.0
  * @desc    : 查询入账明细: 查询商户入账明细，商户系统应以招行入账明细为准进行对账，对账不平的交易进行退款或请款协商。
  **/
-class Bill extends CMBaseObject implements IGatewayRequest
+class QueryBill extends CMBaseObject implements IGatewayRequest
 {
-    const ONLINE_METHOD = 'https://payment.ebank.cmbchina.com/NetPayment/BaseHttp.dll?QueryAccountListV2';
+    const METHOD = 'NetPayment/BaseHttp.dll?QueryAccountListV2';
 
-    const SANDBOX_METHOD = 'http://121.15.180.66:801/NetPayment_dl/BaseHttp.dll?QueryAccountListV2';
+    const SANDBOX_METHOD = 'NetPayment_dl/BaseHttp.dll?QueryAccountListV2';
 
     /**
      * 获取第三方返回结果
@@ -36,10 +36,17 @@ class Bill extends CMBaseObject implements IGatewayRequest
      */
     public function request(array $requestParams)
     {
-        // 初始 网关地址
-        $this->setGatewayUrl(self::ONLINE_METHOD);
+        $method = self::METHOD;
+        $this->gatewayUrl = 'https://payment.ebank.cmbchina.com/%s';
         if ($this->isSandbox) {
-            $this->setGatewayUrl(self::SANDBOX_METHOD);
+            $method = self::SANDBOX_METHOD;
+            $this->gatewayUrl = 'http://121.15.180.66:801/%s';
+        }
+        try {
+
+            return $this->requestCMBApi($method, $requestParams);
+        } catch (GatewayException $e) {
+            throw $e;
         }
     }
 
@@ -50,14 +57,12 @@ class Bill extends CMBaseObject implements IGatewayRequest
     protected function getRequestParams(array $requestParams)
     {
         $nowTime  = time();
-        $billData = $requestParams['bill_date'] ?? strtotime('-1 days');
-        $billData = date('Ymd', $billData);
 
         $params = [
             'dateTime'     => date('YmdHis', $nowTime),
             'branchNo'     => self::$config->get('branch_no', ''),
             'merchantNo'   => self::$config->get('mch_id', ''),
-            'date'         => $billData,
+            'date'         => date('Ymd', $requestParams['date'] ?? $nowTime),
             'operatorNo'   => $requestParams['operator_id'] ?? '',
             'nextKeyValue' => $requestParams['next_key_value'] ?? '', // 首次查询填“空”; 后续查询，按应答报文中返回的nextKeyValue值原样传入.
         ];

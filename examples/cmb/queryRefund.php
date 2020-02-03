@@ -11,25 +11,32 @@
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 
-use Payment\Client\Query;
-use Payment\Common\PayException;
-use Payment\Config;
-
 date_default_timezone_set('Asia/Shanghai');
 $cmbConfig = require_once __DIR__ . '/../cmbconfig.php';
 
 $data = [
-    'out_trade_no' => '9354737499',
+    'trade_no' => '9354737499',
     'refund_no'    => '', // 商户退款流水号,长度不超过20位
-    'date'         => '20170430',
-    'refund_id'    => '', // 银行退款流水号,长度不超过20位
+    'date'         => time(),
+    'bank_serial_no'    => '', // 银行退款流水号,长度不超过20位
 ];
 
+// 使用
 try {
-    $ret = Query::run(Config::CMB_REFUND, $cmbConfig, $data);
-} catch (PayException $e) {
-    echo $e->errorMessage();
+    $client = new \Payment\Client(\Payment\Client::CMB, $cmbConfig);
+    $res    = $client->refundQuery($data);
+} catch (InvalidArgumentException $e) {
+    echo $e->getMessage();
+    exit;
+} catch (\Payment\Exceptions\GatewayException $e) {
+    echo $e->getMessage();
+    exit;
+} catch (\Payment\Exceptions\ClassNotFoundException $e) {
+    echo $e->getMessage();
+    exit;
+} catch (Exception $e) {
+    echo $e->getMessage();
     exit;
 }
 
-echo json_encode($ret, JSON_UNESCAPED_UNICODE);
+var_dump($res);

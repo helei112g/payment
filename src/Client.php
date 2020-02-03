@@ -75,9 +75,15 @@ class Client
     const WX_SETTLE_MULTI = 'multi'; // 多次分账
 
     /*----------------招行--------------------*/
-    const CMB_CHANNEL_APP = 'app';// 招商 app  ，实际上招商并无该概念
+    const CMB_CHANNEL_APP = 'app';// 招商 app
 
-    const CMB_CHANNEL_WAP = 'wap';// 招商h5支付，其实app支付也是使用的h5
+    const CMB_CHANNEL_WAP = 'wap';// 招商h5支付
+
+    const CMB_CHANNEL_WEB = 'web';// 招商pc
+
+    const CMB_CHANNEL_QR = 'qr';// 招商qr
+
+    const CMB_CHANNEL_LITE = 'lite';// 招商小程序
 
     /*----------------其它--------------------*/
     const TRANSFER_CHANNEL_BANK = 'bank';

@@ -12,18 +12,16 @@
 return [
     'use_sandbox' => true, // 是否使用 招商测试系统
 
-    'branch_no' => 'xxx',  // 商户分行号，4位数字
-    'mch_id'    => 'xxxx', // 商户号，6位数字
-    'mer_key'   => 'xxxxxx', // 秘钥16位，包含大小写字母 数字
+    'branch_no' => 'xxxx',  // 商户分行号，4位数字
+    'mch_id'    => 'xxxxxx', // 商户号，6位数字
+    'mer_key'   => 'xxxaaaabbbccccc1', // 秘钥16位，包含大小写字母 数字
 
     // 招商的公钥，建议每天凌晨2:15发起查询招行公钥请求更新公钥。
-    'cmb_pub_key' => 'xxxxx',
+    'cmb_pub_key' => 'xxxxxx',
 
-    'op_pwd'    => 'xxxxx', // 操作员登录密码。
+    'op_pwd'    => 'xxxxxx', // 操作员登录密码。
     'sign_type' => 'SHA-256', // 签名算法,固定为“SHA-256”
-    'limit_pay' => [
-        //'A',
-    ], // 允许支付的卡类型,默认对支付卡种不做限制，储蓄卡和信用卡均可支付   A:储蓄卡支付，即禁止信用卡支付
+    'limit_pay' => 'A', // 允许支付的卡类型,默认对支付卡种不做限制，储蓄卡和信用卡均可支付   A:储蓄卡支付，即禁止信用卡支付
 
     'notify_url' => 'https://dayutalk.cn/notify/cmb', // 支付成功的回调
 

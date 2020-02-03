@@ -112,7 +112,7 @@ class RsaEncrypt
             throw new \Exception('支付宝RSA公钥错误。请检查公钥文件格式是否正确');
         }
 
-        $result = (bool) openssl_verify($data, base64_decode($sign), $res);
+        $result = (bool) openssl_verify($data, base64_decode($sign), $res, OPENSSL_ALGO_SHA1);
         openssl_free_key($res);
         return $result;
     }

@@ -11,11 +11,20 @@
 
 namespace Payment\Proxies;
 
+use InvalidArgumentException;
+use Payment\Contracts\IGatewayRequest;
 use Payment\Contracts\IPayNotify;
 use Payment\Contracts\IPayProxy;
 use Payment\Contracts\IQueryProxy;
 use Payment\Exceptions\GatewayException;
+use Payment\Gateways\CMBank\Bill;
+use Payment\Gateways\CMBank\BillRefund;
 use Payment\Gateways\CMBank\PublicKeyQuery;
+use Payment\Gateways\CMBank\Refund;
+use Payment\Gateways\CMBank\RefundQuery;
+use Payment\Gateways\CMBank\Settlement;
+use Payment\Gateways\CMBank\TradeQuery;
+use Payment\Payment;
 use Payment\Supports\BaseObject;
 
 /**
@@ -33,20 +42,51 @@ class CMBankProxy extends BaseObject implements IPayProxy, IQueryProxy
      * @param string $channel
      * @param array $requestParams
      * @return mixed
+     * @throws GatewayException
      */
     public function pay(string $channel, array $requestParams)
     {
-        // TODO: Implement pay() method.
+        $className = $this->getChargeClass($channel);
+        if (!class_exists($className)) {
+            throw new InvalidArgumentException(sprintf('Gateway [%s] not exists.', $className), Payment::CLASS_NOT_EXIST);
+        }
+
+        try {
+            /**
+             * @var IGatewayRequest $charge
+             */
+            $charge = new $className();
+            return $charge->request($requestParams);
+        } catch (GatewayException $e) {
+            throw $e;
+        }
+    }
+
+    /**
+     * 获取支付类
+     * @param string $channel
+     * @return string
+     */
+    private function getChargeClass(string $channel)
+    {
+        $name = ucfirst(str_replace(['-', '_', ''], '', $channel));
+        return "Payment\\Gateways\\CMBank\\{$name}Charge";
     }
 
     /**
      * 退款操作
      * @param array $requestParams
      * @return mixed
+     * @throws GatewayException
      */
     public function refund(array $requestParams)
     {
-        // TODO: Implement refund() method.
+        try {
+            $trade = new Refund();
+            return $trade->request($requestParams);
+        } catch (GatewayException $e) {
+            throw $e;
+        }
     }
 
     /**
@@ -63,70 +103,102 @@ class CMBankProxy extends BaseObject implements IPayProxy, IQueryProxy
      * 取消交易
      * @param array $requestParams
      * @return mixed
+     * @throws GatewayException
      */
     public function cancel(array $requestParams)
     {
-        // TODO: Implement cancel() method.
+        throw new GatewayException('cmb not support the method.', Payment::NOT_SUPPORT_METHOD);
     }
 
     /**
      * 关闭交易
      * @param array $requestParams
      * @return mixed
+     * @throws GatewayException
      */
     public function close(array $requestParams)
     {
-        // TODO: Implement close() method.
+        throw new GatewayException('cmb not support the method.', Payment::NOT_SUPPORT_METHOD);
     }
 
     /**
      * 交易查询
      * @param array $requestParams
      * @return mixed
+     * @throws GatewayException
      */
     public function tradeQuery(array $requestParams)
     {
-        // TODO: Implement tradeQuery() method.
+        try {
+            $trade = new TradeQuery();
+            return $trade->request($requestParams);
+        } catch (GatewayException $e) {
+            throw $e;
+        }
     }
 
     /**
      * 退款查询
      * @param array $requestParams
      * @return mixed
+     * @throws GatewayException
      */
     public function refundQuery(array $requestParams)
     {
-        // TODO: Implement refundQuery() method.
+        try {
+            $trade = new RefundQuery();
+            return $trade->request($requestParams);
+        } catch (GatewayException $e) {
+            throw $e;
+        }
     }
 
     /**
      * 转账查询
      * @param array $requestParams
      * @return mixed
+     * @throws GatewayException
      */
     public function transferQuery(array $requestParams)
     {
-        // TODO: Implement transferQuery() method.
+        throw new GatewayException('cmb not support the method.', Payment::NOT_SUPPORT_METHOD);
     }
 
     /**
      * 账单查询
      * @param array $requestParams
      * @return mixed
+     * @throws GatewayException
      */
     public function billDownload(array $requestParams)
     {
-        // TODO: Implement billDownload() method.
+        try {
+            if ($requestParams['type'] === 'refund') {
+                $i = new BillRefund(); // 查询退款账单
+            } else {
+                $i = new Bill(); // 查询交易账单
+            }
+
+            return $i->request($requestParams);
+        } catch (GatewayException $e) {
+            throw $e;
+        }
     }
 
     /**
      * 打款结算查询
      * @param array $requestParams
      * @return mixed
+     * @throws GatewayException
      */
     public function settleDownload(array $requestParams)
     {
-        // TODO: Implement settleDownload() method.
+        try {
+            $trade = new Settlement();
+            return $trade->request($requestParams);
+        } catch (GatewayException $e) {
+            throw $e;
+        }
     }
 
     /**

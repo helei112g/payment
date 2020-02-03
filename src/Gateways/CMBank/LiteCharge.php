@@ -24,9 +24,7 @@ use Payment\Exceptions\GatewayException;
  **/
 class LiteCharge extends CMBaseObject implements IGatewayRequest
 {
-    const ONLINE_METHOD = 'https://netpay.cmbchina.com/netpayment/BaseHttp.dll?MB_APPPay';
-
-    const SANDBOX_METHOD = 'http://121.15.180.66:801/netpayment/BaseHttp.dll?MB_APPPay';
+    const METHOD = 'netpayment/BaseHttp.dll?MB_APPPay';
 
     /**
      * app支付不需要请求第三方，签名后返回给客户端
@@ -36,10 +34,15 @@ class LiteCharge extends CMBaseObject implements IGatewayRequest
      */
     public function request(array $requestParams)
     {
-        // 初始 网关地址
-        $this->setGatewayUrl(self::ONLINE_METHOD);
+        $this->gatewayUrl = 'https://netpay.cmbchina.com/%s';
         if ($this->isSandbox) {
-            $this->setGatewayUrl(self::SANDBOX_METHOD);
+            $this->gatewayUrl = 'http://121.15.180.66:801/%s';
+        }
+
+        try {
+            return $this->requestCMBApi(self::METHOD, $requestParams);
+        } catch (GatewayException $e) {
+            throw $e;
         }
     }
 
@@ -61,27 +64,18 @@ class LiteCharge extends CMBaseObject implements IGatewayRequest
             'branchNo'          => self::$config->get('branch_no', ''),
             'merchantNo'        => self::$config->get('mch_id', ''),
             'date'              => date('Ymd', $requestParams['date'] ?? $nowTime),
-            'orderNo'           => $requestParams['order_no'] ?? '',
+            'orderNo'           => $requestParams['trade_no'] ?? '',
             'amount'            => $requestParams['amount'] ?? '', // 固定两位小数，最大11位整数
             'expireTimeSpan'    => $timeExpire, // 分钟
             'payNoticeUrl'      => self::$config->get('notify_url', ''),
             'payNoticePara'     => $requestParams['return_param'] ?? '',
+            'returnUrl' => self::$config->get('return_url', ''),
             'clientIP'          => $requestParams['client_ip'] ?? '',
-            'cardType'          => $requestParams['limit_pay'] ?? '', // A:储蓄卡支付，即禁止信用卡支付
+            'cardType'          => self::$config->get('limit_pay', ''), // A:储蓄卡支付，即禁止信用卡支付
             'subMerchantNo'     => $requestParams['sub_mch_id'] ?? '', // 二级商户编码
             'subMerchantName'   => $requestParams['sub_mch_name'] ?? '', // 二级商户名称
             'subMerchantTPCode' => $requestParams['sub_mch_tp_code'] ?? '', // 二级商户类别编码
             'subMerchantTPName' => $requestParams['sub_mch_tp_name'] ?? '', // 二级商户类别名称
-            'payModeType'       => $requestParams['mode_type'] ?? '', // 空或00：不设限制； 01：仅不允许微信支付；
-            'agrNo'             => $requestParams['agr_no'] ?? '',
-            'merchantSerialNo'  => $requestParams['merchant_serial_no'] ?? '',
-            'userID'            => $requestParams['user_id'] ?? '',
-            'mobile'            => $requestParams['mobile'] ?? '',
-            'lon'               => $requestParams['lon'] ?? '',
-            'lat'               => $requestParams['lat'] ?? '',
-            'riskLevel'         => $requestParams['risk_level'] ?? '',
-            'signNoticeUrl'     => self::$config->get('sign_notify_url', ''),
-            'signNoticePara'    => self::$config->get('sign_return_param', ''),
             //'extendInfo' => '',
             //'extendInfoEncrypType' => '',
         ];

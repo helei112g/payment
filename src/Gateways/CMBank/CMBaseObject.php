@@ -67,7 +67,7 @@ abstract class CMBaseObject extends BaseObject
     {
         $this->isSandbox = self::$config->get('use_sandbox', false);
         $this->signType  = self::$config->get('sign_type', 'SHA-256');
-        $this->merKey = self::$config->get('mer_key', '');
+        $this->merKey    = self::$config->get('mer_key', '');
 
         $rsaPublicKey = self::$config->get('cmb_pub_key', '');
         if ($rsaPublicKey) {
@@ -75,12 +75,6 @@ abstract class CMBaseObject extends BaseObject
         }
         if (empty($this->publicKey)) {
             throw new GatewayException('please set ali public key', Payment::PARAMS_ERR);
-        }
-
-        // 初始 网关地址
-        $this->gatewayUrl = 'https://b2b.cmbchina.com/%s';
-        if ($this->isSandbox) {
-            $this->gatewayUrl = 'http://121.15.180.72/%s';
         }
     }
 
@@ -96,8 +90,8 @@ abstract class CMBaseObject extends BaseObject
                 case 'SHA-256':
                     $signStr .= '&' . $this->merKey;
                     $signStr = StrUtil::characet($signStr, 'UTF-8');
-                    //$sign    = bin2hex(hash('sha256', $signStr));
-                    $sign    = hash('sha256', $signStr);
+                    $sign    = bin2hex(hash('sha256', $signStr));
+                    //$sign = hash('sha256', $signStr);
                     break;
                 default:
                     throw new GatewayException(sprintf('[%s] sign type not support', $this->signType), Payment::PARAMS_ERR);
@@ -118,15 +112,17 @@ abstract class CMBaseObject extends BaseObject
      */
     protected function verifySign(array $data, string $sign)
     {
-        $preStr = json_encode($data, JSON_UNESCAPED_UNICODE);
         try {
+            $data = ArrayUtil::arraySort($data);
+            $preStr     = ArrayUtil::createLinkString($data);
+
             if ($this->signType === 'SHA-256') {// 使用RSA
                 $rsa = new RsaEncrypt($this->publicKey);
                 return $rsa->rsaVerify($preStr, $sign);
             }
             throw new GatewayException(sprintf('[%s] sign type not support', $this->signType), Payment::PARAMS_ERR);
         } catch (\Exception $e) {
-            throw new GatewayException(sprintf('check ali pay sign failed, sign type is [%s]', $this->signType), Payment::SIGN_ERR, $data);
+            throw new GatewayException(sprintf('check cmb pay sign failed, sign type is [%s]', $this->signType), Payment::SIGN_ERR, $data);
         }
     }
 
@@ -149,8 +145,8 @@ abstract class CMBaseObject extends BaseObject
             ];
 
             // 签名
-            $requestData  = ArrayUtil::arraySort($requestData);
-            $signStr = ArrayUtil::createLinkString($requestData);
+            $requestData = ArrayUtil::arraySort($requestData);
+            $signStr     = ArrayUtil::createLinkString($requestData);
 
             $params['sign'] = $this->makeSign($signStr);
         } catch (\Exception $e) {
@@ -171,33 +167,40 @@ abstract class CMBaseObject extends BaseObject
     {
         try {
             $params = $this->buildParams($requestParams);
-            $url = sprintf($this->gatewayUrl, $method);
+            $url    = sprintf($this->gatewayUrl, $method);
+
 
             $formParams = [
-                'jsonRequestData' => json_encode($params, JSON_UNESCAPED_UNICODE),
-                'charset' => 'UTF-8',
+                [
+                    'name'     => 'jsonRequestData',
+                    'contents' => json_encode($params, JSON_UNESCAPED_UNICODE),
+                ],
+                [
+                    'name'     => 'charset',
+                    'contents' => 'UTF-8'
+                ],
             ];
-            $tmp = 'jsonRequestData=' . json_encode($params, JSON_UNESCAPED_UNICODE);
-            $ret = $this->postForm($url, $tmp, $this->getHeaderOptions());
+            $ret = $this->postForm($url, $formParams);
 
-            $resData = json_decode($ret, true);
-            var_dump($resData);exit;
+            $tmp = json_decode($ret, true);
+
+            $sign = $tmp['sign'];
+            $resData = $tmp['rspData'];
+            if ($resData['rspCode'] !== self::REQ_SUC) {
+                throw new GatewayException($resData['rspMsg'], Payment::GATEWAY_REFUSE, $tmp);
+            }
+
+            // 验证签名
+            if (!$this->verifySign($resData, $sign)) {
+                throw new GatewayException('check sign failed', Payment::SIGN_ERR, $tmp);
+            }
         } catch (GatewayException $e) {
             throw $e;
+        } catch (\Exception $e) {
+            throw new GatewayException($e->getMessage(), Payment::PARAMS_ERR, $resData);
         }
 
-        return $ret;
-    }
-
-    /**
-     * 获取证书参数
-     * @return array
-     */
-    protected function getHeaderOptions()
-    {
-        return [
-            'Content-Type' => 'multipart/form-data',
-        ];
+        return $resData;
     }
 
     /**

@@ -25,9 +25,9 @@ use Payment\Payment;
  **/
 class TradeQuery extends CMBaseObject implements IGatewayRequest
 {
-    const ONLINE_METHOD = 'https://payment.ebank.cmbchina.com/NetPayment/BaseHttp.dll?QuerySingleOrder';
+    const METHOD = 'NetPayment/BaseHttp.dll?QuerySingleOrder';
 
-    const SANDBOX_METHOD = 'http://121.15.180.66:801/NetPayment_dl/BaseHttp.dll?QuerySingleOrder';
+    const SANDBOX_METHOD = 'NetPayment_dl/BaseHttp.dll?QuerySingleOrder';
 
     /**
      * 获取第三方返回结果
@@ -37,10 +37,17 @@ class TradeQuery extends CMBaseObject implements IGatewayRequest
      */
     public function request(array $requestParams)
     {
-        // 初始 网关地址
-        $this->setGatewayUrl(self::ONLINE_METHOD);
+        $method = self::METHOD;
+        $this->gatewayUrl = 'https://payment.ebank.cmbchina.com/%s';
         if ($this->isSandbox) {
-            $this->setGatewayUrl(self::SANDBOX_METHOD);
+            $method = self::SANDBOX_METHOD;
+            $this->gatewayUrl = 'http://121.15.180.66:801/%s';
+        }
+        try {
+
+            return $this->requestCMBApi($method, $requestParams);
+        } catch (GatewayException $e) {
+            throw $e;
         }
     }
 
@@ -52,20 +59,15 @@ class TradeQuery extends CMBaseObject implements IGatewayRequest
     protected function getRequestParams(array $requestParams)
     {
         $nowTime   = time();
-        $orderDate = $requestParams['order_date'] ?? 0;
-        if (empty($orderDate)) {
-            throw new GatewayException('must have order date, format:[yyyyMMdd]', Payment::PARAMS_ERR);
-        }
-        $orderDate = date('Ymd', $orderDate);
 
         $params = [
             'dateTime'     => date('YmdHis', $nowTime),
             'branchNo'     => self::$config->get('branch_no', ''),
             'merchantNo'   => self::$config->get('mch_id', ''),
             'type'         => $requestParams['type'] ?? 'A',
-            'bankSerialNo' => $requestParams['bank_serial_no'] ?? '', // 银行订单流水号,type=A时必填
-            'date'         => $orderDate, // 商户订单日期,格式：yyyyMMdd
-            'orderNo'      => $requestParams['order_no'] ?? '', // type=B时必填商户订单号
+            'bankSerialNo' => $requestParams['transaction_id'] ?? '', // 银行订单流水号,type=A时必填
+            'date'         => date('Ymd', $requestParams['date'] ?? $nowTime), // 商户订单日期,格式：yyyyMMdd
+            'orderNo'      => $requestParams['trade_no'] ?? '', // type=B时必填商户订单号
             'operatorNo'   => $requestParams['operator_id'] ?? '',
         ];
 

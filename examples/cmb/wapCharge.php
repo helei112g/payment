@@ -15,16 +15,18 @@ require_once __DIR__ . '/../../vendor/autoload.php';
 date_default_timezone_set('Asia/Shanghai');
 $cmbConfig = require_once __DIR__ . '/../cmbconfig.php';
 
-$data = [
-    'trade_no'   => '9336161758',
-    'date'           => time(),
-    'transaction_id' => '17242823500000000010',
+$tradeNo = time() . rand(1000, 9999);
+$data     = [
+    'date' => time(),
+    'trade_no' => $tradeNo,
+    'amount' => 1.00,
+    'time_expire' => time() + 1000,
 ];
 
 // 使用
 try {
     $client = new \Payment\Client(\Payment\Client::CMB, $cmbConfig);
-    $res    = $client->tradeQuery($data);
+    $res    = $client->pay(\Payment\Client::CMB_CHANNEL_WAP, $data);
 } catch (InvalidArgumentException $e) {
     echo $e->getMessage();
     exit;

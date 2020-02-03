@@ -12,6 +12,7 @@
 namespace Payment\Gateways\CMBank;
 
 use Payment\Contracts\IGatewayRequest;
+use Payment\Exceptions\GatewayException;
 
 /**
  * @package Payment\Gateways\CMBank
@@ -23,9 +24,8 @@ use Payment\Contracts\IGatewayRequest;
  **/
 class ProtocolQuery extends CMBaseObject implements IGatewayRequest
 {
-    const ONLINE_METHOD = 'https://b2b.cmbchina.com/CmbBank_B2B/UI/NetPay/DoBusiness.ashx';
 
-    const SANDBOX_METHOD = 'http://121.15.180.72/CmbBank_B2B/UI/NetPay/DoBusiness.ashx';
+    const METHOD = 'CmbBank_B2B/UI/NetPay/DoBusiness.ashx';
 
     /**
      * 获取第三方返回结果
@@ -35,10 +35,15 @@ class ProtocolQuery extends CMBaseObject implements IGatewayRequest
      */
     public function request(array $requestParams)
     {
-        // 初始 网关地址
-        $this->setGatewayUrl(self::ONLINE_METHOD);
+        $this->gatewayUrl = 'https://b2b.cmbchina.com/%s';
         if ($this->isSandbox) {
-            $this->setGatewayUrl(self::SANDBOX_METHOD);
+            $this->gatewayUrl = 'http://121.15.180.72/%s';
+        }
+        try {
+
+            return $this->requestCMBApi(self::METHOD, $requestParams);
+        } catch (GatewayException $e) {
+            throw $e;
         }
     }
 

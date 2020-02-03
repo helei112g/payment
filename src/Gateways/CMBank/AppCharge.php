@@ -32,6 +32,7 @@ class AppCharge extends CMBaseObject implements IGatewayRequest
      */
     public function request(array $requestParams)
     {
+        return $this->buildParams($requestParams);
     }
 
     /**
@@ -52,13 +53,13 @@ class AppCharge extends CMBaseObject implements IGatewayRequest
             'branchNo'          => self::$config->get('branch_no', ''),
             'merchantNo'        => self::$config->get('mch_id', ''),
             'date'              => date('Ymd', $requestParams['date'] ?? $nowTime),
-            'orderNo'           => $requestParams['order_no'] ?? '',
+            'orderNo'           => $requestParams['trade_no'] ?? '',
             'amount'            => $requestParams['amount'] ?? '', // 固定两位小数，最大11位整数
             'expireTimeSpan'    => $timeExpire, // 分钟
             'payNoticeUrl'      => self::$config->get('notify_url', ''),
             'payNoticePara'     => $requestParams['return_param'] ?? '',
             'clientIP'          => $requestParams['client_ip'] ?? '',
-            'cardType'          => $requestParams['limit_pay'] ?? '', // A:储蓄卡支付，即禁止信用卡支付
+            'cardType'          => self::$config->get('limit_pay', ''), // A:储蓄卡支付，即禁止信用卡支付
             'subMerchantNo'     => $requestParams['sub_mch_id'] ?? '', // 二级商户编码
             'subMerchantName'   => $requestParams['sub_mch_name'] ?? '', // 二级商户名称
             'subMerchantTPCode' => $requestParams['sub_mch_tp_code'] ?? '', // 二级商户类别编码
@@ -72,7 +73,7 @@ class AppCharge extends CMBaseObject implements IGatewayRequest
             'lat'               => $requestParams['lat'] ?? '',
             'riskLevel'         => $requestParams['risk_level'] ?? '',
             'signNoticeUrl'     => self::$config->get('sign_notify_url', ''),
-            'signNoticePara'    => self::$config->get('sign_return_param', ''),
+            'signNoticePara'    => $requestParams['return_param'] ?? '',
             //'extendInfo' => '',
             //'extendInfoEncrypType' => '',
         ];

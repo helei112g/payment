@@ -24,9 +24,9 @@ use Payment\Exceptions\GatewayException;
  **/
 class Bill extends CMBaseObject implements IGatewayRequest
 {
-    const ONLINE_METHOD = 'https://payment.ebank.cmbchina.com/NetPayment/BaseHttp.dll?GetDownloadURL';
+    const METHOD = 'NetPayment/BaseHttp.dll?GetDownloadURL';
 
-    const SANDBOX_METHOD = 'http://121.15.180.66:801/NetPayment_dl/BaseHttp.dll?GetDownloadURL';
+    const SANDBOX_METHOD = 'NetPayment_dl/BaseHttp.dll?GetDownloadURL';
 
     /**
      * 获取第三方返回结果
@@ -36,10 +36,17 @@ class Bill extends CMBaseObject implements IGatewayRequest
      */
     public function request(array $requestParams)
     {
-        // 初始 网关地址
-        $this->setGatewayUrl(self::ONLINE_METHOD);
+        $method = self::METHOD;
+        $this->gatewayUrl = 'https://payment.ebank.cmbchina.com/%s';
         if ($this->isSandbox) {
-            $this->setGatewayUrl(self::SANDBOX_METHOD);
+            $method = self::SANDBOX_METHOD;
+            $this->gatewayUrl = 'http://121.15.180.66:801/%s';
+        }
+        try {
+
+            return $this->requestCMBApi($method, $requestParams);
+        } catch (GatewayException $e) {
+            throw $e;
         }
     }
 
@@ -50,14 +57,12 @@ class Bill extends CMBaseObject implements IGatewayRequest
     protected function getRequestParams(array $requestParams)
     {
         $nowTime  = time();
-        $billData = $requestParams['bill_date'] ?? strtotime('-1 days');
-        $billData = date('Ymd', $billData);
 
         $params = [
             'dateTime'     => date('YmdHis', $nowTime),
             'branchNo'     => self::$config->get('branch_no', ''),
             'merchantNo'   => self::$config->get('mch_id', ''),
-            'date'         => $billData,
+            'date'         => date('Ymd', $requestParams['date'] ?? $nowTime),
             'transactType' => '4001',
             'fileType'     => 'YBL',
             'messageKey'   => $requestParams['message_key'] ?? '', // 交易流水，合作方内部唯一流水

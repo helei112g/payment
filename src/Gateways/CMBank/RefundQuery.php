@@ -24,9 +24,9 @@ use Payment\Exceptions\GatewayException;
  **/
 class RefundQuery extends CMBaseObject implements IGatewayRequest
 {
-    const ONLINE_METHOD = 'https://payment.ebank.cmbchina.com/NetPayment/BaseHttp.dll?QuerySettledRefundV2';
+    const METHOD = 'NetPayment/BaseHttp.dll?QuerySettledRefundV2';
 
-    const SANDBOX_METHOD = 'http://121.15.180.66:801/netpayment_dl/BaseHttp.dll?QuerySettledRefundV2';
+    const SANDBOX_METHOD = 'netpayment_dl/BaseHttp.dll?QuerySettledRefundV2';
 
     /**
      * 获取第三方返回结果
@@ -36,10 +36,17 @@ class RefundQuery extends CMBaseObject implements IGatewayRequest
      */
     public function request(array $requestParams)
     {
-        // 初始 网关地址
-        $this->setGatewayUrl(self::ONLINE_METHOD);
+        $method = self::METHOD;
+        $this->gatewayUrl = 'https://payment.ebank.cmbchina.com/%s';
         if ($this->isSandbox) {
-            $this->setGatewayUrl(self::SANDBOX_METHOD);
+            $method = self::SANDBOX_METHOD;
+            $this->gatewayUrl = 'http://121.15.180.66:801/%s';
+        }
+        try {
+
+            return $this->requestCMBApi($method, $requestParams);
+        } catch (GatewayException $e) {
+            throw $e;
         }
     }
 
@@ -50,17 +57,15 @@ class RefundQuery extends CMBaseObject implements IGatewayRequest
     protected function getRequestParams(array $requestParams)
     {
         $nowTime   = time();
-        $orderDate = $requestParams['order_date'] ?? strtotime('-1 days');
-        $orderDate = date('Ymd', $orderDate);
 
         $params = [
             'dateTime'         => date('YmdHis', $nowTime),
             'branchNo'         => self::$config->get('branch_no', ''),
             'merchantNo'       => self::$config->get('mch_id', ''),
             'type'             => $requestParams['type'] ?? 'A',
-            'orderNo'          => $requestParams['order_no'] ?? '',
-            'date'             => $orderDate,
-            'merchantSerialNo' => $requestParams['merchant_serial_no'] ?? '',
+            'orderNo'          => $requestParams['trade_no'] ?? '',
+            'date'             => date('Ymd', $requestParams['date'] ?? $nowTime),
+            'merchantSerialNo' => $requestParams['refund_no'] ?? '',
             'bankSerialNo'     => $requestParams['bank_serial_no'] ?? '',
         ];
 

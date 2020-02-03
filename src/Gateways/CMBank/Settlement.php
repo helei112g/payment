@@ -25,15 +25,15 @@ use Payment\Exceptions\GatewayException;
 class Settlement extends CMBaseObject implements IGatewayRequest
 {
     // 按商户时间查询
-    const ONLINE_MCH_METHOD = 'https://payment.ebank.cmbchina.com/NetPayment/BaseHttp.dll?QuerySettledOrderByMerchantDate';
+    const MCH_METHOD = 'NetPayment/BaseHttp.dll?QuerySettledOrderByMerchantDate';
 
-    const SANDBOX_MCH_METHOD = 'http://121.15.180.66:801/NetPayment_dl/BaseHttp.dll?QuerySettledOrderByMerchantDate';
+    const SANDBOX_MCH_METHOD = 'NetPayment_dl/BaseHttp.dll?QuerySettledOrderByMerchantDate';
 
 
     // 按银行时间查询
-    const ONLINE_BANK_METHOD = 'https://payment.ebank.cmbchina.com/NetPayment/BaseHttp.dll?QuerySettledOrderByBankDate';
+    const BANK_METHOD = 'NetPayment/BaseHttp.dll?QuerySettledOrderByBankDate';
 
-    const SANDBOX_BANK_METHOD = 'http://121.15.180.66:801/NetPayment_dl/BaseHttp.dll?QuerySettledOrderByBankDate';
+    const SANDBOX_BANK_METHOD = 'NetPayment_dl/BaseHttp.dll?QuerySettledOrderByBankDate';
 
     /**
      * 获取第三方返回结果
@@ -43,17 +43,25 @@ class Settlement extends CMBaseObject implements IGatewayRequest
      */
     public function request(array $requestParams)
     {
-        // 初始 网关地址
+        $this->gatewayUrl = 'https://payment.ebank.cmbchina.com/%s';
+        if ($this->isSandbox) {
+            $this->gatewayUrl = 'http://121.15.180.66:801/%s';
+        }
         if (isset($requestParams['mode']) && $requestParams['mode'] === 'bank') {
-            $this->setGatewayUrl(self::ONLINE_BANK_METHOD);
+            $method = self::BANK_METHOD;
             if ($this->isSandbox) {
-                $this->setGatewayUrl(self::SANDBOX_BANK_METHOD);
+                $method = self::SANDBOX_BANK_METHOD;
             }
         } else {
-            $this->setGatewayUrl(self::ONLINE_MCH_METHOD);
+            $method = self::MCH_METHOD;
             if ($this->isSandbox) {
-                $this->setGatewayUrl(self::SANDBOX_MCH_METHOD);
+                $method = self::SANDBOX_MCH_METHOD;
             }
+        }
+        try {
+            return $this->requestCMBApi($method, $requestParams);
+        } catch (GatewayException $e) {
+            throw $e;
         }
     }
 
@@ -67,7 +75,7 @@ class Settlement extends CMBaseObject implements IGatewayRequest
         $startTime = $requestParams['start_time'] ?? strtotime('-1 days');
         $startTime = date('Ymd', $startTime);
 
-        $endTime = $requestParams['start_time'] ?? $nowTime;
+        $endTime = $requestParams['end_time'] ?? $nowTime;
         $endTime = date('Ymd', $endTime);
 
         $params = [
