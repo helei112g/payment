@@ -16,9 +16,9 @@ $wxConfig = require_once __DIR__ . '/../wxconfig.php';
 
 // 订单信息
 $params = [
-    'mode' => 'bank', // bank mch
-    'start_time' => strtotime("-2days"),
-    'end_time' => time(),
+    'mode'        => 'bank', // bank mch
+    'start_time'  => strtotime('-2days'),
+    'end_time'    => time(),
     'operator_id' => '9999'
 ];
 

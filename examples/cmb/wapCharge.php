@@ -16,10 +16,10 @@ date_default_timezone_set('Asia/Shanghai');
 $cmbConfig = require_once __DIR__ . '/../cmbconfig.php';
 
 $tradeNo = time() . rand(1000, 9999);
-$data     = [
-    'date' => time(),
-    'trade_no' => $tradeNo,
-    'amount' => 1.00,
+$data    = [
+    'date'        => time(),
+    'trade_no'    => $tradeNo,
+    'amount'      => 1.00,
     'time_expire' => time() + 1000,
 ];
 

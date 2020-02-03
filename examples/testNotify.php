@@ -32,7 +32,8 @@ class TestNotify implements \Payment\Contracts\IPayNotify
         string $notifyWay,
         array $notifyData
     ) {
-        var_dump($channel, $notifyType, $notifyWay, $notifyData);exit;
+        var_dump($channel, $notifyType, $notifyWay, $notifyData);
+        exit;
         // 支付宝的同步通知不可信，并且没有 trade status 参数，无法判断交易是否成功
         // 微信只有异步通知
 

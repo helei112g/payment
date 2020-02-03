@@ -69,7 +69,7 @@ class LiteCharge extends CMBaseObject implements IGatewayRequest
             'expireTimeSpan'    => $timeExpire, // 分钟
             'payNoticeUrl'      => self::$config->get('notify_url', ''),
             'payNoticePara'     => $requestParams['return_param'] ?? '',
-            'returnUrl' => self::$config->get('return_url', ''),
+            'returnUrl'         => self::$config->get('return_url', ''),
             'clientIP'          => $requestParams['client_ip'] ?? '',
             'cardType'          => self::$config->get('limit_pay', ''), // A:储蓄卡支付，即禁止信用卡支付
             'subMerchantNo'     => $requestParams['sub_mch_id'] ?? '', // 二级商户编码

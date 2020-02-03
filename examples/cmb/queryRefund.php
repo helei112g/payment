@@ -15,10 +15,10 @@ date_default_timezone_set('Asia/Shanghai');
 $cmbConfig = require_once __DIR__ . '/../cmbconfig.php';
 
 $data = [
-    'trade_no' => '9354737499',
-    'refund_no'    => '', // 商户退款流水号,长度不超过20位
-    'date'         => time(),
-    'bank_serial_no'    => '', // 银行退款流水号,长度不超过20位
+    'trade_no'       => '9354737499',
+    'refund_no'      => '', // 商户退款流水号,长度不超过20位
+    'date'           => time(),
+    'bank_serial_no' => '', // 银行退款流水号,长度不超过20位
 ];
 
 // 使用

@@ -24,7 +24,6 @@ use Payment\Exceptions\GatewayException;
  **/
 class QrCharge extends CMBaseObject implements IGatewayRequest
 {
-
     const METHOD = 'netpayment/BaseHttp.dll?MB_APPQRPay';
 
     /**

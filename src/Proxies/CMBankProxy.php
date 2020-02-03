@@ -213,6 +213,5 @@ class CMBankProxy extends BaseObject implements IPayProxy, IQueryProxy
         } catch (GatewayException $e) {
             throw $e;
         }
-
     }
 }

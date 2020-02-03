@@ -17,12 +17,12 @@ $cmbConfig = require_once __DIR__ . '/../cmbconfig.php';
 
 $refundNo = time() . rand(1000, 9999);
 $data     = [
-    'trade_no' => '9354737499',
-    'date'         => time(),
-    'refund_no'    => $refundNo,
-    'refund_fee'   => 0.01,
-    'reason'       => '测试帐号退款',
-    'operator_id'  => '9999',
+    'trade_no'    => '9354737499',
+    'date'        => time(),
+    'refund_no'   => $refundNo,
+    'refund_fee'  => 0.01,
+    'reason'      => '测试帐号退款',
+    'operator_id' => '9999',
 ];
 
 // 使用

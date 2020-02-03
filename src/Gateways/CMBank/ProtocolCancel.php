@@ -24,7 +24,6 @@ use Payment\Exceptions\GatewayException;
  **/
 class ProtocolCancel extends CMBaseObject implements IGatewayRequest
 {
-
     const METHOD = 'CmbBank_B2B/UI/NetPay/DoBusiness.ashx';
 
     /**

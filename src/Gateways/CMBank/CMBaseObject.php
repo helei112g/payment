@@ -113,8 +113,8 @@ abstract class CMBaseObject extends BaseObject
     protected function verifySign(array $data, string $sign)
     {
         try {
-            $data = ArrayUtil::arraySort($data);
-            $preStr     = ArrayUtil::createLinkString($data);
+            $data   = ArrayUtil::arraySort($data);
+            $preStr = ArrayUtil::createLinkString($data);
 
             if ($this->signType === 'SHA-256') {// 使用RSA
                 $rsa = new RsaEncrypt($this->publicKey);
@@ -184,7 +184,7 @@ abstract class CMBaseObject extends BaseObject
 
             $tmp = json_decode($ret, true);
 
-            $sign = $tmp['sign'];
+            $sign    = $tmp['sign'];
             $resData = $tmp['rspData'];
             if ($resData['rspCode'] !== self::REQ_SUC) {
                 throw new GatewayException($resData['rspMsg'], Payment::GATEWAY_REFUSE, $tmp);

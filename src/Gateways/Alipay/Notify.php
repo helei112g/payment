@@ -1,8 +1,15 @@
 <?php
 
+/*
+ * The file is part of the payment lib.
+ *
+ * (c) Leo <dayugog@gmail.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace Payment\Gateways\Alipay;
-
-
 
 use Payment\Exceptions\GatewayException;
 use Payment\Payment;
@@ -17,7 +24,6 @@ use Payment\Payment;
  **/
 class Notify extends AliBaseObject
 {
-
     /**
      * 获取请求数据
      * @throws GatewayException
@@ -35,10 +41,10 @@ class Notify extends AliBaseObject
             $notifyWay = 'sync'; // 同步
         }
 
-        $sign = $resArr['sign'];
+        $sign     = $resArr['sign'];
         $signType = $resArr['sign_type'];
-        unset($resArr['sign']);
-        unset($resArr['sign_type']);
+        unset($resArr['sign'], $resArr['sign_type']);
+
         if ($this->verifySignForASync($resArr, $sign, $signType) === false) {
             throw new GatewayException('check notify data sign failed', Payment::SIGN_ERR, $resArr);
         }
@@ -49,7 +55,7 @@ class Notify extends AliBaseObject
 
         return [
             'notify_type' => 'pay',
-            'notify_way' => $notifyWay,
+            'notify_way'  => $notifyWay,
             'notify_data' => $resArr,
         ];
     }
@@ -61,7 +67,7 @@ class Notify extends AliBaseObject
     protected function getNotifyData()
     {
         $data = empty($_POST) ? $_GET : $_POST;
-        if (empty($data) || ! is_array($data)) {
+        if (empty($data) || !is_array($data)) {
             return [];
         }
 
@@ -77,9 +83,8 @@ class Notify extends AliBaseObject
     {
         if ($flag) {
             return 'success';
-        } else {
-            return 'fail';
         }
+        return 'fail';
     }
 
     /**

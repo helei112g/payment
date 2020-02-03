@@ -37,14 +37,13 @@ class TradeQuery extends CMBaseObject implements IGatewayRequest
      */
     public function request(array $requestParams)
     {
-        $method = self::METHOD;
+        $method           = self::METHOD;
         $this->gatewayUrl = 'https://payment.ebank.cmbchina.com/%s';
         if ($this->isSandbox) {
-            $method = self::SANDBOX_METHOD;
+            $method           = self::SANDBOX_METHOD;
             $this->gatewayUrl = 'http://121.15.180.66:801/%s';
         }
         try {
-
             return $this->requestCMBApi($method, $requestParams);
         } catch (GatewayException $e) {
             throw $e;
@@ -58,7 +57,7 @@ class TradeQuery extends CMBaseObject implements IGatewayRequest
      */
     protected function getRequestParams(array $requestParams)
     {
-        $nowTime   = time();
+        $nowTime = time();
 
         $params = [
             'dateTime'     => date('YmdHis', $nowTime),

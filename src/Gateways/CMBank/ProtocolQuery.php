@@ -24,7 +24,6 @@ use Payment\Exceptions\GatewayException;
  **/
 class ProtocolQuery extends CMBaseObject implements IGatewayRequest
 {
-
     const METHOD = 'CmbBank_B2B/UI/NetPay/DoBusiness.ashx';
 
     /**
@@ -40,7 +39,6 @@ class ProtocolQuery extends CMBaseObject implements IGatewayRequest
             $this->gatewayUrl = 'http://121.15.180.72/%s';
         }
         try {
-
             return $this->requestCMBApi(self::METHOD, $requestParams);
         } catch (GatewayException $e) {
             throw $e;
