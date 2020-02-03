@@ -1,32 +1,41 @@
 <?php
-/**
- * 查询订单退款状态
- * Created by PhpStorm.
- * User: helei
- * Date: 2017/4/30
- * Time: 下午5:55
+
+/*
+ * The file is part of the payment lib.
+ *
+ * (c) Leo <dayugog@gmail.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 
-use Payment\Common\PayException;
-use Payment\Client\Query;
-use Payment\Config;
 
 date_default_timezone_set('Asia/Shanghai');
 $aliConfig = require_once __DIR__ . '/../aliconfig.php';
 
 $data = [
-    'out_trade_no' => '15043296209218',
-    'trade_no' => '2017090221001004350200242476',
-    'refund_no' => '15043420895504',
+    'trade_no'       => '15806490592761',
+    'transaction_id' => '2020020222001440351000252550',
+    'refund_no'      => '15806491408385',
 ];
 
+// 使用
 try {
-    $ret = Query::run(Config::ALI_REFUND, $aliConfig, $data);
-} catch (PayException $e) {
-    echo $e->errorMessage();
+    $client = new \Payment\Client(\Payment\Client::ALIPAY, $aliConfig);
+    $res    = $client->refundQuery($data);
+} catch (InvalidArgumentException $e) {
+    echo $e->getMessage();
+    exit;
+} catch (\Payment\Exceptions\GatewayException $e) {
+    echo $e->getMessage();
+    exit;
+} catch (\Payment\Exceptions\ClassNotFoundException $e) {
+    echo $e->getMessage();
+    exit;
+} catch (Exception $e) {
+    echo $e->getMessage();
     exit;
 }
-
-echo json_encode($ret, JSON_UNESCAPED_UNICODE);
+var_dump($res);

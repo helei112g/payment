@@ -1,31 +1,42 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: helei
- * Date: 2017/4/30
- * Time: 下午2:18
+
+/*
+ * The file is part of the payment lib.
+ *
+ * (c) Leo <dayugog@gmail.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 
-use Payment\Common\PayException;
-use Payment\Config;
-use Payment\Client\Query;
 
 date_default_timezone_set('Asia/Shanghai');
 $cmbConfig = require_once __DIR__ . '/../cmbconfig.php';
 
 $data = [
-    'out_trade_no' => '9336161758',
-    'date' => '20170428',
+    'trade_no'       => '9336161758',
+    'date'           => time(),
     'transaction_id' => '17242823500000000010',
 ];
 
+// 使用
 try {
-    $ret = Query::run(Config::CMB_CHARGE, $cmbConfig, $data);
-} catch (PayException $e) {
-    echo $e->errorMessage();
+    $client = new \Payment\Client(\Payment\Client::CMB, $cmbConfig);
+    $res    = $client->tradeQuery($data);
+} catch (InvalidArgumentException $e) {
+    echo $e->getMessage();
+    exit;
+} catch (\Payment\Exceptions\GatewayException $e) {
+    echo $e->getMessage();
+    exit;
+} catch (\Payment\Exceptions\ClassNotFoundException $e) {
+    echo $e->getMessage();
+    exit;
+} catch (Exception $e) {
+    echo $e->getMessage();
     exit;
 }
 
-echo json_encode($ret, JSON_UNESCAPED_UNICODE);
+var_dump($res);

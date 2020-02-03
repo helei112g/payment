@@ -1,36 +1,44 @@
 <?php
-/**
- * 退款操作
- * Created by PhpStorm.
- * User: helei
- * Date: 2017/4/30
- * Time: 下午5:43
+
+/*
+ * The file is part of the payment lib.
+ *
+ * (c) Leo <dayugog@gmail.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 
 require_once __DIR__ . '/../../vendor/autoload.php';
-
-use Payment\Common\PayException;
-use Payment\Client\Refund;
-use Payment\Config;
 
 date_default_timezone_set('Asia/Shanghai');
 $aliConfig = require_once __DIR__ . '/../aliconfig.php';
 
 $refundNo = time() . rand(1000, 9999);
 
-$data = [
-    'out_trade_no' => '15043296209218',
-    'trade_no' => '',// 支付宝交易号， 与 out_trade_no 必须二选一
-    'refund_fee' => '0.01',
-    'reason' => '我要退款',
-    'refund_no' => $refundNo,
+$refundData = [
+    'trade_no'       => '15806490592761',
+    'transaction_id' => '', // 支付宝交易号， 与 trade_no 必须二选一
+    'refund_fee'     => '0.01',
+    'reason'         => '我要退款',
+    'refund_no'      => $refundNo,
 ];
-
+var_dump($refundData);
+// 使用
 try {
-    $ret = Refund::run(Config::ALI_REFUND, $aliConfig, $data);
-} catch (PayException $e) {
-    echo $e->errorMessage();
+    $client = new \Payment\Client(\Payment\Client::ALIPAY, $aliConfig);
+    $res    = $client->refund($refundData);
+} catch (InvalidArgumentException $e) {
+    echo $e->getMessage();
+    exit;
+} catch (\Payment\Exceptions\GatewayException $e) {
+    echo $e->getMessage();
+    exit;
+} catch (\Payment\Exceptions\ClassNotFoundException $e) {
+    echo $e->getMessage();
+    exit;
+} catch (Exception $e) {
+    echo $e->getMessage();
     exit;
 }
-
-echo json_encode($ret, JSON_UNESCAPED_UNICODE);
+var_dump($res);

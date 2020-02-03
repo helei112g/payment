@@ -1,35 +1,55 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: helei
- * Date: 2017/4/30
- * Time: 下午4:13
+
+/*
+ * The file is part of the payment lib.
+ *
+ * (c) Leo <dayugog@gmail.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 
 require_once __DIR__ . '/../../vendor/autoload.php';
-
-use Payment\Common\PayException;
-use Payment\Client\Transfer;
-use Payment\Config;
 
 date_default_timezone_set('Asia/Shanghai');
 $wxConfig = require_once __DIR__ . '/../wxconfig.php';
 
 $data = [
-    'trans_no' => time(),
-    'openid' => 'o-e_mwTXTaxEhBM8xDoj1ui1f950',
-    'check_name' => 'NO_CHECK',// NO_CHECK：不校验真实姓名  FORCE_CHECK：强校验真实姓名   OPTION_CHECK：针对已实名认证的用户才校验真实姓名
-    'payer_real_name' => '何磊',
-    'amount' => '1',
-    'desc' => '测试转账',
-    'spbill_create_ip' => '127.0.0.1',
+    'channel' => \Payment\Client::TRANSFER_CHANNEL_ACCOUNT, // account: 转微信，bank：转银行
+
+    // account的参数
+    'device_info'     => '',
+    'trans_no'        => time(),
+    'openid'          => 'o-e_mwTXTaxEhBM8xDoj1ui1f950',
+    'check_name'      => 'NO_CHECK', // NO_CHECK：不校验真实姓名  FORCE_CHECK：强校验真实姓名
+    'payer_real_name' => 'dayu',
+    'amount'          => '1',
+    'desc'            => '测试转账',
+    'client_ip'       => '127.0.0.1',
+
+    // bank 的参数
+    /*'trans_no' => time(),
+    'enc_bank_no' => '',
+    'enc_true_name' => '',
+    'bank_code' => '',
+    'amount'           => '1',
+    'desc'             => '测试转账',*/
+
 ];
 
 try {
-    $ret = Transfer::run(Config::WX_TRANSFER, $wxConfig, $data);
-} catch (PayException $e) {
-    echo $e->errorMessage();
+    $client = new \Payment\Client(\Payment\Client::WECHAT, $wxConfig);
+    $client->transfer($data);
+} catch (InvalidArgumentException $e) {
+    echo $e->getMessage();
+    exit;
+} catch (\Payment\Exceptions\GatewayException $e) {
+    echo $e->getMessage();
+    exit;
+} catch (\Payment\Exceptions\ClassNotFoundException $e) {
+    echo $e->getMessage();
     exit;
 }
 
-echo json_encode($ret, JSON_UNESCAPED_UNICODE);
+
+var_dump($res);
