@@ -85,14 +85,18 @@ trait HttpRequest
         ]);
     }
 
-    protected function postForm(string $url, string $jsonData, array $headers = [])
+    /**
+     * 发送表单数据
+     * @param string $url
+     * @param array $formData
+     * @param array $headers
+     * @return array|mixed|ResponseInterface|string
+     */
+    protected function postForm(string $url, array $formData, array $headers = [])
     {
-        var_dump($jsonData);exit;
         return $this->sendRequest('post', $url, [
-            'headers'     => [
-                'content-type' => 'multipart/form-data',
-            ],
-            'body'        => $jsonData,
+            'headers'     => $headers,
+            'multipart'   => $formData,
             'http_errors' => false,
         ]);
     }
