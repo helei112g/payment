@@ -15,6 +15,7 @@ use InvalidArgumentException;
 use Payment\Contracts\IPayNotify;
 use Payment\Exceptions\ClassNotFoundException;
 use Payment\Exceptions\GatewayException;
+use Payment\Proxies\CMBankProxy;
 use Payment\Supports\ProxyFactory;
 
 /**
@@ -150,5 +151,18 @@ class Client
         } catch (InvalidArgumentException $e) {
             throw $e;
         }
+    }
+
+    /**
+     * 获取公钥
+     * @throws GatewayException
+     */
+    public function getPubKey()
+    {
+        if (!$this->proxy instanceof CMBankProxy) {
+            throw new GatewayException('just cmb support the method.', Payment::NOT_SUPPORT_METHOD);
+        }
+
+        return $this->proxy->getPubKey();
     }
 }

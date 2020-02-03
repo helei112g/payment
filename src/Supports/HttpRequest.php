@@ -85,6 +85,18 @@ trait HttpRequest
         ]);
     }
 
+    protected function postForm(string $url, string $jsonData, array $headers = [])
+    {
+        var_dump($jsonData);exit;
+        return $this->sendRequest('post', $url, [
+            'headers'     => [
+                'content-type' => 'multipart/form-data',
+            ],
+            'body'        => $jsonData,
+            'http_errors' => false,
+        ]);
+    }
+
     /**
      * @param string $method
      * @param string $url

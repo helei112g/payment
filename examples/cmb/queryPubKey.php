@@ -11,19 +11,24 @@
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 
-use Payment\Common\PayException;
-use Payment\Config;
 
 date_default_timezone_set('Asia/Shanghai');
 $cmbConfig = require_once __DIR__ . '/../cmbconfig.php';
 
-$channel = 'cmb_pub_key';
 
+// 使用
 try {
-    $ret = \Payment\Client\Helper::run(Config::CMB_PUB_KEY, $cmbConfig);
-} catch (PayException $e) {
-    echo $e->errorMessage();
+    $client = new \Payment\Client(\Payment\Client::CMB, $cmbConfig);
+    $res    = $client->getPubKey();
+} catch (InvalidArgumentException $e) {
+    echo $e->getMessage();
+    exit;
+} catch (\Payment\Exceptions\GatewayException $e) {
+    echo $e->getMessage();
+    exit;
+} catch (\Payment\Exceptions\ClassNotFoundException $e) {
+    echo $e->getMessage();
     exit;
 }
 
-echo json_encode($ret, JSON_UNESCAPED_UNICODE);
+var_dump($res);

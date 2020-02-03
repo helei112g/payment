@@ -67,6 +67,7 @@ abstract class CMBaseObject extends BaseObject
     {
         $this->isSandbox = self::$config->get('use_sandbox', false);
         $this->signType  = self::$config->get('sign_type', 'SHA-256');
+        $this->merKey = self::$config->get('mer_key', '');
 
         $rsaPublicKey = self::$config->get('cmb_pub_key', '');
         if ($rsaPublicKey) {
@@ -74,6 +75,12 @@ abstract class CMBaseObject extends BaseObject
         }
         if (empty($this->publicKey)) {
             throw new GatewayException('please set ali public key', Payment::PARAMS_ERR);
+        }
+
+        // 初始 网关地址
+        $this->gatewayUrl = 'https://b2b.cmbchina.com/%s';
+        if ($this->isSandbox) {
+            $this->gatewayUrl = 'http://121.15.180.72/%s';
         }
     }
 
@@ -89,6 +96,7 @@ abstract class CMBaseObject extends BaseObject
                 case 'SHA-256':
                     $signStr .= '&' . $this->merKey;
                     $signStr = StrUtil::characet($signStr, 'UTF-8');
+                    //$sign    = bin2hex(hash('sha256', $signStr));
                     $sign    = hash('sha256', $signStr);
                     break;
                 default:
@@ -98,7 +106,7 @@ abstract class CMBaseObject extends BaseObject
             throw $e;
         }
 
-        return strtoupper($sign);
+        return $sign;
     }
 
     /**
@@ -141,8 +149,8 @@ abstract class CMBaseObject extends BaseObject
             ];
 
             // 签名
-            $params  = ArrayUtil::arraySort($params);
-            $signStr = ArrayUtil::createLinkString($params);
+            $requestData  = ArrayUtil::arraySort($requestData);
+            $signStr = ArrayUtil::createLinkString($requestData);
 
             $params['sign'] = $this->makeSign($signStr);
         } catch (\Exception $e) {
@@ -153,16 +161,48 @@ abstract class CMBaseObject extends BaseObject
     }
 
     /**
+     * 请求招商的
+     * @param string $method
+     * @param array $requestParams
+     * @return mixed|string
+     * @throws GatewayException
+     */
+    protected function requestCMBApi(string $method, array $requestParams)
+    {
+        try {
+            $params = $this->buildParams($requestParams);
+            $url = sprintf($this->gatewayUrl, $method);
+
+            $formParams = [
+                'jsonRequestData' => json_encode($params, JSON_UNESCAPED_UNICODE),
+                'charset' => 'UTF-8',
+            ];
+            $tmp = 'jsonRequestData=' . json_encode($params, JSON_UNESCAPED_UNICODE);
+            $ret = $this->postForm($url, $tmp, $this->getHeaderOptions());
+
+            $resData = json_decode($ret, true);
+            var_dump($resData);exit;
+        } catch (GatewayException $e) {
+            throw $e;
+        }
+
+        return $ret;
+    }
+
+    /**
+     * 获取证书参数
+     * @return array
+     */
+    protected function getHeaderOptions()
+    {
+        return [
+            'Content-Type' => 'multipart/form-data',
+        ];
+    }
+
+    /**
      * @param array $requestParams
      * @return mixed
      */
     abstract protected function getRequestParams(array $requestParams);
-
-    /**
-     * @param string $gatewayUrl
-     */
-    public function setGatewayUrl(string $gatewayUrl)
-    {
-        $this->gatewayUrl = $gatewayUrl;
-    }
 }
