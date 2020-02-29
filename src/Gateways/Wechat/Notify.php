@@ -42,7 +42,7 @@ class Notify extends WechatBaseObject
             throw new GatewayException(sprintf('code:%d, desc:%s', $resArr['err_code'], $resArr['err_code_des']), Payment::GATEWAY_CHECK_FAILED, $resArr);
         }
 
-        if (isset($resArr['sign']) && $this->verifySign($resArr) !== false) {
+        if (isset($resArr['sign']) && $this->verifySign($resArr) === false) {
             throw new GatewayException('check notify data sign failed', Payment::SIGN_ERR, $resArr);
         }
 
