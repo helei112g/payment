@@ -204,7 +204,7 @@ abstract class WechatBaseObject extends BaseObject
     {
         try {
             $retSign = $retData['sign'];
-            $values  = ArrayUtil::removeKeys($retData, ['sign', 'sign_type']);
+            $values  = ArrayUtil::removeKeys($retData, ['sign']);
             $values  = ArrayUtil::paraFilter($values);
             $values  = ArrayUtil::arraySort($values);
             $signStr = ArrayUtil::createLinkstring($values);
