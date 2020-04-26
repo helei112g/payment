@@ -36,7 +36,27 @@ class AppCharge extends WechatBaseObject implements IGatewayRequest
     public function request(array $requestParams)
     {
         try {
-            return $this->requestWXApi(self::METHOD, $requestParams);
+            $info = $this->requestWXApi(self::METHOD, $requestParams);
+
+            if ($info['return_code'] == 'SUCCESS') {
+                $data = [
+                    'appid' =>  $info['appid'],
+                    'partnerid' =>  $info['mch_id'],
+                    'prepayid'  =>  $info['prepay_id'],
+                    'package'   =>  'Sign=WXPay',
+                    'noncestr'  =>  $info['nonce_str'],
+                    'timestamp' =>  time(),
+                ];
+
+                $data = ArrayUtil::paraFilter($data);
+                $data = ArrayUtil::arraySort($data);
+
+                $signStr        = ArrayUtil::createLinkstring($data);
+                $data['sign'] = $this->makeSign($signStr);
+                $info = $data;
+            }
+
+            return $info;
         } catch (GatewayException $e) {
             throw $e;
         }
