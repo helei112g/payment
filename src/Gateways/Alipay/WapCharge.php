@@ -58,7 +58,7 @@ class WapCharge extends AliBaseObject implements IGatewayRequest
             //'enable_pay_channels' => '',
             'disable_pay_channels' => implode(self::$config->get('limit_pay', ''), ','),
             'store_id'             => $requestParams['store_id'] ?? '',
-            'specified_channel'    => $requestParams['specified_channel'] ?? '',
+            'specified_channel'    => $requestParams['specified_channel'] ?? 'pcredit', //支付宝原因，当前仅支持 pcredit
             'business_params'      => $requestParams['business_params'] ?? '',
             'ext_user_info'        => $requestParams['ext_user_info'] ?? '',
         ];
