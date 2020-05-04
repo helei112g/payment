@@ -13,6 +13,8 @@ namespace Payment\Gateways\Wechat;
 
 use Payment\Contracts\IGatewayRequest;
 use Payment\Exceptions\GatewayException;
+use Payment\Helpers\ArrayUtil;
+use Payment\Helpers\StrUtil;
 use Payment\Payment;
 
 /**
@@ -36,10 +38,42 @@ class AppCharge extends WechatBaseObject implements IGatewayRequest
     public function request(array $requestParams)
     {
         try {
-            return $this->requestWXApi(self::METHOD, $requestParams);
+            $ret = $this->requestWXApi(self::METHOD, $requestParams);
         } catch (GatewayException $e) {
             throw $e;
         }
+
+        // 生成app端需要的数据
+        if (is_array($ret) && $ret['return_code'] === 'SUCCESS' && $ret['result_code'] === 'SUCCESS') {
+            $payData = [
+                'appid'     => $ret['appid'],
+                'partnerid' => $ret['mch_id'],
+                'prepayid'  => $ret['prepay_id'],
+                'package'   => 'Sign=WXPay', // 微信要求固定值
+                'noncestr'  => StrUtil::getNonceStr(self::NONCE_LEN),
+                'timestamp' => time(),
+            ];
+
+            // 添加签名
+            $payData = ArrayUtil::paraFilter($payData);
+            $payData = ArrayUtil::arraySort($payData);
+
+            try {
+                $signStr         = ArrayUtil::createLinkstring($payData);
+                $payData['sign'] = $this->makeSign($signStr);
+            } catch (\Exception $e) {
+                throw new GatewayException($e->getMessage(), Payment::PARAMS_ERR);
+            }
+
+            // 这三个字段是为了让前端的判断保持一致
+            $payData['return_code'] = 'SUCCESS';
+            $payData['return_msg']  = $ret['return_msg'];
+            $payData['result_code'] = 'SUCCESS';
+
+            $ret = $payData;
+        }
+
+        return $ret;
     }
 
     /**
