@@ -22,7 +22,7 @@ namespace Payment\Supports;
  */
 abstract class BaseObject
 {
-    const VERSION = '5.1.0';
+    const VERSION = '5.1.1';
 
     /**
      * @var Config
