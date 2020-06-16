@@ -231,6 +231,7 @@ abstract class AliBaseObject extends BaseObject
             // 'app_auth_token' => '', // 暂时不用
             'biz_content' => json_encode($bizContent, JSON_UNESCAPED_UNICODE),
         ];
+        $requestData = ArrayUtil::paraFilter($requestData);
         return ArrayUtil::arraySort($requestData);
     }
 
