@@ -43,7 +43,7 @@ class AppCharge extends CMBaseObject implements IGatewayRequest
     {
         $nowTime    = time();
         $timeExpire = $requestParams['time_expire'] ?? 0;
-        $timeExpire = $timeExpire - $nowTime;
+        $timeExpire -= $nowTime;
         if ($timeExpire < 3) {
             $timeExpire = 30; // 如果设置不合法，默认改为30
         }

@@ -51,7 +51,7 @@ class QrCharge extends AliBaseObject implements IGatewayRequest
             'body'                 => $requestParams['body'] ?? '',
             'operator_id'          => $requestParams['operator_id'] ?? '',
             'store_id'             => $requestParams['store_id'] ?? '',
-            'disable_pay_channels' => implode(self::$config->get('limit_pay', ''), ','),
+            'disable_pay_channels' => implode(',', self::$config->get('limit_pay', '')),
             // 使用禁用列表
             //'enable_pay_channels' => '',
             'terminal_id'             => $requestParams['terminal_id'] ?? '',

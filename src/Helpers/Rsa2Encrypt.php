@@ -52,7 +52,7 @@ class Rsa2Encrypt
             return '';
         }
 
-        $res = openssl_get_privatekey($this->key);
+        $res = openssl_pkey_get_private($this->key);
         if (empty($res)) {
             throw new \Exception('您使用的私钥格式错误，请检查RSA私钥配置');
         }
@@ -78,7 +78,7 @@ class Rsa2Encrypt
             return '';
         }
 
-        $res = openssl_get_privatekey($this->key);
+        $res = openssl_pkey_get_private($this->key);
         if (empty($res)) {
             throw new \Exception('您使用的私钥格式错误，请检查RSA私钥配置');
         }
