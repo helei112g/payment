@@ -74,7 +74,7 @@ class AppCharge extends AliBaseObject implements IGatewayRequest
             //'enable_pay_channels' => '',
             'store_id'             => $requestParams['store_id'] ?? '',
             'specified_channel'    => 'pcredit',
-            'disable_pay_channels' => implode(self::$config->get('limit_pay', ''), ','),
+            'disable_pay_channels' => implode(',', self::$config->get('limit_pay', '')),
             'ext_user_info'        => $requestParams['ext_user_info'] ?? '',
             'business_params'      => $requestParams['business_params'] ?? '',
         ];

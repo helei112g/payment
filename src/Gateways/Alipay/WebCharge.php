@@ -76,7 +76,7 @@ class WebCharge extends AliBaseObject implements IGatewayRequest
             // 使用禁用列表
             //'enable_pay_channels' => '',
             'store_id'              => $requestParams['store_id'] ?? '',
-            'disable_pay_channels'  => implode(self::$config->get('limit_pay', ''), ','),
+            'disable_pay_channels'  => implode(',', self::$config->get('limit_pay', '')),
             'qr_pay_mode'           => $requestParams['qr_pay_mode'] ?? '2',
             'qrcode_width'          => $requestParams['qrcode_width'] ?? '',
             'settle_info'           => $requestParams['settle_info'] ?? '',

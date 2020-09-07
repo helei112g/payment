@@ -35,7 +35,7 @@ class Notify extends AliBaseObject
             throw new GatewayException('the notify data is empty', Payment::NOTIFY_DATA_EMPTY);
         }
 
-        if (isset($resArr['notify_type']) && isset($resArr['trade_status'])) {
+        if (isset($resArr['notify_type'], $resArr['trade_status'])) {
             $notifyWay = 'async'; // 异步
         } else {
             $notifyWay = 'sync'; // 同步
