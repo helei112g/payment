@@ -13,6 +13,7 @@ namespace Payment\Gateways\Wechat;
 
 use Payment\Contracts\IGatewayRequest;
 use Payment\Exceptions\GatewayException;
+use Payment\Helpers\ArrayUtil;
 use Payment\Payment;
 
 /**
@@ -36,7 +37,23 @@ class LiteCharge extends WechatBaseObject implements IGatewayRequest
     public function request(array $requestParams)
     {
         try {
-            return $this->requestWXApi(self::METHOD, $requestParams);
+            $data = $this->requestWXApi(self::METHOD, $requestParams);
+            $parameters = array(
+                'appId' => $data['appid'], //小程序ID
+                'timeStamp' => '' . $requestParams['time_stamp'] . '', //时间戳
+                'nonceStr' => $data['nonce_str'], //随机串
+                'package' => 'prepay_id=' . $data['prepay_id'], //数据包
+                'signType' => 'MD5', //签名方式
+            );
+            $params = ArrayUtil::paraFilter($parameters);
+            $params = ArrayUtil::arraySort($parameters);
+            try {
+                $signStr        = ArrayUtil::createLinkstring($params);
+                $parameters['paySign'] = $this->makeSign($signStr);
+            } catch (\Exception $e) {
+                throw new GatewayException($e->getMessage(), Payment::PARAMS_ERR);
+            }
+            return $parameters;
         } catch (GatewayException $e) {
             throw $e;
         }
