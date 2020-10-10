@@ -9,39 +9,107 @@
  * with this source code in the file LICENSE.
  */
 
-require_once __DIR__ . '/../../vendor/autoload.php';
+namespace Payment\Gateways\Wechat;
+
+use Payment\Contracts\IGatewayRequest;
+use Payment\Exceptions\GatewayException;
+use Payment\Helpers\ArrayUtil;
+use Payment\Payment;
+
+/**
+ * @package Payment\Gateways\Wechat
+ * @author  : Leo
+ * @email   : dayugog@gmail.com
+ * @date    : 2019/4/1 8:25 PM
+ * @version : 1.0.0
+ * @desc    : 小程序支付
+ **/
+class LiteCharge extends WechatBaseObject implements IGatewayRequest
+{
+    const METHOD = 'pay/unifiedorder';
+
+    /**
+     * 获取第三方返回结果
+     * @param array $requestParams
+     * @return mixed
+     * @throws GatewayException
+     */
+    public function request(array $requestParams)
+    {
+        try {
+            $data = $this->requestWXApi(self::METHOD, $requestParams);
+            $parameters = array(
+                'appId' => $data['appid'], //小程序ID
+                'timeStamp' => '' . time() . '', //时间戳
+                'nonceStr' => $data['nonce_str'], //随机串
+                'package' => 'prepay_id=' . $data['prepay_id'], //数据包
+                'signType' => 'MD5', //签名方式
+            );
+            $params = ArrayUtil::paraFilter($parameters);
+            $params = ArrayUtil::arraySort($parameters);
+            try {
+                $signStr        = ArrayUtil::createLinkstring($params);
+                $parameters['paySign'] = $this->makeSign($signStr);
+            } catch (\Exception $e) {
+                throw new GatewayException($e->getMessage(), Payment::PARAMS_ERR);
+            }
+            return $parameters;
+        } catch (GatewayException $e) {
+            throw $e;
+        }
+    }
+
+    /**
+     * @param array $requestParams
+     * @return mixed
+     */
+    protected function getSelfParams(array $requestParams)
+    {
+        $limitPay = self::$config->get('limit_pay', '');
+        if ($limitPay) {
+            $limitPay = $limitPay[0];
+        } else {
+            $limitPay = '';
+        }
+        $nowTime    = time();
+        $timeExpire = intval($requestParams['time_expire']);
+        if (!empty($timeExpire)) {
+            $timeExpire = date('YmdHis', $timeExpire);
+        } else {
+            $timeExpire = date('YmdHis', $nowTime + 1800); // 默认半小时过期
+        }
+
+        $receipt   = $requestParams['receipt'] ?? false;
+        $totalFee  = bcmul($requestParams['amount'], 100, 0);
+        $sceneInfo = $requestParams['scene_info'] ?? '';
+        if ($sceneInfo) {
+            $sceneInfo = json_encode(['store_info' => $sceneInfo]);
+        } else {
+            $sceneInfo = '';
+        }
 
 
-date_default_timezone_set('Asia/Shanghai');
-$wxConfig = require_once __DIR__ . '/../wxconfig.php';
+        $selfParams = [
+            'device_info'      => $requestParams['device_info'] ?? '',
+            'body'             => $requestParams['subject'] ?? '',
+            'detail'           => $requestParams['body'] ?? '',
+            'attach'           => $requestParams['return_param'] ?? '',
+            'out_trade_no'     => $requestParams['trade_no'] ?? '',
+            'fee_type'         => self::$config->get('fee_type', 'CNY'),
+            'total_fee'        => $totalFee,
+            'spbill_create_ip' => $requestParams['client_ip'] ?? '',
+            'time_start'       => date('YmdHis', $nowTime),
+            'time_expire'      => $timeExpire,
+            'goods_tag'        => $requestParams['goods_tag'] ?? '',
+            'notify_url'       => self::$config->get('notify_url', ''),
+            'trade_type'       => 'JSAPI',
+            'product_id'       => $requestParams['product_id'] ?? '',
+            'limit_pay'        => $limitPay,
+            'openid'           => $requestParams['openid'] ?? '',
+            'receipt'          => $receipt === true ? 'Y' : '',
+            'scene_info'       => $sceneInfo,
+        ];
 
-$tradeNo = time() . rand(1000, 9999);
-// 订单信息
-$payData = [
-    'body'         => 'test body',
-    'subject'      => 'test subject',
-    'trade_no'     => $tradeNo,
-    'time_expire'  => time() + 600, // 表示必须 600s 内付款
-    'amount'       => '3.01', // 微信沙箱模式，需要金额固定为3.01
-    'return_param' => '123',
-    'client_ip'    => isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '127.0.0.1', // 客户地址
-    'openid'       => 'ottkCuO1PW1Dnh6PWFffNk-2MPbY',
-    'product_id'   => '123',
-];
-
-// 使用
-try {
-    $client = new \Payment\Client(\Payment\Client::WECHAT, $wxConfig);
-    $res    = $client->pay(\Payment\Client::WX_CHANNEL_LITE, $payData);
-} catch (InvalidArgumentException $e) {
-    echo $e->getMessage();
-    exit;
-} catch (\Payment\Exceptions\GatewayException $e) {
-    echo $e->getMessage();
-    exit;
-} catch (\Payment\Exceptions\ClassNotFoundException $e) {
-    echo $e->getMessage();
-    exit;
+        return $selfParams;
+    }
 }
-
-var_dump($res);
