@@ -49,7 +49,7 @@ class PubCharge extends WechatBaseObject implements IGatewayRequest
                 'appId'     => $ret['appid'],
                 'package'   => 'prepay_id='.$ret['prepay_id'],
                 'nonceStr'  => StrUtil::getNonceStr(self::NONCE_LEN),
-                'timestamp' => time(),
+                'timeStamp' => time(),
                 'signType'  => $this->signType
             ];
 
@@ -59,7 +59,7 @@ class PubCharge extends WechatBaseObject implements IGatewayRequest
 
             try {
                 $signStr         = ArrayUtil::createLinkstring($payData);
-                $payData['sign'] = $this->makeSign($signStr);
+                $payData['paySign'] = $this->makeSign($signStr);
             } catch (\Exception $e) {
                 throw new GatewayException($e->getMessage(), Payment::PARAMS_ERR);
             }
