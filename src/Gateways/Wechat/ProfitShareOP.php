@@ -39,9 +39,9 @@ class ProfitShareOP extends WechatBaseObject implements IGatewayRequest
     {
         $this->setSignType(self::SIGN_TYPE_SHA);
         try {
-            if (isset($requestParams['mode']) && $requestParams['mode'] === 'add') {
+            if (isset($requestParams['mode']) && $requestParams['mode'] === 'del') {
                 $url = self::DEL_METHOD;
-            } elseif (isset($requestParams['mode']) && $requestParams['mode'] === 'del') {
+            } elseif (isset($requestParams['mode']) && $requestParams['mode'] === 'add') {
                 $url = self::ADD_METHOD;
             } else {
                 throw new GatewayException('please input op mode [add|del]', Payment::PARAMS_ERR);
