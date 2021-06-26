@@ -117,9 +117,10 @@ class ArrayUtil
         $arg && $arg = substr($arg, 0, -1);
 
         //如果存在转义字符，那么去掉转义
-        if (get_magic_quotes_gpc()) {
-            $arg = stripslashes($arg);
-        }
+        //php7.4 废弃了get_magic_quotes_gpc
+//        if (get_magic_quotes_gpc()) {
+//            $arg = stripslashes($arg);
+//        }
 
         return $arg;
     }
