@@ -197,7 +197,7 @@ abstract class AliBaseObject extends BaseObject
 
         $params = ArrayUtil::arraySort($params);
         try {
-            $signStr = ArrayUtil::createLinkString($params, true);  //支付宝签名对于空值会抛弃
+            $signStr = ArrayUtil::createLinkString($params);
 
             $signType       = self::$config->get('sign_type', '');
             $params['sign'] = $this->makeSign($signType, $signStr);
@@ -231,7 +231,7 @@ abstract class AliBaseObject extends BaseObject
             // 'app_auth_token' => '', // 暂时不用
             'biz_content' => json_encode($bizContent, JSON_UNESCAPED_UNICODE),
         ];
-        $requestData = ArrayUtil::paraFilter($requestData);
+        $requestData = ArrayUtil::paraFilter($requestData);  //支付宝签名对于空值会抛弃
         return ArrayUtil::arraySort($requestData);
     }
 

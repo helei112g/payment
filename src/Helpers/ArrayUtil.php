@@ -94,11 +94,10 @@ class ArrayUtil
     /**
      * 把数组所有元素，按照“参数=参数值”的模式用“&”字符拼接成字符串
      * @param array $para 需要拼接的数组
-     * @param bool $ignoreEmptyStr 是否忽略空字符串
      * @return string
      * @throws \Exception
      */
-    public static function createLinkString($para, $ignoreEmptyStr = false)
+    public static function createLinkString($para)
     {
         if (!is_array($para)) {
             throw new \Exception('必须传入数组参数');
@@ -110,7 +109,6 @@ class ArrayUtil
             if (is_array($val)) {
                 continue;
             }
-            if ($ignoreEmptyStr && $val == '') continue;
             $arg .= $key . '=' . urldecode($val) . '&';
         }
         //去掉最后一个&字符
